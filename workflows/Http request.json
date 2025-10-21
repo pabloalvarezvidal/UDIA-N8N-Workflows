@@ -1,0 +1,199 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variables": {
+      "main": [
+        [
+          {
+            "node": "Exercise",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Exercise1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Exercise1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-16T08:59:28.744Z",
+  "id": "p8SHvFYcSKTfHV30",
+  "isArchived": false,
+  "meta": null,
+  "name": "Http request",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        0
+      ],
+      "id": "91cb5ce8-bf58-483b-a87c-8fed01e62d3e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}/exercises",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "limit",
+              "value": "={{ $json.limit }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "exercisedb.p.rapidapi.com"
+            },
+            {
+              "name": "x-rapidapi-key",
+              "value": "={{ $json.apikey }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        -80
+      ],
+      "id": "d6b31929-eaea-497a-a15d-2cd4717cc4ad",
+      "name": "Exercise"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e449b03c-699b-456e-805b-5f689e2d0c28",
+              "name": "url",
+              "value": "https://exercisedb.p.rapidapi.com",
+              "type": "string"
+            },
+            {
+              "id": "b4ce0da6-e483-4500-b4b4-6b79f16ada8b",
+              "name": "limit",
+              "value": "2",
+              "type": "string"
+            },
+            {
+              "id": "d9a261ca-1720-4a04-bdae-46f389c6b5cc",
+              "name": "apikey",
+              "value": "79d0a70d92mshba629e890e2ee9cp14d001jsn024dfbec910c",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        32,
+        0
+      ],
+      "id": "d3b5ff1a-096d-4055-a040-1ec8bc7cf31b",
+      "name": "Variables"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}/exercises/targetList ",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "limit",
+              "value": "={{ $json.limit }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "exercisedb.p.rapidapi.com"
+            },
+            {
+              "name": "x-rapidapi-key",
+              "value": "={{ $json.apikey }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        112
+      ],
+      "id": "4acc4df3-2f4a-4a30-ab34-7e8bac124067",
+      "name": "Exercise1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener todos los datos del nodo anterior\nconst input = $input.all();\nlet data = [];\n\n// Caso 1: el nodo anterior devuelve un solo item con un array dentro de json\nif (Array.isArray(input[0].json)) {\n  data = input[0].json;\n\n// Caso 2: el nodo anterior devuelve un solo item con un campo data o similar\n} else if (Array.isArray(input[0].json.data)) {\n  data = input[0].json.data;\n\n// Caso 3: el nodo anterior devuelve el array directamente (sin json válido)\n} else if (Array.isArray(input)) {\n  // convertir strings planos en estructura válida\n  data = input.map(item => item.json || item).flat();\n}\n\n// Limitar a los 2 primeros y devolver en formato correcto para n8n\nreturn data.slice(0, 2).map(d => ({ json: { target: d } }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        112
+      ],
+      "id": "3607cd5d-4320-4bcb-96de-5a14a1c44ac2",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-16T08:59:28.754Z",
+      "updatedAt": "2025-10-16T08:59:28.754Z",
+      "role": "workflow:owner",
+      "workflowId": "p8SHvFYcSKTfHV30",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-16T12:59:09.000Z",
+  "versionId": "47a94765-782a-43c0-a00b-8e06e3be5a02"
+}
