@@ -1,0 +1,164 @@
+{
+  "active": false,
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-15T15:37:15.520Z",
+  "id": "k9O8ibqALoXNm2j6",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Primer flujo sencillo",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Newsletter Udia n8n",
+        "formDescription": "Las últimas noticias de n8n en tu email",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Nombre",
+              "placeholder": "Aquí tu nombre",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "Tu email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Política de privacidad",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "He leido y acepto la política de privacidad"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "63e5fa58-28ed-4998-8e1f-967e5c66a876",
+      "name": "On form submission",
+      "webhookId": "c2155ef9-13df-4083-b598-23a62b1ec91b"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1VOaO23jXu0SdxuZJ3ngtzqsK3h8OKwna2S1biNG9nBI",
+          "mode": "list",
+          "cachedResultName": "Prueba n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VOaO23jXu0SdxuZJ3ngtzqsK3h8OKwna2S1biNG9nBI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VOaO23jXu0SdxuZJ3ngtzqsK3h8OKwna2S1biNG9nBI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nombre": "={{ $json.Nombre }}",
+            "Email": "={{ $json.Email }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "09ae2d57-57df-482d-8e1a-4ae113fb788d",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-15T15:37:15.531Z",
+      "updatedAt": "2025-10-15T15:37:15.531Z",
+      "role": "workflow:owner",
+      "workflowId": "k9O8ibqALoXNm2j6",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-10-15T15:37:57.990Z",
+      "updatedAt": "2025-10-15T15:37:57.990Z",
+      "id": "Tfhfvt9WGcrFTInO",
+      "name": "✅Prueba"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-16T08:38:48.000Z",
+  "versionId": "71eaf9c3-644b-46a5-92c6-e4dd78868e43"
+}
