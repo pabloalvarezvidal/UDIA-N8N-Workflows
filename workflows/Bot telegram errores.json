@@ -1,0 +1,90 @@
+{
+  "active": false,
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-16T13:00:30.108Z",
+  "id": "mXK8dxKSHeYlCAb2",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Bot telegram errores",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0a81cc46-ac59-4bbe-b201-f31440b55ca6",
+      "name": "Telegram Trigger",
+      "webhookId": "538f03bd-58b4-41bf-b99f-7831bf15763e",
+      "credentials": {
+        "telegramApi": {
+          "id": "GyCkN7M0nmQB9BTK",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "=Eco: {{ $json.message.text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "98d187e3-a31f-4fc4-8996-3ec5a717119c",
+      "name": "Send a text message",
+      "webhookId": "99318665-9e27-43e2-9163-1fcd3cfce54f",
+      "credentials": {
+        "telegramApi": {
+          "id": "GyCkN7M0nmQB9BTK",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-16T13:00:30.116Z",
+      "updatedAt": "2025-10-16T13:00:30.116Z",
+      "role": "workflow:owner",
+      "workflowId": "mXK8dxKSHeYlCAb2",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-16T13:24:50.000Z",
+  "versionId": "3e811442-1b23-40ef-91b8-d92baf55549f"
+}
