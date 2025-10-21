@@ -1,0 +1,291 @@
+{
+  "active": false,
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "saludo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "despedida",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "indefinido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-16T13:25:11.474Z",
+  "id": "KcmL1M5XPDaWv5Q7",
+  "isArchived": false,
+  "meta": null,
+  "name": "IF y SWITCH",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "81195e35-6c46-4e89-a2a0-cb4dfbd911de",
+      "name": "When chat message received",
+      "webhookId": "535b7ca4-a7c5-4f79-a8bc-ddba54302496"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d75a4286-69ea-4ea5-8e0d-b073947f5bc8",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "hd",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            },
+            {
+              "id": "450d7733-3d17-461d-a3cb-dce9b444e1b4",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "ho",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        -112
+      ],
+      "id": "5e218a94-f6b2-483c-91e7-e85dfdd74ce6",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.chatInput }}",
+                    "rightValue": "hola",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "95bfa9f6-7b7c-4866-8564-0fff83fa8e39"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Saludo"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4bc7ac34-5c61-46ff-b083-7b4ff0cf0a7b",
+                    "leftValue": "={{ $json.chatInput }}",
+                    "rightValue": "adios",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "despedida"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d0ddf413-597d-4382-b18e-2a104cb7ed7e",
+                    "leftValue": "={{ $json.chatInput }}",
+                    "rightValue": "hola",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notContains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "indefinido"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        192,
+        80
+      ],
+      "id": "572730ee-604d-49d4-9e8c-12d4c17eaae6",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "chatId": "7186973879",
+        "text": "Hola, como estás?",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "4a63f5f0-386d-4edb-b1f9-89e85d495c10",
+      "name": "saludo",
+      "webhookId": "6a766f9a-fd70-4892-98d3-3aa0a762769a",
+      "credentials": {
+        "telegramApi": {
+          "id": "GyCkN7M0nmQB9BTK",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7186973879",
+        "text": "¡Hasta Pronto!",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        128
+      ],
+      "id": "8c5bd5a2-6824-4bd0-8fd6-bf26348215ed",
+      "name": "despedida",
+      "webhookId": "6a766f9a-fd70-4892-98d3-3aa0a762769a",
+      "credentials": {
+        "telegramApi": {
+          "id": "GyCkN7M0nmQB9BTK",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7186973879",
+        "text": "No se que me estás queriendo decir",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        272
+      ],
+      "id": "61f348ca-f199-46c2-98e3-b32379b9733d",
+      "name": "indefinido",
+      "webhookId": "6a766f9a-fd70-4892-98d3-3aa0a762769a",
+      "credentials": {
+        "telegramApi": {
+          "id": "GyCkN7M0nmQB9BTK",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-16T13:25:11.480Z",
+      "updatedAt": "2025-10-16T13:25:11.480Z",
+      "role": "workflow:owner",
+      "workflowId": "KcmL1M5XPDaWv5Q7",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-16T13:55:27.000Z",
+  "versionId": "e63a1445-a9e6-4c7b-a949-c988ad537386"
+}
