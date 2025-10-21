@@ -1,0 +1,375 @@
+{
+  "active": false,
+  "connections": {
+    "When Invoice Email Arrives": {
+      "main": [
+        [
+          {
+            "node": "Extract Invoice Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Invoice Content": {
+      "main": [
+        [
+          {
+            "node": "Extract Invoice Data with AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI GPT-4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extract Invoice Data with AI",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Invoice Data Schema": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Extract Invoice Data with AI",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Invoice Data with AI": {
+      "main": [
+        [
+          {
+            "node": "Save Invoice to Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-18T22:13:43.928Z",
+  "id": "dOhJmhXqXidn6eaU",
+  "isArchived": false,
+  "meta": null,
+  "name": "Automatic Invoice Registration from Email to Google Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "q": "has: fecha emisión"
+        },
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "id": "7b0a0965-41ed-403d-b6f9-7a249550754c",
+      "name": "When Invoice Email Arrives",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "attachment_0",
+        "options": {}
+      },
+      "id": "1b8be8f0-4c5c-491b-baed-3a376d2d3a65",
+      "name": "Extract Invoice Content",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analiza el siguiente texto de factura y extrae la información estructurada. Texto: {{ $json.text }}",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "id": "cfaee142-9dcc-485c-be88-5fb8923b45dd",
+      "name": "Extract Invoice Data with AI",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        432,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "gpt-4o"
+        },
+        "options": {}
+      },
+      "id": "c9dbcecb-384e-405d-83c7-77fc8fe3d0c2",
+      "name": "OpenAI GPT-4",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"fecha\": \"2024-01-15\",\n\t\"proveedor\": \"Empresa S.L.\",\n\t\"nif_cif\": \"B12345678\",\n\t\"numero_factura\": \"2024-001\",\n\t\"base_imponible\": 100.00,\n\t\"iva\": 21.00,\n\t\"total\": 121.00,\n\t\"concepto\": \"Servicios profesionales\"\n}"
+      },
+      "id": "c11af663-3bf0-4214-89f6-5a08ad7abddc",
+      "name": "Invoice Data Schema",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        576,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "10mf9d8WoVgx41EhmQxzEOoHqKbwL5ULmcy6wvwlekLY",
+          "mode": "list",
+          "cachedResultName": "Facturas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10mf9d8WoVgx41EhmQxzEOoHqKbwL5ULmcy6wvwlekLY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1351886522,
+          "mode": "list",
+          "cachedResultName": "Facturas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10mf9d8WoVgx41EhmQxzEOoHqKbwL5ULmcy6wvwlekLY/edit#gid=1351886522"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fecha": "={{ $json.output.fecha }}",
+            "proveedor": "={{ $json.output.proveedor }}",
+            "nif_cif": "={{ $json.output.nif_cif }}",
+            "numero_factura": "={{ $json.output.numero_factura }}",
+            "base_imponible": "={{ $json.output.base_imponible }}",
+            "iva": "={{ $json.output.iva }}",
+            "total": "={{ $json.output.total }}",
+            "concepto": "={{ $json.output.concepto }}"
+          },
+          "matchingColumns": [
+            "fecha"
+          ],
+          "schema": [
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "proveedor",
+              "displayName": "proveedor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nif_cif",
+              "displayName": "nif_cif",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "numero_factura",
+              "displayName": "numero_factura",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "base_imponible",
+              "displayName": "base_imponible",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "iva",
+              "displayName": "iva",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "total",
+              "displayName": "total",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "concepto",
+              "displayName": "concepto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "cdaa6b80-fcbf-4c90-b920-25d8790f8475",
+      "name": "Save Invoice to Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        816,
+        0
+      ]
+    }
+  ],
+  "pinData": {
+    "When Invoice Email Arrives": [
+      {
+        "json": {
+          "id": "199f9486f9016b23",
+          "threadId": "199f93836e82106a",
+          "labelIds": [
+            "UNREAD",
+            "IMPORTANT",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "sizeEstimate": 10567,
+          "headers": {
+            "delivered-to": "Delivered-To: alvarezvidalpablo@gmail.com",
+            "received": "Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])\r\n        by mx.google.com with SMTPS id a640c23a62f3a-b65eb237efbsor73998766b.19.2025.10.18.14.44.57\r\n        for <alvarezvidalpablo@gmail.com>\r\n        (Google Transport Security);\r\n        Sat, 18 Oct 2025 14:44:58 -0700 (PDT)",
+            "x-received": "X-Received: by 2002:a17:907:1b11:b0:b5c:66ce:bfe6 with SMTP id\r\n a640c23a62f3a-b6474b348bemr982675366b.55.1760823897022; Sat, 18 Oct 2025\r\n 14:44:57 -0700 (PDT)",
+            "arc-seal": "ARC-Seal: i=1; a=rsa-sha256; t=1760823898; cv=none;\r\n        d=google.com; s=arc-20240605;\r\n        b=Rr9vFK51NDKNSNc0hpvKtCdKZl4kZm8b8ZW33Y7qtdCA0IV/9a0wCRFpZlVmKKkVMB\r\n         sITNIAdSYaYjALNrfl6ZA0XE4NLfua23/qX1/w/MuDws5j1f4kbO8CerUeLRGlSULYIo\r\n         MyAmjlMDxvhhnYQEGVynhk3i+KwsU4uu9u+X6n+aU0Spa5pPm+8gIvr1Q0JyS9SlMaFu\r\n         bifT4Wr479yq7kJ6NBjMlQL67WCbX1uRMOLezwpIez1fiviGYqrLT7u0m4oEKV7tJKXP\r\n         6WmFQ2NTukzKdtQY7Nn2DGwSi4BYG0cWDEorDp3SxJ+CPEKrLMJMBp8GTsxniuiIQZbB\r\n         8XbQ==",
+            "arc-message-signature": "ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;\r\n        h=to:subject:message-id:date:from:in-reply-to:references:mime-version\r\n         :dkim-signature;\r\n        bh=WRG6kUw93CSuaG8VjQ68kU/k9GRQAKYy+6NQc9sjtsk=;\r\n        fh=OE2A7ksG0CYNMpKJ5Ec1aJOIW+1HZySpJiXFxqdmcKU=;\r\n        b=dJxpvtKqXcJvRpIyfwr+qbgmQV1cd9BehoPnmzQsHUePeWgCNetwUS1SrQvXG8DVrc\r\n         KcLfHHDCgY4i2KUHY74ONmXi58hsfYp5G8aUt+bmON+/0KqbTscoq4VewNwrD5h1df1Q\r\n         2AoOhr6UNh9gtujHtdLBWDlzU0QfbuH2pLfyr9rp+l2VQO+p5fzHS2y8evLikHlQ+cNW\r\n         fssgYYHmf5JdxeYzXYx2byuOEPvqQTTyZ+GyrjpacWT5efoHRxogxlBnn3kWCTs1W5D3\r\n         RnZCe+fPTwtn1A7oKVOYNhMoP/AjWjCDz0BUS+8rg5BnVMfXUmbHCFgzKPIJw4SkSmXh\r\n         matA==;\r\n        dara=google.com",
+            "arc-authentication-results": "ARC-Authentication-Results: i=1; mx.google.com;\r\n       dkim=pass header.i=@gmail.com header.s=20230601 header.b=SO6pR2Hx;\r\n       spf=pass (google.com: domain of alvarezvidalpablo15@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=alvarezvidalpablo15@gmail.com;\r\n       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;\r\n       dara=pass header.i=@gmail.com",
+            "return-path": "Return-Path: <alvarezvidalpablo15@gmail.com>",
+            "received-spf": "Received-SPF: pass (google.com: domain of alvarezvidalpablo15@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;",
+            "authentication-results": "Authentication-Results: mx.google.com;\r\n       dkim=pass header.i=@gmail.com header.s=20230601 header.b=SO6pR2Hx;\r\n       spf=pass (google.com: domain of alvarezvidalpablo15@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=alvarezvidalpablo15@gmail.com;\r\n       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;\r\n       dara=pass header.i=@gmail.com",
+            "dkim-signature": "DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;\r\n        d=gmail.com; s=20230601; t=1760823897; x=1761428697; dara=google.com;\r\n        h=to:subject:message-id:date:from:in-reply-to:references:mime-version\r\n         :from:to:cc:subject:date:message-id:reply-to;\r\n        bh=WRG6kUw93CSuaG8VjQ68kU/k9GRQAKYy+6NQc9sjtsk=;\r\n        b=SO6pR2HxDL4IzRB26zBZwep9hUM1Ob59qEK+5GFCT0fD36ZIh87fP2bfUyWAY8sPqG\r\n         MVb/X6gYIyv/Qd4tqlj3h+KY826R/NJBDv9MFJbbxPZtw51pPb7FWIKfIJdMOlpfrrFQ\r\n         DRM5lOTz2SSy71a9aL+GRBW78f4ZmUehdcKu7Ei1ZArDe1zpNuXdTzZG5eM03PP/dzS7\r\n         sPjIaW7B7g/tUjacZb2qWYQNj+So3/VYrzgWmvwvHSiJzA8QAbZlmTWR4PNBFTXEu0FO\r\n         Z5X6p0eK7T9g7GK8/Prli+QFugwJhb5E5mH1zO2QAwSRdMmrAZ99uRYmX4OSyS+JA7JO\r\n         Xe2Q==",
+            "x-google-dkim-signature": "X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;\r\n        d=1e100.net; s=20230601; t=1760823897; x=1761428697;\r\n        h=to:subject:message-id:date:from:in-reply-to:references:mime-version\r\n         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;\r\n        bh=WRG6kUw93CSuaG8VjQ68kU/k9GRQAKYy+6NQc9sjtsk=;\r\n        b=fzEHMeSgNBSDjIeLdXweGy9RiwS2uFVDzoi91Frt2ukdpa64MJ6Y5IK7ot7vLmKQ4u\r\n         I/g9IdjvUYz/2ESCA31j7pQ27xgDtuwn8C0s8CgkcXMmZw5SlGuwliNSuQOEnEl4mb/4\r\n         lXUbK2v4W4XHAX67BwyjgOtPZ6q7Fqu3d76QwuAYubxlzdYTuXdGckqeb0bSEsho8Td4\r\n         F1smsnnwhR6GTJ/fI15oYMofIQYmtXJZ0v6Alkex1BUBxSv8rZyEOzSm/CwvHJ+w00ik\r\n         KJBDcbiYWGNi7TqnZ00jLDiJGsMfSKL3zkJfS3nN3zZ79+uWz5K5HI/Iw4XV5oy17aL+\r\n         rq9g==",
+            "x-gm-message-state": "X-Gm-Message-State: AOJu0YxGTa/h5hXDq9Z1jkBoSQ8BrB5hDs+GiW/bqahBejPHXoxuHu8v\r\n\tgop/oEdEfJ/MvucjOOvLAn0nfORk015DbcQoWydfY+BApujPXTBietxdb3nzDzvrkB/c/Bxp9ck\r\n\tt+XLFweMbxj/mEyKUUnsCq/RTPpJfrv7JpQ==",
+            "x-gm-gg": "X-Gm-Gg: ASbGncvQm/srPMxUHXM6yYjoUGYKKS3uXUmpgWe4a5MJecwvC/LAnVqP2abM9VHME2a\r\n\tIldqJ+B5bpMUx/ptkDpCuXktKFoaWZq05WntD/5w6EqXpOZr95TXKWq/nsj87IO0tfsEz+EHHYk\r\n\tOd6itUIDWQ8seUMae2CgzZWbaBVBrpAZE2BKLkPWd5OysIwIPfTwZQ44QYJUAxJljpbZapl126M\r\n\tlcv7rBC0mmsapL4HxneG8GqE3L9M8beoIy9oOqdULPiRdL79rTwXxoaleptCoIpBL6L",
+            "x-google-smtp-source": "X-Google-Smtp-Source: AGHT+IHydJW/3XbRdX5wRjLWbFii/WIC4euLpNYRFyE4mzYY3ydWWsWJlNYiyFEf2XLax83Lerbz6TCVuiK/XsEC8fk=",
+            "mime-version": "MIME-Version: 1.0",
+            "references": "References: <CACSaNuUc3cHK+NBMrarAVAr2iRLZWHY-qM7dOw-z89OaXjy=3w@mail.gmail.com>",
+            "in-reply-to": "In-Reply-To: <CACSaNuUc3cHK+NBMrarAVAr2iRLZWHY-qM7dOw-z89OaXjy=3w@mail.gmail.com>",
+            "from": "From: pablo alvarez vidal <alvarezvidalpablo15@gmail.com>",
+            "date": "Date: Sat, 18 Oct 2025 23:44:44 +0200",
+            "x-gm-features": "X-Gm-Features: AS18NWB-y-s_GwbT6y0XDBuq9eibm8p3zctlaPJ-ZnBx2_Z0r4niiyU1k85XkX4",
+            "message-id": "Message-ID: <CACSaNuU6vKCXs9oBm-oBVw-Ux6xSWoKx7u7Am1T0NGKpqsYdjQ@mail.gmail.com>",
+            "subject": "Subject: Fwd: Factura octubre",
+            "to": "To: alvarezvidalpablo@gmail.com",
+            "content-type": "Content-Type: multipart/mixed; boundary=\"000000000000e521b5064175c2c7\""
+          },
+          "html": "<div dir=\"ltr\"><br><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>De: <strong class=\"gmail_sendername\" dir=\"auto\">pablo alvarez vidal</strong> <span dir=\"auto\">&lt;<a href=\"mailto:alvarezvidalpablo15@gmail.com\">alvarezvidalpablo15@gmail.com</a>&gt;</span><br>Date: sáb, 18 oct 2025 a las 23:27<br>Subject: Factura octubre<br>To:  &lt;<a href=\"mailto:alvarezvidalpablo@gmail.com\">alvarezvidalpablo@gmail.com</a>&gt;<br></div><br><br><div dir=\"ltr\"><br></div>\n</div></div>\n",
+          "text": "---------- Forwarded message ---------\nDe: pablo alvarez vidal <alvarezvidalpablo15@gmail.com>\nDate: sáb, 18 oct 2025 a las 23:27\nSubject: Factura octubre\nTo: <alvarezvidalpablo@gmail.com>\n",
+          "textAsHtml": "<p>---------- Forwarded message ---------<br/>De: pablo alvarez vidal &lt;<a href=\"mailto:alvarezvidalpablo15@gmail.com\">alvarezvidalpablo15@gmail.com</a>&gt;<br/>Date: s&aacute;b, 18 oct 2025 a las 23:27<br/>Subject: Factura octubre<br/>To: &lt;<a href=\"mailto:alvarezvidalpablo@gmail.com\">alvarezvidalpablo@gmail.com</a>&gt;</p>",
+          "subject": "Fwd: Factura octubre",
+          "references": "<CACSaNuUc3cHK+NBMrarAVAr2iRLZWHY-qM7dOw-z89OaXjy=3w@mail.gmail.com>",
+          "date": "2025-10-18T21:44:44.000Z",
+          "to": {
+            "value": [
+              {
+                "address": "alvarezvidalpablo@gmail.com",
+                "name": ""
+              }
+            ],
+            "html": "<span class=\"mp_address_group\"><a href=\"mailto:alvarezvidalpablo@gmail.com\" class=\"mp_address_email\">alvarezvidalpablo@gmail.com</a></span>",
+            "text": "alvarezvidalpablo@gmail.com"
+          },
+          "from": {
+            "value": [
+              {
+                "address": "alvarezvidalpablo15@gmail.com",
+                "name": "pablo alvarez vidal"
+              }
+            ],
+            "html": "<span class=\"mp_address_group\"><span class=\"mp_address_name\">pablo alvarez vidal</span> &lt;<a href=\"mailto:alvarezvidalpablo15@gmail.com\" class=\"mp_address_email\">alvarezvidalpablo15@gmail.com</a>&gt;</span>",
+            "text": "\"pablo alvarez vidal\" <alvarezvidalpablo15@gmail.com>"
+          },
+          "messageId": "<CACSaNuU6vKCXs9oBm-oBVw-Ux6xSWoKx7u7Am1T0NGKpqsYdjQ@mail.gmail.com>",
+          "inReplyTo": "<CACSaNuUc3cHK+NBMrarAVAr2iRLZWHY-qM7dOw-z89OaXjy=3w@mail.gmail.com>"
+        },
+        "binary": {
+          "attachment_0": {
+            "mimeType": "application/pdf",
+            "fileType": "pdf",
+            "fileExtension": "pdf",
+            "data": "filesystem-v2",
+            "fileName": "factura_ficticia.pdf",
+            "id": "filesystem-v2:workflows/gNeuVoWWIEPZqRPy/executions/4/binary_data/3ac1f32e-ebf1-4703-be25-37e37a1c1e64",
+            "fileSize": "2.46 kB"
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-18T22:13:43.939Z",
+      "updatedAt": "2025-10-18T22:13:43.939Z",
+      "role": "workflow:owner",
+      "workflowId": "dOhJmhXqXidn6eaU",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-18T22:13:43.928Z",
+  "versionId": "2ecefafe-468f-4e39-a78f-1cec1e22406e"
+}
