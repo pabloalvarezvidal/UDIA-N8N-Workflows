@@ -208,7 +208,7 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "854878651040149",
+        "phoneNumberId": "15556375620\n",
         "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
         "textBody": "={{ $json.output }}",
         "additionalFields": {}
@@ -246,6 +246,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-22T10:30:23.000Z",
-  "versionId": "2bd4fdd8-1717-4bae-8da0-a39114bb4770"
+  "updatedAt": "2025-10-22T11:19:01.000Z",
+  "versionId": "c2d1a109-c7f3-4d75-8509-bde4039139dd"
 }
