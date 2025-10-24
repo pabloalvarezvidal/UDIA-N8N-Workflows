@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Listen": {
       "main": [
@@ -218,6 +218,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-23T10:39:18.000Z",
+  "updatedAt": "2025-10-24T09:46:42.000Z",
   "versionId": "fe1d146a-d5bc-4107-8ad1-24682f15e52e"
 }
