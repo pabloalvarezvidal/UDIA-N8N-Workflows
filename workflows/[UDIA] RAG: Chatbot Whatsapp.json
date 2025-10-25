@@ -66,6 +66,11 @@
           }
         ]
       ]
+    },
+    "Send message": {
+      "main": [
+        []
+      ]
     }
   },
   "createdAt": "2025-10-22T08:48:59.640Z",
@@ -246,6 +251,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-24T09:46:46.000Z",
-  "versionId": "c2d1a109-c7f3-4d75-8509-bde4039139dd"
+  "updatedAt": "2025-10-25T17:01:11.000Z",
+  "versionId": "2cfaaaf6-2397-4e94-8670-96db1b4ed3ea"
 }
