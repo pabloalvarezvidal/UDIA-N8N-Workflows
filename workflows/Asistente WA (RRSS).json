@@ -667,7 +667,7 @@
       "typeVersion": 2.1,
       "position": [
         -384,
-        1136
+        592
       ],
       "id": "9304732c-0549-45ef-90cf-1349c6b9fda8",
       "name": "Webhook",
@@ -701,8 +701,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -128,
-        1136
+        -160,
+        592
       ],
       "id": "90865506-9a3e-482a-99f7-407c4107adea",
       "name": "If"
@@ -735,8 +735,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        128,
-        1136
+        64,
+        592
       ],
       "id": "ad93ad8d-5a30-4672-87e4-b21b1dd5bf99",
       "name": "If1"
@@ -812,8 +812,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        416,
-        1120
+        288,
+        592
       ],
       "id": "94c3d4d2-b17f-45be-beda-805a15f6d490",
       "name": "Entrada Whatsapp"
@@ -845,8 +845,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        2240,
-        1104
+        2080,
+        592
       ],
       "id": "d4262e01-8a24-49dd-a387-3cb51fe16629",
       "name": "If2"
@@ -861,8 +861,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        720,
-        1120
+        512,
+        592
       ],
       "id": "a80c6d16-02fb-4b6b-9f34-d74b756fb40b",
       "name": "Redis",
@@ -877,8 +877,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        912,
-        1120
+        736,
+        592
       ],
       "id": "a1294c4c-8a28-42ac-be6d-4da99c2ffc78",
       "name": "Wait",
@@ -894,8 +894,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1088,
-        1120
+        960,
+        592
       ],
       "id": "a5b4fe54-a52e-4656-b404-8a5115dba217",
       "name": "Redis1"
@@ -928,8 +928,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1344,
-        1120
+        1184,
+        592
       ],
       "id": "176a807b-24d4-400d-beef-1431470c6d74",
       "name": "If3"
@@ -942,8 +942,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1600,
-        1104
+        1408,
+        592
       ],
       "id": "c9f921ba-244f-47ba-9dbb-edf3c6efe560",
       "name": "Redis2"
@@ -956,8 +956,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1840,
-        1104
+        1632,
+        592
       ],
       "id": "e68ad6bb-3b96-4e2a-ab97-cc2043d048d4",
       "name": "Split Out"
@@ -971,8 +971,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2016,
-        1104
+        1856,
+        592
       ],
       "id": "a25b1fb4-832d-4510-ad2d-2a4e945f84f7",
       "name": "Parse"
@@ -1037,8 +1037,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        2480,
-        1104
+        2304,
+        592
       ],
       "id": "2e15f807-e21c-4f80-862a-356be06c1281",
       "name": "Switch"
@@ -1072,8 +1072,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2928,
-        928
+        2976,
+        496
       ],
       "id": "c0c491b9-7aac-4fe6-a324-a4025193c465",
       "name": "Edit Fields"
@@ -1086,8 +1086,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2720,
-        1248
+        2528,
+        688
       ],
       "id": "d89356a3-d1c7-418c-8427-f9e08413ee17",
       "name": "HTTP Request"
@@ -1101,8 +1101,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        2928,
-        1248
+        2752,
+        688
       ],
       "id": "80ef8f18-0ca5-4ce4-b2b2-79cfe877cc4b",
       "name": "Transcribe a recording"
@@ -1130,8 +1130,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3136,
-        1248
+        2976,
+        688
       ],
       "id": "ca9dc9db-7154-4ee4-85e0-46c5ffec362a",
       "name": "Edit Fields1"
@@ -1141,8 +1141,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        3360,
-        1088
+        3200,
+        592
       ],
       "id": "4b88a0c4-a38b-4d18-b819-c73f1df76a21",
       "name": "Merge"
@@ -1161,8 +1161,8 @@
       "type": "n8n-nodes-base.sort",
       "typeVersion": 1,
       "position": [
-        3520,
-        1088
+        3424,
+        592
       ],
       "id": "26e792f7-85b9-44a6-9758-0bc5543c4bcd",
       "name": "Sort"
@@ -1183,8 +1183,8 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        3664,
-        1088
+        3648,
+        592
       ],
       "id": "c0f4a291-f066-4a6c-812e-e75e0b75179f",
       "name": "Aggregate"
@@ -1230,8 +1230,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3888,
-        1088
+        3872,
+        592
       ],
       "id": "45180a06-d4b6-46eb-8857-df3c6955a55b",
       "name": "Edit Fields2"
@@ -1248,8 +1248,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        4128,
-        1088
+        4632,
+        592
       ],
       "id": "abe65a63-804a-465a-8ad6-91f0e09e9179",
       "name": "AI Agent"
@@ -1271,8 +1271,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        3856,
-        1392
+        4096,
+        816
       ],
       "id": "c805a194-1cc9-46d5-b4ac-cc7602aa923f",
       "name": "OpenAI Chat Model"
@@ -1294,8 +1294,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5264,
-        1088
+        5808,
+        592
       ],
       "id": "ced20671-eb81-4e1c-b290-b1e451a2317c",
       "name": "Edit Fields3"
@@ -1317,8 +1317,8 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
       "position": [
-        5616,
-        1088
+        6032,
+        592
       ],
       "id": "17e7a813-19db-40b1-83aa-1d4fac4dc8fd",
       "name": "Basic LLM Chain"
@@ -1330,8 +1330,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
       "typeVersion": 1,
       "position": [
-        5760,
-        1296
+        6108,
+        816
       ],
       "id": "b0b78399-d5d3-4c73-a889-091eaf00f9c5",
       "name": "Auto-fixing Output Parser"
@@ -1343,8 +1343,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        5856,
-        1504
+        6212,
+        1024
       ],
       "id": "89d5fcee-4ab4-481a-94c0-e5d90fe4866d",
       "name": "Structured Output Parser"
@@ -1362,8 +1362,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        5504,
-        1456
+        6040,
+        1024
       ],
       "id": "4acc55a1-08c5-4596-8814-e7bb4565f637",
       "name": "OpenAI Chat Model1"
@@ -1391,8 +1391,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        6048,
-        1088
+        6476,
+        592
       ],
       "id": "ffa7d6a2-f348-4ae8-9867-ec82b73a76bc",
       "name": "HTTP Request1"
@@ -1425,8 +1425,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        6240,
-        1264
+        6700,
+        592
       ],
       "id": "f17a6319-e913-4cb2-85a6-0275ebf4fe2e",
       "name": "If4"
@@ -1438,8 +1438,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        6496,
-        896
+        6924,
+        520
       ],
       "id": "ee8af147-d42b-44b5-9c7b-f9dced16ed4d",
       "name": "Wait1",
@@ -1468,8 +1468,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        6848,
-        896
+        7148,
+        520
       ],
       "id": "e04339c6-3537-40f2-b1c7-027fd852a58d",
       "name": "HTTP Request2"
@@ -1502,8 +1502,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        7088,
-        1280
+        7372,
+        592
       ],
       "id": "ceb36e07-bb1c-4aa3-b306-32b182158d05",
       "name": "If5"
@@ -1515,8 +1515,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        7344,
-        992
+        7596,
+        520
       ],
       "id": "73b4c23c-c111-482d-9c09-0234dc547e5f",
       "name": "Wait2",
@@ -1545,8 +1545,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        7616,
-        976
+        7820,
+        520
       ],
       "id": "9b47ec64-26d8-41cb-a554-bd810335b344",
       "name": "HTTP Request3"
@@ -1573,8 +1573,8 @@
       "type": "@n8n/n8n-nodes-langchain.textClassifier",
       "typeVersion": 1.1,
       "position": [
-        7968,
-        1024
+        8044,
+        592
       ],
       "id": "a9ec0745-8a34-489e-a463-c7efb73cccbd",
       "name": "Text Classifier"
@@ -1595,8 +1595,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        7840,
-        1248
+        8116,
+        816
       ],
       "id": "d11e18c6-7f92-439d-bf3c-63aef8cf321a",
       "name": "OpenAI Chat Model2"
@@ -1606,8 +1606,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        8320,
-        1248
+        8396,
+        688
       ],
       "id": "8db8d584-f6a4-4262-ad12-162f1078b4ba",
       "name": "No Operation, do nothing"
@@ -1623,8 +1623,8 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        8432,
-        960
+        8396,
+        496
       ],
       "id": "eb93e5ab-8a96-4e1c-b69f-4af80bb77e71",
       "name": "Send a message",
@@ -1653,8 +1653,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        8720,
-        960
+        8620,
+        496
       ],
       "id": "5b8d4fd4-9345-444b-be96-f658a940bcb8",
       "name": "HTTP Request4"
@@ -1679,7 +1679,7 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.2,
       "position": [
-        240,
+        -384,
         -48
       ],
       "id": "617e0a92-7af7-4972-a2ec-624b8c90e0cd",
@@ -1695,7 +1695,7 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        464,
+        -160,
         -48
       ],
       "id": "0c0b8fc6-dc9b-4995-9f23-8a08292e67c2",
@@ -1727,7 +1727,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        752,
+        64,
         -48
       ],
       "id": "a63c5e9c-7882-4d8b-91f5-8a158b7a5365",
@@ -1746,7 +1746,7 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1.3,
       "position": [
-        1088,
+        320,
         -48
       ],
       "id": "820986d0-972f-4dbc-8e16-34b46294419b",
@@ -1762,8 +1762,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        896,
-        160
+        288,
+        176
       ],
       "id": "e3059316-466f-4bc7-8033-14d20451ead8",
       "name": "Embeddings OpenAI"
@@ -1787,8 +1787,8 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        1184,
-        160
+        416,
+        176
       ],
       "id": "047ca365-0cc0-47f6-9648-656b531f6362",
       "name": "Default Data Loader"
@@ -1802,8 +1802,8 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        1264,
-        368
+        496,
+        384
       ],
       "id": "5161ddbe-390e-4881-804e-48ea570d2b64",
       "name": "Recursive Character Text Splitter"
@@ -1816,7 +1816,7 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        1440,
+        784,
         -48
       ],
       "id": "1618a38b-70a6-4db3-a5ae-6d30e1f76e75",
@@ -1832,7 +1832,7 @@
       "type": "n8n-nodes-base.form",
       "typeVersion": 1,
       "position": [
-        1648,
+        1008,
         -48
       ],
       "id": "51123b13-5963-4db8-9ba6-c00c4759261b",
@@ -1849,8 +1849,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        3968,
-        1792
+        4432,
+        1024
       ],
       "id": "fe4879b4-5759-4347-853e-6ab253a2ba6d",
       "name": "Embeddings OpenAI1"
@@ -1872,8 +1872,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
       "typeVersion": 1.3,
       "position": [
-        4080,
-        1584
+        4352,
+        816
       ],
       "id": "ffb31016-da22-473d-83f5-d55582daf6bc",
       "name": "Conocimiento"
@@ -1883,8 +1883,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolCalculator",
       "typeVersion": 1,
       "position": [
-        4464,
-        1392
+        4640,
+        816
       ],
       "id": "f21565fb-dd83-492f-95e3-f6cd859521e9",
       "name": "Calculator"
@@ -1894,8 +1894,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolThink",
       "typeVersion": 1.1,
       "position": [
-        4576,
-        1392
+        4768,
+        816
       ],
       "id": "4ccef627-1aa2-4217-8c9e-00b64181add9",
       "name": "Think"
@@ -1907,8 +1907,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4896,
-        1088
+        5584,
+        592
       ],
       "id": "522400fc-2483-4aa3-af1e-360358510d50",
       "name": "Limpiar Salida"
@@ -1923,8 +1923,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        3984,
-        1392
+        4224,
+        816
       ],
       "id": "92a172b2-6ce0-4c22-ade2-70972ea3cd5d",
       "name": "MEMORY"
@@ -1946,8 +1946,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4576,
-        1088
+        5360,
+        592
       ],
       "id": "407c0c65-02d5-4d1f-aed4-a3ea4cc37f8f",
       "name": "Edit Fields4"
@@ -2044,8 +2044,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        4352,
-        1392
+        4896,
+        816
       ],
       "id": "5e2650e5-f7b0-4b59-902d-e1e6cf922bab",
       "name": "AgendarCita"
@@ -2123,8 +2123,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        4096,
-        1392
+        5024,
+        816
       ],
       "id": "eec894ef-586a-4314-ae00-8b00946bdc0b",
       "name": "CancelarCita"
@@ -2221,8 +2221,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        4240,
-        1392
+        5152,
+        816
       ],
       "id": "deccad8b-6d9d-4145-8ec4-5044e8825e7c",
       "name": "Disponibilidad"
@@ -2257,6 +2257,6 @@
     }
   ],
   "triggerCount": 0,
-  "updatedAt": "2025-10-23T08:28:22.288Z",
-  "versionId": "f40f9ebc-aeda-4b3c-b281-88ff6a3f0129"
+  "updatedAt": "2025-10-27T18:44:20.000Z",
+  "versionId": "79ced221-d57b-4b84-8455-5db22d8924e5"
 }
