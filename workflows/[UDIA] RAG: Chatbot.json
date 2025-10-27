@@ -92,7 +92,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        288,
+        344,
         -128
       ],
       "id": "680d3889-b9a4-4dc0-892c-98eb5332789d",
@@ -111,8 +111,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        176,
-        48
+        288,
+        96
       ],
       "id": "b2e962e0-770e-42ae-b8d6-3596a3580874",
       "name": "OpenAI Chat Model",
@@ -128,8 +128,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        336,
-        48
+        416,
+        96
       ],
       "id": "ab8125c5-8274-49e2-b17d-f9dfce1a974f",
       "name": "Window Buffer Memory"
@@ -152,8 +152,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1,
       "position": [
-        496,
-        48
+        544,
+        96
       ],
       "id": "5018ff77-162c-40af-9789-9998682b5952",
       "name": "Pinecone Vector Store",
@@ -171,8 +171,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        528,
-        192
+        624,
+        304
       ],
       "id": "a3ba851f-d983-41f2-9e0a-fc460865e069",
       "name": "Embeddings OpenAI",
@@ -200,6 +200,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-23T10:38:37.000Z",
-  "versionId": "dd22e944-9ad4-4ca5-aee9-e02bb4eaa51b"
+  "updatedAt": "2025-10-27T18:35:31.000Z",
+  "versionId": "80924d27-8f74-4b63-9fce-adffe85e4f07"
 }
