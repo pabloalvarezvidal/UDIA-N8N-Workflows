@@ -5,7 +5,29 @@
       "main": [
         [
           {
-            "node": "Replace me with your logic",
+            "node": "Create an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -16,7 +38,9 @@
   "createdAt": "2025-10-28T14:45:18.018Z",
   "id": "XbnaPClsebJmKR1J",
   "isArchived": false,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "Agendar",
   "nodes": [
     {
@@ -48,17 +72,134 @@
       ]
     },
     {
-      "parameters": {},
-      "id": "b5942df6-0160-4ef7-965d-57583acdc8aa",
-      "name": "Replace me with your logic",
-      "type": "n8n-nodes-base.noOp",
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "alvarezvidalpablo@gmail.com",
+          "mode": "list",
+          "cachedResultName": "alvarezvidalpablo@gmail.com"
+        },
+        "start": "={{ DateTime.fromISO($json.fecha + 'T' + $json.horario).setZone('Europe/Madrid', { keepLocalTime: true }).toISO() }}",
+        "end": "={{ DateTime.fromISO($json.fecha + 'T' + $json.horario).setZone('Europe/Madrid', { keepLocalTime: true }).plus({minutes: 60}).toISO() }}",
+        "additionalFields": {
+          "summary": "={{ $json[\"nombre completo \"] }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
       "position": [
-        528,
+        480,
         352
-      ]
+      ],
+      "id": "e460e671-9e0a-4efe-a371-9a7798054865",
+      "name": "Create an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "RSjmCgtcmSyhYKoN",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "10wnTxQsepDevHXiei3_dUZyPHgyBOiNR-ffsJAXhL0M",
+          "mode": "list",
+          "cachedResultName": "AGENDAS CLINICA",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10wnTxQsepDevHXiei3_dUZyPHgyBOiNR-ffsJAXhL0M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10wnTxQsepDevHXiei3_dUZyPHgyBOiNR-ffsJAXhL0M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "numero": "1234",
+            "id calendar": "={{ $json.id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "numero",
+              "displayName": "numero",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "id calendar",
+              "displayName": "id calendar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        656,
+        352
+      ],
+      "id": "018db381-300b-4d49-a10b-3f18af75cf37",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2be619cf-d10b-4479-8db1-1d27558f272b",
+              "name": "listo",
+              "value": "listo",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        352
+      ],
+      "id": "98973bc8-4ed1-4df0-8b42-b30d2d924bc7",
+      "name": "Edit Fields"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "fecha": "2025-11-04",
+          "horario": "12:00:00",
+          "nombre completo ": "Pablo Álvarez",
+          "email": "hola@gmail.com"
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1"
   },
@@ -74,6 +215,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-28T15:12:14.000Z",
-  "versionId": "49c3d258-0f22-496e-88ed-5c0eaaa812aa"
+  "updatedAt": "2025-10-29T22:11:59.000Z",
+  "versionId": "612f6e63-ba4a-4a9d-b054-0c9e08da24a1"
 }
