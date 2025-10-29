@@ -85,7 +85,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        208,
+        408,
         0
       ],
       "id": "0a6e3af8-bce9-4989-8cb0-24b50b26c7ef",
@@ -103,8 +103,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        80,
-        208
+        224,
+        224
       ],
       "id": "1dbca929-2ee0-45c2-bf82-d7be45a3a120",
       "name": "OpenAI Chat Model",
@@ -120,8 +120,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        224,
-        208
+        352,
+        224
       ],
       "id": "6bfa9350-9570-40bc-b9d0-7129ec8f2376",
       "name": "Postgres Chat Memory",
@@ -154,8 +154,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        320,
-        384
+        480,
+        224
       ],
       "id": "ce2d1638-16e3-4da9-a6ac-472d6a3afa3b",
       "name": "Cancelar"
@@ -229,7 +229,7 @@
       "typeVersion": 2.2,
       "position": [
         608,
-        384
+        224
       ],
       "id": "46c0fa74-2b1d-45bd-9ea8-9b344f448ca8",
       "name": "Agendar"
@@ -247,9 +247,11 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "fecha": "La fecha que eligió el usuario para agendar la cita en formato yyyy-mm-dd"
+            "fecha": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fecha', `La fecha que eligió el usuario para agendar la cita en formato yyyy-mm-dd`, 'string') }}"
           },
-          "matchingColumns": [],
+          "matchingColumns": [
+            "fecha"
+          ],
           "schema": [
             {
               "id": "fecha",
@@ -269,8 +271,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        464,
-        384
+        736,
+        224
       ],
       "id": "edaa4c04-d9d8-4422-9776-4b12f1794f4a",
       "name": "Disponibilidad"
@@ -306,6 +308,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-28T15:50:15.000Z",
-  "versionId": "d775cbba-8f3c-4959-b83f-b9d245b3f922"
+  "updatedAt": "2025-10-29T22:12:01.000Z",
+  "versionId": "504b7d8f-a843-41fa-9320-0137c6b2b7e0"
 }
