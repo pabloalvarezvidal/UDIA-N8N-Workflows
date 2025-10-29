@@ -5,8 +5,41 @@
       "main": [
         [
           {
-            "node": "Replace me with your logic",
+            "node": "Date & Time",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get availability in a calendar": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get availability in a calendar in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "Message a model",
+            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -16,7 +49,9 @@
   "createdAt": "2025-10-28T14:45:09.562Z",
   "id": "cd69iDubYeGN7urP",
   "isArchived": false,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "Disponibilidad",
   "nodes": [
     {
@@ -34,19 +69,152 @@
       "name": "When Executed by Another Workflow",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        272,
+        320,
         352
       ]
     },
     {
-      "parameters": {},
-      "id": "b5942df6-0160-4ef7-965d-57583acdc8aa",
-      "name": "Replace me with your logic",
-      "type": "n8n-nodes-base.noOp",
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.fecha }}",
+        "format": "yyyy-MM-dd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
       "position": [
-        528,
+        496,
         352
-      ]
+      ],
+      "id": "aa7b8af4-be39-4e74-98b6-d3c303e99591",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "alvarezvidalpablo@gmail.com",
+          "mode": "list",
+          "cachedResultName": "alvarezvidalpablo@gmail.com"
+        },
+        "timeMin": "={{ $json.formattedDate }}T09:00:00",
+        "timeMax": "={{ $json.formattedDate }}T20:00:00",
+        "options": {
+          "outputFormat": "bookedSlots",
+          "timezone": {
+            "__rl": true,
+            "value": "Europe/Madrid",
+            "mode": "list",
+            "cachedResultName": "Europe/Madrid"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        704
+      ],
+      "id": "19f29dd1-1892-4333-ac03-b7a40df58145",
+      "name": "Get availability in a calendar",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "RSjmCgtcmSyhYKoN",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        672
+      ],
+      "id": "c9a1ca5d-60e6-4a21-9820-337c15b4511d",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Devuelveme los espacios libres en la fecha  {{ $json.formattedDate }} en el calendario en espacios de 60 minutos"
+            },
+            {
+              "content": "=I. ROL Y OBJETIVO PRINCIPAL\nEres un Asistente de Agendamiento Inteligente. Tu única y principal función es interactuar con una herramienta de calendario para calcular y presentar al usuario final todos los horarios disponibles para una cita.\nII. DESCRIPCIÓN DE LA HERRAMIENTA: check_availability\nActivación: Ante cualquier solicitud de consulta de disponibilidad para una fecha, DEBES activar la herramienta check_availability para esa fecha específica.\nFunción: La herramienta se conecta a un calendario y te devuelve una lista con todos los bloques de tiempo que ya están OCUPADOS.\nFormato de Respuesta de la Herramienta: La herramienta te devolverá una lista de objetos. Cada objeto representa un único bloque de tiempo ocupado y contiene una start_date y una end_date en formato ISO.\nEjemplo 1: Día con varios bloqueos cortos.\n[{'start_date': '2025-11-05T10:00:00', 'end_date': '2025-11-05T11:00:00'}, {'start_date': '2025-11-05T15:00:00', 'end_date': '2025-11-05T16:00:00'}]\nEjemplo 2: Día con un bloqueo largo.\n[{'start_date': '2025-11-06T11:00:00', 'end_date': '2025-11-06T15:00:00'}]\n(Interpretación: Todos los posibles turnos que comiencen a las 11:00, 12:00, 13:00 y 14:00 están ocupados).\nEjemplo 3: Día completamente libre.\n[]\n(La herramienta devuelve una lista vacía, lo que significa que no hay ningún horario ocupado).\nEjemplo 4: Día completamente ocupado.\n[{'start_date': '2025-11-07T09:00:00', 'end_date': '2025-11-07T20:00:00'}]\nIII. REGLAS DE NEGOCIO (Parámetros Fijos)\nJornada Laboral: El rango de horarios disponibles para citas es estrictamente de 09:00 AM a 20:00 PM.\nDuración de las Citas: Todas las citas tienen una duración fija y exacta de 60 minutos.\nInicio de los Turnos: Los turnos siempre comienzan en las horas en punto. Por lo tanto, los únicos horarios de inicio posibles en un día completamente libre son: 09:00, 10:00, 11:00, 12:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00 y 19:00. (El turno de las 19:00 finaliza a las 20:00).\nIV. PROCESO LÓGICO PASO A PASO (Workflow Obligatorio)\nPaso 1: Generar Turnos Potenciales. Al recibir la solicitud, primero genera internamente la lista completa de todos los turnos posibles de 60 minutos para la jornada laboral (09:00, 10:00, ..., 19:00).\nPaso 2: Consultar Herramienta. Activa la herramienta check_availability para obtener la lista de bloques ocupados.\nPaso 3: Filtrar Disponibilidad. Compara tu lista de turnos potenciales con la lista de bloques ocupados que te dio la herramienta. Debes eliminar de tu lista cualquier turno potencial cuyo horario de inicio se solape con un bloque ocupado.\nEjemplo de Lógica: Si la herramienta devuelve {'start_date': 'T11:00:00', 'end_date': 'T15:00:00'}, debes eliminar de tu lista de potenciales los turnos de las 11:00, 12:00, 13:00 y 14:00.\nPaso 4: Formatear y Devolver Respuesta. Presenta al usuario ÚNICAMENTE la lista final de horarios de inicio de citas que han quedado como disponibles, siguiendo las plantillas del punto V.\nV. FORMATO DE RESPUESTA AL USUARIO\nTu respuesta final debe ser clara, concisa y seguir estos formatos:\nSi hay horarios disponibles:\n\"Claro, aquí tienes los horarios disponibles para el [Día/Fecha consultada]:\n09:00\n11:00\n12:00\n16:00\n...\" (presentado como una lista).\nSi NO hay ningún horario disponible:\n\"Lo siento, para el [Día/Fecha consultada] ya no quedan horarios disponibles. ¿Quieres que consulte otra fecha?\".\nSi el día está completamente libre (la herramienta devolvió []):\n\"¡Perfecto! El día [Día/Fecha consultada] está completamente disponible. Estos son todos los horarios que puedes elegir:\n09:00\n10:00\n...\" (listar todos los turnos de la jornada).",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        704,
+        352
+      ],
+      "id": "e56ac9fe-3de5-4812-a806-777eae7e82da",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "alvarezvidalpablo@gmail.com",
+          "mode": "list",
+          "cachedResultName": "alvarezvidalpablo@gmail.com"
+        },
+        "timeMin": "={{ $json.formattedDate }}T09:00:00",
+        "timeMax": "={{ $json.formattedDate }}T20:00:00",
+        "options": {
+          "outputFormat": "bookedSlots",
+          "timezone": {
+            "__rl": true,
+            "value": "Europe/Madrid",
+            "mode": "list",
+            "cachedResultName": "Europe/Madrid"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        496
+      ],
+      "id": "1f8121ac-2b2e-4284-8b32-eba7b64c4172",
+      "name": "Get availability in a calendar in Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "RSjmCgtcmSyhYKoN",
+          "name": "Google Calendar account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -65,6 +233,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-28T15:15:54.000Z",
-  "versionId": "d3b2e815-a9b8-4876-8a7b-9886e5e50674"
+  "updatedAt": "2025-10-29T22:12:04.000Z",
+  "versionId": "c964e83f-bac3-4f21-b402-b57a7672019f"
 }
