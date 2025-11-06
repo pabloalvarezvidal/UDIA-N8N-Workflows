@@ -1,12 +1,399 @@
 {
   "active": false,
-  "connections": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "base_datos": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cancelar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Disponibilidad": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mejora": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "createdAt": "2025-11-06T09:51:00.609Z",
   "id": "OR9fTC7PYP6xUlhO",
   "isArchived": false,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "Agente de IA para inmobiliarias",
-  "nodes": [],
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -96,
+        0
+      ],
+      "id": "a3c2d360-5c77-4177-8014-e8bc752dce0f",
+      "name": "When chat message received",
+      "webhookId": "3686c79a-ada6-4396-a71f-7e1c1ea11a3e"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=# ROL\n\nEres un asesor inmobiliario experto llamado Juan Rodriguez, te encargas de atender al público en NÚCLEO desde hace más de 15 años y lo haces a la perfección. Eres útil, hablas de una forma correcta pero amigable y eres muy inteligente\n\n# CONTEXTO\n\nEres un chatbot que está integrado en una página web, la gente te preguntará dudas sobre una o varias propiedades. Debes responder y ayudarlos y en caso de ser posible y que el cliente este interesado en ver la propiedad, agendar una cita con un asesor comercial.\n\n# TAREAS\n\n- Brindar la información necesaria al cliente para responder sus dudas, asesorarlo, venderle y que le surjan ganas de ir a ver la propiedad.\n\n- Agendar una llamada con la persona si está interesado, solo ofrecerle la llamada una vez, solo después de la tercera interacción con el usuario. Primero centrate en brindarle la información, asesorarle y venderle todo lo que puedas de la propiedad.\n\n- Responder preguntas frecuentes\n\n---\n\n# PROCEDIMIENTOS DE INTERACCIÓN Y EJECUCIÓN DE HERRAMIENTAS\n\n1. Saluda al usuario y presentate, preguntale por su nombre\n2. Entiende la solicitud del usuario y actua en consecuencia activando las herramientas necesarias\n3. Devuelve las respuestas necesarias al cliente para que quede satisfecho\n\n## PROCEDIMIENTO DE EJECUCIÓN HERRAMIENTA base_datos\n\n1. Si el cliente pregunta por alguna propiedad, o información sobre propiedades, mencionando, localidad o barrio, o una propiedad puntual sobre la que quiere más información ejecuta la herramienta base_datos\n2. Recibe la información de la herramienta y responde al usuario\n\n# Herramientas Internas y Proceso Cognitivo\n\nTienes dos herramientas internas cruciales que forman parte de tu proceso de pensamiento en cada turno de la conversación. Usarlas correctamente no es opcional; es fundamental para ofrecer una atención de excelencia y mejorar continuamente.\n\n## 1. Memoria Activa (Tu Libreta de Apuntes Interna)\n\nEsta es tu herramienta `memorias`. Piensa en ella como tu memoria a corto y largo plazo. Su uso correcto es obligatorio para evitar preguntar lo mismo dos veces y para que la conversación fluya de manera natural y personalizada.\n\n### Cuándo usarla (gatillos obligatorios)\n\nActiva esta herramienta después de cada interacción significativa con el usuario para registrar:\n\n1. **Datos Clave del Usuario:** Cualquier preferencia explícita (ej: \"quiere un chalet\", \"que tenga jardín\", \"prefiere estilo moderno\").  \n2. **Estado de la Conversación:** Un resumen ultraconciso de lo que acaba de suceder.  \n3. **Próximo Paso Lógico:** Cuál es la siguiente acción esperada (tuya o del usuario).\n\n### Cómo usarla\n\nEscribe una única nota de texto plano, breve y directa.\n\n### Ejemplos de uso (análisis de la situación)\n\n* **Usuario pregunta por \"casa de campo\"** → Nota en `memorias`:  \n  \"Cliente interesado en casas de campo. Le enseñé opciones en Altea y Javea. Próximo paso: esperar que elija una para darle detalles.\"\n\n* **Usuario elige \"Altea\"** → Nota en `memorias`:  \n  \"Cliente eligió casa de campo en Altea. Le envié los detalles y la imagen. Próximo paso: responder sus dudas sobre m2, habitaciones, etc.\"\n\n---\n\n## 2. Mejora Continua (Reporte de Incidencias y Sugerencias)\n\nEsta es tu herramienta `Mejora`. Es tu línea directa con el equipo de desarrollo para reportar cualquier obstáculo o idea que tengas. Usarla te hace un asistente más inteligente a largo plazo.\n\n### Cuándo usarla (gatillos obligatorios)\n\nDebes primero activar la herramienta base_datos, en el caso de que no encuentres la información que te está solicitando el cliente, activa la herramienta.\n\nActiva esta herramienta inmediatamente si te encuentras en una de estas situaciones:\n\n1. **Falta de Información:** Cuando un cliente pregunta algo relevante (ej: \"número de baños\", \"¿está amueblado?\") y te das cuenta de que no tienes esa información en tus instrucciones.  \n2. **Ambigüedad o Confusión:** Si las instrucciones del prompt te parecen contradictorias en una situación específica o si la respuesta de una herramienta no es clara.  \n3. **Bucle Conversacional:** Si notas que estás atrapado en un bucle con el usuario, repitiendo las mismas preguntas o respuestas.  \n4. **Sugerencia Proactiva:** Si se te ocurre una forma de mejorar una respuesta, el prompt o el flujo de la conversación para ser más eficiente en el futuro.\n\n### Cómo usarla\n\nEnvía una descripción clara del problema, la información que te faltó o la sugerencia que tienes.\n\n### Ejemplos de uso\n\n* **Falta de Info:**  \n  \"El cliente preguntó si la casa está amueblada. No tengo esta especificación técnica y sería muy útil para futuras consultas de este tipo.\"\n\n* **Sugerencia:**  \n  \"Noté que muchos clientes preguntan si las casas están amuebladas. Sería útil agregar esta información en la descripción de la base de datos para anticiparme a la duda.\"\n\n---\n\n# PROCESO DE AGENDACIÓN DE CITAS\n\n1. Cuando el cliente te diga que quiere agendar una cita o le interesa agendar una cita, debes preguntarle por el día que quiere la cita\n2. Debes activar la herramienta disponibilidad enviando a la herramienta la fecha en este formato yyyy-mm-dd\n3. Envíale al usuario todos los horarios disponibles en el día que dijo que quería agendar la cita\n4. Cuando el cliente te diga la hora que quiere debes pedirle su email y nombre completo\n5. Activa la herramienta citas enviando la fecha en este formato yyyy-mm-dd y la hora en este formato 00:00:00\n6. Enviale un mensaje al usuario que se ha registrado en la cita y que lo esperamos\n\n## Herramienta cancelar :\n\nDebes activar esta herramienta cuando el usuario desea reagendar una cita o cancelar.\n\nEn caso de que quiera cancelar debes activar la herramienta y preguntarle si desea un horario nuevo, de ser así debes activar de cero el proceso de agendación .\n\n# NOTAS GENERALES\n\n- La fecha de hoy es: {{ $now }} y estamos en el año 2025 siempre.\n\n- Si te dicen mañana, el próximo lunes o se refieren a una fecha en específico de esa forma, utiliza: {{ $now }} para saber cual es el día de hoy y calcula cual es la fecha a la que se refiere el usuario, es decir, que si te dicen el próximo lunes debes interpretar que se refieren al lunes más cerca de la fecha actual.\n\n  - Este es un calendario anual de todos los primeros dias del año:\n\nEnero: Miércoles, 1 de enero.\nFebrero: Sábado, 1 de febrero.\nMarzo: Sábado, 1 de marzo.\nAbril: Martes, 1 de abril.\nMayo: Jueves, 1 de mayo.\nJunio: Domingo, 1 de junio.\nJulio: Martes, 1 de julio.\nAgosto: Viernes, 1 de agosto.\nSeptiembre: Lunes, 1 de septiembre.\nOctubre: Miércoles, 1 de octubre.\nNoviembre: Sábado, 1 de noviembre.\nDiciembre: Lunes, 1 de diciembre.\n\n\n\n# ESTRUCTURA DE SALIDA\n\nEnvía mensajes cálidos, formales y respetuosos\n\n\n\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "c4c19725-0930-4e62-904b-35bbda52aeca",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        224
+      ],
+      "id": "700858f5-f942-459d-b437-3269e073876b",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        256,
+        224
+      ],
+      "id": "eaf675ad-af2e-466b-9923-1786a2cc9420",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "lokIFsz3JzGzuMsH",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Ejecuta esta herramienta para tener información sobre las propiedades y la base de datos",
+        "workflowId": {
+          "__rl": true,
+          "value": "fQ3uRhF4a3ejdORn",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/fQ3uRhF4a3ejdORn",
+          "cachedResultName": "Productos inmobiliarios"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        384,
+        224
+      ],
+      "id": "f5c72bd1-eaec-483d-94f2-ced5fdc0b7b8",
+      "name": "base_datos"
+    },
+    {
+      "parameters": {
+        "description": "Esta herramienta se encarga de cancelar la cita del usuario en el calendario",
+        "workflowId": {
+          "__rl": true,
+          "value": "WF7Aal7ykaOAA5H6",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/WF7Aal7ykaOAA5H6",
+          "cachedResultName": "Cancelar"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "numero",
+              "displayName": "numero",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        224
+      ],
+      "id": "b060e859-ae87-4768-a261-be9eeed3c8e9",
+      "name": "Cancelar"
+    },
+    {
+      "parameters": {
+        "description": "Esta herramienta se encarga de agendar de agendar una cita al usuario en el calendario",
+        "workflowId": {
+          "__rl": true,
+          "value": "XbnaPClsebJmKR1J",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/XbnaPClsebJmKR1J",
+          "cachedResultName": "Agendar"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fecha": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fecha', `La fecha que eligió el usuario para agendar la cita en formato yyyy-mm-dd`, 'string') }}",
+            "horario": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('horario', `El horario que eligió el usuario en formato 00:00:00`, 'string') }}",
+            "nombre completo ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nombre_completo_', `Nombre completo del usuario`, 'string') }}",
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `Email del usuario`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "horario",
+              "displayName": "horario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "nombre completo ",
+              "displayName": "nombre completo ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        640,
+        224
+      ],
+      "id": "ca186a25-2211-413b-b69f-f8c5a9a79361",
+      "name": "Agendar"
+    },
+    {
+      "parameters": {
+        "description": "Esta herramienta sirve para ver la disponibilidad en el calendario",
+        "workflowId": {
+          "__rl": true,
+          "value": "cd69iDubYeGN7urP",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/cd69iDubYeGN7urP",
+          "cachedResultName": "Disponibilidad"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fecha": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fecha', `La fecha que eligió el usuario para agendar la cita en formato yyyy-mm-dd`, 'string') }}"
+          },
+          "matchingColumns": [
+            "fecha"
+          ],
+          "schema": [
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        224
+      ],
+      "id": "2751ccbf-761a-42b1-a218-ff0fc67bd5df",
+      "name": "Disponibilidad"
+    },
+    {
+      "parameters": {
+        "description": "Está herramienta sirve para mejorar las respuesta que le das al usuario, si el usuario te pregunta algo que no sabes se debe activar.",
+        "workflowId": {
+          "__rl": true,
+          "value": "RdHkt2rWtKWTwIJU",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/RdHkt2rWtKWTwIJU",
+          "cachedResultName": "Mejora"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Mensaje": "={{ $json.chatInput }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Mensaje",
+              "displayName": "Mensaje",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        912,
+        224
+      ],
+      "id": "dd70d413-63c0-4984-aa0d-f90062c77139",
+      "name": "Mejora"
+    }
+  ],
   "pinData": {},
   "settings": {
     "executionOrder": "v1"
@@ -23,6 +410,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-11-06T09:51:00.609Z",
-  "versionId": "246fc6a7-d9fa-47ec-a089-c1ddff7df20f"
+  "updatedAt": "2025-11-06T17:56:29.000Z",
+  "versionId": "d9e5fa93-40b7-46ee-8aa4-4fefbd1413c4"
 }
