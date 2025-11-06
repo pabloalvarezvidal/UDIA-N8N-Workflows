@@ -85,7 +85,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        408,
+        416,
         0
       ],
       "id": "0a6e3af8-bce9-4989-8cb0-24b50b26c7ef",
@@ -146,7 +146,18 @@
           "mappingMode": "defineBelow",
           "value": {},
           "matchingColumns": [],
-          "schema": [],
+          "schema": [
+            {
+              "id": "numero",
+              "displayName": "numero",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
           "attemptToConvertTypes": false,
           "convertFieldsToString": false
         }
@@ -308,6 +319,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-29T22:12:01.000Z",
-  "versionId": "504b7d8f-a843-41fa-9320-0137c6b2b7e0"
+  "updatedAt": "2025-11-06T14:55:17.000Z",
+  "versionId": "43b64969-2c4a-4bdb-a0c3-b108722f7ee6"
 }
