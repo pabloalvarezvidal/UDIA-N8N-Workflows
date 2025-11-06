@@ -1,0 +1,77 @@
+{
+  "active": false,
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-06T11:04:03.843Z",
+  "id": "fQ3uRhF4a3ejdORn",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Productos inmobiliarios",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "databaseId": 40,
+        "tableId": 697,
+        "additionalOptions": {}
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        480,
+        352
+      ],
+      "id": "e47f98cd-223b-4fc1-8ebc-d3196981b863",
+      "name": "Get many rows",
+      "credentials": {
+        "baserowApi": {
+          "id": "Y1ARKRpDlDNJXNDd",
+          "name": "Baserow account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-06T11:04:03.852Z",
+      "updatedAt": "2025-11-06T11:04:03.852Z",
+      "role": "workflow:owner",
+      "workflowId": "fQ3uRhF4a3ejdORn",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-06T11:09:31.000Z",
+  "versionId": "b746e06f-8d14-4839-9e6c-b7319dddc127"
+}
