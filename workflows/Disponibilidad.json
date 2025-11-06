@@ -23,17 +23,6 @@
         ]
       ]
     },
-    "Get availability in a calendar": {
-      "main": [
-        [
-          {
-            "node": "Aggregate",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Get availability in a calendar in Google Calendar": {
       "ai_tool": [
         [
@@ -88,61 +77,6 @@
       ],
       "id": "aa7b8af4-be39-4e74-98b6-d3c303e99591",
       "name": "Date & Time"
-    },
-    {
-      "parameters": {
-        "resource": "calendar",
-        "calendar": {
-          "__rl": true,
-          "value": "alvarezvidalpablo@gmail.com",
-          "mode": "list",
-          "cachedResultName": "alvarezvidalpablo@gmail.com"
-        },
-        "timeMin": "={{ $json.formattedDate }}T09:00:00",
-        "timeMax": "={{ $json.formattedDate }}T20:00:00",
-        "options": {
-          "outputFormat": "bookedSlots",
-          "timezone": {
-            "__rl": true,
-            "value": "Europe/Madrid",
-            "mode": "list",
-            "cachedResultName": "Europe/Madrid"
-          }
-        }
-      },
-      "type": "n8n-nodes-base.googleCalendar",
-      "typeVersion": 1.3,
-      "position": [
-        800,
-        704
-      ],
-      "id": "19f29dd1-1892-4333-ac03-b7a40df58145",
-      "name": "Get availability in a calendar",
-      "alwaysOutputData": false,
-      "credentials": {
-        "googleCalendarOAuth2Api": {
-          "id": "RSjmCgtcmSyhYKoN",
-          "name": "Google Calendar account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "fieldsToAggregate": {
-          "fieldToAggregate": [
-            {}
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [
-        1024,
-        672
-      ],
-      "id": "c9a1ca5d-60e6-4a21-9820-337c15b4511d",
-      "name": "Aggregate"
     },
     {
       "parameters": {
@@ -233,6 +167,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-29T22:12:04.000Z",
-  "versionId": "c964e83f-bac3-4f21-b402-b57a7672019f"
+  "updatedAt": "2025-11-06T15:16:49.000Z",
+  "versionId": "22f90bca-8d6c-47a7-bd0e-13b74d9b8db5"
 }
