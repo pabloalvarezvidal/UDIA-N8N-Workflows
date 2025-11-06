@@ -1,0 +1,28 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2025-11-06T09:51:00.609Z",
+  "id": "OR9fTC7PYP6xUlhO",
+  "isArchived": false,
+  "meta": null,
+  "name": "Agente de IA para inmobiliarias",
+  "nodes": [],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-06T09:51:00.618Z",
+      "updatedAt": "2025-11-06T09:51:00.618Z",
+      "role": "workflow:owner",
+      "workflowId": "OR9fTC7PYP6xUlhO",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-06T09:51:00.609Z",
+  "versionId": "246fc6a7-d9fa-47ec-a089-c1ddff7df20f"
+}
