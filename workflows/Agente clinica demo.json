@@ -1,0 +1,90 @@
+{
+  "active": false,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-07T17:29:02.125Z",
+  "id": "AFeVledyVKxvQK24",
+  "isArchived": false,
+  "meta": null,
+  "name": "Agente clinica demo",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "a5d6867f-254b-45de-8f28-3a694683b341",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7a09ad91-7f51-44d6-a0bd-7c8ffaf0219c",
+      "name": "Webhook",
+      "webhookId": "a5d6867f-254b-45de-8f28-3a694683b341"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3a0db166-da3f-4e70-a7af-b20d4a425863",
+              "leftValue": "={{ $json.body.event }}",
+              "rightValue": "call_started",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "fe5e8e57-d99b-4b26-8603-8f69e17dd3b2",
+      "name": "Filter"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-07T17:29:02.129Z",
+      "updatedAt": "2025-11-07T17:29:02.129Z",
+      "role": "workflow:owner",
+      "workflowId": "AFeVledyVKxvQK24",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-07T20:24:48.000Z",
+  "versionId": "0735b224-63c4-4519-8b10-6d0960ebee14"
+}
