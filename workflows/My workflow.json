@@ -1,88 +1,22 @@
 {
   "active": false,
   "connections": {
-    "Webhook": {
+    "When clicking ‘Execute workflow’": {
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "HTTP Request",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Simple Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Pinecone Vector Store": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Embeddings OpenAI": {
-      "ai_embedding": [
-        [
-          {
-            "node": "Pinecone Vector Store",
-            "type": "ai_embedding",
             "index": 0
           }
         ]
       ]
     },
     "HTTP Request": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
       "main": [
         [
           {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "AI Agent": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook",
+            "node": "Append row in sheet",
             "type": "main",
             "index": 0
           }
@@ -90,8 +24,8 @@
       ]
     }
   },
-  "createdAt": "2025-10-28T10:35:33.465Z",
-  "id": "4cTlDLAyzlrSof9Z",
+  "createdAt": "2025-11-08T17:05:53.943Z",
+  "id": "7ifWGEIaNiHYGDO3",
   "isArchived": false,
   "meta": {
     "templateCredsSetupCompleted": true
@@ -99,173 +33,90 @@
   "name": "My workflow",
   "nodes": [
     {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "/retell-callback",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
       "position": [
-        -224,
-        16
+        0,
+        0
       ],
-      "id": "60755557-8c42-4d99-be60-ca2123ca5c16",
-      "name": "Webhook",
-      "webhookId": "f3ba1372-5d39-49b5-8bdc-92ffbc2bd0db"
+      "id": "b36b9287-78ce-44e2-9d0f-5b7901495b3b",
+      "name": "When clicking ‘Execute workflow’"
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "Hola, en que te puedo ayudar?",
+        "authentication": "genericCredentialType",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         208,
         0
       ],
-      "id": "bbb22f95-2892-4e64-98ca-c1f28132e1c4",
-      "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "gpt-4.1-mini"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        80,
-        208
-      ],
-      "id": "b745c383-3e11-40ce-87a4-86a52d9650ae",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "lF7UohlhOobJXkZr",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
-      "position": [
-        224,
-        208
-      ],
-      "id": "fbfc5e7e-dbff-4e29-82bf-51164d053b01",
-      "name": "Simple Memory"
-    },
-    {
-      "parameters": {
-        "mode": "retrieve-as-tool",
-        "toolDescription": "Busca siempre la información en tu base de datos llamada \"clinicarag\"",
-        "pineconeIndex": {
-          "__rl": true,
-          "value": "clinicarag",
-          "mode": "list",
-          "cachedResultName": "clinicarag"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
-      "typeVersion": 1.3,
-      "position": [
-        512,
-        208
-      ],
-      "id": "62d12072-465a-4d44-aa93-3578b2a20bc9",
-      "name": "Pinecone Vector Store",
-      "credentials": {
-        "pineconeApi": {
-          "id": "ZjaedD1lFrbmepw0",
-          "name": "PineconeApi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        336,
-        400
-      ],
-      "id": "d28e5e9d-e114-40df-af7d-cba5f5b3759c",
-      "name": "Embeddings OpenAI",
-      "credentials": {
-        "openAiApi": {
-          "id": "lF7UohlhOobJXkZr",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://cal.com/pabloalvarez/clinica",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Cal.com API",
-              "value": "Bearer TU_API_KEY"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "{\n  \"eventTypeId\": \"mi-clinica/consulta-dental\",\n  \"attendees\": [\n    {\n      \"email\": \"paciente@ejemplo.com\",\n      \"name\": \"Juan Pérez\"\n    }\n  ],\n  \"startTime\": \"2025-11-01T15:00:00Z\"\n}\n",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequestTool",
-      "typeVersion": 4.2,
-      "position": [
-        352,
-        208
-      ],
-      "id": "8fe0d300-ceaf-4673-81c3-b2697beeeeca",
+      "id": "c6c785b8-9757-4292-9f02-77281bf26ceb",
       "name": "HTTP Request"
     },
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "{\n  \"name\": \"Edit Fields\",\n  \"type\": \"n8n-nodes-base.set\",\n  \"typeVersion\": 2,\n  \"position\": [\n    300,\n    200\n  ],\n  \"parameters\": {\n    \"keepOnlySet\": true,\n    \"values\": {\n      \"string\": [\n        {\n          \"name\": \"userMessage\",\n          \"value\": \"={{$json[\\\"message\\\"]}}\"\n        },\n        {\n          \"name\": \"userId\",\n          \"value\": \"={{$json[\\\"user_phone\\\"]}}\"\n        },\n        {\n          \"name\": \"callId\",\n          \"value\": \"={{$json[\\\"call_id\\\"]}}\"\n        },\n        {\n          \"name\": \"timestamp\",\n          \"value\": \"={{new Date().toISOString()}}\"\n        }\n      ]\n    }\n  }\n}",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "10wnTxQsepDevHXiei3_dUZyPHgyBOiNR-ffsJAXhL0M",
+          "mode": "list",
+          "cachedResultName": "AGENDAS CLINICA",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10wnTxQsepDevHXiei3_dUZyPHgyBOiNR-ffsJAXhL0M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10wnTxQsepDevHXiei3_dUZyPHgyBOiNR-ffsJAXhL0M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "numero",
+              "displayName": "numero",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "id calendar",
+              "displayName": "id calendar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
       "position": [
-        -16,
-        16
-      ],
-      "id": "18d310ef-4dda-4fc1-991c-8eb666765ff7",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{$json[\"response\"]}}\n",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.4,
-      "position": [
-        560,
+        416,
         0
       ],
-      "id": "bb2b499c-0331-4082-a0b7-da98511874c5",
-      "name": "Respond to Webhook"
+      "id": "d184bfd7-2fb7-4c43-a973-3172d999fd6c",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -274,16 +125,16 @@
   },
   "shared": [
     {
-      "createdAt": "2025-10-28T10:35:33.476Z",
-      "updatedAt": "2025-10-28T10:35:33.476Z",
+      "createdAt": "2025-11-08T17:05:53.951Z",
+      "updatedAt": "2025-11-08T17:05:53.951Z",
       "role": "workflow:owner",
-      "workflowId": "4cTlDLAyzlrSof9Z",
+      "workflowId": "7ifWGEIaNiHYGDO3",
       "projectId": "ROscBA9yKA7j3TQn"
     }
   ],
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-28T10:41:28.000Z",
-  "versionId": "2d01dc3b-76a2-4e4f-b50a-552c8c8cc48d"
+  "updatedAt": "2025-11-08T17:05:53.943Z",
+  "versionId": "99d3113f-ad2c-4c7e-ab26-05d1556a35c7"
 }
