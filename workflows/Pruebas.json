@@ -1,0 +1,114 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-08T17:05:53.943Z",
+  "id": "7ifWGEIaNiHYGDO3",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Pruebas",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b36b9287-78ce-44e2-9d0f-5b7901495b3b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2f2b237e-1a90-43e0-8fa1-5e4bb2776657",
+              "name": "nombre",
+              "value": "Pablo",
+              "type": "string"
+            },
+            {
+              "id": "c28c65a9-8c5b-489f-aeab-268db4a28eb8",
+              "name": "edad",
+              "value": "25",
+              "type": "string"
+            },
+            {
+              "id": "2260436e-5821-4eed-ac21-f731cd59f131",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        0
+      ],
+      "id": "e2e277c7-8db0-45c0-a73f-c09bb9f13dbf",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "includeOtherFields": "={{(() => {\n  const nombre = $json.nombre;\n  const edad = $json.edad;\n  const anioActual = new Date().getFullYear();\n  const nacimiento = anioActual - edad;\n  return `Hola ${nombre}, tienes ${edad} años y tu año de nacimiento estimado es ${nacimiento}.`;\n})()}}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        0
+      ],
+      "id": "95db631f-fd5e-4c39-9d08-33109372522a",
+      "name": "Edit Fields1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-08T17:05:53.951Z",
+      "updatedAt": "2025-11-08T17:05:53.951Z",
+      "role": "workflow:owner",
+      "workflowId": "7ifWGEIaNiHYGDO3",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-09T18:48:45.000Z",
+  "versionId": "48de819d-858f-4379-9053-4a7f5d65cbe3"
+}
