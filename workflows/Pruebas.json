@@ -5,6 +5,17 @@
       "main": [
         [
           {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
             "node": "Edit Fields",
             "type": "main",
             "index": 0
@@ -16,7 +27,69 @@
       "main": [
         [
           {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
             "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -37,7 +110,7 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        0,
+        -208,
         0
       ],
       "id": "b36b9287-78ce-44e2-9d0f-5b7901495b3b",
@@ -45,24 +118,35 @@
     },
     {
       "parameters": {
+        "url": "https://icanhazdadjoke.com/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -16,
+        0
+      ],
+      "id": "3aece512-398c-4638-b787-45c7cf6a9817",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
         "assignments": {
           "assignments": [
             {
-              "id": "2f2b237e-1a90-43e0-8fa1-5e4bb2776657",
-              "name": "nombre",
-              "value": "Pablo",
-              "type": "string"
-            },
-            {
-              "id": "c28c65a9-8c5b-489f-aeab-268db4a28eb8",
-              "name": "edad",
-              "value": "25",
-              "type": "string"
-            },
-            {
-              "id": "2260436e-5821-4eed-ac21-f731cd59f131",
-              "name": "",
-              "value": "",
+              "id": "027ca069-bf0d-4557-98a7-9498a849b3d4",
+              "name": "joke",
+              "value": "={{ $json.joke }}",
               "type": "string"
             }
           ]
@@ -72,25 +156,215 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        160,
+        176,
         0
       ],
-      "id": "e2e277c7-8db0-45c0-a73f-c09bb9f13dbf",
+      "id": "c29f1da4-0bb3-4222-b1d3-7d0d8ffee587",
       "name": "Edit Fields"
     },
     {
       "parameters": {
-        "includeOtherFields": "={{(() => {\n  const nombre = $json.nombre;\n  const edad = $json.edad;\n  const anioActual = new Date().getFullYear();\n  const nacimiento = anioActual - edad;\n  return `Hola ${nombre}, tienes ${edad} años y tu año de nacimiento estimado es ${nacimiento}.`;\n})()}}\n",
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6ed23436-efcb-4d90-9e6b-c83b1aa027f8",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "the",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "0f3ecafa-3215-40e9-9f8f-05335963b868",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "scam",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        0
+      ],
+      "id": "3014ee27-2968-4f4a-a6a2-4ed2246e3681",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5583fcf1-1efa-4e89-963d-4df094651eeb",
+              "name": "tipo chiste",
+              "value": "normal",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
         "options": {}
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
+        896,
+        -96
+      ],
+      "id": "52b6be34-d43b-419c-b0fe-e929a9e024c2",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "820b3d77-2b1b-4ae7-a947-ae4ee6236f1d",
+              "name": "tipo chiste",
+              "value": "animal",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        96
+      ],
+      "id": "4df04639-5f45-43d6-8b8e-dae80a9cd9ec",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1BwUbP8sJnWUp9xvIZrK6gMqR7iq_Asvjnc_h8v0KRro",
+          "mode": "list",
+          "cachedResultName": "Prueba chistes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BwUbP8sJnWUp9xvIZrK6gMqR7iq_Asvjnc_h8v0KRro/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BwUbP8sJnWUp9xvIZrK6gMqR7iq_Asvjnc_h8v0KRro/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Joke": "={{ $('AI Agent').item.json.output }}",
+            "Tipo_chiste": "={{ $json['tipo chiste'] }}",
+            "Fecha": "={{(() => {\n  const fecha = new Date();\n  const pad = n => n.toString().padStart(2, '0');\n  const dia = pad(fecha.getDate());\n  const mes = pad(fecha.getMonth() + 1); // Los meses empiezan en 0\n  const anio = fecha.getFullYear();\n  return `${dia}/${mes}/${anio}`;\n})()}}\n\n"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Joke",
+              "displayName": "Joke",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tipo_chiste",
+              "displayName": "Tipo_chiste",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "9ffe0b47-18d3-47e1-99b3-e582c4b1f944",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Traduce el {{ $json.joke }} que te llegue al español. Limitate a traducir, solo me tienes que decir la traducción al español, NADA MÁS.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
         368,
         0
       ],
-      "id": "95db631f-fd5e-4c39-9d08-33109372522a",
-      "name": "Edit Fields1"
+      "id": "32c8e729-888a-4331-9934-162067d24cce",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        352,
+        176
+      ],
+      "id": "3c42bcb4-dcd6-445b-be26-9e369e47d54e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -109,6 +383,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-11-09T18:48:45.000Z",
-  "versionId": "48de819d-858f-4379-9053-4a7f5d65cbe3"
+  "updatedAt": "2025-11-10T09:50:08.000Z",
+  "versionId": "c4262def-cf01-4184-9d94-5c5327d5e7b3"
 }
