@@ -1,0 +1,270 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Lee la hoja",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Agrega datos en único mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Lee la hoja": {
+      "main": [
+        [
+          {
+            "node": "Coge datos necesarios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Coge datos necesarios": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agrega datos en único mensaje": {
+      "main": [
+        [
+          {
+            "node": "Formato al mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formato al mensaje": {
+      "main": [
+        [
+          {
+            "node": "Enviar mail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-07T17:29:02.125Z",
+  "id": "AFeVledyVKxvQK24",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Control de inventario simple",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        -96
+      ],
+      "id": "06961c78-d020-4420-aa57-be45a893bd17",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c2acaac4-33e3-47f9-be95-96b1c1f1f797",
+              "leftValue": "={{ $json.Stock }}",
+              "rightValue": "={{ $json['Mínimo'] }}",
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        -96
+      ],
+      "id": "44cec57c-ddd3-497f-b365-dae234c31b5f",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1WPTWEeigcA2Z8m8vCCD0qoZgSz96gXoLLVoPMIrNKlE",
+          "mode": "list",
+          "cachedResultName": "Stock",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WPTWEeigcA2Z8m8vCCD0qoZgSz96gXoLLVoPMIrNKlE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WPTWEeigcA2Z8m8vCCD0qoZgSz96gXoLLVoPMIrNKlE/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        -96
+      ],
+      "id": "95385ab9-2c36-474f-8fd5-f494b597bda4",
+      "name": "Lee la hoja",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "includeOtherFields": true,
+        "include": "except",
+        "excludeFields": "row_number",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        -96
+      ],
+      "id": "0b18d171-13ef-454c-8576-5b462be8d407",
+      "name": "Coge datos necesarios"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "=Producto: {{$json[\"Producto\"]}}\nStock: {{$json[\"Stock\"]}}\nMínimo: {{$json[\"Mínimo\"]}}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        896,
+        -224
+      ],
+      "id": "05e90776-924f-4016-9178-e712a8da86a6",
+      "name": "Agrega datos en único mensaje"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0ffd55d4-eb64-477d-a906-c1aee715619e",
+              "name": "Mensaje",
+              "value": "={{(() => {\n  const productos = $json.data;\n  const mensaje = productos.map(p =>\n    `Producto: ${p.Producto}<br>Stock: ${p.Stock}<br>Mínimo: ${p[\"Mínimo\"]}`\n  ).join('<br><br>');\n  return `Productos con stock bajo:<br><br>${mensaje}`;\n})()}}\n\n\n\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        -96
+      ],
+      "id": "1c043e95-8ce3-4aae-8414-7ff1a159ed21",
+      "name": "Formato al mensaje"
+    },
+    {
+      "parameters": {
+        "sendTo": "alvarezvidalpablo@gmail.com",
+        "subject": "Stock Mínimo",
+        "message": "={{ $json.Mensaje }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1344,
+        -96
+      ],
+      "id": "2dd27cb1-7dd0-46fb-b98f-ab1e77ab5e01",
+      "name": "Enviar mail",
+      "webhookId": "1ebfb8f1-50c7-4677-97c3-06f5b2122047",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "FhGOZ7dk8SKIOH6F",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-07T17:29:02.129Z",
+      "updatedAt": "2025-11-07T17:29:02.129Z",
+      "role": "workflow:owner",
+      "workflowId": "AFeVledyVKxvQK24",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-12T10:17:19.000Z",
+  "versionId": "a2f25748-cb65-46af-8983-d82ac1c58e53"
+}
