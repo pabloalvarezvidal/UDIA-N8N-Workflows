@@ -1,0 +1,316 @@
+{
+  "active": false,
+  "connections": {
+    "Webhook reservas": {
+      "main": [
+        [
+          {
+            "node": "validación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "validación": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-13T08:42:59.690Z",
+  "id": "hyx5B46MDp5vFLeO",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Reservas Restaurante",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "reservasrestaurante",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -144,
+        0
+      ],
+      "id": "e0502f67-1c08-4978-8d4a-bd3806cfcbb0",
+      "name": "Webhook reservas",
+      "webhookId": "28c84c9d-5a9c-414a-b2bf-d18ee23fc9ad"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        848,
+        0
+      ],
+      "id": "babce5f4-ee8d-46b7-afa8-14793e1bd4bb",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "databaseId": 40,
+        "tableId": 699,
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 6758,
+              "fieldValue": "={{ $json.validated_data.customer.name }}"
+            },
+            {
+              "fieldId": 6761,
+              "fieldValue": "={{ $json.validated_data.customer.phone }}"
+            },
+            {
+              "fieldId": 6762
+            },
+            {
+              "fieldId": 6763,
+              "fieldValue": "={{ $json.validated_data.reservation.date }}"
+            },
+            {
+              "fieldId": 6764,
+              "fieldValue": "={{ $json.validated_data.reservation.time }}"
+            },
+            {
+              "fieldId": 6765,
+              "fieldValue": "={{ $json.validated_data.reservation.guests }}"
+            },
+            {
+              "fieldId": 6766
+            },
+            {
+              "fieldId": 6767
+            },
+            {
+              "fieldId": 6768,
+              "fieldValue": "={{ $json.status }}"
+            },
+            {
+              "fieldId": 6769,
+              "fieldValue": "="
+            },
+            {
+              "fieldId": 6770
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        448
+      ],
+      "id": "cf5177d7-a245-4451-b555-b1562d0c9483",
+      "name": "Create a row",
+      "credentials": {
+        "baserowApi": {
+          "id": "Y1ARKRpDlDNJXNDd",
+          "name": "Baserow account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Obtener las filas devueltas por Baserow\nconst rows = items[0].json.results || [];\n\n// 2. Sumar comensales existentes en esas filas\nlet existingGuests = 0;\nfor (const row of rows) {\n  existingGuests += Number(row.guests || 0);\n}\n\n// 3. Obtener los comensales de la nueva reserva desde el nodo \"validación\"\nconst newGuests = Number($items(\"validación\")[0].json.validated_data.reservation.guests);\n\n// 4. Calcular ocupación total con la nueva reserva\nconst totalWithNew = existingGuests + newGuests;\n\n// 5. Aforo máximo del restaurante\nconst MAX_CAPACITY = 40;\n\n// 6. Devolver los datos al siguiente nodo (IF)\nreturn [\n  {\n    json: {\n      existingGuests,\n      newGuests,\n      totalWithNew,\n      maxCapacity: MAX_CAPACITY\n    }\n  }\n];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        656,
+        0
+      ],
+      "id": "3b9b9a1b-f855-4132-9804-bbc32d28f350",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b84f6ebf-ee17-44df-8ba4-83940e094758",
+              "leftValue": "={{$json.totalWithNew}}",
+              "rightValue": "={{$json.maxCapacity}}",
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        272
+      ],
+      "id": "4afc5ae8-da59-43c4-896f-4cdf7b19a543",
+      "name": "Hay disponibilidad?"
+    },
+    {
+      "parameters": {
+        "databaseId": 40,
+        "tableId": 699,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 6763,
+                "value": "={{ $json.validated_data.reservation.date }}"
+              },
+              {
+                "field": 6764,
+                "value": "={{ $json.validated_data.reservation.time }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        288,
+        0
+      ],
+      "id": "93cf9ebb-e6b9-45c5-ada5-5e6018123e05",
+      "name": "Get many rows",
+      "alwaysOutputData": false,
+      "credentials": {
+        "baserowApi": {
+          "id": "Y1ARKRpDlDNJXNDd",
+          "name": "Baserow account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8898c298-bb63-44ac-83c5-e1ab02ba67f6",
+              "name": "Date",
+              "value": "={{ $json.Date }}",
+              "type": "string"
+            },
+            {
+              "id": "2e03ffb8-ecdb-4405-a27d-77b575c4a4b2",
+              "name": "Time",
+              "value": "={{ $json.Time }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        0
+      ],
+      "id": "65a6ff0b-52ad-4b61-9c35-b2761eafb589",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Recibimos toda la entrada\nconst data = items[0].json.body;\n\n// Función auxiliar para verificar campos faltantes\nfunction isMissing(value) {\n  return value === undefined || value === null || value === '';\n}\n\n// Lista de errores encontrados\nconst errors = [];\n\n// Validación mínima\nif (isMissing(data?.intent)) {\n  errors.push(\"Falta el campo 'intent'.\");\n}\n\nif (isMissing(data?.customer?.name)) {\n  errors.push(\"Falta el nombre del cliente ('customer.name').\");\n}\n\nif (isMissing(data?.customer?.phone)) {\n  errors.push(\"Falta el teléfono del cliente ('customer.phone').\");\n}\n\nif (isMissing(data?.reservation?.date)) {\n  errors.push(\"Falta la fecha de la reserva ('reservation.date').\");\n}\n\nif (isMissing(data?.reservation?.time)) {\n  errors.push(\"Falta la hora de la reserva ('reservation.time').\");\n}\n\nif (isMissing(data?.reservation?.guests) || isNaN(data.reservation.guests) || Number(data.reservation.guests) <= 0) {\n  errors.push(\"El número de comensales ('reservation.guests') debe ser un número mayor que 0.\");\n}\n\n// Si hay errores → responder con error\nif (errors.length > 0) {\n  return [\n    {\n      json: {\n        status: \"error\",\n        message_for_user: \"Lo siento, faltan datos para poder crear la reserva.\",\n        errors: errors\n      }\n    }\n  ];\n}\n\n// Si todo está correcto → responder con datos validados\nreturn [\n  {\n    json: {\n      status: \"ok\",\n      message_for_user: \"Datos recibidos correctamente.\",\n      validated_data: {\n        intent: data.intent,\n        customer: {\n          name: data.customer.name,\n          phone: data.customer.phone\n        },\n        reservation: {\n          date: data.reservation.date,\n          time: data.reservation.time,\n          guests: Number(data.reservation.guests)\n        }\n      }\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        0
+      ],
+      "id": "dcecbdcd-a14e-420c-aa11-679b144007d1",
+      "name": "validación"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-13T08:42:59.702Z",
+      "updatedAt": "2025-11-13T08:42:59.702Z",
+      "role": "workflow:owner",
+      "workflowId": "hyx5B46MDp5vFLeO",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-13T11:57:37.000Z",
+  "versionId": "3e775ed5-bfe8-40d5-b8fc-4d3ed6a7ed8d"
+}
