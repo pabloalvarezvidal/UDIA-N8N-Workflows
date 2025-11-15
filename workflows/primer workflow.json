@@ -1,37 +1,20 @@
 {
   "active": false,
   "connections": {
-    "penes": {
+    "On form submission": {
       "main": [
         [
           {
-            "node": "Wait",
+            "node": "Append or update row in sheet",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Wait": {
+    "Append or update row in sheet": {
       "main": [
-        [
-          {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "prueba uno": {
-      "main": [
-        [
-          {
-            "node": "penes",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     }
   },
@@ -45,97 +28,115 @@
   "nodes": [
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "5c9d3585-06ab-4e00-b907-ac06cd516bf5",
-              "name": "Nombre",
-              "value": "={{ $json.nombre }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        16,
-        -144
-      ],
-      "id": "060817c7-8649-4066-999d-0129c74a7957",
-      "name": "penes"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "c5dae39e-630e-4b9e-bd64-382befc82999",
-              "leftValue": "",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        464,
-        -144
-      ],
-      "id": "775344d0-f6e5-4da5-85b4-4bf3af5907a0",
-      "name": "If"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        240,
-        -144
-      ],
-      "id": "8457b3ab-510e-4863-87d8-b033d7a80953",
-      "name": "Wait",
-      "webhookId": "86ba4265-5171-4b30-a57e-3409c8991c72"
-    },
-    {
-      "parameters": {
-        "formTitle": "prueba",
-        "formDescription": "esto es una prueba",
+        "formTitle": "hola",
+        "formDescription": "hola",
         "formFields": {
           "values": [
             {
               "fieldLabel": "nombre",
-              "placeholder": "Paquito",
+              "placeholder": "juan",
               "requiredField": true
+            },
+            {
+              "fieldLabel": "email",
+              "placeholder": "tu email",
+              "requiredField": true
+            },
+            {
+              "fieldType": "html",
+              "html": "<form action=\"#\" method=\"post\">\n  <div>\n    <input \n      type=\"checkbox\" \n      id=\"politica-privacidad\" \n      name=\"politica_privacidad\" \n      required\n    >\n    <label for=\"politica-privacidad\">\n      <a href=\"/politica-de-privacidad.html\" target=\"_blank\">\n      </a>.\n    </label>\n  </div>\n\n\n\n\n\n"
+            },
+            {
+              "fieldLabel": "Acepto la política de privacidad",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {}
+                ]
+              }
             }
           ]
         },
-        "options": {}
+        "options": {
+          "appendAttribution": false
+        }
       },
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.3,
       "position": [
-        -208,
-        -144
+        0,
+        0
       ],
-      "id": "40a1916e-b4c8-4926-9adc-72fb23b133ee",
-      "name": "prueba uno",
-      "webhookId": "9212f40b-295a-4c9f-82c5-659b3ed25b91"
+      "id": "4fd6e90b-a62a-4202-b330-85157adceaae",
+      "name": "On form submission",
+      "webhookId": "3af64349-b807-4a1b-a763-f5ef04652341"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1qAKn2fkvm-rn9rzplGL5cTuksxHnXCkAxUYl5i7k7k4",
+          "mode": "list",
+          "cachedResultName": "Hoja de cálculo sin título",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qAKn2fkvm-rn9rzplGL5cTuksxHnXCkAxUYl5i7k7k4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "PRUEBA",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qAKn2fkvm-rn9rzplGL5cTuksxHnXCkAxUYl5i7k7k4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nombre": "={{ $json.nombre }}",
+            "Email": "={{ $json.email }}"
+          },
+          "matchingColumns": [
+            "Nombre"
+          ],
+          "schema": [
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "d4e2b2e1-9c61-4d5f-9e73-c67382d84988",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -154,6 +155,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-11-15T11:51:57.000Z",
-  "versionId": "3a85e36c-0dc6-45e7-912c-4804ed880b82"
+  "updatedAt": "2025-11-15T17:56:44.000Z",
+  "versionId": "73dcd7af-493b-430a-8428-2f2641d5f3fd"
 }
