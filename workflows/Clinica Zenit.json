@@ -1,0 +1,532 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Preparar Datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clasificar Intención": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [],
+        [],
+        [],
+        [
+          {
+            "node": "Responder Info Servicios",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Responder Info Clínica",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respuesta Saludo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respuesta Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Datos": {
+      "main": [
+        [
+          {
+            "node": "Clasificar Intención",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Responder Info Clínica": {
+      "main": [
+        [
+          {
+            "node": "Formatear Respuesta Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear Respuesta Info": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Responder Info Servicios": {
+      "main": [
+        [
+          {
+            "node": "Formatear Respuesta Servicios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear Respuesta Servicios": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respuesta Fallback": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respuesta Saludo": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-16T18:31:31.418Z",
+  "id": "ldpmxGxN21gVMi8J",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Clinica Zenit",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agente-dental",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -176,
+        512
+      ],
+      "id": "58a28683-7514-487e-ae38-2ee3c1b913f1",
+      "name": "Webhook",
+      "webhookId": "f9a36954-bf1f-4beb-a571-1789ff0c1d1b"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.content }}",
+                    "rightValue": "AGENDAR",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "abe59512-856a-418f-a281-306ee885b0bc"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "12030c13-07db-4ac9-a383-444c401b360c",
+                    "leftValue": "={{ $json.message.content }}",
+                    "rightValue": "CANCELAR",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e44efeff-d5bb-4e65-b74d-5f273925951a",
+                    "leftValue": "={{ $json.message.content }}",
+                    "rightValue": "CONSULTAR",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5c1d55cc-02b4-4efb-884e-aa175f5b73a9",
+                    "leftValue": "={{ $json.message.content }}",
+                    "rightValue": "INFO_SERVICIOS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e93d0240-cb2d-4384-9115-af725df26066",
+                    "leftValue": "={{ $json.message.content }}",
+                    "rightValue": "INFO_CLINICA",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8b7be5f4-87c9-4253-8854-92da4551bc3b",
+                    "leftValue": "={{ $json.message.content }}",
+                    "rightValue": "SALUDO",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        624,
+        432
+      ],
+      "id": "9ddef312-f53c-4880-850a-b3234c264b80",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Eres un clasificador de intenciones para una clínica dental.\n\nAnaliza el siguiente mensaje del paciente y clasifica su intención en UNA de estas categorías:\n\nINTENCIONES:\n- AGENDAR: Quiere reservar/pedir/sacar una cita\n- CANCELAR: Quiere cancelar una cita existente\n- CONSULTAR: Quiere ver disponibilidad o confirmar su cita\n- INFO_SERVICIOS: Pregunta sobre tratamientos, precios, servicios\n- INFO_CLINICA: Pregunta sobre ubicación, horarios, contacto\n- SALUDO: Saludos iniciales sin intención clara (Hola, buenas, buenos dias, buenas tardes, hol que tal, etc)\n- OTRO: No encaja en ninguna categoría\n\nMENSAJE DEL PACIENTE: \n{{ $json.mensaje_usuario }}\n\nResponde SOLO con el nombre de la intención en mayúsculas, nada más.\nEjemplo: AGENDAR",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        272,
+        512
+      ],
+      "id": "212d7811-d917-4080-8b92-0b8339fd9020",
+      "name": "Clasificar Intención",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"mensaje_usuario\": \"={{ $json.body.mensaje }}\",\n  \"session_id\": \"={{ $json.body.session_id || 'test-session' }}\",\n  \"timestamp\": \"={{ $now.toISO() }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        512
+      ],
+      "id": "abd71c4a-d6d3-4b96-aff7-cd5bf1327cfc",
+      "name": "Preparar Datos"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Eres el asistente virtual llamado Juan de Clínica Dental Zenit.\n\nINFORMACIÓN DE LA CLÍNICA:\n\n📍 UBICACIÓN:\n- Dirección: Calle Juan Pablo, 1 \n- Zona/Barrio: Alicante, PAU 5\n\n\n📞 CONTACTO:\n- Teléfono: [+34 664 566 345]\n- WhatsApp: [+34 664 566 345]\n- Email: [email@clinica.com]\n- Web: [www.clinica.com]\n\n🕐 HORARIO DE ATENCIÓN:\n- Lunes a Jueves: 9:00 - 14:00 y 16:00 - 20:00\n- Viernes: 9:00 - 15:00\n- Sábados: Cerrado\n- Domingos y festivos: Cerrado\n\n💳 FORMAS DE PAGO:\n- Efectivo\n- Tarjeta (débito/crédito)\n- Bizum\n- Financiación disponible\n\n🏥 SEGUROS ACEPTADOS:\n- [Asisa, Sanitas, Adeslas, etc.]\n\n\nINSTRUCCIONES:\n- Responde de forma clara, amable y concisa\n- Si preguntan algo que no sabes, di \"Para esa información específica, te recomiendo llamarnos al [teléfono]\"\n- Ofrece siempre la opción de agendar una cita\n- Máximo 3-4 líneas de respuesta",
+              "role": "system"
+            },
+            {
+              "content": "={{ $('Preparar Datos').item.json.mensaje_usuario }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        848,
+        416
+      ],
+      "id": "97cb894e-95b4-4049-a45b-9458ecfc608f",
+      "name": "Responder Info Clínica",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"respuesta\": \" {{ $json.message.content }}\",\n  \"intencion\": \"INFO_CLINICA\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        416
+      ],
+      "id": "4e73cad9-9496-4eb1-9485-0c650676ffc9",
+      "name": "Formatear Respuesta Info"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1424,
+        512
+      ],
+      "id": "2be4420f-e8ea-4ec8-ad24-c50c97d5d326",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Eres el asistente virtual de Clínica Dental Zenit.\n\nSERVICIOS Y PRECIOS:\n\n🦷 ODONTOLOGÍA GENERAL:\n- Revisión y diagnóstico: Gratuita con tratamiento\n- Limpieza dental (profilaxis): Desde 45€\n- Empastes (obturaciones): Desde 50€\n- Endodoncia (matar nervio): Desde 150€\n- Extracción simple: Desde 60€\n- Extracción compleja (muelas del juicio): Desde 120€\n\n😁 ESTÉTICA DENTAL:\n- Blanqueamiento dental LED: Desde 200€\n- Carillas de composite: Desde 150€/diente\n- Carillas de porcelana: Desde 400€/diente\n\n🦴 IMPLANTOLOGÍA:\n- Implante dental completo: Desde 800€\n- Corona sobre implante: Desde 600€\n- Incluye: cirugía, implante, pilar y corona\n\n📏 ORTODONCIA:\n- Brackets metálicos: Desde 2.500€ (tratamiento completo)\n- Brackets estéticos (zafiro): Desde 3.200€\n- Ortodoncia invisible (Invisalign): Desde 3.800€\n- Valoración inicial: GRATUITA\n\n🚨 URGENCIAS:\n- Atención urgencias: Disponible en horario de clínica\n- Precio según tratamiento necesario\n\n💰 FINANCIACIÓN:\n- Hasta 24 meses sin intereses\n- Facilidades de pago personalizadas\n\nINSTRUCCIONES:\n- Responde de forma clara y profesional\n- Los precios son aproximados y orientativos\n- Siempre menciona: \"Para un presupuesto exacto, necesitamos hacer una valoración\"\n- Ofrece agendar una consulta gratuita\n- Máximo 4-5 líneas de respuesta\n- Si preguntan por algo no listado, di \"Te recomiendo que lo consultes directamente con el doctor en una cita\"",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        848,
+        224
+      ],
+      "id": "0871d626-1417-4cbb-8639-4475a60497af",
+      "name": "Responder Info Servicios",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"respuesta\": \" {{ $json.message.content }}\",\n  \"intencion\": \"INFO_SERVICIOS\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        224
+      ],
+      "id": "97f85b4c-d2f6-4a32-b4d2-30f0331a605c",
+      "name": "Formatear Respuesta Servicios"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"respuesta\": \"Disculpa, no he entendido bien tu consulta. \\n\\nPuedo ayudarte con:\\n\\n✅ Agendar o cancelar una cita\\n✅ Consultar disponibilidad\\n✅ Información sobre nuestros servicios y precios\\n✅ Horarios y ubicación\\n\\n¿Podrías reformular tu pregunta? O si prefieres, llámanos al [+34 XXX XXX XXX]\",\n  \"intencion\": \"OTRO\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        800
+      ],
+      "id": "5040def8-504a-4915-a0e3-2b78831e7be0",
+      "name": "Respuesta Fallback"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"respuesta\": \"¡Hola! 👋 Soy el asistente virtual de Clínica Dental Zenit.\\n\\nEstoy aquí para ayudarte con:\\n\\n✅ Agendar una cita\\n✅ Cancelar o consultar tu cita\\n✅ Información sobre nuestros servicios\\n✅ Horarios y ubicación\\n\\n¿En qué puedo ayudarte hoy?\",\n  \"intencion\": \"SALUDO\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        608
+      ],
+      "id": "414c81d1-1888-401d-a72b-353054d9021b",
+      "name": "Respuesta Saludo"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-16T18:31:31.426Z",
+      "updatedAt": "2025-11-16T18:31:31.426Z",
+      "role": "workflow:owner",
+      "workflowId": "ldpmxGxN21gVMi8J",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-16T21:03:22.000Z",
+  "versionId": "266904b7-c544-4241-ab72-12f5bec6e3c2"
+}
