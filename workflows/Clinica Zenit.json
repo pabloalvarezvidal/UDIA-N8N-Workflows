@@ -27,7 +27,13 @@
       "main": [
         [],
         [],
-        [],
+        [
+          {
+            "node": "Buscar Citas Existentes",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Responder Info Servicios",
@@ -134,6 +140,61 @@
           }
         ]
       ]
+    },
+    "Buscar Citas Existentes": {
+      "main": [
+        [
+          {
+            "node": "Citas agendadas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Horarios Disponibles": {
+      "main": [
+        [
+          {
+            "node": "Formatear Respuesta Consultar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear Respuesta Consultar": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Citas agendadas": {
+      "main": [
+        [
+          {
+            "node": "Agrupar citas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agrupar citas": {
+      "main": [
+        [
+          {
+            "node": "Generar Horarios Disponibles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-11-16T18:31:31.418Z",
@@ -155,7 +216,7 @@
       "typeVersion": 2.1,
       "position": [
         -176,
-        512
+        608
       ],
       "id": "58a28683-7514-487e-ae38-2ee3c1b913f1",
       "name": "Webhook",
@@ -312,7 +373,7 @@
       "typeVersion": 3.3,
       "position": [
         624,
-        432
+        528
       ],
       "id": "9ddef312-f53c-4880-850a-b3234c264b80",
       "name": "Switch"
@@ -339,7 +400,7 @@
       "typeVersion": 1.8,
       "position": [
         272,
-        512
+        608
       ],
       "id": "212d7811-d917-4080-8b92-0b8339fd9020",
       "name": "Clasificar Intención",
@@ -360,7 +421,7 @@
       "typeVersion": 3.4,
       "position": [
         48,
-        512
+        608
       ],
       "id": "abd71c4a-d6d3-4b96-aff7-cd5bf1327cfc",
       "name": "Preparar Datos"
@@ -377,7 +438,7 @@
           "values": [
             {
               "content": "Eres el asistente virtual llamado Juan de Clínica Dental Zenit.\n\nINFORMACIÓN DE LA CLÍNICA:\n\n📍 UBICACIÓN:\n- Dirección: Calle Juan Pablo, 1 \n- Zona/Barrio: Alicante, PAU 5\n\n\n📞 CONTACTO:\n- Teléfono: [+34 664 566 345]\n- WhatsApp: [+34 664 566 345]\n- Email: [email@clinica.com]\n- Web: [www.clinica.com]\n\n🕐 HORARIO DE ATENCIÓN:\n- Lunes a Jueves: 9:00 - 14:00 y 16:00 - 20:00\n- Viernes: 9:00 - 15:00\n- Sábados: Cerrado\n- Domingos y festivos: Cerrado\n\n💳 FORMAS DE PAGO:\n- Efectivo\n- Tarjeta (débito/crédito)\n- Bizum\n- Financiación disponible\n\n🏥 SEGUROS ACEPTADOS:\n- [Asisa, Sanitas, Adeslas, etc.]\n\n\nINSTRUCCIONES:\n- Responde de forma clara, amable y concisa\n- Si preguntan algo que no sabes, di \"Para esa información específica, te recomiendo llamarnos al [teléfono]\"\n- Ofrece siempre la opción de agendar una cita\n- Máximo 3-4 líneas de respuesta",
-              "role": "system"
+              "role": "assistant"
             },
             {
               "content": "={{ $('Preparar Datos').item.json.mensaje_usuario }}"
@@ -389,8 +450,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        848,
-        416
+        1520,
+        608
       ],
       "id": "97cb894e-95b4-4049-a45b-9458ecfc608f",
       "name": "Responder Info Clínica",
@@ -410,8 +471,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1200,
-        416
+        1872,
+        608
       ],
       "id": "4e73cad9-9496-4eb1-9485-0c650676ffc9",
       "name": "Formatear Respuesta Info"
@@ -423,8 +484,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        1424,
-        512
+        2096,
+        608
       ],
       "id": "2be4420f-e8ea-4ec8-ad24-c50c97d5d326",
       "name": "Respond to Webhook"
@@ -441,7 +502,10 @@
           "values": [
             {
               "content": "Eres el asistente virtual de Clínica Dental Zenit.\n\nSERVICIOS Y PRECIOS:\n\n🦷 ODONTOLOGÍA GENERAL:\n- Revisión y diagnóstico: Gratuita con tratamiento\n- Limpieza dental (profilaxis): Desde 45€\n- Empastes (obturaciones): Desde 50€\n- Endodoncia (matar nervio): Desde 150€\n- Extracción simple: Desde 60€\n- Extracción compleja (muelas del juicio): Desde 120€\n\n😁 ESTÉTICA DENTAL:\n- Blanqueamiento dental LED: Desde 200€\n- Carillas de composite: Desde 150€/diente\n- Carillas de porcelana: Desde 400€/diente\n\n🦴 IMPLANTOLOGÍA:\n- Implante dental completo: Desde 800€\n- Corona sobre implante: Desde 600€\n- Incluye: cirugía, implante, pilar y corona\n\n📏 ORTODONCIA:\n- Brackets metálicos: Desde 2.500€ (tratamiento completo)\n- Brackets estéticos (zafiro): Desde 3.200€\n- Ortodoncia invisible (Invisalign): Desde 3.800€\n- Valoración inicial: GRATUITA\n\n🚨 URGENCIAS:\n- Atención urgencias: Disponible en horario de clínica\n- Precio según tratamiento necesario\n\n💰 FINANCIACIÓN:\n- Hasta 24 meses sin intereses\n- Facilidades de pago personalizadas\n\nINSTRUCCIONES:\n- Responde de forma clara y profesional\n- Los precios son aproximados y orientativos\n- Siempre menciona: \"Para un presupuesto exacto, necesitamos hacer una valoración\"\n- Ofrece agendar una consulta gratuita\n- Máximo 4-5 líneas de respuesta\n- Si preguntan por algo no listado, di \"Te recomiendo que lo consultes directamente con el doctor en una cita\"",
-              "role": "system"
+              "role": "assistant"
+            },
+            {
+              "content": "={{ $('Preparar Datos').item.json.mensaje_usuario }}"
             }
           ]
         },
@@ -450,8 +514,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        848,
-        224
+        1520,
+        416
       ],
       "id": "0871d626-1417-4cbb-8639-4475a60497af",
       "name": "Responder Info Servicios",
@@ -471,8 +535,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1200,
-        224
+        1872,
+        416
       ],
       "id": "97f85b4c-d2f6-4a32-b4d2-30f0331a605c",
       "name": "Formatear Respuesta Servicios"
@@ -486,8 +550,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1200,
-        800
+        1872,
+        992
       ],
       "id": "5040def8-504a-4915-a0e3-2b78831e7be0",
       "name": "Respuesta Fallback"
@@ -501,11 +565,156 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1200,
-        608
+        1872,
+        800
       ],
       "id": "414c81d1-1888-401d-a72b-353054d9021b",
       "name": "Respuesta Saludo"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appUzZAYiRKAhvpiY",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental - Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl1wAvyOt44rj9im",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tbl1wAvyOt44rj9im"
+        },
+        "filterByFormula": "=AND(\n  IS_AFTER({Fecha}, NOW()),\n  OR(\n    {Estado} = \"Confirmada\",\n    {Estado} = \"Pendiente\"\n  )\n)",
+        "options": {},
+        "sort": {
+          "property": [
+            {
+              "field": "Fecha"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        848,
+        224
+      ],
+      "id": "cc95614f-bd17-4044-8975-2dce42c7e6f7",
+      "name": "Buscar Citas Existentes",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OwtNlpzJfBnO2SmU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "=# ROL\nEres el asistente de Clínica Dental Zenit. Eres amable, eficiente y preciso.\n\n# TAREA\nTu tarea es analizar una lista de citas ya agendadas y ofrecer al paciente 3-4 horarios disponibles, basándote en una regla de capacidad máxima.\n\n# INFORMACIÓN FIJA\n* **Horario Clínica:** Lunes a Jueves (9:00-14:00, 16:00-20:00), Viernes (9:00-15:00).\n* **Intervalos de Cita:** Cada 30 minutos (9:00, 9:30, 10:00, etc.).\n\n# DATOS DE ENTRADA\n* **LISTA_DE_CITAS_JSON:** {{ $json.Citas }}\n* **FECHA_ACTUAL (Referencia Maestra):** {{ $now.setZone('Europe/Madrid').toFormat(\"cccc, dd 'de' MMMM 'de' yyyy, HH:mm\") }}\n\n# REGLA DE DISPONIBILIDAD (¡MUY IMPORTANTE!)\nEsta es tu lógica principal:\n1.  **Capacidad Máxima:** Podemos atender a **5 pacientes a la vez** en la misma fecha y hora.\n2.  **Tu Tarea de Conteo:** Debes contar cuántas veces aparece CADA fecha y hora en la `LISTA_DE_CITAS_JSON`.\n3.  **HUECO DISPONIBLE:** Si una hora (ej. \"2025-11-18 10:00\") aparece **0, 1, 2, 3 o 4 veces** en la lista, ese horario **SÍ ESTÁ DISPONIBLE**.\n4.  **HUECO COMPLETO:** Si una hora (ej. \"2025-11-18 10:30\") aparece **5 o más veces** en la lista, ese horario **ESTÁ COMPLETO** y no debes ofrecerlo.\n\n## EJEMPLOS DE LA REGLA\n\n**Ejemplo 1: HUECO DISPONIBLE**\n* **Input (Lista de Citas):** `[\"2025-11-18 09:30\", \"2025-11-18 09:30\", \"2025-11-18 09:30\", \"2025-11-18 09:30\"]`\n* **Análisis:** La hora \"2025-11-18 09:30\" aparece 4 veces. El límite es 5.\n* **Acción:** **SÍ puedes ofrecer** el \"Martes 18/11 a las 09:30\" porque aún queda 1 hueco.\n\n**Ejemplo 2: HUECO COMPLETO**\n* **Input (Lista de Citas):** `[\"2025-11-18 10:00\", \"2025-11-18 10:00\", \"2025-11-18 10:00\", \"2025-11-18 10:00\", \"2025-11-18 10:00\"]`\n* **Análisis:** La hora \"2025-11-18 10:00\" aparece 5 veces. Se ha alcanzado el límite.\n* **Acción:** **NO puedes ofrecer** el \"Martes 18/11 a las 10:00\" porque está completo.\n\n# PASOS A SEGUIR\n**1. ANCLAJE DE FECHA (¡CRÍTICO!):** Tu primera y más importante tarea es leer la variable `FECHA_ACTUAL (Referencia Maestra)`. Esta es tu *única* fuente de verdad. Úsala para saber qué día de la semana es hoy y para calcular todas las fechas futuras. (Por ejemplo, si `FECHA_ACTUAL` dice \"lunes, 17 de noviembre...\", el 18 de noviembre es martes, sin importar nada más).\n\n**2. INTERPRETAR FECHAS RELATIVAS:** Si un paciente pide una fecha relativa (como \"mañana\", \"pasado mañana\", \"el miércoles\" o \"el miércoles que viene\"), DEBES calcular la fecha exacta basándote *únicamente* en la `FECHA_ACTUAL`.\n    * Ejemplo: Si `FECHA_ACTUAL` es **Lunes 17**, \"el miércoles\" es el **Miércoles 19**.\n    * Ejemplo: Si `FECHA_ACTUAL` es **Lunes 17**, \"el miércoles que viene\" se refiere al de la próxima semana, **Miércoles 26**.\n\n**3. ANÁLISIS DE HUECOS:** Analiza la `LISTA_DE_CITAS_JSON` y usa la `REGLA DE DISPONIBILIDAD` para saber qué huecos están completos.\n\n**4. BÚSQUEDA:** Empezando desde la `FECHA_ACTUAL`, busca 3-4 huecos que estén DISPONIBLES (que tengan 4 citas o menos) dentro del horario de la clínica.\n\n**5. FORMATO:** Formatea las opciones que ofreces como: \"Día DD/MM a las HH:MM\". (Ejemplo: \"Martes 18/11 a las 10:30\").\n\n**6. RESPUESTA:** Sé natural, amable y conciso (máximo 4-5 líneas) y SIEMPRE termina preguntando: \"¿Te gustaría agendar en alguno de estos horarios?\""
+            },
+            {
+              "content": "={{ $('Preparar Datos').item.json.mensaje_usuario }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        224
+      ],
+      "id": "f4fb7d29-13f6-4058-8e72-38a063737bf0",
+      "name": "Generar Horarios Disponibles",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "53607a6b-f701-4cad-96f8-25a6b86acbec",
+              "name": "Respuesta",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1872,
+        224
+      ],
+      "id": "ff642035-f47a-4bf7-bae0-1be2efb86f23",
+      "name": "Formatear Respuesta Consultar"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7a39cee3-541e-409a-a6dd-6bf73eb13c94",
+              "name": "Citas",
+              "value": "={{ DateTime.fromISO($json.Fecha, { zone: 'utc' }).setZone('Europe/Madrid').toFormat(\"yyyy-MM-dd HH:mm\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1072,
+        224
+      ],
+      "id": "be1af4e0-c740-4cc5-90a5-e1c11dc5d90b",
+      "name": "Citas agendadas"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Citas"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        224
+      ],
+      "id": "62449062-e6c9-4c26-b558-38de39197357",
+      "name": "Agrupar citas"
     }
   ],
   "pinData": {},
@@ -527,6 +736,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-16T21:03:22.000Z",
-  "versionId": "266904b7-c544-4241-ab72-12f5bec6e3c2"
+  "updatedAt": "2025-11-17T19:47:17.000Z",
+  "versionId": "844296cf-80f9-415b-b8e3-5d3e22e15fd7"
 }
