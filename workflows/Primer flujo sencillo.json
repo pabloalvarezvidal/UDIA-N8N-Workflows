@@ -142,8 +142,8 @@
   },
   "shared": [
     {
-      "createdAt": "2025-10-15T15:37:15.531Z",
       "updatedAt": "2025-10-15T15:37:15.531Z",
+      "createdAt": "2025-10-15T15:37:15.531Z",
       "role": "workflow:owner",
       "workflowId": "k9O8ibqALoXNm2j6",
       "projectId": "ROscBA9yKA7j3TQn"
@@ -152,8 +152,8 @@
   "staticData": null,
   "tags": [
     {
-      "createdAt": "2025-10-15T15:37:57.990Z",
       "updatedAt": "2025-10-15T15:37:57.990Z",
+      "createdAt": "2025-10-15T15:37:57.990Z",
       "id": "Tfhfvt9WGcrFTInO",
       "name": "✅Prueba"
     }
