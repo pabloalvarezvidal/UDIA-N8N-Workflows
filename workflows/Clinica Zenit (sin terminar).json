@@ -1,0 +1,1798 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Preparar Datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Completa?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [
+          {
+            "node": "Buscar Citas Existentes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Responder Info Servicios",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Responder Info Clínica",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respuesta Saludo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respuesta Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Datos": {
+      "main": [
+        [
+          {
+            "node": "Create or update a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Responder Info Clínica": {
+      "main": [
+        [
+          {
+            "node": "Formatear Respuesta Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear Respuesta Info": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Responder Info Servicios": {
+      "main": [
+        [
+          {
+            "node": "Formatear Respuesta Servicios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear Respuesta Servicios": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respuesta Fallback": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respuesta Saludo": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Citas Existentes": {
+      "main": [
+        [
+          {
+            "node": "Citas agendadas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Horarios Disponibles": {
+      "main": [
+        [
+          {
+            "node": "Formatear Respuesta Consultar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear Respuesta Consultar": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Citas agendadas": {
+      "main": [
+        [
+          {
+            "node": "Agrupar citas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agrupar citas": {
+      "main": [
+        [
+          {
+            "node": "Generar Horarios Disponibles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear Cita": {
+      "main": [
+        [
+          {
+            "node": "Construir URL Confirmación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Construir URL Confirmación": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Formatear Respuesta Agenda",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear Respuesta Agenda": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Procesar Mensaje": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Completa?": {
+      "main": [
+        [
+          {
+            "node": "Crear Cita",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pregunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pregunta": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        []
+      ]
+    },
+    "Contexto": {
+      "main": [
+        [
+          {
+            "node": "Procesar Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Procesar Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update a record": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Contexto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-16T18:31:31.418Z",
+  "id": "ldpmxGxN21gVMi8J",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Clinica Zenit (sin terminar)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agente-dental",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -3648,
+        1728
+      ],
+      "id": "58a28683-7514-487e-ae38-2ee3c1b913f1",
+      "name": "Webhook",
+      "webhookId": "f9a36954-bf1f-4beb-a571-1789ff0c1d1b"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['Intención'] }}",
+                    "rightValue": "AGENDAR",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "abe59512-856a-418f-a281-306ee885b0bc"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "12030c13-07db-4ac9-a383-444c401b360c",
+                    "leftValue": "={{ $json['Intención'] }}",
+                    "rightValue": "CANCELAR",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e44efeff-d5bb-4e65-b74d-5f273925951a",
+                    "leftValue": "={{ $json['Intención'] }}",
+                    "rightValue": "CONSULTAR",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5c1d55cc-02b4-4efb-884e-aa175f5b73a9",
+                    "leftValue": "={{ $json['Intención'] }}",
+                    "rightValue": "INFO_SERVICIOS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e93d0240-cb2d-4384-9115-af725df26066",
+                    "leftValue": "={{ $json['Intención'] }}",
+                    "rightValue": "INFO_CLINICA",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8b7be5f4-87c9-4253-8854-92da4551bc3b",
+                    "leftValue": "={{ $json['Intención'] }}",
+                    "rightValue": "SALUDO",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -1728,
+        1648
+      ],
+      "id": "9ddef312-f53c-4880-850a-b3234c264b80",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"mensaje_usuario\": \"{{ $json.body.mensaje }}\",\n  \"session_id\": \"{{ $json.body.session_id || 'test-session' }}\",\n  \"timestamp\": \"{{ $now.toISO() }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3424,
+        1728
+      ],
+      "id": "abd71c4a-d6d3-4b96-aff7-cd5bf1327cfc",
+      "name": "Preparar Datos"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Eres el asistente virtual llamado Juan de Clínica Dental Zenit.\n\nINFORMACIÓN DE LA CLÍNICA:\n\n📍 UBICACIÓN:\n- Dirección: Calle Juan Pablo, 1 \n- Zona/Barrio: Alicante, PAU 5\n\n\n📞 CONTACTO:\n- Teléfono: [+34 664 566 345]\n- WhatsApp: [+34 664 566 345]\n- Email: [email@clinica.com]\n- Web: [www.clinica.com]\n\n🕐 HORARIO DE ATENCIÓN:\n- Lunes a Jueves: 9:00 - 14:00 y 16:00 - 20:00\n- Viernes: 9:00 - 15:00\n- Sábados: Cerrado\n- Domingos y festivos: Cerrado\n\n💳 FORMAS DE PAGO:\n- Efectivo\n- Tarjeta (débito/crédito)\n- Bizum\n- Financiación disponible\n\n🏥 SEGUROS ACEPTADOS:\n- [Asisa, Sanitas, Adeslas, etc.]\n\n\nINSTRUCCIONES:\n- Responde de forma clara, amable y concisa\n- Si preguntan algo que no sabes, di \"Para esa información específica, te recomiendo llamarnos al [teléfono]\"\n- Ofrece siempre la opción de agendar una cita\n- Máximo 3-4 líneas de respuesta",
+              "role": "assistant"
+            },
+            {
+              "content": "={{ $('Preparar Datos').item.json.mensaje_usuario }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -832,
+        1824
+      ],
+      "id": "97cb894e-95b4-4049-a45b-9458ecfc608f",
+      "name": "Responder Info Clínica",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"respuesta\": \" {{ $json.message.content }}\",\n  \"intencion\": \"INFO_CLINICA\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        1824
+      ],
+      "id": "4e73cad9-9496-4eb1-9485-0c650676ffc9",
+      "name": "Formatear Respuesta Info"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -256,
+        1632
+      ],
+      "id": "2be4420f-e8ea-4ec8-ad24-c50c97d5d326",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Eres el asistente virtual de Clínica Dental Zenit.\n\nSERVICIOS Y PRECIOS:\n\nODONTOLOGÍA GENERAL:\n- Revisión y diagnóstico: Gratuita con tratamiento\n- Limpieza dental (profilaxis): Desde 45€\n- Empastes (obturaciones): Desde 50€\n- Endodoncia (matar nervio): Desde 150€\n- Extracción simple: Desde 60€\n- Extracción compleja (muelas del juicio): Desde 120€\n\nESTÉTICA DENTAL:\n- Blanqueamiento dental LED: Desde 200€\n- Carillas de composite: Desde 150€/diente\n- Carillas de porcelana: Desde 400€/diente\n\nIMPLANTOLOGÍA:\n- Implante dental completo: Desde 800€\n- Corona sobre implante: Desde 600€\n- Incluye: cirugía, implante, pilar y corona\n\nORTODONCIA:\n- Brackets metálicos: Desde 2.500€ (tratamiento completo)\n- Brackets estéticos (zafiro): Desde 3.200€\n- Ortodoncia invisible (Invisalign): Desde 3.800€\n- Valoración inicial: GRATUITA\n\nURGENCIAS:\n- Atención urgencias: Disponible en horario de clínica\n- Precio según tratamiento necesario\n\nFINANCIACIÓN:\n- Hasta 24 meses sin intereses\n- Facilidades de pago personalizadas\n\nINSTRUCCIONES:\n- Responde de forma clara y profesional\n- Los precios son aproximados y orientativos\n- Siempre menciona: \"Para un presupuesto exacto, necesitamos hacer una valoración\"\n- Ofrece agendar una consulta gratuita\n- Máximo 4-5 líneas de respuesta\n- Si preguntan por algo no listado, di \"Te recomiendo que lo consultes directamente con el doctor en una cita\"\n\n**IMPORTANTE** NUNCA incluyas emojis en tus respuestas, SOLO TEXTO.\n\n**NOTA IMPORTANTE** En tus respuestas no debes incluir \"\" ni **\n",
+              "role": "assistant"
+            },
+            {
+              "content": "={{ $('Preparar Datos').item.json.mensaje_usuario }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -832,
+        1632
+      ],
+      "id": "0871d626-1417-4cbb-8639-4475a60497af",
+      "name": "Responder Info Servicios",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4f51b264-d3c7-49f2-9f09-3f06291ef76b",
+              "name": "Respuesta",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        1632
+      ],
+      "id": "97f85b4c-d2f6-4a32-b4d2-30f0331a605c",
+      "name": "Formatear Respuesta Servicios"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"respuesta\": \"Disculpa, no he entendido bien tu consulta. \\n\\nPuedo ayudarte con:\\n\\n✅ Agendar o cancelar una cita\\n✅ Consultar disponibilidad\\n✅ Información sobre nuestros servicios y precios\\n✅ Horarios y ubicación\\n\\n¿Podrías reformular tu pregunta? O si prefieres, llámanos al [+34 XXX XXX XXX]\",\n  \"intencion\": \"OTRO\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        2208
+      ],
+      "id": "5040def8-504a-4915-a0e3-2b78831e7be0",
+      "name": "Respuesta Fallback"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"respuesta\": \"¡Hola! 👋 Soy el asistente virtual de Clínica Dental Zenit.\\n\\nEstoy aquí para ayudarte con:\\n\\n✅ Agendar una cita\\n✅ Cancelar o consultar tu cita\\n✅ Información sobre nuestros servicios\\n✅ Horarios y ubicación\\n\\n¿En qué puedo ayudarte hoy?\",\n  \"intencion\": \"SALUDO\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        2016
+      ],
+      "id": "414c81d1-1888-401d-a72b-353054d9021b",
+      "name": "Respuesta Saludo"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appUzZAYiRKAhvpiY",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental - Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl1wAvyOt44rj9im",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tbl1wAvyOt44rj9im"
+        },
+        "filterByFormula": "=AND(\n  IS_AFTER({Fecha}, NOW()),\n  OR(\n    {Estado} = \"Confirmada\",\n    {Estado} = \"Pendiente\"\n  )\n)",
+        "options": {},
+        "sort": {
+          "property": [
+            {
+              "field": "Fecha"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1504,
+        1056
+      ],
+      "id": "cc95614f-bd17-4044-8975-2dce42c7e6f7",
+      "name": "Buscar Citas Existentes",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OwtNlpzJfBnO2SmU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "=# ROL\nEres el asistente de Clínica Dental Zenit. Eres amable, eficiente y preciso.\n\n# TAREA\nTu tarea es analizar una lista de citas ya agendadas y ofrecer al paciente 3-4 horarios disponibles, basándote en una regla de capacidad máxima.\n\n# INFORMACIÓN FIJA\n* **Horario Clínica:** Lunes a Jueves (9:00-14:00, 16:00-20:00), Viernes (9:00-15:00).\n* **Intervalos de Cita:** Cada 30 minutos (9:00, 9:30, 10:00, etc.).\n\n# DATOS DE ENTRADA\n* **LISTA_DE_CITAS_JSON:** {{ $json.Citas }}\n* **FECHA_ACTUAL (Referencia Maestra):** {{ $now.setZone('Europe/Madrid').toFormat(\"cccc, dd 'de' MMMM 'de' yyyy, HH:mm\") }}\n\n# REGLA DE DISPONIBILIDAD (¡MUY IMPORTANTE!)\nEsta es tu lógica principal:\n1.  **Capacidad Máxima:** Podemos atender a **5 pacientes a la vez** en la misma fecha y hora.\n2.  **Tu Tarea de Conteo:** Debes contar cuántas veces aparece CADA fecha y hora en la `LISTA_DE_CITAS_JSON`.\n3.  **HUECO DISPONIBLE:** Si una hora (ej. \"2025-11-18 10:00\") aparece **0, 1, 2, 3 o 4 veces** en la lista, ese horario **SÍ ESTÁ DISPONIBLE**.\n4.  **HUECO COMPLETO:** Si una hora (ej. \"2025-11-18 10:30\") aparece **5 o más veces** en la lista, ese horario **ESTÁ COMPLETO** y no debes ofrecerlo.\n\n## EJEMPLOS DE LA REGLA\n\n**Ejemplo 1: HUECO DISPONIBLE**\n* **Input (Lista de Citas):** `[\"2025-11-18 09:30\", \"2025-11-18 09:30\", \"2025-11-18 09:30\", \"2025-11-18 09:30\"]`\n* **Análisis:** La hora \"2025-11-18 09:30\" aparece 4 veces. El límite es 5.\n* **Acción:** **SÍ puedes ofrecer** el \"Martes 18/11 a las 09:30\" porque aún queda 1 hueco.\n\n**Ejemplo 2: HUECO COMPLETO**\n* **Input (Lista de Citas):** `[\"2025-11-18 10:00\", \"2025-11-18 10:00\", \"2025-11-18 10:00\", \"2025-11-18 10:00\", \"2025-11-18 10:00\"]`\n* **Análisis:** La hora \"2025-11-18 10:00\" aparece 5 veces. Se ha alcanzado el límite.\n* **Acción:** **NO puedes ofrecer** el \"Martes 18/11 a las 10:00\" porque está completo.\n\n# PASOS A SEGUIR\n**1. ANCLAJE DE FECHA (¡CRÍTICO!):** Tu primera y más importante tarea es leer la variable `FECHA_ACTUAL (Referencia Maestra)`. Esta es tu *única* fuente de verdad. Úsala para saber qué día de la semana es hoy y para calcular todas las fechas futuras. (Por ejemplo, si `FECHA_ACTUAL` dice \"lunes, 17 de noviembre...\", el 18 de noviembre es martes, sin importar nada más).\n\n**2. INTERPRETAR FECHAS RELATIVAS:** Si un paciente pide una fecha relativa (como \"mañana\", \"pasado mañana\", \"el miércoles\" o \"el miércoles que viene\"), DEBES calcular la fecha exacta basándote *únicamente* en la `FECHA_ACTUAL`.\n    * Ejemplo: Si `FECHA_ACTUAL` es **Lunes 17**, \"el miércoles\" es el **Miércoles 19**.\n    * Ejemplo: Si `FECHA_ACTUAL` es **Lunes 17**, \"el miércoles que viene\" se refiere al de la próxima semana, **Miércoles 26**.\n\n**3. ANÁLISIS DE HUECOS:** Analiza la `LISTA_DE_CITAS_JSON` y usa la `REGLA DE DISPONIBILIDAD` para saber qué huecos están completos.\n\n**4. BÚSQUEDA:** Empezando desde la `FECHA_ACTUAL`, busca 3-4 huecos que estén DISPONIBLES (que tengan 4 citas o menos) dentro del horario de la clínica.\n\n**5. FORMATO:** Formatea las opciones que ofreces como: \"Día DD/MM a las HH:MM\". (Ejemplo: \"Martes 18/11 a las 10:30\").\n\n**6. RESPUESTA:** Sé natural, amable y conciso (máximo 4-5 líneas) y SIEMPRE termina preguntando: \"¿Te gustaría agendar en alguno de estos horarios?\""
+            },
+            {
+              "content": "={{ $('Preparar Datos').item.json.mensaje_usuario }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2,
+      "position": [
+        -832,
+        1056
+      ],
+      "id": "f4fb7d29-13f6-4058-8e72-38a063737bf0",
+      "name": "Generar Horarios Disponibles",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "53607a6b-f701-4cad-96f8-25a6b86acbec",
+              "name": "Respuesta",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        1056
+      ],
+      "id": "ff642035-f47a-4bf7-bae0-1be2efb86f23",
+      "name": "Formatear Respuesta Consultar"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7a39cee3-541e-409a-a6dd-6bf73eb13c94",
+              "name": "Citas",
+              "value": "={{ DateTime.fromISO($json.Fecha, { zone: 'utc' }).setZone('Europe/Madrid').toFormat(\"yyyy-MM-dd HH:mm\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1280,
+        1056
+      ],
+      "id": "be1af4e0-c740-4cc5-90a5-e1c11dc5d90b",
+      "name": "Citas agendadas"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Citas"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -1056,
+        1056
+      ],
+      "id": "62449062-e6c9-4c26-b558-38de39197357",
+      "name": "Agrupar citas"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "553b9bb5-0ce0-40e0-8f58-87dedc6f6604",
+              "name": "confirmationUrl",
+              "value": "==https://postman-echo.com/get?citaId={{ $json.id }}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1056,
+        1248
+      ],
+      "id": "88471f60-afad-4e1f-9f01-0f62ee129108",
+      "name": "Construir URL Confirmación"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appUzZAYiRKAhvpiY",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental - Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl1wAvyOt44rj9im",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tbl1wAvyOt44rj9im"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nombre Paciente": "Pablo",
+            "Teléfono": "600 000 000",
+            "Email": "pablo@gmail.com",
+            "Fecha": "2025-11-18T09:00:00",
+            "Servicio": "Blanqueamiento",
+            "Estado": "Pendiente"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nombre Paciente",
+              "displayName": "Nombre Paciente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Servicio",
+              "displayName": "Servicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Revisión y limpieza",
+                  "value": "Revisión y limpieza"
+                },
+                {
+                  "name": "Empaste",
+                  "value": "Empaste"
+                },
+                {
+                  "name": "Endodoncia",
+                  "value": "Endodoncia"
+                },
+                {
+                  "name": "Extracción",
+                  "value": "Extracción"
+                },
+                {
+                  "name": "Blanqueamiento",
+                  "value": "Blanqueamiento"
+                },
+                {
+                  "name": "Ortodoncia",
+                  "value": "Ortodoncia"
+                },
+                {
+                  "name": "Implante",
+                  "value": "Implante"
+                },
+                {
+                  "name": "Otro",
+                  "value": "Otro"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Pendiente",
+                  "value": "Pendiente"
+                },
+                {
+                  "name": "Confirmada",
+                  "value": "Confirmada"
+                },
+                {
+                  "name": "Cancelada",
+                  "value": "Cancelada"
+                },
+                {
+                  "name": "Completada",
+                  "value": "Completada"
+                },
+                {
+                  "name": "INCOMPLETA",
+                  "value": "INCOMPLETA"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Session ID",
+              "displayName": "Session ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Creada",
+              "displayName": "Creada",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1280,
+        1248
+      ],
+      "id": "3ffb4d24-400b-4c92-a11b-da09f8ef1007",
+      "name": "Crear Cita",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OwtNlpzJfBnO2SmU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "alvarezvidalpablo@gmail.com",
+        "subject": "Confirmación de tu cita en la clínica",
+        "emailType": "text",
+        "message": "=Hemos registrado tu cita.  \nPara confirmarla, haz clic en este enlace:  \n{{$json.confirmationUrl}}\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -768,
+        1248
+      ],
+      "id": "01e958c0-1253-4d4b-b2c8-8ec3ff26bc77",
+      "name": "Send a message",
+      "webhookId": "3ce38734-db20-4d19-ac75-df0236d2e690",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "FhGOZ7dk8SKIOH6F",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"respuesta\": \"He registrado tu solicitud de cita y te he enviado un correo para confirmarla.\",\n  \"intencion\": \"AGENDAR\"\n}\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        1248
+      ],
+      "id": "ff7a9d9b-82a1-4046-8909-0d44ec551c5e",
+      "name": "Formatear Respuesta Agenda"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=### ROL DEL SISTEMA\nEres un motor de extracción de datos y clasificación de intenciones para una clínica dental. Tu objetivo es analizar el lenguaje natural del paciente y estructurar la información en un formato JSON estricto.\n\n### CONTEXTO TEMPORAL (CRÍTICO)\nLa fecha y hora actual es: {{ $now }}\n(Usa esta fecha como referencia para calcular términos como \"mañana\", \"el próximo lunes\", \"en tres días\").\n\n### REGLAS DE CLASIFICACIÓN (INTENCIÓN)\nClasifica el mensaje del usuario en EXACTAMENTE UNA de las siguientes categorías:\n1. \"AGENDAR\": El usuario quiere reservar, pedir o modificar una cita.\n2. \"CANCELAR\": El usuario quiere anular una cita existente.\n3. \"CONSULTAR\": Preguntas médicas, dudas sobre síntomas o post-operatorio.\n4. \"INFO_SERVICIOS\": Preguntas sobre precios, tipos de tratamientos, seguros.\n5. \"INFO_CLINICA\": Preguntas sobre ubicación, horarios de apertura, parking.\n6. \"SALUDO\": Hola, buenos días, gracias, adiós (sin otra intención).\n7. \"OTRO\": Cualquier cosa que no encaje en las anteriores.\n\n### REGLAS DE EXTRACCIÓN DE DATOS (SOLO PARA INTENCIÓN \"AGENDAR\")\nSi la intención es \"AGENDAR\", extrae los siguientes campos. Si no se mencionan, déjalos como null.\n- \"fecha\": Formato DD/MM/YYYY. Si el usuario dice \"el lunes\", calcula la fecha exacta basándote en el CONTEXTO TEMPORAL.\n- \"hora\": Formato HH:MM (24h).\n- \"tratamiento\": Normaliza a categorías generales si es posible (Ej: \"me duele una muela\" -> \"Dolor/Urgencia\", \"limpieza\" -> \"Higiene Dental\").\n- \"nombre\": Nombre del paciente (Capitalizado).\n- \"email\": Correo electrónico válido.\n- \"telefono\": Número telefónico.\n\n### LÓGICA DE DATOS FALTANTES Y GENERACIÓN DE PREGUNTA\nSi la intención es \"AGENDAR\":\n1. Revisa qué campos obligatorios faltan en este orden de prioridad: Tratamiento > Fecha > Hora > Nombre > Email > Telefono.\n2. En el array \"faltan_datos\", lista los nombres de los campos faltantes.\n3. En el campo \"pregunta\", genera UNA sola pregunta natural y empática para solicitar el dato faltante de mayor prioridad.\n   - Ejemplo: Si falta tratamiento: \"¿Podrías decirme el motivo de la consulta o qué tratamiento necesitas?\"\n   - Ejemplo: Si falta fecha: \"¿Qué día te vendría mejor para agendar tu cita?\"\n\nSi la intención NO es \"AGENDAR\":\n- \"datos_extraidos\" debe contener los campos con valor null.\n- \"faltan_datos\" debe ser [].\n- \"pregunta\" debe ser null (tu sistema gestionará la respuesta, tú solo extraes datos).\n\n### FORMATO DE SALIDA (JSON)\nTu respuesta debe ser EXCLUSIVAMENTE un objeto JSON válido. No uses bloques de código (```json), no añadas explicaciones previas ni posteriores.\n\nEstructura:\n{\n  \"intencion\": \"STRING\",\n  \"datos_extraidos\": {\n    \"fecha\": \"DD/MM/YYYY\" | null,\n    \"hora\": \"HH:MM\" | null,\n    \"telefono\": \"STRING\" | null,\n    \"tratamiento\": \"STRING\" | null,\n    \"nombre\": \"STRING\" | null,\n    \"email\": \"STRING\" | null\n  },\n  \"faltan_datos\": [\"STRING\", ...],\n  \"pregunta\": \"STRING\" | null\n}\n\n### EJEMPLOS (FEW-SHOT)\n\nInput: \"Hola\"\nOutput: {\"intencion\": \"SALUDO\", \"datos_extraidos\": {\"fecha\": null, \"hora\": null, \"telefono\": null, \"tratamiento\": null, \"nombre\": null, \"email\": null}, \"faltan_datos\": [], \"pregunta\": null}\n\nInput: \"Quiero una limpieza para mañana por la tarde\" (Asumiendo fecha actual: 18/11/2025)\nOutput: {\"intencion\": \"AGENDAR\", \"datos_extraidos\": {\"fecha\": \"19/11/2025\", \"hora\": \"16:00\", \"telefono\": null, \"tratamiento\": \"Limpieza Dental\", \"nombre\": null, \"email\": null}, \"faltan_datos\": [\"nombre\", \"email\", \"telefono\"], \"pregunta\": \"¿Me podrías dar tu nombre completo para la reserva?\"}\n\nInput: \"Soy Ana Gómez, quiero cita.\"\nOutput: {\"intencion\": \"AGENDAR\", \"datos_extraidos\": {\"fecha\": null, \"hora\": null, \"telefono\": null, \"tratamiento\": null, \"nombre\": \"Ana Gómez\", \"email\": null}, \"faltan_datos\": [\"tratamiento\", \"fecha\", \"hora\", \"email\", \"telefono\"], \"pregunta\": \"Hola Ana, ¿para qué tratamiento o motivo deseas la cita?\"}\n\n",
+              "role": "system"
+            },
+            {
+              "content": "={{ $json.mensaje_usuario }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -2528,
+        1728
+      ],
+      "id": "212d7811-d917-4080-8b92-0b8339fd9020",
+      "name": "Procesar Mensaje",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// El JSON del GPT viene como texto dentro de message.content\nconst raw = $json.message.content;\n\n// Convertimos ese texto en un JSON real\nlet parsed = {};\n\ntry {\n  parsed = JSON.parse(raw);\n} catch (e) {\n  // Si el modelo añadió texto fuera del JSON, limpiamos\n  const match = raw.match(/\\{[\\s\\S]*\\}/);\n  if (!match) {\n    throw new Error(\"No se pudo convertir el contenido a JSON.\");\n  }\n  parsed = JSON.parse(match[0]);\n}\n\n// Devolvemos el JSON convertido como salida del nodo Function\nreturn parsed;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2176,
+        1728
+      ],
+      "id": "34a80721-5c08-49da-a279-b1cb76323b3f",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a008f496-33f5-4f04-8968-288dbe06c6c8",
+              "name": "Intención",
+              "value": "={{ $json.intencion }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1952,
+        1728
+      ],
+      "id": "74cca608-eaeb-49c6-97a5-0fbb8361fee0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b5d29029-87ff-4a4f-87aa-a5c4b8eb885c",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.fecha }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "7d1bd1e4-f77b-41e6-b202-e6249bbf9d07",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.hora }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "8c8664eb-9857-4204-9af9-b2840fe78ae8",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.telefono }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "f2837fd2-1c83-4870-b5e6-bb8f8a667f01",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.tratamiento }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "df6b7e87-8f44-4ad2-9574-9b80a8bfc57d",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.nombre }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "34599a13-e7e7-48c2-b389-7bb64f6487fd",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1504,
+        1344
+      ],
+      "id": "b86655eb-d467-4f92-8450-03c4a6d1dc75",
+      "name": "Completa?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5d396297-7651-410c-8c32-211b34a7742b",
+              "name": "Pregunta",
+              "value": "={{ $('Code in JavaScript').item.json.pregunta }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        1440
+      ],
+      "id": "91158ada-a5fd-44e0-a73c-e30bf11c6d63",
+      "name": "Pregunta"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appUzZAYiRKAhvpiY",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental - Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblayXyYI5F3kXDTR",
+          "mode": "list",
+          "cachedResultName": "Conversaciones",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tblayXyYI5F3kXDTR"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -3504,
+        1360
+      ],
+      "id": "eb191922-96bf-46fc-a591-30b56a79ee1b",
+      "name": "Search records",
+      "alwaysOutputData": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OwtNlpzJfBnO2SmU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8d5b02fd-b274-4297-b70a-d1c146e6b638",
+              "name": "Nombre",
+              "value": "={{ $json.fields.Nombre|| \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "e771586c-4dbb-4adc-bbd7-0a9a63141bb2",
+              "name": "Teléfono",
+              "value": "={{ $json.fields.Telefono|| \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "e5cc6eed-802d-4607-85d0-870357390ff3",
+              "name": "Email",
+              "value": "={{ $json.fields.Email|| \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "0d2ff858-6754-4185-bba7-736d394bceef",
+              "name": "Fecha",
+              "value": "={{ $json.fields.Fecha|| \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "81f1038e-dfe6-4962-921f-45d51f9483d7",
+              "name": "Servicio",
+              "value": "={{ $json.fields.Servicio|| \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "6f20b021-4fea-40cd-9c0c-0fa8bfd4eb3e",
+              "name": "Estado",
+              "value": "={{ $json.fields.Estado|| \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "91875ae3-e3c8-49f6-8967-7a71e63c41a2",
+              "name": "Session_ID",
+              "value": "={{ $json.fields.Session_ID|| \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "1a82ee84-0e9e-4465-936b-0601757f873f",
+              "name": "Hora",
+              "value": "={{ $json.fields.Hora|| \"\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2752,
+        1632
+      ],
+      "id": "3bc07ea7-dc00-4f9a-9aa6-f985a94ec488",
+      "name": "Contexto"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appUzZAYiRKAhvpiY",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental - Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl1wAvyOt44rj9im",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tbl1wAvyOt44rj9im"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Session ID",
+              "displayName": "Session ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Nombre Paciente",
+              "displayName": "Nombre Paciente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Servicio",
+              "displayName": "Servicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Revisión y limpieza",
+                  "value": "Revisión y limpieza"
+                },
+                {
+                  "name": "Empaste",
+                  "value": "Empaste"
+                },
+                {
+                  "name": "Endodoncia",
+                  "value": "Endodoncia"
+                },
+                {
+                  "name": "Extracción",
+                  "value": "Extracción"
+                },
+                {
+                  "name": "Blanqueamiento",
+                  "value": "Blanqueamiento"
+                },
+                {
+                  "name": "Ortodoncia",
+                  "value": "Ortodoncia"
+                },
+                {
+                  "name": "Implante",
+                  "value": "Implante"
+                },
+                {
+                  "name": "Otro",
+                  "value": "Otro"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Pendiente",
+                  "value": "Pendiente"
+                },
+                {
+                  "name": "Confirmada",
+                  "value": "Confirmada"
+                },
+                {
+                  "name": "Cancelada",
+                  "value": "Cancelada"
+                },
+                {
+                  "name": "Completada",
+                  "value": "Completada"
+                },
+                {
+                  "name": "INCOMPLETA",
+                  "value": "INCOMPLETA"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Creada",
+              "displayName": "Creada",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -2752,
+        1824
+      ],
+      "id": "791586f9-b978-42bd-b8fd-c176be1dbe31",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OwtNlpzJfBnO2SmU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "value": "appUzZAYiRKAhvpiY",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental - Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblayXyYI5F3kXDTR",
+          "mode": "list",
+          "cachedResultName": "Conversaciones",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tblayXyYI5F3kXDTR"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Session_ID": "={{ $json.session_id }}"
+          },
+          "matchingColumns": [
+            "Session_ID"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Session_ID",
+              "displayName": "Session_ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Hora",
+              "displayName": "Hora",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Servicio",
+              "displayName": "Servicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -3168,
+        1728
+      ],
+      "id": "af7ea282-7bb0-4a92-9355-8faa906440a5",
+      "name": "Create or update a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OwtNlpzJfBnO2SmU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "90e4d8a5-f183-43b6-971a-4c46362feb3c",
+              "leftValue": "={{ $json.fields.Session_ID }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2960,
+        1728
+      ],
+      "id": "d48cde57-271c-4c52-9df3-a3db57b1d89a",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-16T18:31:31.426Z",
+      "createdAt": "2025-11-16T18:31:31.426Z",
+      "role": "workflow:owner",
+      "workflowId": "ldpmxGxN21gVMi8J",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-18T19:32:31.000Z",
+  "versionId": "fdc2a076-a457-413d-b71d-38060292772e"
+}
