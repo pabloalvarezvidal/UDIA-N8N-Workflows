@@ -1,0 +1,30 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2025-11-15T11:19:17.968Z",
+  "id": "vpXlm0kI4sMbdcNg",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Agente de voz Peluqueria",
+  "nodes": [],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-15T11:19:17.985Z",
+      "createdAt": "2025-11-15T11:19:17.985Z",
+      "role": "workflow:owner",
+      "workflowId": "vpXlm0kI4sMbdcNg",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-18T17:08:10.000Z",
+  "versionId": "fe53c3e4-f075-4947-bda3-5be5be76beb6"
+}
