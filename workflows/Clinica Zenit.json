@@ -5,18 +5,7 @@
       "main": [
         [
           {
-            "node": "Preparar Datos",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Clasificar Intención": {
-      "main": [
-        [
-          {
-            "node": "Switch",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -25,8 +14,20 @@
     },
     "Switch": {
       "main": [
-        [],
-        [],
+        [
+          {
+            "node": "Completa?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Buscar Citas Existentes",
@@ -58,17 +59,6 @@
         [
           {
             "node": "Respuesta Fallback",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Preparar Datos": {
-      "main": [
-        [
-          {
-            "node": "Buscar Borrador",
             "type": "main",
             "index": 0
           }
@@ -196,72 +186,40 @@
         ]
       ]
     },
-    "Buscar Borrador": {
+    "Crear Cita": {
       "main": [
         [
           {
-            "node": "Verificar Estado",
+            "node": "Construir URL Confirmación",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Verificar Estado": {
+    "Construir URL Confirmación": {
       "main": [
         [
           {
-            "node": "Router de Estado",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Clasificar Intención",
+            "node": "Send a message",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Router de Estado": {
+    "Send a message": {
       "main": [
         [
           {
-            "node": "Guardar Nombre",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Guardar Teléfono",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Finalizar Reserva",
+            "node": "Formatear Respuesta Agenda",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Guardar Nombre": {
-      "main": [
-        [
-          {
-            "node": "Preguntar teléfono",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Preguntar teléfono": {
+    "Formatear Respuesta Agenda": {
       "main": [
         [
           {
@@ -272,18 +230,47 @@
         ]
       ]
     },
-    "Guardar Teléfono": {
+    "Code in JavaScript": {
       "main": [
         [
           {
-            "node": "Preguntar Servicio",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Preguntar Servicio": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Completa?": {
+      "main": [
+        [
+          {
+            "node": "Crear Cita",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pregunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pregunta": {
       "main": [
         [
           {
@@ -294,23 +281,191 @@
         ]
       ]
     },
-    "Finalizar Reserva": {
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
       "main": [
         [
           {
-            "node": "Confirmación Final",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Confirmación Final": {
+    "Confirmar citas": {
+      "main": [
+        [
+          {
+            "node": "Update record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update record": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Tenemos tlf?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respuesta": {
       "main": [
         [
           {
             "node": "Respond to Webhook",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Update record1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respuesta1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respuesta1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update record1": {
+      "main": [
+        [
+          {
+            "node": "Respuesta cancelación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respuesta cancelación": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tenemos tlf?": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
             "index": 0
           }
         ]
@@ -335,8 +490,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -1264,
-        832
+        -3648,
+        3132
       ],
       "id": "58a28683-7514-487e-ae38-2ee3c1b913f1",
       "name": "Webhook",
@@ -356,7 +511,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json.message.content }}",
+                    "leftValue": "={{ $json['Intención'] }}",
                     "rightValue": "AGENDAR",
                     "operator": {
                       "type": "string",
@@ -379,7 +534,7 @@
                 "conditions": [
                   {
                     "id": "12030c13-07db-4ac9-a383-444c401b360c",
-                    "leftValue": "={{ $json.message.content }}",
+                    "leftValue": "={{ $json['Intención'] }}",
                     "rightValue": "CANCELAR",
                     "operator": {
                       "type": "string",
@@ -402,7 +557,7 @@
                 "conditions": [
                   {
                     "id": "e44efeff-d5bb-4e65-b74d-5f273925951a",
-                    "leftValue": "={{ $json.message.content }}",
+                    "leftValue": "={{ $json['Intención'] }}",
                     "rightValue": "CONSULTAR",
                     "operator": {
                       "type": "string",
@@ -425,7 +580,7 @@
                 "conditions": [
                   {
                     "id": "5c1d55cc-02b4-4efb-884e-aa175f5b73a9",
-                    "leftValue": "={{ $json.message.content }}",
+                    "leftValue": "={{ $json['Intención'] }}",
                     "rightValue": "INFO_SERVICIOS",
                     "operator": {
                       "type": "string",
@@ -448,7 +603,7 @@
                 "conditions": [
                   {
                     "id": "e93d0240-cb2d-4384-9115-af725df26066",
-                    "leftValue": "={{ $json.message.content }}",
+                    "leftValue": "={{ $json['Intención'] }}",
                     "rightValue": "INFO_CLINICA",
                     "operator": {
                       "type": "string",
@@ -471,7 +626,7 @@
                 "conditions": [
                   {
                     "id": "8b7be5f4-87c9-4253-8854-92da4551bc3b",
-                    "leftValue": "={{ $json.message.content }}",
+                    "leftValue": "={{ $json['Intención'] }}",
                     "rightValue": "SALUDO",
                     "operator": {
                       "type": "string",
@@ -492,59 +647,11 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.3,
       "position": [
-        -16,
-        1136
+        -2624,
+        3052
       ],
       "id": "9ddef312-f53c-4880-850a-b3234c264b80",
       "name": "Switch"
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "gpt-4o-mini",
-          "mode": "list",
-          "cachedResultName": "GPT-4O-MINI"
-        },
-        "messages": {
-          "values": [
-            {
-              "content": "=Eres un clasificador de intenciones para una clínica dental.\n\n**IMPORTANTE** NUNCA incluyas emojis en tus respuestas, SOLO TEXTO.\n\nAnaliza el siguiente mensaje del paciente y clasifica su intención en UNA de estas categorías:\n\nINTENCIONES:\n- AGENDAR: Quiere reservar/pedir/sacar una cita\n- CANCELAR: Quiere cancelar una cita existente\n- CONSULTAR: Quiere ver disponibilidad o confirmar su cita\n- INFO_SERVICIOS: Pregunta sobre tratamientos, precios, servicios\n- INFO_CLINICA: Pregunta sobre ubicación, horarios, contacto\n- SALUDO: Saludos iniciales sin intención clara (Hola, buenas, buenos dias, buenas tardes, hola que tal, etc)\n- OTRO: No encaja en ninguna categoría\n\nMENSAJE DEL PACIENTE: \n{{ $json.mensaje_usuario }}\n\nResponde SOLO con el nombre de la intención en mayúsculas, nada más.\nEjemplo: AGENDAR",
-              "role": "system"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        -400,
-        1152
-      ],
-      "id": "212d7811-d917-4080-8b92-0b8339fd9020",
-      "name": "Clasificar Intención",
-      "credentials": {
-        "openAiApi": {
-          "id": "lF7UohlhOobJXkZr",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={\n  \"mensaje_usuario\": \"={{ $json.body.mensaje }}\",\n  \"session_id\": \"={{ $json.body.session_id || 'test-session' }}\",\n  \"timestamp\": \"={{ $now.toISO() }}\"\n}\n",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1040,
-        832
-      ],
-      "id": "abd71c4a-d6d3-4b96-aff7-cd5bf1327cfc",
-      "name": "Preparar Datos"
     },
     {
       "parameters": {
@@ -570,8 +677,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        880,
-        1216
+        -1152,
+        3324
       ],
       "id": "97cb894e-95b4-4049-a45b-9458ecfc608f",
       "name": "Responder Info Clínica",
@@ -591,8 +698,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1232,
-        1216
+        -800,
+        3324
       ],
       "id": "4e73cad9-9496-4eb1-9485-0c650676ffc9",
       "name": "Formatear Respuesta Info"
@@ -604,8 +711,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        1456,
-        928
+        -576,
+        2816
       ],
       "id": "2be4420f-e8ea-4ec8-ad24-c50c97d5d326",
       "name": "Respond to Webhook"
@@ -634,8 +741,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        880,
-        1024
+        -1152,
+        3132
       ],
       "id": "0871d626-1417-4cbb-8639-4475a60497af",
       "name": "Responder Info Servicios",
@@ -663,8 +770,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1232,
-        1024
+        -800,
+        3132
       ],
       "id": "97f85b4c-d2f6-4a32-b4d2-30f0331a605c",
       "name": "Formatear Respuesta Servicios"
@@ -678,8 +785,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1232,
-        1600
+        -800,
+        3708
       ],
       "id": "5040def8-504a-4915-a0e3-2b78831e7be0",
       "name": "Respuesta Fallback"
@@ -693,8 +800,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1232,
-        1408
+        -800,
+        3516
       ],
       "id": "414c81d1-1888-401d-a72b-353054d9021b",
       "name": "Respuesta Saludo"
@@ -729,8 +836,8 @@
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2.1,
       "position": [
-        208,
-        832
+        -1824,
+        1952
       ],
       "id": "cc95614f-bd17-4044-8975-2dce42c7e6f7",
       "name": "Buscar Citas Existentes",
@@ -766,8 +873,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2,
       "position": [
-        880,
-        832
+        -1152,
+        1952
       ],
       "id": "f4fb7d29-13f6-4058-8e72-38a063737bf0",
       "name": "Generar Horarios Disponibles",
@@ -795,8 +902,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1232,
-        832
+        -800,
+        1952
       ],
       "id": "ff642035-f47a-4bf7-bae0-1be2efb86f23",
       "name": "Formatear Respuesta Consultar"
@@ -818,8 +925,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        432,
-        832
+        -1600,
+        1952
       ],
       "id": "be1af4e0-c740-4cc5-90a5-e1c11dc5d90b",
       "name": "Citas agendadas"
@@ -838,11 +945,768 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        656,
-        832
+        -1376,
+        1952
       ],
       "id": "62449062-e6c9-4c26-b558-38de39197357",
       "name": "Agrupar citas"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "553b9bb5-0ce0-40e0-8f58-87dedc6f6604",
+              "name": "confirmationUrl",
+              "value": "=https://n8n-n8n.u5h0lw.easypanel.host/webhook-test/confirmar-cita?id={{ $json.id }}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1376,
+        2144
+      ],
+      "id": "88471f60-afad-4e1f-9f01-0f62ee129108",
+      "name": "Construir URL Confirmación"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appUzZAYiRKAhvpiY",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental - Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl1wAvyOt44rj9im",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tbl1wAvyOt44rj9im"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Servicio": "={{ $('Code in JavaScript').item.json.datos_extraidos.tratamiento }}",
+            "Estado": "Pendiente",
+            "Nombre Paciente": "={{ $('Code in JavaScript').item.json.datos_extraidos.nombre }}",
+            "Teléfono": "={{ $('Code in JavaScript').item.json.datos_extraidos.telefono }}",
+            "Email": "={{ $('Code in JavaScript').item.json.datos_extraidos.email }}",
+            "Fecha": "={{ $('Code in JavaScript').item.json.datos_extraidos.fecha }}",
+            "Session ID": "={{ $('Webhook').item.json.body.session_id }}",
+            "Hora": "={{ $('Code in JavaScript').item.json.datos_extraidos.hora }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Session ID",
+              "displayName": "Session ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Nombre Paciente",
+              "displayName": "Nombre Paciente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Hora",
+              "displayName": "Hora",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Servicio",
+              "displayName": "Servicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Pendiente",
+                  "value": "Pendiente"
+                },
+                {
+                  "name": "Confirmada",
+                  "value": "Confirmada"
+                },
+                {
+                  "name": "Cancelada",
+                  "value": "Cancelada"
+                },
+                {
+                  "name": "Completada",
+                  "value": "Completada"
+                },
+                {
+                  "name": "INCOMPLETA",
+                  "value": "INCOMPLETA"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Creada",
+              "displayName": "Creada",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1600,
+        2144
+      ],
+      "id": "3ffb4d24-400b-4c92-a11b-da09f8ef1007",
+      "name": "Crear Cita",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OwtNlpzJfBnO2SmU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Code in JavaScript').item.json.datos_extraidos.email }}",
+        "subject": "Confirmación de tu cita en la clínica",
+        "emailType": "text",
+        "message": "=Hemos registrado tu cita.  \nPara confirmarla, haz clic en este enlace:  \n{{ $json.confirmationUrl }}\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1088,
+        2144
+      ],
+      "id": "01e958c0-1253-4d4b-b2c8-8ec3ff26bc77",
+      "name": "Send a message",
+      "webhookId": "3ce38734-db20-4d19-ac75-df0236d2e690",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "FhGOZ7dk8SKIOH6F",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"respuesta\": \"He registrado tu solicitud de cita y te he enviado un correo para confirmarla.\",\n  \"intencion\": \"AGENDAR\"\n}\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -800,
+        2144
+      ],
+      "id": "ff7a9d9b-82a1-4046-8909-0d44ec551c5e",
+      "name": "Formatear Respuesta Agenda"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Obtenemos el texto crudo que viene del nodo anterior\n// Asegúrate de que el campo se llame realmente 'output'. \n// Si viene de OpenAI directamente, a veces es 'message.content' o 'response.text'.\nconst rawContent = $input.first().json.output;\n\n// 2. Limpieza y Extracción\n// A veces la IA envuelve la respuesta en ```json ... ``` o añade texto antes/después.\n// Usamos una expresión regular para capturar solo lo que está entre llaves { ... }\nlet jsonString = rawContent;\nconst jsonMatch = rawContent.match(/\\{[\\s\\S]*\\}/);\n\nif (jsonMatch) {\n    jsonString = jsonMatch[0];\n}\n\n// 3. Parseo (Convertir texto a Objeto real)\nlet parsedData = {};\n\ntry {\n    parsedData = JSON.parse(jsonString);\n} catch (error) {\n    // Si falla, devolvemos un error controlado para no romper el flujo silenciosamente\n    throw new Error(\"La IA no devolvió un JSON válido. Recibido: \" + rawContent);\n}\n\n// 4. Retorno en formato n8n\n// Esto \"divide\" el JSON: ahora 'intencion', 'datos_extraidos', etc., \n// serán campos de primer nivel accesibles en los siguientes nodos.\nreturn {\n    json: parsedData\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3072,
+        3132
+      ],
+      "id": "34a80721-5c08-49da-a279-b1cb76323b3f",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a008f496-33f5-4f04-8968-288dbe06c6c8",
+              "name": "Intención",
+              "value": "={{ $json.intencion }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2848,
+        3132
+      ],
+      "id": "74cca608-eaeb-49c6-97a5-0fbb8361fee0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b5d29029-87ff-4a4f-87aa-a5c4b8eb885c",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.fecha }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "7d1bd1e4-f77b-41e6-b202-e6249bbf9d07",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.hora }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "8c8664eb-9857-4204-9af9-b2840fe78ae8",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.telefono }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "f2837fd2-1c83-4870-b5e6-bb8f8a667f01",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.tratamiento }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "df6b7e87-8f44-4ad2-9574-9b80a8bfc57d",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.nombre }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "34599a13-e7e7-48c2-b389-7bb64f6487fd",
+              "leftValue": "={{ $('Code in JavaScript').item.json.datos_extraidos.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1824,
+        2240
+      ],
+      "id": "b86655eb-d467-4f92-8450-03c4a6d1dc75",
+      "name": "Completa?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5d396297-7651-410c-8c32-211b34a7742b",
+              "name": "Pregunta",
+              "value": "={{ $('Code in JavaScript').item.json.pregunta }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -800,
+        2336
+      ],
+      "id": "91158ada-a5fd-44e0-a73c-e30bf11c6d63",
+      "name": "Pregunta"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.mensaje }}",
+        "options": {
+          "systemMessage": "=### ROL DEL SISTEMA\nEres un motor de extracción de datos y clasificación de intenciones para una clínica dental. Tu objetivo es analizar el lenguaje natural del paciente y estructurar la información en un formato JSON estricto.\n\n### CONTEXTO TEMPORAL (CRÍTICO)\nLa fecha y hora actual es: {{ $now }}\n(Usa esta fecha como referencia para calcular términos como \"mañana\", \"el próximo lunes\", \"en tres días\").\n\n### REGLAS DE CLASIFICACIÓN (INTENCIÓN)\nClasifica el mensaje del usuario en EXACTAMENTE UNA de las siguientes categorías:\n1. \"AGENDAR\": El usuario quiere reservar, pedir o modificar una cita.\n2. \"CANCELAR\": El usuario quiere anular una cita existente.\n3. \"CONSULTAR\": Preguntas médicas, dudas sobre síntomas o post-operatorio.\n4. \"INFO_SERVICIOS\": Preguntas sobre precios, tipos de tratamientos, seguros.\n5. \"INFO_CLINICA\": Preguntas sobre ubicación, horarios de apertura, parking.\n6. \"SALUDO\": Hola, buenos días, gracias, adiós (sin otra intención).\n7. \"OTRO\": Cualquier cosa que no encaje en las anteriores.\n\n### REGLAS DE EXTRACCIÓN DE DATOS (SOLO PARA INTENCIÓN \"AGENDAR\")\nSi la intención es \"AGENDAR\", extrae los siguientes campos. Si no se mencionan, déjalos como null.\n- \"fecha\": Formato DD/MM/YYYY. Si el usuario dice \"el lunes\", calcula la fecha exacta basándote en el CONTEXTO TEMPORAL.\n- \"hora\": Formato HH:MM (24h).\n- \"tratamiento\": Normaliza a categorías generales si es posible (Ej: \"me duele una muela\" -> \"Dolor/Urgencia\", \"limpieza\" -> \"Higiene Dental\").\n- \"nombre\": Nombre del paciente (Capitalizado).\n- \"email\": Correo electrónico válido.\n- \"telefono\": Número telefónico.\n\n### LÓGICA DE DATOS FALTANTES Y GENERACIÓN DE PREGUNTA\nSi la intención es \"AGENDAR\":\n1. Revisa qué campos obligatorios faltan en este orden de prioridad: Tratamiento > Fecha > Hora > Nombre > Email > Telefono.\n2. En el array \"faltan_datos\", lista los nombres de los campos faltantes.\n3. En el campo \"pregunta\", genera UNA sola pregunta natural y empática para solicitar el dato faltante de mayor prioridad.\n   - Ejemplo: Si falta tratamiento: \"¿Podrías decirme el motivo de la consulta o qué tratamiento necesitas?\"\n   - Ejemplo: Si falta fecha: \"¿Qué día te vendría mejor para agendar tu cita?\"\n\nSi la intención NO es \"AGENDAR\":\n- \"datos_extraidos\" debe contener los campos con valor null.\n- \"faltan_datos\" debe ser [].\n- \"pregunta\" debe ser null (tu sistema gestionará la respuesta, tú solo extraes datos).\n\n### FORMATO DE SALIDA (JSON)\nTu respuesta debe ser EXCLUSIVAMENTE un objeto JSON válido. No uses bloques de código (```json), no añadas explicaciones previas ni posteriores.\n\nEstructura:\n{\n  \"intencion\": \"STRING\",\n  \"datos_extraidos\": {\n    \"fecha\": \"DD/MM/YYYY\" | null,\n    \"hora\": \"HH:MM\" | null,\n    \"telefono\": \"STRING\" | null,\n    \"tratamiento\": \"STRING\" | null,\n    \"nombre\": \"STRING\" | null,\n    \"email\": \"STRING\" | null\n  },\n  \"faltan_datos\": [\"STRING\", ...],\n  \"pregunta\": \"STRING\" | null\n}\n\n### EJEMPLOS (FEW-SHOT)\n\nInput: \"Hola\"\nOutput: {\"intencion\": \"SALUDO\", \"datos_extraidos\": {\"fecha\": null, \"hora\": null, \"telefono\": null, \"tratamiento\": null, \"nombre\": null, \"email\": null}, \"faltan_datos\": [], \"pregunta\": null}\n\nInput: \"Quiero una limpieza para mañana por la tarde\" (Asumiendo fecha actual: 18/11/2025)\nOutput: {\"intencion\": \"AGENDAR\", \"datos_extraidos\": {\"fecha\": \"19/11/2025\", \"hora\": \"16:00\", \"telefono\": null, \"tratamiento\": \"Limpieza Dental\", \"nombre\": null, \"email\": null}, \"faltan_datos\": [\"nombre\", \"email\", \"telefono\"], \"pregunta\": \"¿Me podrías dar tu nombre completo para la reserva?\"}\n\nInput: \"Soy Ana Gómez, quiero cita.\"\nOutput: {\"intencion\": \"AGENDAR\", \"datos_extraidos\": {\"fecha\": null, \"hora\": null, \"telefono\": null, \"tratamiento\": null, \"nombre\": \"Ana Gómez\", \"email\": null}, \"faltan_datos\": [\"tratamiento\", \"fecha\", \"hora\", \"email\", \"telefono\"], \"pregunta\": \"Hola Ana, ¿para qué tratamiento o motivo deseas la cita?\"}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -3424,
+        3132
+      ],
+      "id": "7b0ada68-3105-45f8-ad18-37f06c99687c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.session_id }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        -3288,
+        3356
+      ],
+      "id": "0cc724d4-1a05-4c67-a307-a7c94bf5ce2b",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "lokIFsz3JzGzuMsH",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3416,
+        3356
+      ],
+      "id": "4cb4732d-e9ac-48dd-837d-b6b2057b77e2",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YHe997AlWBEa1Czy",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## AGENDAR, CANCELAR O COMPROBAR DISPONIBLIDAD DE CITAS\n",
+        "height": 1952,
+        "width": 3520
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3824,
+        1916
+      ],
+      "typeVersion": 1,
+      "id": "c65bba0f-5c8c-44b0-a27c-77299efb4750",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## CONFIRMAR CITA GMAIL\n",
+        "height": 288,
+        "width": 736,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3744,
+        1600
+      ],
+      "typeVersion": 1,
+      "id": "02eb0b2d-92ff-4a55-b3f2-903bd1c71faa",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "path": "confirmar-cita",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -3648,
+        1728
+      ],
+      "id": "bf2a3cd9-74d2-4fb4-8a12-a16d71cd26c4",
+      "name": "Confirmar citas",
+      "webhookId": "7cb6be11-06f1-42a8-b869-7d6e188014aa"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appUzZAYiRKAhvpiY",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental - Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl1wAvyOt44rj9im",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tbl1wAvyOt44rj9im"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Estado": "Confirmada",
+            "id": "={{ $json.query.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Session ID",
+              "displayName": "Session ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Nombre Paciente",
+              "displayName": "Nombre Paciente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Hora",
+              "displayName": "Hora",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Servicio",
+              "displayName": "Servicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Creada",
+              "displayName": "Creada",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -3424,
+        1728
+      ],
+      "id": "9fb1e64d-9573-44ff-89f3-716a202f4eee",
+      "name": "Update record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OwtNlpzJfBnO2SmU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Cita Confirmada</title>\n  <style>\n    body {\n      font-family: 'Arial', sans-serif;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      height: 100vh;\n      background-color: #f0fdf4;\n      margin: 0;\n    }\n    .card {\n      background: white;\n      padding: 40px;\n      border-radius: 15px;\n      box-shadow: 0 4px 6px rgba(0,0,0,0.1);\n      text-align: center;\n      max-width: 400px;\n    }\n    h1 { color: #16a34a; margin-bottom: 10px; }\n    p { color: #4b5563; font-size: 18px; }\n    .icon { font-size: 50px; margin-bottom: 20px; display: block; }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <span class=\"icon\">✅</span>\n    <h1>¡Cita Confirmada!</h1>\n    <p>Tu cita en Clínica Zenit ha quedado registrada correctamente.</p>\n    <p style=\"font-size: 14px; margin-top: 20px; color: #9ca3af;\">Ya puedes cerrar esta ventana.</p>\n  </div>\n</body>\n</html>",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -3200,
+        1728
+      ],
+      "id": "1a4c6797-b093-4d10-9f99-4c36efbdbe88",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Tu trabajo es extraer el número de teléfono o email del usuario para cancelar una cita.\nMensaje del usuario: \"{{ $('Webhook').item.json.body.mensaje }}\"\n\nSI EL USUARIO DA DATOS DE IDENTIFICACIÓN:\nResponde SOLO un JSON: {\"telefono\": \"600...\", \"email\": \"...\"}\n\nSI NO DA DATOS:\nResponde SOLO un JSON: {\"telefono\": null, \"email\": null, \"pregunta\": \"¿Podrías indicarme tu número de teléfono para localizar tu cita?\"}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -2400,
+        2720
+      ],
+      "id": "7353d6ae-34ee-48ca-9553-83e4814b03d8",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2392,
+        2944
+      ],
+      "id": "a1bd2407-6ecb-4063-b065-e65426f45735",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YHe997AlWBEa1Czy",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Obtenemos el texto crudo que viene en el campo 'output'\n// Si tu nodo anterior se llama diferente, asegúrate de que la variable llegue aquí.\nconst rawContent = $input.first().json.output;\n\n// 2. Limpieza usando Expresión Regular (Regex)\n// Esto busca el primer carácter '{' y el último '}' e ignora todo lo demás (como ```json)\nconst jsonMatch = rawContent.match(/\\{[\\s\\S]*\\}/);\n\nlet parsedData = {};\n\nif (jsonMatch) {\n  try {\n    // 3. Convertimos el texto limpio en un objeto real\n    parsedData = JSON.parse(jsonMatch[0]);\n  } catch (error) {\n    throw new Error(\"El contenido no es un JSON válido: \" + error.message);\n  }\n} else {\n  throw new Error(\"No se encontraron llaves {} en la respuesta de la IA\");\n}\n\n// 4. Devolvemos los datos limpios para que los siguientes nodos los usen\nreturn {\n  json: {\n    telefono: parsedData.telefono,\n    email: parsedData.email,\n    pregunta: parsedData.pregunta\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2048,
+        2720
+      ],
+      "id": "bbc35c1a-62a4-42bf-8962-c9fb93cd7c58",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fc7e3dc6-d9fd-4994-b1a4-8ba5c9cd1d3f",
+              "name": "Respuesta",
+              "value": "={{ $('Code in JavaScript1').item.json.pregunta }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -800,
+        2912
+      ],
+      "id": "fd02c01e-b7d5-4bb5-a07d-82d3699d7f56",
+      "name": "Respuesta"
     },
     {
       "parameters": {
@@ -861,19 +1725,26 @@
           "cachedResultName": "Citas",
           "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tbl1wAvyOt44rj9im"
         },
-        "filterByFormula": "=AND({Session ID} = \"{{ $('Preparar Datos').item.json.session_id }}\", {Estado} = \"INCOMPLETA\")",
+        "filterByFormula": "=AND(\n  {Teléfono} = '{{ $json.telefono }}',\n  OR(\n    {Estado} = 'Pendiente',\n    {Estado} = 'Confirmada'\n  )\n)",
         "returnAll": false,
         "limit": 1,
-        "options": {}
+        "options": {},
+        "sort": {
+          "property": [
+            {
+              "field": "Fecha"
+            }
+          ]
+        }
       },
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2.1,
       "position": [
-        -816,
-        832
+        -1600,
+        2624
       ],
-      "id": "d8812e83-9547-4b47-b862-fe80df1653bc",
-      "name": "Buscar Borrador",
+      "id": "c2034ab5-2b32-42fb-85ab-787528c4d845",
+      "name": "Search records",
       "alwaysOutputData": true,
       "credentials": {
         "airtableTokenApi": {
@@ -888,768 +1759,316 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7c14cac4-be6d-4101-a9d6-2f61bf0f9325",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1376,
+        2624
+      ],
+      "id": "5af59232-97ec-4c64-9966-e9929b98d8c0",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74a667be-eaa2-4cc1-aafd-df41585a4337",
+              "name": "Respuesta",
+              "value": "={{ $('AI Agent1').item.json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -800,
+        2720
+      ],
+      "id": "a5aa98fe-38d5-4f69-8350-6c9f8cce6d3d",
+      "name": "Respuesta1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appUzZAYiRKAhvpiY",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental - Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl1wAvyOt44rj9im",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tbl1wAvyOt44rj9im"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Estado": "Cancelada",
+            "id": "={{ $('Search records').item.json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Session ID",
+              "displayName": "Session ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Nombre Paciente",
+              "displayName": "Nombre Paciente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Hora",
+              "displayName": "Hora",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Servicio",
+              "displayName": "Servicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Pendiente",
+                  "value": "Pendiente"
+                },
+                {
+                  "name": "Confirmada",
+                  "value": "Confirmada"
+                },
+                {
+                  "name": "Cancelada",
+                  "value": "Cancelada"
+                },
+                {
+                  "name": "Cita realizada",
+                  "value": "Cita realizada"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Creada",
+              "displayName": "Creada",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1088,
+        2528
+      ],
+      "id": "6dcbf786-8797-471b-add0-b4ec9fbadabd",
+      "name": "Update record1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OwtNlpzJfBnO2SmU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4a49ee4e-a233-42a2-8890-d95e758e4894",
+              "name": "Respuesta",
+              "value": "=Tu cita para el día  {{ $json.fields.Fecha }} a las {{ $json.fields.Hora }} ha sido cancelada, si necesitas algo más estoy aquí para ayudarte.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -800,
+        2528
+      ],
+      "id": "07e944ea-248b-4dba-a677-438b902d66af",
+      "name": "Respuesta cancelación"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
             "typeValidation": "strict",
             "version": 2
           },
           "conditions": [
             {
-              "id": "3c23ccab-7f3b-4bdd-a1c2-26a4427797df",
-              "leftValue": "={{ $items.length }}",
-              "rightValue": 0,
+              "id": "75e432dc-6d27-4475-ab94-a4ce6d00edcf",
+              "leftValue": "={{ $json.telefono }}",
+              "rightValue": "",
               "operator": {
-                "type": "number",
-                "operation": "lt"
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
               }
             }
           ],
-          "combinator": "and"
+          "combinator": "or"
         },
         "options": {}
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -592,
-        832
+        -1824,
+        2720
       ],
-      "id": "a0eed403-16ac-485d-8744-16167427c5e4",
-      "name": "Verificar Estado"
+      "id": "bc9685b8-0f9e-40d6-a14c-019808e91dc7",
+      "name": "Tenemos tlf?"
     },
     {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.fields['Nombre paciente'] }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "empty",
-                      "singleValue": true
-                    },
-                    "id": "9baac60c-c767-4c85-b860-c6ae0eeeafb0"
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "1059550e-16f9-4919-bec3-5596927ac1f1",
-                    "leftValue": "={{ $json.fields.Telefono }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "empty",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "e3a6cd55-b033-44fb-b3c7-1ac943a689d9",
-                    "leftValue": "={{ $json.fields.Servicio }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "empty",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.3,
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
       "position": [
-        656,
-        432
+        -2264,
+        2944
       ],
-      "id": "01f17c02-c163-4c0c-b1e9-fe3813ad2f3e",
-      "name": "Router de Estado"
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "base": {
-          "__rl": true,
-          "value": "appUzZAYiRKAhvpiY",
-          "mode": "list",
-          "cachedResultName": "Clínica Dental - Citas",
-          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
-        },
-        "table": {
-          "__rl": true,
-          "value": "tbl1wAvyOt44rj9im",
-          "mode": "list",
-          "cachedResultName": "Citas",
-          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tbl1wAvyOt44rj9im"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Nombre Paciente": "={{ $('Preparar Datos').item.json.mensaje_usuario }}"
-          },
-          "matchingColumns": [
-            "Nombre Paciente"
-          ],
-          "schema": [
-            {
-              "id": "id",
-              "displayName": "id",
-              "required": false,
-              "defaultMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": true,
-              "removed": false
-            },
-            {
-              "id": "Nombre Paciente",
-              "displayName": "Nombre Paciente",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Teléfono",
-              "displayName": "Teléfono",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Fecha",
-              "displayName": "Fecha",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "dateTime",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Servicio",
-              "displayName": "Servicio",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "options",
-              "options": [
-                {
-                  "name": "Revisión y limpieza",
-                  "value": "Revisión y limpieza"
-                },
-                {
-                  "name": "Empaste",
-                  "value": "Empaste"
-                },
-                {
-                  "name": "Endodoncia",
-                  "value": "Endodoncia"
-                },
-                {
-                  "name": "Extracción",
-                  "value": "Extracción"
-                },
-                {
-                  "name": "Blanqueamiento",
-                  "value": "Blanqueamiento"
-                },
-                {
-                  "name": "Ortodoncia",
-                  "value": "Ortodoncia"
-                },
-                {
-                  "name": "Implante",
-                  "value": "Implante"
-                },
-                {
-                  "name": "Otro",
-                  "value": "Otro"
-                }
-              ],
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Estado",
-              "displayName": "Estado",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "options",
-              "options": [
-                {
-                  "name": "Pendiente",
-                  "value": "Pendiente"
-                },
-                {
-                  "name": "Confirmada",
-                  "value": "Confirmada"
-                },
-                {
-                  "name": "Cancelada",
-                  "value": "Cancelada"
-                },
-                {
-                  "name": "Completada",
-                  "value": "Completada"
-                },
-                {
-                  "name": "INCOMPLETA",
-                  "value": "INCOMPLETA"
-                }
-              ],
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Notas",
-              "displayName": "Notas",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Session ID",
-              "displayName": "Session ID",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Creada",
-              "displayName": "Creada",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.airtable",
-      "typeVersion": 2.1,
-      "position": [
-        944,
-        256
-      ],
-      "id": "e013b154-415e-484b-8b55-37968cf38195",
-      "name": "Guardar Nombre",
+      "id": "2df15d5d-b50a-4059-b787-021c680cfa33",
+      "name": "Postgres Chat Memory1",
       "credentials": {
-        "airtableTokenApi": {
-          "id": "OwtNlpzJfBnO2SmU",
-          "name": "Airtable Personal Access Token account"
+        "postgres": {
+          "id": "lokIFsz3JzGzuMsH",
+          "name": "Postgres account"
         }
       }
-    },
-    {
-      "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={ \"respuesta\": \"Gracias. ¿Cuál es tu número de teléfono de contacto?\" }\n",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1232,
-        256
-      ],
-      "id": "9c367d06-6adb-4c80-8e0e-1345b54f9c8e",
-      "name": "Preguntar teléfono"
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "base": {
-          "__rl": true,
-          "value": "appUzZAYiRKAhvpiY",
-          "mode": "list",
-          "cachedResultName": "Clínica Dental - Citas",
-          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
-        },
-        "table": {
-          "__rl": true,
-          "value": "tbl1wAvyOt44rj9im",
-          "mode": "list",
-          "cachedResultName": "Citas",
-          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tbl1wAvyOt44rj9im"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Teléfono": "={{ $('Preparar Datos').item.json.mensaje_usuario }}"
-          },
-          "matchingColumns": [
-            "Teléfono"
-          ],
-          "schema": [
-            {
-              "id": "id",
-              "displayName": "id",
-              "required": false,
-              "defaultMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": true,
-              "removed": false
-            },
-            {
-              "id": "Nombre Paciente",
-              "displayName": "Nombre Paciente",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Teléfono",
-              "displayName": "Teléfono",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Fecha",
-              "displayName": "Fecha",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "dateTime",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Servicio",
-              "displayName": "Servicio",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "options",
-              "options": [
-                {
-                  "name": "Revisión y limpieza",
-                  "value": "Revisión y limpieza"
-                },
-                {
-                  "name": "Empaste",
-                  "value": "Empaste"
-                },
-                {
-                  "name": "Endodoncia",
-                  "value": "Endodoncia"
-                },
-                {
-                  "name": "Extracción",
-                  "value": "Extracción"
-                },
-                {
-                  "name": "Blanqueamiento",
-                  "value": "Blanqueamiento"
-                },
-                {
-                  "name": "Ortodoncia",
-                  "value": "Ortodoncia"
-                },
-                {
-                  "name": "Implante",
-                  "value": "Implante"
-                },
-                {
-                  "name": "Otro",
-                  "value": "Otro"
-                }
-              ],
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Estado",
-              "displayName": "Estado",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "options",
-              "options": [
-                {
-                  "name": "Pendiente",
-                  "value": "Pendiente"
-                },
-                {
-                  "name": "Confirmada",
-                  "value": "Confirmada"
-                },
-                {
-                  "name": "Cancelada",
-                  "value": "Cancelada"
-                },
-                {
-                  "name": "Completada",
-                  "value": "Completada"
-                },
-                {
-                  "name": "INCOMPLETA",
-                  "value": "INCOMPLETA"
-                }
-              ],
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Notas",
-              "displayName": "Notas",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Session ID",
-              "displayName": "Session ID",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Creada",
-              "displayName": "Creada",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.airtable",
-      "typeVersion": 2.1,
-      "position": [
-        944,
-        448
-      ],
-      "id": "97692bfc-c631-4206-b497-6055f9c5c7ed",
-      "name": "Guardar Teléfono",
-      "credentials": {
-        "airtableTokenApi": {
-          "id": "OwtNlpzJfBnO2SmU",
-          "name": "Airtable Personal Access Token account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={ \"respuesta\": \"Entendido. ¿Para qué servicio es la cita? (Revisión, Empaste, Endodoncia...)\" }",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1232,
-        448
-      ],
-      "id": "978e37fc-9e76-4fdd-813f-ba4ac5e1141b",
-      "name": "Preguntar Servicio"
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "base": {
-          "__rl": true,
-          "value": "appUzZAYiRKAhvpiY",
-          "mode": "list",
-          "cachedResultName": "Clínica Dental - Citas",
-          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY"
-        },
-        "table": {
-          "__rl": true,
-          "value": "tbl1wAvyOt44rj9im",
-          "mode": "list",
-          "cachedResultName": "Citas",
-          "cachedResultUrl": "https://airtable.com/appUzZAYiRKAhvpiY/tbl1wAvyOt44rj9im"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Servicio": "={{ $('Preparar Datos').item.json.mensaje_usuario }}",
-            "Estado": "Pendiente"
-          },
-          "matchingColumns": [
-            "Servicio",
-            "Estado"
-          ],
-          "schema": [
-            {
-              "id": "id",
-              "displayName": "id",
-              "required": false,
-              "defaultMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": true,
-              "removed": false
-            },
-            {
-              "id": "Nombre Paciente",
-              "displayName": "Nombre Paciente",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Teléfono",
-              "displayName": "Teléfono",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Fecha",
-              "displayName": "Fecha",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "dateTime",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Servicio",
-              "displayName": "Servicio",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "options",
-              "options": [
-                {
-                  "name": "Revisión y limpieza",
-                  "value": "Revisión y limpieza"
-                },
-                {
-                  "name": "Empaste",
-                  "value": "Empaste"
-                },
-                {
-                  "name": "Endodoncia",
-                  "value": "Endodoncia"
-                },
-                {
-                  "name": "Extracción",
-                  "value": "Extracción"
-                },
-                {
-                  "name": "Blanqueamiento",
-                  "value": "Blanqueamiento"
-                },
-                {
-                  "name": "Ortodoncia",
-                  "value": "Ortodoncia"
-                },
-                {
-                  "name": "Implante",
-                  "value": "Implante"
-                },
-                {
-                  "name": "Otro",
-                  "value": "Otro"
-                }
-              ],
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Estado",
-              "displayName": "Estado",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "options",
-              "options": [
-                {
-                  "name": "Pendiente",
-                  "value": "Pendiente"
-                },
-                {
-                  "name": "Confirmada",
-                  "value": "Confirmada"
-                },
-                {
-                  "name": "Cancelada",
-                  "value": "Cancelada"
-                },
-                {
-                  "name": "Completada",
-                  "value": "Completada"
-                },
-                {
-                  "name": "INCOMPLETA",
-                  "value": "INCOMPLETA"
-                }
-              ],
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Notas",
-              "displayName": "Notas",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Session ID",
-              "displayName": "Session ID",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Creada",
-              "displayName": "Creada",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.airtable",
-      "typeVersion": 2.1,
-      "position": [
-        944,
-        640
-      ],
-      "id": "ee05d456-3180-4168-816c-ea9fda337adc",
-      "name": "Finalizar Reserva",
-      "credentials": {
-        "airtableTokenApi": {
-          "id": "OwtNlpzJfBnO2SmU",
-          "name": "Airtable Personal Access Token account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={ \"respuesta\": \"¡Genial! Tu cita está lista y pre-reservada. Te hemos enviado un WhatsApp al {{ $json.fields.Telefono }} para que confirmes. ¡Gracias!\" }\n",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1232,
-        640
-      ],
-      "id": "530d0e6c-04c9-4287-b26d-5c45256f93b9",
-      "name": "Confirmación Final"
     }
   ],
   "pinData": {},
@@ -1670,7 +2089,7 @@
   ],
   "staticData": null,
   "tags": [],
-  "triggerCount": 1,
-  "updatedAt": "2025-11-18T11:31:27.000Z",
-  "versionId": "da6e56e9-7231-418b-81ef-3cd9efedd069"
+  "triggerCount": 2,
+  "updatedAt": "2025-11-19T20:25:20.000Z",
+  "versionId": "777f9f1f-1f9a-41a6-97fd-411e89f0ca93"
 }
