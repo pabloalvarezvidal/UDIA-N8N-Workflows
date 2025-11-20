@@ -491,7 +491,7 @@
       "typeVersion": 2.1,
       "position": [
         -3648,
-        3132
+        3136
       ],
       "id": "58a28683-7514-487e-ae38-2ee3c1b913f1",
       "name": "Webhook",
@@ -664,11 +664,11 @@
         "messages": {
           "values": [
             {
-              "content": "Eres el asistente virtual llamado Juan de Clínica Dental Zenit.\n\nINFORMACIÓN DE LA CLÍNICA:\n\n📍 UBICACIÓN:\n- Dirección: Calle Juan Pablo, 1 \n- Zona/Barrio: Alicante, PAU 5\n\n\n📞 CONTACTO:\n- Teléfono: [+34 664 566 345]\n- WhatsApp: [+34 664 566 345]\n- Email: [email@clinica.com]\n- Web: [www.clinica.com]\n\n🕐 HORARIO DE ATENCIÓN:\n- Lunes a Jueves: 9:00 - 14:00 y 16:00 - 20:00\n- Viernes: 9:00 - 15:00\n- Sábados: Cerrado\n- Domingos y festivos: Cerrado\n\n💳 FORMAS DE PAGO:\n- Efectivo\n- Tarjeta (débito/crédito)\n- Bizum\n- Financiación disponible\n\n🏥 SEGUROS ACEPTADOS:\n- [Asisa, Sanitas, Adeslas, etc.]\n\n\nINSTRUCCIONES:\n- Responde de forma clara, amable y concisa\n- Si preguntan algo que no sabes, di \"Para esa información específica, te recomiendo llamarnos al [teléfono]\"\n- Ofrece siempre la opción de agendar una cita\n- Máximo 3-4 líneas de respuesta",
-              "role": "assistant"
+              "content": "Eres el asistente virtual llamado Juan de Clínica Dental Zenit.\n\nINFORMACIÓN DE LA CLÍNICA:\n\nUBICACIÓN:\n- Dirección: Calle Juan Pablo, 1 \n- Zona/Barrio: Alicante, PAU 5\n\n\nCONTACTO:\n- Teléfono: [+34 664 566 345]\n- WhatsApp: [+34 664 566 345]\n- Email: [email@clinica.com]\n- Web: [www.clinica.com]\n\nHORARIO DE ATENCIÓN:\n- Lunes a Jueves: 9:00 - 14:00 y 16:00 - 20:00\n- Viernes: 9:00 - 15:00\n- Sábados: Cerrado\n- Domingos y festivos: Cerrado\n\nFORMAS DE PAGO:\n- Efectivo\n- Tarjeta (débito/crédito)\n- Bizum\n- Financiación disponible\n\nSEGUROS ACEPTADOS:\n- [Asisa, Sanitas, Adeslas, etc.]\n\n\nINSTRUCCIONES:\n- Responde de forma clara, amable y concisa\n- Si preguntan algo que no sabes, di \"Para esa información específica, te recomiendo llamarnos al [teléfono]\"\n- Ofrece siempre la opción de agendar una cita\n- Máximo 3-4 líneas de respuesta",
+              "role": "system"
             },
             {
-              "content": "={{ $('Preparar Datos').item.json.mensaje_usuario }}"
+              "content": "={{ $('Webhook').item.json.body.mensaje }}"
             }
           ]
         },
@@ -712,7 +712,7 @@
       "typeVersion": 1.4,
       "position": [
         -576,
-        2816
+        2844
       ],
       "id": "2be4420f-e8ea-4ec8-ad24-c50c97d5d326",
       "name": "Respond to Webhook"
@@ -837,7 +837,7 @@
       "typeVersion": 2.1,
       "position": [
         -1824,
-        1952
+        2940
       ],
       "id": "cc95614f-bd17-4044-8975-2dce42c7e6f7",
       "name": "Buscar Citas Existentes",
@@ -874,7 +874,7 @@
       "typeVersion": 2,
       "position": [
         -1152,
-        1952
+        2940
       ],
       "id": "f4fb7d29-13f6-4058-8e72-38a063737bf0",
       "name": "Generar Horarios Disponibles",
@@ -903,7 +903,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        1952
+        2940
       ],
       "id": "ff642035-f47a-4bf7-bae0-1be2efb86f23",
       "name": "Formatear Respuesta Consultar"
@@ -926,7 +926,7 @@
       "typeVersion": 3.4,
       "position": [
         -1600,
-        1952
+        2940
       ],
       "id": "be1af4e0-c740-4cc5-90a5-e1c11dc5d90b",
       "name": "Citas agendadas"
@@ -946,7 +946,7 @@
       "typeVersion": 1,
       "position": [
         -1376,
-        1952
+        2940
       ],
       "id": "62449062-e6c9-4c26-b558-38de39197357",
       "name": "Agrupar citas"
@@ -958,7 +958,7 @@
             {
               "id": "553b9bb5-0ce0-40e0-8f58-87dedc6f6604",
               "name": "confirmationUrl",
-              "value": "=https://n8n-n8n.u5h0lw.easypanel.host/webhook-test/confirmar-cita?id={{ $json.id }}\n",
+              "value": "=https://n8n-n8n.u5h0lw.easypanel.host/webhook/confirmar-cita?id={{ $json.id }}\n",
               "type": "string"
             }
           ]
@@ -969,7 +969,7 @@
       "typeVersion": 3.4,
       "position": [
         -1376,
-        2144
+        1952
       ],
       "id": "88471f60-afad-4e1f-9f01-0f62ee129108",
       "name": "Construir URL Confirmación"
@@ -1147,7 +1147,7 @@
       "typeVersion": 2.1,
       "position": [
         -1600,
-        2144
+        1952
       ],
       "id": "3ffb4d24-400b-4c92-a11b-da09f8ef1007",
       "name": "Crear Cita",
@@ -1172,7 +1172,7 @@
       "typeVersion": 2.1,
       "position": [
         -1088,
-        2144
+        1952
       ],
       "id": "01e958c0-1253-4d4b-b2c8-8ec3ff26bc77",
       "name": "Send a message",
@@ -1194,7 +1194,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        2144
+        1952
       ],
       "id": "ff7a9d9b-82a1-4046-8909-0d44ec551c5e",
       "name": "Formatear Respuesta Agenda"
@@ -1314,7 +1314,7 @@
       "typeVersion": 2.2,
       "position": [
         -1824,
-        2240
+        2048
       ],
       "id": "b86655eb-d467-4f92-8450-03c4a6d1dc75",
       "name": "Completa?"
@@ -1337,7 +1337,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        2336
+        2144
       ],
       "id": "91158ada-a5fd-44e0-a73c-e30bf11c6d63",
       "name": "Pregunta"
@@ -1347,7 +1347,7 @@
         "promptType": "define",
         "text": "={{ $json.body.mensaje }}",
         "options": {
-          "systemMessage": "=### ROL DEL SISTEMA\nEres un motor de extracción de datos y clasificación de intenciones para una clínica dental. Tu objetivo es analizar el lenguaje natural del paciente y estructurar la información en un formato JSON estricto.\n\n### CONTEXTO TEMPORAL (CRÍTICO)\nLa fecha y hora actual es: {{ $now }}\n(Usa esta fecha como referencia para calcular términos como \"mañana\", \"el próximo lunes\", \"en tres días\").\n\n### REGLAS DE CLASIFICACIÓN (INTENCIÓN)\nClasifica el mensaje del usuario en EXACTAMENTE UNA de las siguientes categorías:\n1. \"AGENDAR\": El usuario quiere reservar, pedir o modificar una cita.\n2. \"CANCELAR\": El usuario quiere anular una cita existente.\n3. \"CONSULTAR\": Preguntas médicas, dudas sobre síntomas o post-operatorio.\n4. \"INFO_SERVICIOS\": Preguntas sobre precios, tipos de tratamientos, seguros.\n5. \"INFO_CLINICA\": Preguntas sobre ubicación, horarios de apertura, parking.\n6. \"SALUDO\": Hola, buenos días, gracias, adiós (sin otra intención).\n7. \"OTRO\": Cualquier cosa que no encaje en las anteriores.\n\n### REGLAS DE EXTRACCIÓN DE DATOS (SOLO PARA INTENCIÓN \"AGENDAR\")\nSi la intención es \"AGENDAR\", extrae los siguientes campos. Si no se mencionan, déjalos como null.\n- \"fecha\": Formato DD/MM/YYYY. Si el usuario dice \"el lunes\", calcula la fecha exacta basándote en el CONTEXTO TEMPORAL.\n- \"hora\": Formato HH:MM (24h).\n- \"tratamiento\": Normaliza a categorías generales si es posible (Ej: \"me duele una muela\" -> \"Dolor/Urgencia\", \"limpieza\" -> \"Higiene Dental\").\n- \"nombre\": Nombre del paciente (Capitalizado).\n- \"email\": Correo electrónico válido.\n- \"telefono\": Número telefónico.\n\n### LÓGICA DE DATOS FALTANTES Y GENERACIÓN DE PREGUNTA\nSi la intención es \"AGENDAR\":\n1. Revisa qué campos obligatorios faltan en este orden de prioridad: Tratamiento > Fecha > Hora > Nombre > Email > Telefono.\n2. En el array \"faltan_datos\", lista los nombres de los campos faltantes.\n3. En el campo \"pregunta\", genera UNA sola pregunta natural y empática para solicitar el dato faltante de mayor prioridad.\n   - Ejemplo: Si falta tratamiento: \"¿Podrías decirme el motivo de la consulta o qué tratamiento necesitas?\"\n   - Ejemplo: Si falta fecha: \"¿Qué día te vendría mejor para agendar tu cita?\"\n\nSi la intención NO es \"AGENDAR\":\n- \"datos_extraidos\" debe contener los campos con valor null.\n- \"faltan_datos\" debe ser [].\n- \"pregunta\" debe ser null (tu sistema gestionará la respuesta, tú solo extraes datos).\n\n### FORMATO DE SALIDA (JSON)\nTu respuesta debe ser EXCLUSIVAMENTE un objeto JSON válido. No uses bloques de código (```json), no añadas explicaciones previas ni posteriores.\n\nEstructura:\n{\n  \"intencion\": \"STRING\",\n  \"datos_extraidos\": {\n    \"fecha\": \"DD/MM/YYYY\" | null,\n    \"hora\": \"HH:MM\" | null,\n    \"telefono\": \"STRING\" | null,\n    \"tratamiento\": \"STRING\" | null,\n    \"nombre\": \"STRING\" | null,\n    \"email\": \"STRING\" | null\n  },\n  \"faltan_datos\": [\"STRING\", ...],\n  \"pregunta\": \"STRING\" | null\n}\n\n### EJEMPLOS (FEW-SHOT)\n\nInput: \"Hola\"\nOutput: {\"intencion\": \"SALUDO\", \"datos_extraidos\": {\"fecha\": null, \"hora\": null, \"telefono\": null, \"tratamiento\": null, \"nombre\": null, \"email\": null}, \"faltan_datos\": [], \"pregunta\": null}\n\nInput: \"Quiero una limpieza para mañana por la tarde\" (Asumiendo fecha actual: 18/11/2025)\nOutput: {\"intencion\": \"AGENDAR\", \"datos_extraidos\": {\"fecha\": \"19/11/2025\", \"hora\": \"16:00\", \"telefono\": null, \"tratamiento\": \"Limpieza Dental\", \"nombre\": null, \"email\": null}, \"faltan_datos\": [\"nombre\", \"email\", \"telefono\"], \"pregunta\": \"¿Me podrías dar tu nombre completo para la reserva?\"}\n\nInput: \"Soy Ana Gómez, quiero cita.\"\nOutput: {\"intencion\": \"AGENDAR\", \"datos_extraidos\": {\"fecha\": null, \"hora\": null, \"telefono\": null, \"tratamiento\": null, \"nombre\": \"Ana Gómez\", \"email\": null}, \"faltan_datos\": [\"tratamiento\", \"fecha\", \"hora\", \"email\", \"telefono\"], \"pregunta\": \"Hola Ana, ¿para qué tratamiento o motivo deseas la cita?\"}"
+          "systemMessage": "=### ROL DEL SISTEMA\nEres un motor de extracción de datos y clasificación de intenciones para una clínica dental. Tu objetivo es analizar el lenguaje natural del paciente y estructurar la información en un formato JSON estricto.\n\n### CONTEXTO TEMPORAL (CRÍTICO)\nLa fecha y hora actual es: {{ $now }}\n(Usa esta fecha como referencia para calcular términos como \"mañana\", \"el próximo lunes\", \"en tres días\").\n\n### REGLAS DE CLASIFICACIÓN (INTENCIÓN)\nClasifica el mensaje del usuario en EXACTAMENTE UNA de las siguientes categorías:\n1. \"AGENDAR\": El usuario quiere reservar, pedir o modificar una cita.\n2. \"CANCELAR\": El usuario quiere anular una cita existente.\n3. \"CONSULTAR\": Preguntas médicas, dudas sobre síntomas o post-operatorio.\n4. \"INFO_SERVICIOS\": Preguntas sobre precios, tipos de tratamientos, seguros.\n5. \"INFO_CLINICA\": Preguntas sobre ubicación, horarios de apertura, parking.\n6. \"SALUDO\": Hola, buenos días, gracias, adiós (sin otra intención).\n7. \"OTRO\": Cualquier cosa que no encaje en las anteriores.\n\n### REGLAS DE EXTRACCIÓN DE DATOS (SOLO PARA INTENCIÓN \"AGENDAR\")\nSi la intención es \"AGENDAR\", extrae los siguientes campos. Si no se mencionan, déjalos como null.\n- \"fecha\": Formato DD/MM/YYYY. Si el usuario dice \"el lunes\", calcula la fecha exacta basándote en el CONTEXTO TEMPORAL.\n- \"hora\": Formato HH:MM (24h).\n- \"Servicio\": Normaliza a categorías generales si es posible (Ej: \"me duele una muela\" -> \"Dolor/Urgencia\", \"limpieza\" -> \"Higiene Dental\").\n- \"nombre\": Nombre del paciente (Capitalizado).\n- \"email\": Correo electrónico válido.\n- \"telefono\": Número telefónico.\n\n### LÓGICA DE DATOS FALTANTES Y GENERACIÓN DE PREGUNTA\nSi la intención es \"AGENDAR\":\n1. Revisa qué campos obligatorios faltan en este orden de prioridad: Tratamiento > Fecha > Hora > Nombre > Email > Telefono.\n2. En el array \"faltan_datos\", lista los nombres de los campos faltantes.\n3. En el campo \"pregunta\", genera UNA sola pregunta natural y empática para solicitar el dato faltante de mayor prioridad.\n   - Ejemplo: Si falta tratamiento: \"¿Podrías decirme el motivo de la consulta o qué tratamiento necesitas?\"\n   - Ejemplo: Si falta fecha: \"¿Qué día te vendría mejor para agendar tu cita?\"\n\nSi la intención NO es \"AGENDAR\":\n- \"datos_extraidos\" debe contener los campos con valor null.\n- \"faltan_datos\" debe ser [].\n- \"pregunta\" debe ser null (tu sistema gestionará la respuesta, tú solo extraes datos).\n\n### FORMATO DE SALIDA (JSON)\nTu respuesta debe ser EXCLUSIVAMENTE un objeto JSON válido. No uses bloques de código (```json), no añadas explicaciones previas ni posteriores.\n\nEstructura:\n{\n  \"intencion\": \"STRING\",\n  \"datos_extraidos\": {\n    \"fecha\": \"DD/MM/YYYY\" | null,\n    \"hora\": \"HH:MM\" | null,\n    \"telefono\": \"STRING\" | null,\n    \"tratamiento\": \"STRING\" | null,\n    \"nombre\": \"STRING\" | null,\n    \"email\": \"STRING\" | null\n  },\n  \"faltan_datos\": [\"STRING\", ...],\n  \"pregunta\": \"STRING\" | null\n}\n\n### EJEMPLOS (FEW-SHOT)\n\nInput: \"Hola\"\nOutput: {\"intencion\": \"SALUDO\", \"datos_extraidos\": {\"fecha\": null, \"hora\": null, \"telefono\": null, \"tratamiento\": null, \"nombre\": null, \"email\": null}, \"faltan_datos\": [], \"pregunta\": null}\n\nInput: \"Quiero una limpieza para mañana por la tarde\" (Asumiendo fecha actual: 18/11/2025)\nOutput: {\"intencion\": \"AGENDAR\", \"datos_extraidos\": {\"fecha\": \"19/11/2025\", \"hora\": \"16:00\", \"telefono\": null, \"tratamiento\": \"Limpieza Dental\", \"nombre\": null, \"email\": null}, \"faltan_datos\": [\"nombre\", \"email\", \"telefono\"], \"pregunta\": \"¿Me podrías dar tu nombre completo para la reserva?\"}\n\nInput: \"Soy Ana Gómez, quiero cita.\"\nOutput: {\"intencion\": \"AGENDAR\", \"datos_extraidos\": {\"fecha\": null, \"hora\": null, \"telefono\": null, \"tratamiento\": null, \"nombre\": \"Ana Gómez\", \"email\": null}, \"faltan_datos\": [\"tratamiento\", \"fecha\", \"hora\", \"email\", \"telefono\"], \"pregunta\": \"Hola Ana, ¿para qué tratamiento o motivo deseas la cita?\"}"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -1363,13 +1363,13 @@
       "parameters": {
         "sessionIdType": "customKey",
         "sessionKey": "={{ $json.body.session_id }}",
-        "contextWindowLength": 10
+        "contextWindowLength": 15
       },
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        -3288,
-        3356
+        -3280,
+        3360
       ],
       "id": "0cc724d4-1a05-4c67-a307-a7c94bf5ce2b",
       "name": "Postgres Chat Memory",
@@ -1407,7 +1407,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -3824,
+        -3936,
         1916
       ],
       "typeVersion": 1,
@@ -1567,7 +1567,25 @@
               "defaultMatch": false,
               "canBeUsedToMatch": true,
               "display": true,
-              "type": "string",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Pendiente",
+                  "value": "Pendiente"
+                },
+                {
+                  "name": "Confirmada",
+                  "value": "Confirmada"
+                },
+                {
+                  "name": "Cancelada",
+                  "value": "Cancelada"
+                },
+                {
+                  "name": "Completada",
+                  "value": "Completada"
+                }
+              ],
               "readOnly": false,
               "removed": false
             },
@@ -1647,8 +1665,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -2400,
-        2720
+        -1920,
+        2560
       ],
       "id": "7353d6ae-34ee-48ca-9553-83e4814b03d8",
       "name": "AI Agent1"
@@ -1660,8 +1678,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -2392,
-        2944
+        -1920,
+        2736
       ],
       "id": "a1bd2407-6ecb-4063-b065-e65426f45735",
       "name": "Google Gemini Chat Model1",
@@ -1679,8 +1697,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2048,
-        2720
+        -1632,
+        2560
       ],
       "id": "bbc35c1a-62a4-42bf-8962-c9fb93cd7c58",
       "name": "Code in JavaScript1"
@@ -1703,7 +1721,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        2912
+        2720
       ],
       "id": "fd02c01e-b7d5-4bb5-a07d-82d3699d7f56",
       "name": "Respuesta"
@@ -1740,8 +1758,8 @@
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2.1,
       "position": [
-        -1600,
-        2624
+        -1360,
+        2464
       ],
       "id": "c2034ab5-2b32-42fb-85ab-787528c4d845",
       "name": "Search records",
@@ -1781,8 +1799,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1376,
-        2624
+        -1216,
+        2464
       ],
       "id": "5af59232-97ec-4c64-9966-e9929b98d8c0",
       "name": "If"
@@ -1805,7 +1823,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        2720
+        2528
       ],
       "id": "a5aa98fe-38d5-4f69-8350-6c9f8cce6d3d",
       "name": "Respuesta1"
@@ -1984,8 +2002,8 @@
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2.1,
       "position": [
-        -1088,
-        2528
+        -1024,
+        2384
       ],
       "id": "6dcbf786-8797-471b-add0-b4ec9fbadabd",
       "name": "Update record1",
@@ -2014,7 +2032,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        2528
+        2336
       ],
       "id": "07e944ea-248b-4dba-a677-438b902d66af",
       "name": "Respuesta cancelación"
@@ -2047,19 +2065,23 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1824,
-        2720
+        -1488,
+        2560
       ],
       "id": "bc9685b8-0f9e-40d6-a14c-019808e91dc7",
       "name": "Tenemos tlf?"
     },
     {
-      "parameters": {},
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.session_id }}",
+        "contextWindowLength": 15
+      },
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        -2264,
-        2944
+        -1808,
+        2736
       ],
       "id": "2df15d5d-b50a-4059-b787-021c680cfa33",
       "name": "Postgres Chat Memory1",
@@ -2090,6 +2112,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-11-19T20:25:20.000Z",
-  "versionId": "777f9f1f-1f9a-41a6-97fd-411e89f0ca93"
+  "updatedAt": "2025-11-20T19:16:41.000Z",
+  "versionId": "4cea0fe0-8d0d-4234-a7ac-11c32d610ff5"
 }
