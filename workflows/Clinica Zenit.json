@@ -648,7 +648,7 @@
       "typeVersion": 3.3,
       "position": [
         -2624,
-        3052
+        3056
       ],
       "id": "9ddef312-f53c-4880-850a-b3234c264b80",
       "name": "Switch"
@@ -678,7 +678,7 @@
       "typeVersion": 1.8,
       "position": [
         -1152,
-        3324
+        3328
       ],
       "id": "97cb894e-95b4-4049-a45b-9458ecfc608f",
       "name": "Responder Info Clínica",
@@ -699,7 +699,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        3324
+        3328
       ],
       "id": "4e73cad9-9496-4eb1-9485-0c650676ffc9",
       "name": "Formatear Respuesta Info"
@@ -712,7 +712,7 @@
       "typeVersion": 1.4,
       "position": [
         -576,
-        2844
+        2848
       ],
       "id": "2be4420f-e8ea-4ec8-ad24-c50c97d5d326",
       "name": "Respond to Webhook"
@@ -742,7 +742,7 @@
       "typeVersion": 1.8,
       "position": [
         -1152,
-        3132
+        3136
       ],
       "id": "0871d626-1417-4cbb-8639-4475a60497af",
       "name": "Responder Info Servicios",
@@ -771,7 +771,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        3132
+        3136
       ],
       "id": "97f85b4c-d2f6-4a32-b4d2-30f0331a605c",
       "name": "Formatear Respuesta Servicios"
@@ -786,7 +786,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        3708
+        3712
       ],
       "id": "5040def8-504a-4915-a0e3-2b78831e7be0",
       "name": "Respuesta Fallback"
@@ -801,7 +801,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        3516
+        3520
       ],
       "id": "414c81d1-1888-401d-a72b-353054d9021b",
       "name": "Respuesta Saludo"
@@ -837,7 +837,7 @@
       "typeVersion": 2.1,
       "position": [
         -1824,
-        2940
+        2944
       ],
       "id": "cc95614f-bd17-4044-8975-2dce42c7e6f7",
       "name": "Buscar Citas Existentes",
@@ -874,7 +874,7 @@
       "typeVersion": 2,
       "position": [
         -1152,
-        2940
+        2944
       ],
       "id": "f4fb7d29-13f6-4058-8e72-38a063737bf0",
       "name": "Generar Horarios Disponibles",
@@ -903,7 +903,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        2940
+        2944
       ],
       "id": "ff642035-f47a-4bf7-bae0-1be2efb86f23",
       "name": "Formatear Respuesta Consultar"
@@ -926,7 +926,7 @@
       "typeVersion": 3.4,
       "position": [
         -1600,
-        2940
+        2944
       ],
       "id": "be1af4e0-c740-4cc5-90a5-e1c11dc5d90b",
       "name": "Citas agendadas"
@@ -946,7 +946,7 @@
       "typeVersion": 1,
       "position": [
         -1376,
-        2940
+        2944
       ],
       "id": "62449062-e6c9-4c26-b558-38de39197357",
       "name": "Agrupar citas"
@@ -1207,7 +1207,7 @@
       "typeVersion": 2,
       "position": [
         -3072,
-        3132
+        3136
       ],
       "id": "34a80721-5c08-49da-a279-b1cb76323b3f",
       "name": "Code in JavaScript"
@@ -1230,7 +1230,7 @@
       "typeVersion": 3.4,
       "position": [
         -2848,
-        3132
+        3136
       ],
       "id": "74cca608-eaeb-49c6-97a5-0fbb8361fee0",
       "name": "Edit Fields"
@@ -1354,7 +1354,7 @@
       "typeVersion": 3,
       "position": [
         -3424,
-        3132
+        3136
       ],
       "id": "7b0ada68-3105-45f8-ad18-37f06c99687c",
       "name": "AI Agent"
@@ -1387,8 +1387,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -3416,
-        3356
+        -3424,
+        3360
       ],
       "id": "4cb4732d-e9ac-48dd-837d-b6b2057b77e2",
       "name": "Google Gemini Chat Model",
@@ -1408,7 +1408,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         -3936,
-        1916
+        1920
       ],
       "typeVersion": 1,
       "id": "c65bba0f-5c8c-44b0-a27c-77299efb4750",
@@ -2112,6 +2112,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-11-20T19:16:41.000Z",
-  "versionId": "4cea0fe0-8d0d-4234-a7ac-11c32d610ff5"
+  "updatedAt": "2025-11-21T16:27:12.000Z",
+  "versionId": "0ff63438-0903-4257-a3e1-d93bf5216820"
 }
