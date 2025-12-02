@@ -1,0 +1,277 @@
+{
+  "active": false,
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send respond ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ChatGPT model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Local n8n memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set your system promt for AI": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Getting message from Instagram": {
+      "main": [
+        [
+          {
+            "node": "Set your system promt for AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-02T18:34:49.150Z",
+  "id": "1pGxl054vS65rbsr",
+  "isArchived": false,
+  "meta": null,
+  "name": "InstaTest",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0b3c3d71-5627-4b8c-91f0-ac44eaedf196",
+              "name": "prompt",
+              "type": "string",
+              "value": "=Persona: You are a instagram influencer.\nContext: You receive a messages from your subscribers\nTask: Answer questions in your writing style and patterns according to your previous posts text. Use your post only for style and patterns reference.\nStyle rules:\nsimple answers"
+            },
+            {
+              "id": "c2a9e272-5c0d-4685-ad0e-ce6995f92a1c",
+              "name": "sessionId",
+              "type": "string",
+              "value": "={{ $json.body.session_id }}"
+            },
+            {
+              "id": "b3c20ee3-07a1-4584-b0d9-7310a2c6b723",
+              "name": "chatInput",
+              "type": "string",
+              "value": "={{ $json.body.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "62181fd1-63e3-4cd2-8deb-4148892e60f6",
+      "name": "Set your system promt for AI",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -208,
+        320
+      ],
+      "typeVersion": 3.3,
+      "notes": "In this node in \"prompt\" variable you can set your system prompt"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Set your system promt for AI').last().json.sessionId }}",
+        "contextWindowLength": 20
+      },
+      "id": "c38c5b03-58d9-4902-806d-19c57cc98432",
+      "name": "Local n8n memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        192,
+        480
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "5261242a-2566-4de7-bac1-ab61ca66182a",
+      "name": "ChatGPT model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        48,
+        480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "7715564e-ee8a-4180-9838-5217af3fa933",
+      "name": "Send respond ",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        400,
+        320
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "content": "## Easy Instagram(via ManyChat) bot\n---\n### Description:\nThis template is a main part of Entire solution. It's getting new message from Instagram via ManyChat(Extra No-Code tool for getting and sending message in Instagram). Generating message using ChatGPT and send back to ManyChat that sends it to Instagrtam.\n\n### Logic:\n1. Getting message from Instagram(from ManyChat)\n2. Set you system prompt for AI\n3. Create simple answer for message in AI block\n4. Send answer to Instagram(to ManyChat)\n\n---\n*Helpful links:*\n- [Guide in Notion how to create full bot](https://shadowed-pound-d6e.notion.site/Instagram-GPT-light-version-Manychat-X-N8N-176293bddff880899a9ac255585d29f7?pvs=4)\n- [ManyChat](https://manychat.partnerlinks.io/vm4wkw8j81tc)",
+        "height": 447.98321744507007,
+        "width": 458.4028599661066,
+        "color": 5
+      },
+      "id": "90ab8c95-1458-4a8a-8d63-b513bea67d56",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1008,
+        64
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "instagram_chat",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "55fe2cb1-63c8-4568-8314-6a320c08bb88",
+      "name": "Getting message from Instagram",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -416,
+        320
+      ],
+      "webhookId": "68d3fbc9-6e49-4bdc-851c-2a532be911ab",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "## 3) AI block\n---\nThere is 3 nodes:\n- AI Agent\n- Chat GPT model\n- Memory for history messages\n\n### To do:\n- in ChatGPT node you can choose the best model for you\n- in Memory Block you can change number of messages in history\n\n",
+        "height": 614.7475040550845,
+        "width": 313.9634922216307
+      },
+      "id": "2143e537-b55e-4779-93de-025048cbf6dd",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "={{ $json.prompt }}"
+        }
+      },
+      "id": "de63abf1-da86-4172-92fc-bbaa16cfc9ff",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        32,
+        320
+      ],
+      "typeVersion": 1.7
+    },
+    {
+      "parameters": {
+        "content": "## 1) HTTP Post webhook\n\n**To do:**\nJust copy production link from this node and insert to custom action in ManyChat\n\nNo edits needed",
+        "height": 440
+      },
+      "id": "08c63935-cc4a-44f5-b3d5-33754526ad32",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -496,
+        64
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 2) Edit prompt\n\n**To do:**\nGo inside and change input\n",
+        "height": 320,
+        "width": 220
+      },
+      "id": "942b4d86-abaa-48ee-884e-3b10fe3fbba3",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        192
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 4) Respond webhook\n\nNo edits needed",
+        "height": 300
+      },
+      "id": "b16b26de-1b74-4f3a-9c30-73dd8b75f611",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        352,
+        192
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-02T18:34:49.160Z",
+      "createdAt": "2025-12-02T18:34:49.160Z",
+      "role": "workflow:owner",
+      "workflowId": "1pGxl054vS65rbsr",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "updatedAt": "2025-12-02T18:33:27.593Z",
+      "createdAt": "2025-12-02T18:33:27.593Z",
+      "id": "nQiRbhLv6IyHZTun",
+      "name": "AI"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-02T18:34:49.150Z",
+  "versionId": "4c7557ed-c417-4b18-802b-a5be588a9f08"
+}
