@@ -1,0 +1,626 @@
+{
+  "active": false,
+  "connections": {
+    "Verify": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond": {
+      "main": [
+        [
+          {
+            "node": "is Message?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get folder": {
+      "main": [
+        [
+          {
+            "node": "Download Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is Message?": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Only message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Files": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Refresh collection": {
+      "main": [
+        [
+          {
+            "node": "Get folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Create collection",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Refresh collection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-02T18:32:55.211Z",
+  "id": "qqLIakjVv7cgHwEv",
+  "isArchived": false,
+  "meta": null,
+  "name": "Business WhatsApp AI RAG Chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {}
+      },
+      "id": "44d67f82-07c7-469c-9383-a7a59934a5e5",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        64,
+        1152
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "={{ $('Respond').item.json.body.entry[0].changes[0].value.messages[0].text.body }}",
+        "options": {
+          "systemMessage": "You are an AI-powered assistant for an electronics store. Your primary goal is to assist customers by providing accurate and helpful information about products, troubleshooting tips, and general support. Use the provided knowledge base (retrieved documents) to answer questions with precision and professionalism.\n\n**Guidelines**:\n1. **Product Information**:\n - Provide detailed descriptions of products, including specifications, features, and compatibility.\n - Highlight key selling points and differences between similar products.\n - Mention availability, pricing, and promotions if applicable.\n\n2. **Technical Support**:\n - Offer step-by-step troubleshooting guides for common issues.\n - Suggest solutions for setup, installation, or configuration problems.\n - If the issue is complex, recommend contacting the store’s support team for further assistance.\n\n3. **Customer Service**:\n - Respond politely and professionally to all inquiries.\n - If a question is unclear, ask for clarification to provide the best possible answer.\n - For order-related questions (e.g., status, returns, or cancellations), guide customers on how to proceed using the store’s systems.\n\n4. **Knowledge Base Usage**:\n - Always reference the provided knowledge base (retrieved documents) to ensure accuracy.\n - If the knowledge base does not contain relevant information, inform the customer and suggest alternative resources or actions.\n\n5. **Tone and Style**:\n - Use a friendly, approachable, and professional tone.\n - Avoid technical jargon unless the customer demonstrates familiarity with the topic.\n - Keep responses concise but informative.\n\n**Example Interactions**:\n1. **Product Inquiry**:\n - Customer: \"What’s the difference between the XYZ Smartwatch and the ABC Smartwatch?\"\n - AI: \"The XYZ Smartwatch features a longer battery life (up to 7 days) and built-in GPS, while the ABC Smartwatch has a brighter AMOLED display and supports wireless charging. Both are compatible with iOS and Android devices. Would you like more details on either product?\"\n\n2. **Technical Support**:\n - Customer: \"My wireless router isn’t connecting to the internet.\"\n - AI: \"Please try the following steps: 1) Restart your router and modem. 2) Ensure all cables are securely connected. 3) Check if the router’s LED indicators show a stable connection. If the issue persists, you may need to reset the router to factory settings. Would you like a detailed guide for resetting your router?\"\n\n3. **Customer Service**:\n - Customer: \"How do I return a defective product?\"\n - AI: \"To return a defective product, please visit our Returns Portal on our website and enter your order number. You’ll receive a return label and instructions. If you need further assistance, our support team is available at support@electronicsstore.com.\"\n\n**Limitations**:\n- If the question is outside the scope of the knowledge base or requires human intervention, inform the customer and provide contact details for the appropriate department.\n- Do not provide speculative or unverified information. Always rely on the knowledge base or direct the customer to official resources."
+        }
+      },
+      "id": "ca1427d2-476f-4bed-a58a-9cc946f973a3",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        608,
+        1488
+      ],
+      "typeVersion": 1.7
+    },
+    {
+      "parameters": {
+        "content": "# STEP 4\n\n## RAG System\n\n\n\n\n\n\n\n\n\n\n\n\n\n* *Respond* webhook receives various POST Requests from Meta regarding WhatsApp messages (user messages + status notifications)\n* Check if the incoming JSON contains user message\n* Echo back the text message to the user. This is a custom message, not a WhatsApp Business template message\n",
+        "height": 485,
+        "width": 459
+      },
+      "id": "d6e2e6c7-5a80-41f8-8fb3-523004146f93",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -224,
+        1360
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "id": "19f3f749-1b7f-4e6c-922c-401443f36670",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        608,
+        1680
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {},
+      "id": "aeca5cac-8492-4606-8d35-b1a1efcf2f1a",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -496,
+        208
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "mode": "id",
+          "value": "=COLLECTION"
+        },
+        "options": {}
+      },
+      "id": "c5124994-aebb-44de-9c2c-d415d4e8e658",
+      "name": "Qdrant Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "position": [
+        480,
+        320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://QDRANTURL/collections/COLLECTION",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n \"filter\": {}\n}",
+        "options": {}
+      },
+      "id": "76f3dc25-4f26-49c7-9077-b1f8e7d98b0a",
+      "name": "Create collection",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -208,
+        64
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://QDRANTURL/collections/COLLECTION/points/delete",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n \"filter\": {}\n}",
+        "options": {}
+      },
+      "id": "790a36b5-c142-4bc7-ace2-919ab6ea293f",
+      "name": "Refresh collection",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -208,
+        320
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "filter": {
+          "driveId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "My Drive",
+            "cachedResultUrl": "https://drive.google.com/drive/my-drive",
+            "cachedResultName": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "mode": "id",
+            "value": "=test-whatsapp"
+          }
+        },
+        "options": {}
+      },
+      "id": "0db70048-b968-4c1e-be10-6cf247819405",
+      "name": "Get folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        32,
+        320
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "text/plain"
+            }
+          }
+        }
+      },
+      "id": "9a443cfe-a90c-4a5c-8731-7a5246dba0db",
+      "name": "Download Files",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        240,
+        320
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "238c61e9-022c-44d5-ba6f-35035327000e",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "position": [
+        464,
+        528
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {}
+      },
+      "id": "5ce014ad-55cd-4df0-9111-51da0253d568",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "position": [
+        640,
+        528
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "chunkSize": 300,
+        "chunkOverlap": 30
+      },
+      "id": "83557c77-ea81-47d6-9f4b-4ee1ba0d039e",
+      "name": "Token Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
+      "position": [
+        608,
+        688
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Important!\n### Configure the webhook nodes this way:\n* Make sure that both *Verify* and *Respond* have the same URL\n* *Verify* should have GET HTTP Method\n* *Respond* should have POST HTTP Method",
+        "height": 177,
+        "width": 405,
+        "color": 3
+      },
+      "id": "efb7de1a-cfcd-4796-b519-fbaba7105dd4",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -768,
+        1248
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "# STEP 3\n\n## Create Webhook\n* Go to your [Meta for Developers App page](https://developers.facebook.com/apps/), navigate to the App settings\n* Add a **production webhook URL** as a new Callback URL\n* *Verify* webhook receives a GET Request and sends back a verification code\n* After that you can delete this\n",
+        "height": 392,
+        "width": 618,
+        "color": 5
+      },
+      "id": "7194c579-69e4-43b1-99db-cfbe1b2cce3e",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -224,
+        912
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "path": "f0d2e6f6-8fda-424d-b377-0bd191343c20",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "af6581a7-89fa-4fd9-bf90-2767b3b25a78",
+      "name": "Verify",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -176,
+        1152
+      ],
+      "webhookId": "f0d2e6f6-8fda-424d-b377-0bd191343c20",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f0d2e6f6-8fda-424d-b377-0bd191343c20",
+        "options": {}
+      },
+      "id": "dca8349a-d5ea-4402-94b0-4cb6cdb7f549",
+      "name": "Respond",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -208,
+        1520
+      ],
+      "webhookId": "f0d2e6f6-8fda-424d-b377-0bd191343c20",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "loose"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "959fbffc-876a-4235-87be-2dedba4926cd",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.body.entry[0].changes[0].value.messages[0] }}",
+              "rightValue": ""
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "f5004f66-6c5d-4a4d-8c04-a217977a2d41",
+      "name": "is Message?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        32,
+        1520
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "470271332838881",
+        "recipientPhoneNumber": "={{ $('Respond').item.json.body.entry[0].changes[0].value.contacts[0].wa_id }}",
+        "textBody": "=You can only send text messages",
+        "additionalFields": {}
+      },
+      "id": "ada92d40-5130-470b-b2a6-048c609c843a",
+      "name": "Only message",
+      "type": "n8n-nodes-base.whatsApp",
+      "position": [
+        320,
+        1632
+      ],
+      "typeVersion": 1,
+      "webhookId": "cd0bce03-df37-4fe3-9c9f-01ef93b80886"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "470271332838881",
+        "recipientPhoneNumber": "={{ $('Respond').item.json.body.entry[0].changes[0].value.contacts[0].wa_id }}",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "id": "c58b71ca-c1c2-46ef-ab4d-7b2313c4f859",
+      "name": "Send",
+      "type": "n8n-nodes-base.whatsApp",
+      "position": [
+        1024,
+        1488
+      ],
+      "typeVersion": 1,
+      "webhookId": "d9c97c6b-3f17-4d0d-8f24-2660614d9b60"
+    },
+    {
+      "parameters": {},
+      "id": "b1c6e178-a47a-456b-a7e8-fcb2b006d859",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        800,
+        1680
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "content": "# STEP 1\n\n## Create Qdrant Collection\nChange:\n- QDRANTURL\n- COLLECTION",
+        "height": 220,
+        "width": 880,
+        "color": 6
+      },
+      "id": "9fbd92e6-2b1f-4f2b-a6c5-63072da71129",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "# STEP 2\n\n\n\n\n\n\n\n\n\n\n\n\n## Documents vectorization with Qdrant and Google Drive\nChange:\n- QDRANTURL\n- COLLECTION",
+        "height": 400,
+        "width": 620,
+        "color": 4
+      },
+      "id": "538d647f-4616-4cf1-b023-a38dffdcaff7",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -224,
+        272
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Configure AI Agent\nSet System prompt and chat model. If you want you can set any tools",
+        "height": 260,
+        "width": 380
+      },
+      "id": "7fe24183-dad1-435c-9bdd-384c2109ffd4",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        560,
+        1360
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-02T18:32:55.219Z",
+      "createdAt": "2025-12-02T18:32:55.219Z",
+      "role": "workflow:owner",
+      "workflowId": "qqLIakjVv7cgHwEv",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-02T18:33:15.000Z",
+  "versionId": "bfd5fb7b-4fec-49f7-b207-328cc4e3cbf8"
+}
