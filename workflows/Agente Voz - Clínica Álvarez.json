@@ -1,0 +1,4373 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook - Entrada Retell": {
+      "main": [
+        [
+          {
+            "node": "Switch - Enrutador acciones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch - Enrutador acciones": {
+      "main": [
+        [
+          {
+            "node": "Gsheets - Buscar Hueco",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GSheets - Guardar Cita",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GSheets - Buscar para Cancelar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gsheets - Buscar Hueco": {
+      "main": [
+        [
+          {
+            "node": "Code - Contar Ocupacion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If - ¿Hueco Ocupado?": {
+      "main": [
+        [
+          {
+            "node": "Set - Respuesta Disponible",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set - Respuesta Ocupado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set - Respuesta Ocupado": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set - Respuesta Disponible": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GSheets - Guardar Cita": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Enviar Confirmación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Enviar Confirmación": {
+      "main": [
+        [
+          {
+            "node": "Set - Mensaje Exito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set - Mensaje Exito": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GSheets - Buscar para Cancelar": {
+      "main": [
+        [
+          {
+            "node": "If - ¿Cita Encontrada?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If - ¿Cita Encontrada?": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set - Msg No Encontrada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Set - Msg Cancelada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set - Msg Cancelada": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set - Msg No Encontrada": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Contar Ocupacion": {
+      "main": [
+        [
+          {
+            "node": "If - ¿Hueco Ocupado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-15T11:19:17.968Z",
+  "id": "vpXlm0kI4sMbdcNg",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Agente Voz - Clínica Álvarez",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agente-clinica",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -208,
+        512
+      ],
+      "id": "65944206-7721-4e13-bc12-846661c7db5d",
+      "name": "Webhook - Entrada Retell",
+      "webhookId": "0d370a79-ea07-4185-a4ae-581f5a7b5932"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.args.action }}",
+                    "rightValue": "=check_availability",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9496a8ef-6003-4dd7-8f09-9d74d30d2025"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "fd198a92-23a6-4db9-81cf-eb585462df84",
+                    "leftValue": "={{ $json.body.args.action }}",
+                    "rightValue": "book_appointment",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7e0424c8-adf7-45c3-afe4-4d920af3cc0e",
+                    "leftValue": "={{ $json.body.args.action }}",
+                    "rightValue": "cancel_appointment",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        16,
+        496
+      ],
+      "id": "66f12efa-0ead-490d-9431-54ea9d8b85bb",
+      "name": "Switch - Enrutador acciones"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental Álvarez",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "fecha",
+              "lookupValue": "={{ $('Webhook - Entrada Retell').item.json.body.args.fecha }}"
+            },
+            {
+              "lookupColumn": "hora",
+              "lookupValue": "={{ $('Webhook - Entrada Retell').item.json.body.args.hora }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        240,
+        224
+      ],
+      "id": "3d42762f-feed-4c00-aa42-e232d10059d8",
+      "name": "Gsheets - Buscar Hueco",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "14d0e692-aa34-46d4-8fa1-d00a96a8dcaa",
+              "leftValue": "={{ $json.total_ocupadas }}",
+              "rightValue": 5,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        224
+      ],
+      "id": "cc3d0352-48b1-4c85-a0a0-fa3225d89973",
+      "name": "If - ¿Hueco Ocupado?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "89644c3d-e078-46f5-ac09-f797bb40e3e2",
+              "name": "mensaje_agente",
+              "value": "Lo siento, esa hora ya está reservada. ¿Te va bien otra hora?",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        320
+      ],
+      "id": "4f3df6c3-e484-48cf-84b8-6c225ff17a1b",
+      "name": "Set - Respuesta Ocupado"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3d32a24b-4a3f-4ecd-9d2f-b53fcd290a55",
+              "name": "mensaje_agente",
+              "value": "Sí, tengo disponibilidad a esa hora. ¿Quieres que te reserve la cita?",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        128
+      ],
+      "id": "4afe3ec6-0b0d-41f0-9ad7-41e2ce21587d",
+      "name": "Set - Respuesta Disponible"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"response\": \"{{ $json.mensaje_agente }}\" }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1136,
+        512
+      ],
+      "id": "0a5b6b07-792f-4bb0-ac9a-92265b9db4ad",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental Álvarez",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id_cita": "=CITA-{{ $now.toMillis() }}",
+            "nombre_paciente": "={{ $('Webhook - Entrada Retell').item.json.body.args.nombre }}",
+            "email": "={{ $('Webhook - Entrada Retell').item.json.body.args.email }}",
+            "telefono": "={{ $('Webhook - Entrada Retell').item.json.body.args.telefono }}",
+            "fecha": "={{ $('Webhook - Entrada Retell').item.json.body.args.fecha }}",
+            "hora": "={{ $('Webhook - Entrada Retell').item.json.body.args.hora }}",
+            "estado": "Confirmada",
+            "servicio": "={{ $('Webhook - Entrada Retell').item.json.body.args.servicio }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "id_cita",
+              "displayName": "id_cita",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nombre_paciente",
+              "displayName": "nombre_paciente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "telefono",
+              "displayName": "telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "hora",
+              "displayName": "hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "servicio",
+              "displayName": "servicio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        512
+      ],
+      "id": "1ea6b58c-b312-488e-94b6-9b86aa62f79c",
+      "name": "GSheets - Guardar Cita",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "Confirmación de tu cita en Clínica Álvarez",
+        "message": "=Hola {{ $json.nombre_paciente }},<br><br>\n\nTu cita ha sido confirmada con éxito.<br><br>\n\n<b>📅 Fecha:</b> {{ $json.fecha }}<br>\n<b>⏰ Hora:</b> {{ $json.hora }}<br><br>\n\n¡Te esperamos!<br>\nClínica Dental Álvarez",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        688,
+        512
+      ],
+      "id": "e4220251-5031-4117-94c7-ebb3de2ed86e",
+      "name": "Gmail - Enviar Confirmación",
+      "webhookId": "a64778be-ada1-4018-bfe1-cf006bc765c7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "FhGOZ7dk8SKIOH6F",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "634aba19-8216-4734-8ad1-4add31ab429e",
+              "name": "mensaje_agente",
+              "value": "=Listo, he reservado tu cita para el {{ $('GSheets - Guardar Cita').item.json.fecha }} a las {{ $('GSheets - Guardar Cita').item.json.hora }}. Te he enviado un correo con la confirmación. ¿Necesitas algo más?",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        512
+      ],
+      "id": "95ed923f-ca4d-4eaf-bb07-f6f86ce554c4",
+      "name": "Set - Mensaje Exito"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental Álvarez",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "fecha",
+              "lookupValue": "={{ $('Webhook - Entrada Retell').item.json.body.args.fecha }}"
+            },
+            {
+              "lookupColumn": "telefono",
+              "lookupValue": "={{ $('Webhook - Entrada Retell').item.json.body.args.telefono }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        240,
+        800
+      ],
+      "id": "b2182533-40b7-4b7a-ada0-85aabd47604d",
+      "name": "GSheets - Buscar para Cancelar",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f947004a-b3f8-4d29-ab3b-93b0fca922a8",
+              "leftValue": "={{ $json.id_cita }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        464,
+        800
+      ],
+      "id": "7edbc3de-86e0-471f-b9c0-aff826d89980",
+      "name": "If - ¿Cita Encontrada?"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw",
+          "mode": "list",
+          "cachedResultName": "Clínica Dental Álvarez",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uLU3KGZvMyzkTX81ddYuszIv-WCw0A1dGMmqz9YQYrw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "estado": "Cancelada",
+            "id_cita": "={{ $json.id_cita }}"
+          },
+          "matchingColumns": [
+            "id_cita"
+          ],
+          "schema": [
+            {
+              "id": "id_cita",
+              "displayName": "id_cita",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "nombre_paciente",
+              "displayName": "nombre_paciente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "telefono",
+              "displayName": "telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "hora",
+              "displayName": "hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        688,
+        704
+      ],
+      "id": "1279bb4b-ad7a-4309-bddd-6d5ec890bd96",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed4ead75-f7a7-40e6-a06f-a1f5ec89deae",
+              "name": "mensaje_agente",
+              "value": "Tu cita ha sido cancelada correctamente. Te esperamos en otra ocasión.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        704
+      ],
+      "id": "15755f22-219e-4bac-941c-a907c2e16987",
+      "name": "Set - Msg Cancelada"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "417d699e-113f-4160-9216-68deb20a6d69",
+              "name": "mensaje_agente",
+              "value": "No he podido encontrar una cita con esos datos. ¿Seguro que la fecha y hora son correctas?",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        896
+      ],
+      "id": "36e17ad1-7670-4209-bdc5-d796c08cb026",
+      "name": "Set - Msg No Encontrada"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Obtenemos todas las filas que Google Sheets nos ha dado\nconst todasLasCitas = items;\n\n// 2. Filtramos: Nos quedamos solo con las que NO estén canceladas\n// (Y nos aseguramos de que tengan un ID real para evitar filas vacías)\nconst citasActivas = todasLasCitas.filter(item => {\n  const estado = item.json.estado;\n  const id = item.json.id_cita;\n\n  // Si no tiene ID, no cuenta. Si el estado es \"Cancelada\", no cuenta.\n  if (!id) return false;\n  if (estado === 'Cancelada') return false;\n\n  return true; // Es una cita válida\n});\n\n// 3. Devolvemos el conteo total\nreturn [{\n  json: {\n    total_ocupadas: citasActivas.length\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        224
+      ],
+      "id": "5d4258f7-3394-4918-aac8-53c25495ebd8",
+      "name": "Code - Contar Ocupacion"
+    }
+  ],
+  "pinData": {
+    "Webhook - Entrada Retell": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n.u5h0lw.easypanel.host",
+            "user-agent": "axios/1.13.2",
+            "content-length": "48069",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "100.20.5.228",
+            "x-forwarded-host": "n8n-n8n.u5h0lw.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "95c649fc8578",
+            "x-real-ip": "100.20.5.228",
+            "x-retell-signature": "v=1764186246176,d=dab8a9debe3d172b5ac2391aa05080e83837276f2c0be50bdba8040c3542dec5"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "call": {
+              "call_id": "call_0b7ed79c6d010d8b19c190567c1",
+              "call_type": "web_call",
+              "agent_id": "agent_1f23b998c05178f8a5cdc0ee47",
+              "agent_version": 0,
+              "agent_name": "Single-Prompt Agent",
+              "call_status": "ongoing",
+              "start_timestamp": 1764186093076,
+              "transcript": "Agent: Hola, muy buenas, soy Toni. ¿En qué puedo ayudarte hoy?\nUser: Hola, Tony, me gustaría agendar una cita.\nAgent: Perfecto, ¿para qué tratamiento te gustaría reservar la cita? ¿Cuál es el motivo de tu visita?\nUser: ¿Qué servicios tenéis?\nAgent: Claro, te cuento. Hacemos limpiezas, empastes, ortodoncia, implantes y revisiones. ¿Te gustaría reservar para alguno de estos tratamientos?\nUser: Sí, me gustaría hacerme una ortodoncia.\nAgent: Estupendo. ¿Me podrías decir tu nombre para continuar con la reserva?\nUser: Mi nombre es Pablo Álvarez.\nAgent: Gracias, Pablo. ¿Qué día te vendría bien para la cita?\nUser: El martes que viene a las doce de la mañana, ¿es posible?\nAgent: ¿Te refieres al martes 2 de diciembre, verdad?\nUser: Sí, el martes, dos.\nAgent: Permíteme consultar la agenda un segundo...Lo siento, Pablo, a las doce en punto lo tengo ocupado. ¿Te iría bien un poco más tarde ese mismo día, o prefieres otra hora?\nUser: Ese mismo día a la una,\nUser: es posible?\nAgent: Permíteme \nAgent: consultar la agenda un\nAgent:  segundo...Estupendo, Pablo, tengo ese hueco libre a la una en punto. Para confirmar la reserva, necesito tu teléfono móvil y un correo electrónico.\nUser: Mi teléfono es seis seis nueve dos seis siete.\nUser: cinco siete y el correo electrónico es Álvarez Vidal Pablo arroba Gmail punto com.\nAgent: Gracias, Pablo. ¿Podrías repetirme el número de teléfono un poco más despacio para anotarlo bien, por favor? Y también, ¿me puedes confirmar si tu correo es “Álvarez Vidal Pablo” todo junto, o lleva algún punto o guion?\nUser: ¿Es Álvarez Vidal Pablo todo junto?\nUser: Y mi número de teléfono es seis seis nueve dos seis siete siete cinco siete.\nAgent: Perfecto, Pablo. Repaso contigo:\n\nCita para ortodoncia el martes, dos de diciembre, a la una en punto.\nTeléfono: 6...6...9... - 2...6...7... - 7...5...7...\nCorreo: Alvarez Vidal Pablo arroba gemeil punto com.\n\n¿Es correcto?\nUser: Sí.\n",
+              "transcript_object": [
+                {
+                  "role": "agent",
+                  "content": "Hola, muy buenas, soy Toni. ¿En qué puedo ayudarte hoy?",
+                  "words": [
+                    {
+                      "word": "Hola, ",
+                      "start": 0.434936279296875,
+                      "end": 0.68280859375
+                    },
+                    {
+                      "word": "muy ",
+                      "start": 0.68280859375,
+                      "end": 0.867914794921875
+                    },
+                    {
+                      "word": "buenas, ",
+                      "start": 0.867914794921875,
+                      "end": 1.21365966796875
+                    },
+                    {
+                      "word": "soy ",
+                      "start": 1.21365966796875,
+                      "end": 1.411531982421875
+                    },
+                    {
+                      "word": "Toni. ",
+                      "start": 1.411531982421875,
+                      "end": 1.830680908203125
+                    },
+                    {
+                      "word": "¿En ",
+                      "start": 1.830680908203125,
+                      "end": 2.07855322265625
+                    },
+                    {
+                      "word": "qué ",
+                      "start": 2.07855322265625,
+                      "end": 2.226425537109375
+                    },
+                    {
+                      "word": "puedo ",
+                      "start": 2.226425537109375,
+                      "end": 2.448765869140625
+                    },
+                    {
+                      "word": "ayudarte ",
+                      "start": 2.448765869140625,
+                      "end": 2.917914794921875
+                    },
+                    {
+                      "word": "hoy?",
+                      "start": 2.917914794921875,
+                      "end": 3.399829833984375
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 0
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Hola, Tony, me gustaría agendar una cita.",
+                  "words": [
+                    {
+                      "word": "Hola, ",
+                      "start": 4.707,
+                      "end": 5.1069997
+                    },
+                    {
+                      "word": "Tony, ",
+                      "start": 5.1069997,
+                      "end": 5.587
+                    },
+                    {
+                      "word": "me ",
+                      "start": 5.587,
+                      "end": 5.747
+                    },
+                    {
+                      "word": "gustaría ",
+                      "start": 5.747,
+                      "end": 6.1469996
+                    },
+                    {
+                      "word": "agendar ",
+                      "start": 6.1469996,
+                      "end": 6.467
+                    },
+                    {
+                      "word": "una ",
+                      "start": 6.467,
+                      "end": 6.707
+                    },
+                    {
+                      "word": "cita.",
+                      "start": 6.707,
+                      "end": 6.867
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Perfecto, ¿para qué tratamiento te gustaría reservar la cita? ¿Cuál es el motivo de tu visita?",
+                  "words": [
+                    {
+                      "word": "Perfecto, ",
+                      "start": 8.4317021484375,
+                      "end": 8.925319091796876
+                    },
+                    {
+                      "word": "¿para ",
+                      "start": 8.925319091796876,
+                      "end": 9.272127685546875
+                    },
+                    {
+                      "word": "qué ",
+                      "start": 9.272127685546875,
+                      "end": 9.382765869140625
+                    },
+                    {
+                      "word": "tratamiento ",
+                      "start": 9.382765869140625,
+                      "end": 9.926383056640624
+                    },
+                    {
+                      "word": "te ",
+                      "start": 9.926383056640624,
+                      "end": 10.025319091796876
+                    },
+                    {
+                      "word": "gustaría ",
+                      "start": 10.025319091796876,
+                      "end": 10.42
+                    },
+                    {
+                      "word": "reservar ",
+                      "start": 10.42,
+                      "end": 10.87744677734375
+                    },
+                    {
+                      "word": "la ",
+                      "start": 10.87744677734375,
+                      "end": 10.988085205078125
+                    },
+                    {
+                      "word": "cita?",
+                      "start": 10.988085205078125,
+                      "end": 11.63063818359375
+                    },
+                    {
+                      "word": " ¿Cuál ",
+                      "start": 11.672227783203125,
+                      "end": 12.019036376953125
+                    },
+                    {
+                      "word": "es ",
+                      "start": 12.019036376953125,
+                      "end": 12.129674560546874
+                    },
+                    {
+                      "word": "el ",
+                      "start": 12.129674560546874,
+                      "end": 12.22861083984375
+                    },
+                    {
+                      "word": "motivo ",
+                      "start": 12.22861083984375,
+                      "end": 12.6360576171875
+                    },
+                    {
+                      "word": "de ",
+                      "start": 12.6360576171875,
+                      "end": 12.747759765625
+                    },
+                    {
+                      "word": "tu ",
+                      "start": 12.747759765625,
+                      "end": 12.8828662109375
+                    },
+                    {
+                      "word": "visita?",
+                      "start": 12.8828662109375,
+                      "end": 13.648823486328125
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 1
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "¿Qué servicios tenéis?",
+                  "words": [
+                    {
+                      "word": "¿Qué ",
+                      "start": 16.947,
+                      "end": 17.427
+                    },
+                    {
+                      "word": "servicios ",
+                      "start": 17.427,
+                      "end": 17.747
+                    },
+                    {
+                      "word": "tenéis?",
+                      "start": 17.747,
+                      "end": 18.067
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Claro, te cuento. Hacemos limpiezas, empastes, ortodoncia, implantes y revisiones. ¿Te gustaría reservar para alguno de estos tratamientos?",
+                  "words": [
+                    {
+                      "word": "Claro, ",
+                      "start": 19.224468017578126,
+                      "end": 19.5085107421875
+                    },
+                    {
+                      "word": "te ",
+                      "start": 19.5085107421875,
+                      "end": 19.61914892578125
+                    },
+                    {
+                      "word": "cuento.",
+                      "start": 19.61914892578125,
+                      "end": 20.286170166015626
+                    },
+                    {
+                      "word": " Hacemos ",
+                      "start": 20.292593017578124,
+                      "end": 20.72557177734375
+                    },
+                    {
+                      "word": "limpiezas, ",
+                      "start": 20.72557177734375,
+                      "end": 21.56493359375
+                    },
+                    {
+                      "word": "empastes, ",
+                      "start": 21.56493359375,
+                      "end": 22.392593017578125
+                    },
+                    {
+                      "word": "ortodoncia, ",
+                      "start": 22.392593017578125,
+                      "end": 23.13408251953125
+                    },
+                    {
+                      "word": "implantes ",
+                      "start": 23.13408251953125,
+                      "end": 23.7266357421875
+                    },
+                    {
+                      "word": "y ",
+                      "start": 23.7266357421875,
+                      "end": 23.83727392578125
+                    },
+                    {
+                      "word": "revisiones.",
+                      "start": 23.83727392578125,
+                      "end": 24.76386962890625
+                    },
+                    {
+                      "word": " ¿Te ",
+                      "start": 24.773009765625,
+                      "end": 24.9464140625
+                    },
+                    {
+                      "word": "gustaría ",
+                      "start": 24.9464140625,
+                      "end": 25.30386083984375
+                    },
+                    {
+                      "word": "reservar ",
+                      "start": 25.30386083984375,
+                      "end": 25.7613076171875
+                    },
+                    {
+                      "word": "para ",
+                      "start": 25.7613076171875,
+                      "end": 25.9347119140625
+                    },
+                    {
+                      "word": "alguno ",
+                      "start": 25.9347119140625,
+                      "end": 26.21875439453125
+                    },
+                    {
+                      "word": "de ",
+                      "start": 26.21875439453125,
+                      "end": 26.29215869140625
+                    },
+                    {
+                      "word": "estos ",
+                      "start": 26.29215869140625,
+                      "end": 26.551733154296876
+                    },
+                    {
+                      "word": "tratamientos?",
+                      "start": 26.551733154296876,
+                      "end": 27.5644990234375
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 2
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Sí, me gustaría hacerme una ortodoncia.",
+                  "words": [
+                    {
+                      "word": "Sí, ",
+                      "start": 28.927,
+                      "end": 29.326999999999998
+                    },
+                    {
+                      "word": "me ",
+                      "start": 29.326999999999998,
+                      "end": 29.407
+                    },
+                    {
+                      "word": "gustaría ",
+                      "start": 29.407,
+                      "end": 29.727
+                    },
+                    {
+                      "word": "hacerme ",
+                      "start": 29.727,
+                      "end": 30.047
+                    },
+                    {
+                      "word": "una ",
+                      "start": 30.047,
+                      "end": 30.286999
+                    },
+                    {
+                      "word": "ortodoncia.",
+                      "start": 30.286999,
+                      "end": 30.847
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Estupendo. ¿Me podrías decir tu nombre para continuar con la reserva?",
+                  "words": [
+                    {
+                      "word": "Estupendo.",
+                      "start": 32.360234130859375,
+                      "end": 33.2612978515625
+                    },
+                    {
+                      "word": " ¿Me ",
+                      "start": 33.27005151367187,
+                      "end": 33.41898754882813
+                    },
+                    {
+                      "word": "podrías ",
+                      "start": 33.41898754882813,
+                      "end": 33.776434326171874
+                    },
+                    {
+                      "word": "decir ",
+                      "start": 33.776434326171874,
+                      "end": 34.04877490234375
+                    },
+                    {
+                      "word": "tu ",
+                      "start": 34.04877490234375,
+                      "end": 34.183881103515624
+                    },
+                    {
+                      "word": "nombre ",
+                      "start": 34.183881103515624,
+                      "end": 34.467923828125
+                    },
+                    {
+                      "word": "para ",
+                      "start": 34.467923828125,
+                      "end": 34.654093994140624
+                    },
+                    {
+                      "word": "continuar ",
+                      "start": 34.654093994140624,
+                      "end": 35.16047705078125
+                    },
+                    {
+                      "word": "con ",
+                      "start": 35.16047705078125,
+                      "end": 35.35728540039062
+                    },
+                    {
+                      "word": "la ",
+                      "start": 35.35728540039062,
+                      "end": 35.49345556640625
+                    },
+                    {
+                      "word": "reserva?",
+                      "start": 35.49345556640625,
+                      "end": 36.30834936523438
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 3
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Mi nombre es Pablo Álvarez.",
+                  "words": [
+                    {
+                      "word": "Mi ",
+                      "start": 37.597002,
+                      "end": 37.837
+                    },
+                    {
+                      "word": "nombre ",
+                      "start": 37.837,
+                      "end": 38.077
+                    },
+                    {
+                      "word": "es ",
+                      "start": 38.077,
+                      "end": 38.237
+                    },
+                    {
+                      "word": "Pablo ",
+                      "start": 38.237,
+                      "end": 38.557
+                    },
+                    {
+                      "word": "Álvarez.",
+                      "start": 38.557,
+                      "end": 38.957003
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Gracias, Pablo. ¿Qué día te vendría bien para la cita?",
+                  "words": [
+                    {
+                      "word": "Gracias, ",
+                      "start": 40.589234130859374,
+                      "end": 40.98391479492187
+                    },
+                    {
+                      "word": "Pablo.",
+                      "start": 40.98391479492187,
+                      "end": 41.63923413085938
+                    },
+                    {
+                      "word": " ¿Qué ",
+                      "start": 41.67476953125,
+                      "end": 41.82370556640625
+                    },
+                    {
+                      "word": "día ",
+                      "start": 41.82370556640625,
+                      "end": 42.00881201171875
+                    },
+                    {
+                      "word": "te ",
+                      "start": 42.00881201171875,
+                      "end": 42.107748291015625
+                    },
+                    {
+                      "word": "vendría ",
+                      "start": 42.107748291015625,
+                      "end": 42.46519506835938
+                    },
+                    {
+                      "word": "bien ",
+                      "start": 42.46519506835938,
+                      "end": 42.63859936523438
+                    },
+                    {
+                      "word": "para ",
+                      "start": 42.63859936523438,
+                      "end": 42.848173828125
+                    },
+                    {
+                      "word": "la ",
+                      "start": 42.848173828125,
+                      "end": 42.9598759765625
+                    },
+                    {
+                      "word": "cita?",
+                      "start": 42.9598759765625,
+                      "end": 43.651365234375
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 4
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "El martes que viene a las doce de la mañana, ¿es posible?",
+                  "words": [
+                    {
+                      "word": "El ",
+                      "start": 45.407,
+                      "end": 45.887
+                    },
+                    {
+                      "word": "martes ",
+                      "start": 45.887,
+                      "end": 46.207
+                    },
+                    {
+                      "word": "que ",
+                      "start": 46.207,
+                      "end": 46.446997
+                    },
+                    {
+                      "word": "viene ",
+                      "start": 46.446997,
+                      "end": 46.687
+                    },
+                    {
+                      "word": "a ",
+                      "start": 46.687,
+                      "end": 47.007
+                    },
+                    {
+                      "word": "las ",
+                      "start": 47.007,
+                      "end": 47.167
+                    },
+                    {
+                      "word": "doce ",
+                      "start": 47.167,
+                      "end": 47.407
+                    },
+                    {
+                      "word": "de ",
+                      "start": 47.407,
+                      "end": 47.567
+                    },
+                    {
+                      "word": "la ",
+                      "start": 47.567,
+                      "end": 47.646997999999996
+                    },
+                    {
+                      "word": "mañana, ",
+                      "start": 47.646997999999996,
+                      "end": 47.966997
+                    },
+                    {
+                      "word": "¿es ",
+                      "start": 47.966997,
+                      "end": 48.126997
+                    },
+                    {
+                      "word": "posible?",
+                      "start": 48.126997,
+                      "end": 48.367
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "¿Te refieres al martes 2 de diciembre, verdad?",
+                  "words": [
+                    {
+                      "word": "¿Te ",
+                      "start": 50.06223413085937,
+                      "end": 50.23457446289063
+                    },
+                    {
+                      "word": "refieres ",
+                      "start": 50.23457446289063,
+                      "end": 50.63031909179688
+                    },
+                    {
+                      "word": "al ",
+                      "start": 50.63031909179688,
+                      "end": 50.72925537109375
+                    },
+                    {
+                      "word": "martes ",
+                      "start": 50.72925537109375,
+                      "end": 51.12393627929688
+                    },
+                    {
+                      "word": "2 ",
+                      "start": 51.12393627929688,
+                      "end": 51.29734033203125
+                    },
+                    {
+                      "word": "de ",
+                      "start": 51.29734033203125,
+                      "end": 51.407978759765626
+                    },
+                    {
+                      "word": "diciembre, ",
+                      "start": 51.407978759765626,
+                      "end": 51.951595703125
+                    },
+                    {
+                      "word": "verdad?",
+                      "start": 51.951595703125,
+                      "end": 52.54414892578125
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 5
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Sí, el martes, dos.",
+                  "words": [
+                    {
+                      "word": "Sí, ",
+                      "start": 56.497,
+                      "end": 56.817
+                    },
+                    {
+                      "word": "el ",
+                      "start": 56.817,
+                      "end": 56.977
+                    },
+                    {
+                      "word": "martes, ",
+                      "start": 56.977,
+                      "end": 57.297
+                    },
+                    {
+                      "word": "dos.",
+                      "start": 57.297,
+                      "end": 57.377
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Permíteme consultar la agenda un segundo...Lo siento, Pablo, a las doce en punto lo tengo ocupado. ¿Te iría bien un poco más tarde ese mismo día, o prefieres otra hora?",
+                  "words": [
+                    {
+                      "word": "Permíteme ",
+                      "start": 59.32117016601563,
+                      "end": 59.69244677734375
+                    },
+                    {
+                      "word": "consultar ",
+                      "start": 59.69244677734375,
+                      "end": 60.0998935546875
+                    },
+                    {
+                      "word": "la ",
+                      "start": 60.0998935546875,
+                      "end": 60.19882983398438
+                    },
+                    {
+                      "word": "agenda ",
+                      "start": 60.19882983398438,
+                      "end": 60.54457446289062
+                    },
+                    {
+                      "word": "un ",
+                      "start": 60.54457446289062,
+                      "end": 60.667978759765624
+                    },
+                    {
+                      "word": "segundo...",
+                      "start": 60.667978759765624,
+                      "end": 61.458404296875
+                    },
+                    {
+                      "word": "Lo ",
+                      "start": 63.79393627929687,
+                      "end": 63.96734033203125
+                    },
+                    {
+                      "word": "siento, ",
+                      "start": 63.96734033203125,
+                      "end": 64.33755322265625
+                    },
+                    {
+                      "word": "Pablo, ",
+                      "start": 64.33755322265625,
+                      "end": 64.65882983398437
+                    },
+                    {
+                      "word": "a ",
+                      "start": 64.65882983398437,
+                      "end": 64.72053198242187
+                    },
+                    {
+                      "word": "las ",
+                      "start": 64.72053198242187,
+                      "end": 64.89393627929688
+                    },
+                    {
+                      "word": "doce ",
+                      "start": 64.89393627929688,
+                      "end": 65.14074462890625
+                    },
+                    {
+                      "word": "en ",
+                      "start": 65.14074462890625,
+                      "end": 65.25138305664062
+                    },
+                    {
+                      "word": "punto ",
+                      "start": 65.25138305664062,
+                      "end": 65.59712768554688
+                    },
+                    {
+                      "word": "lo ",
+                      "start": 65.59712768554688,
+                      "end": 65.721595703125
+                    },
+                    {
+                      "word": "tengo ",
+                      "start": 65.721595703125,
+                      "end": 65.93117016601562
+                    },
+                    {
+                      "word": "ocupado.",
+                      "start": 65.93117016601562,
+                      "end": 66.75882983398438
+                    },
+                    {
+                      "word": " ¿Te ",
+                      "start": 66.76609301757813,
+                      "end": 67.01290161132812
+                    },
+                    {
+                      "word": "iría ",
+                      "start": 67.01290161132812,
+                      "end": 67.28524194335938
+                    },
+                    {
+                      "word": "bien ",
+                      "start": 67.28524194335938,
+                      "end": 67.47034838867188
+                    },
+                    {
+                      "word": "un ",
+                      "start": 67.47034838867188,
+                      "end": 67.56928466796874
+                    },
+                    {
+                      "word": "poco ",
+                      "start": 67.56928466796874,
+                      "end": 67.81609301757813
+                    },
+                    {
+                      "word": "más ",
+                      "start": 67.81609301757813,
+                      "end": 68.02566748046875
+                    },
+                    {
+                      "word": "tarde ",
+                      "start": 68.02566748046875,
+                      "end": 68.29800805664063
+                    },
+                    {
+                      "word": "ese ",
+                      "start": 68.29800805664063,
+                      "end": 68.45864624023437
+                    },
+                    {
+                      "word": "mismo ",
+                      "start": 68.45864624023437,
+                      "end": 68.76715698242188
+                    },
+                    {
+                      "word": "día, ",
+                      "start": 68.76715698242188,
+                      "end": 69.59481640625
+                    },
+                    {
+                      "word": "o ",
+                      "start": 69.59481640625,
+                      "end": 69.69375268554687
+                    },
+                    {
+                      "word": "prefieres ",
+                      "start": 69.69375268554687,
+                      "end": 70.1501357421875
+                    },
+                    {
+                      "word": "otra ",
+                      "start": 70.1501357421875,
+                      "end": 70.38524194335938
+                    },
+                    {
+                      "word": "hora?",
+                      "start": 70.38524194335938,
+                      "end": 70.99056127929687
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 6
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Ese mismo día a la una,",
+                  "words": [
+                    {
+                      "word": "Ese ",
+                      "start": 74.53699,
+                      "end": 74.857
+                    },
+                    {
+                      "word": "mismo ",
+                      "start": 74.857,
+                      "end": 75.097
+                    },
+                    {
+                      "word": "día ",
+                      "start": 75.097,
+                      "end": 75.497
+                    },
+                    {
+                      "word": "a ",
+                      "start": 75.497,
+                      "end": 75.737
+                    },
+                    {
+                      "word": "la ",
+                      "start": 75.737,
+                      "end": 75.896994
+                    },
+                    {
+                      "word": "una,",
+                      "start": 75.896994,
+                      "end": 76.137
+                    }
+                  ]
+                },
+                {
+                  "role": "user",
+                  "content": "es posible?",
+                  "words": [
+                    {
+                      "word": "es ",
+                      "start": 76.52701,
+                      "end": 76.767004
+                    },
+                    {
+                      "word": "posible?",
+                      "start": 76.767004,
+                      "end": 77.087004
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Permíteme ",
+                  "words": [
+                    {
+                      "word": "Permíteme ",
+                      "start": 79.36046801757813,
+                      "end": 79.85408520507812
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 8
+                  }
+                },
+                {
+                  "role": "agent",
+                  "content": "consultar la agenda un",
+                  "words": [
+                    {
+                      "word": "consultar ",
+                      "start": 79.85408520507812,
+                      "end": 80.36046801757813
+                    },
+                    {
+                      "word": "la ",
+                      "start": 80.36046801757813,
+                      "end": 80.47217016601563
+                    },
+                    {
+                      "word": "agenda ",
+                      "start": 80.47217016601563,
+                      "end": 80.99025537109375
+                    },
+                    {
+                      "word": "un",
+                      "start": 80.99025537109375,
+                      "end": 81.36046801757813
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 8
+                  }
+                },
+                {
+                  "role": "agent",
+                  "content": " segundo...Estupendo, Pablo, tengo ese hueco libre a la una en punto. Para confirmar la reserva, necesito tu teléfono móvil y un correo electrónico.",
+                  "words": [
+                    {
+                      "word": " segundo...",
+                      "start": 81.375259765625,
+                      "end": 82.14121728515624
+                    },
+                    {
+                      "word": "Estupendo, ",
+                      "start": 83.26793627929688,
+                      "end": 83.83602124023437
+                    },
+                    {
+                      "word": "Pablo, ",
+                      "start": 83.83602124023437,
+                      "end": 84.13282983398437
+                    },
+                    {
+                      "word": "tengo ",
+                      "start": 84.13282983398437,
+                      "end": 84.37963818359376
+                    },
+                    {
+                      "word": "ese ",
+                      "start": 84.37963818359376,
+                      "end": 84.61474462890625
+                    },
+                    {
+                      "word": "hueco ",
+                      "start": 84.61474462890625,
+                      "end": 85.00942553710938
+                    },
+                    {
+                      "word": "libre ",
+                      "start": 85.00942553710938,
+                      "end": 85.29346801757812
+                    },
+                    {
+                      "word": "a ",
+                      "start": 85.29346801757812,
+                      "end": 85.36793627929687
+                    },
+                    {
+                      "word": "la ",
+                      "start": 85.36793627929687,
+                      "end": 85.47963818359375
+                    },
+                    {
+                      "word": "una ",
+                      "start": 85.47963818359375,
+                      "end": 85.64027661132812
+                    },
+                    {
+                      "word": "en ",
+                      "start": 85.64027661132812,
+                      "end": 85.73814892578125
+                    },
+                    {
+                      "word": "punto.",
+                      "start": 85.73814892578125,
+                      "end": 86.4307021484375
+                    },
+                    {
+                      "word": " Para ",
+                      "start": 86.43492651367187,
+                      "end": 86.67003271484376
+                    },
+                    {
+                      "word": "confirmar ",
+                      "start": 86.67003271484376,
+                      "end": 87.10194775390624
+                    },
+                    {
+                      "word": "la ",
+                      "start": 87.10194775390624,
+                      "end": 87.22535205078125
+                    },
+                    {
+                      "word": "reserva, ",
+                      "start": 87.22535205078125,
+                      "end": 87.85513916015626
+                    },
+                    {
+                      "word": "necesito ",
+                      "start": 87.85513916015626,
+                      "end": 88.41152221679687
+                    },
+                    {
+                      "word": "tu ",
+                      "start": 88.41152221679687,
+                      "end": 88.65833056640625
+                    },
+                    {
+                      "word": "teléfono ",
+                      "start": 88.65833056640625,
+                      "end": 89.14024560546875
+                    },
+                    {
+                      "word": "móvil ",
+                      "start": 89.14024560546875,
+                      "end": 89.59662866210938
+                    },
+                    {
+                      "word": "y ",
+                      "start": 89.59662866210938,
+                      "end": 89.68386254882813
+                    },
+                    {
+                      "word": "un ",
+                      "start": 89.68386254882813,
+                      "end": 89.80726684570313
+                    },
+                    {
+                      "word": "correo ",
+                      "start": 89.80726684570313,
+                      "end": 90.12854345703126
+                    },
+                    {
+                      "word": "electrónico.",
+                      "start": 90.12854345703126,
+                      "end": 91.15301147460937
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 8
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Mi teléfono es seis seis nueve dos seis siete.",
+                  "words": [
+                    {
+                      "word": "Mi ",
+                      "start": 92.817,
+                      "end": 93.057
+                    },
+                    {
+                      "word": "teléfono ",
+                      "start": 93.057,
+                      "end": 93.616995
+                    },
+                    {
+                      "word": "es ",
+                      "start": 93.616995,
+                      "end": 94.017
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 94.017,
+                      "end": 94.417
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 94.417,
+                      "end": 94.737
+                    },
+                    {
+                      "word": "nueve ",
+                      "start": 94.737,
+                      "end": 95.296995
+                    },
+                    {
+                      "word": "dos ",
+                      "start": 95.296995,
+                      "end": 95.616995
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 95.616995,
+                      "end": 95.857
+                    },
+                    {
+                      "word": "siete.",
+                      "start": 95.857,
+                      "end": 96.097
+                    }
+                  ]
+                },
+                {
+                  "role": "user",
+                  "content": "cinco siete y el correo electrónico es Álvarez Vidal Pablo arroba Gmail punto com.",
+                  "words": [
+                    {
+                      "word": "cinco ",
+                      "start": 96.677,
+                      "end": 96.997
+                    },
+                    {
+                      "word": "siete ",
+                      "start": 96.997,
+                      "end": 97.317
+                    },
+                    {
+                      "word": "y ",
+                      "start": 97.937,
+                      "end": 98.177
+                    },
+                    {
+                      "word": "el ",
+                      "start": 98.177,
+                      "end": 98.337004
+                    },
+                    {
+                      "word": "correo ",
+                      "start": 98.337004,
+                      "end": 98.577
+                    },
+                    {
+                      "word": "electrónico ",
+                      "start": 98.577,
+                      "end": 99.137
+                    },
+                    {
+                      "word": "es ",
+                      "start": 99.137,
+                      "end": 99.377
+                    },
+                    {
+                      "word": "Álvarez ",
+                      "start": 99.637,
+                      "end": 100.117
+                    },
+                    {
+                      "word": "Vidal ",
+                      "start": 100.117,
+                      "end": 100.517
+                    },
+                    {
+                      "word": "Pablo ",
+                      "start": 100.517,
+                      "end": 100.917
+                    },
+                    {
+                      "word": "arroba ",
+                      "start": 100.917,
+                      "end": 101.317
+                    },
+                    {
+                      "word": "Gmail ",
+                      "start": 101.317,
+                      "end": 101.717
+                    },
+                    {
+                      "word": "punto ",
+                      "start": 101.717,
+                      "end": 101.957
+                    },
+                    {
+                      "word": "com.",
+                      "start": 101.957,
+                      "end": 102.117
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Gracias, Pablo. ¿Podrías repetirme el número de teléfono un poco más despacio para anotarlo bien, por favor? Y también, ¿me puedes confirmar si tu correo es “Álvarez Vidal Pablo” todo junto, o lleva algún punto o guion?",
+                  "words": [
+                    {
+                      "word": "Gracias, ",
+                      "start": 103.65193627929688,
+                      "end": 104.10938305664062
+                    },
+                    {
+                      "word": "Pablo.",
+                      "start": 104.10938305664062,
+                      "end": 104.73917016601563
+                    },
+                    {
+                      "word": " ¿Podrías ",
+                      "start": 104.77801953125,
+                      "end": 105.3461044921875
+                    },
+                    {
+                      "word": "repetirme ",
+                      "start": 105.3461044921875,
+                      "end": 105.85355151367187
+                    },
+                    {
+                      "word": "el ",
+                      "start": 105.85355151367187,
+                      "end": 105.951423828125
+                    },
+                    {
+                      "word": "número ",
+                      "start": 105.951423828125,
+                      "end": 106.26099829101562
+                    },
+                    {
+                      "word": "de ",
+                      "start": 106.26099829101562,
+                      "end": 106.35993432617188
+                    },
+                    {
+                      "word": "teléfono ",
+                      "start": 106.35993432617188,
+                      "end": 106.8163173828125
+                    },
+                    {
+                      "word": "un ",
+                      "start": 106.8163173828125,
+                      "end": 106.9397216796875
+                    },
+                    {
+                      "word": "poco ",
+                      "start": 106.9397216796875,
+                      "end": 107.18653002929688
+                    },
+                    {
+                      "word": "más ",
+                      "start": 107.18653002929688,
+                      "end": 107.37270043945313
+                    },
+                    {
+                      "word": "despacio ",
+                      "start": 107.37270043945313,
+                      "end": 107.8663173828125
+                    },
+                    {
+                      "word": "para ",
+                      "start": 107.8663173828125,
+                      "end": 108.1131259765625
+                    },
+                    {
+                      "word": "anotarlo ",
+                      "start": 108.1131259765625,
+                      "end": 108.6195087890625
+                    },
+                    {
+                      "word": "bien, ",
+                      "start": 108.6195087890625,
+                      "end": 108.8663173828125
+                    },
+                    {
+                      "word": "por ",
+                      "start": 108.8663173828125,
+                      "end": 109.0397216796875
+                    },
+                    {
+                      "word": "favor?",
+                      "start": 109.0397216796875,
+                      "end": 109.71844506835937
+                    },
+                    {
+                      "word": " Y ",
+                      "start": 109.75818627929688,
+                      "end": 109.86988818359374
+                    },
+                    {
+                      "word": "también, ",
+                      "start": 109.86988818359374,
+                      "end": 110.35180322265624
+                    },
+                    {
+                      "word": "¿me ",
+                      "start": 110.35180322265624,
+                      "end": 110.51244140625
+                    },
+                    {
+                      "word": "puedes ",
+                      "start": 110.51244140625,
+                      "end": 110.83371801757812
+                    },
+                    {
+                      "word": "confirmar ",
+                      "start": 110.83371801757812,
+                      "end": 111.67307983398437
+                    },
+                    {
+                      "word": "si ",
+                      "start": 111.67307983398437,
+                      "end": 111.83371801757812
+                    },
+                    {
+                      "word": "tu ",
+                      "start": 111.83371801757812,
+                      "end": 111.95712231445313
+                    },
+                    {
+                      "word": "correo ",
+                      "start": 111.95712231445313,
+                      "end": 112.41456909179688
+                    },
+                    {
+                      "word": "es ",
+                      "start": 112.41456909179688,
+                      "end": 112.72307983398437
+                    },
+                    {
+                      "word": "“Álvarez ",
+                      "start": 112.72307983398437,
+                      "end": 113.19222875976563
+                    },
+                    {
+                      "word": "Vidal ",
+                      "start": 113.19222875976563,
+                      "end": 113.52520751953125
+                    },
+                    {
+                      "word": "Pablo” ",
+                      "start": 113.52520751953125,
+                      "end": 113.90818627929687
+                    },
+                    {
+                      "word": "todo ",
+                      "start": 113.90818627929687,
+                      "end": 114.20499462890625
+                    },
+                    {
+                      "word": "junto, ",
+                      "start": 114.20499462890625,
+                      "end": 115.13159033203125
+                    },
+                    {
+                      "word": "o ",
+                      "start": 115.13159033203125,
+                      "end": 115.34116479492188
+                    },
+                    {
+                      "word": "lleva ",
+                      "start": 115.34116479492188,
+                      "end": 115.835845703125
+                    },
+                    {
+                      "word": "algún ",
+                      "start": 115.835845703125,
+                      "end": 116.18159033203125
+                    },
+                    {
+                      "word": "punto ",
+                      "start": 116.18159033203125,
+                      "end": 116.73690966796875
+                    },
+                    {
+                      "word": "o ",
+                      "start": 116.73690966796875,
+                      "end": 117.0209521484375
+                    },
+                    {
+                      "word": "guion?",
+                      "start": 117.0209521484375,
+                      "end": 117.81137768554687
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 10
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "¿Es Álvarez Vidal Pablo todo junto?",
+                  "words": [
+                    {
+                      "word": "¿Es ",
+                      "start": 119.687,
+                      "end": 120.327
+                    },
+                    {
+                      "word": "Álvarez ",
+                      "start": 120.327,
+                      "end": 120.727
+                    },
+                    {
+                      "word": "Vidal ",
+                      "start": 120.727,
+                      "end": 121.047
+                    },
+                    {
+                      "word": "Pablo ",
+                      "start": 121.047,
+                      "end": 121.367
+                    },
+                    {
+                      "word": "todo ",
+                      "start": 121.367,
+                      "end": 121.607
+                    },
+                    {
+                      "word": "junto?",
+                      "start": 121.607,
+                      "end": 121.927
+                    }
+                  ]
+                },
+                {
+                  "role": "user",
+                  "content": "Y mi número de teléfono es seis seis nueve dos seis siete siete cinco siete.",
+                  "words": [
+                    {
+                      "word": "Y ",
+                      "start": 124.427,
+                      "end": 124.747
+                    },
+                    {
+                      "word": "mi ",
+                      "start": 124.747,
+                      "end": 124.987005
+                    },
+                    {
+                      "word": "número ",
+                      "start": 124.987005,
+                      "end": 125.227
+                    },
+                    {
+                      "word": "de ",
+                      "start": 125.227,
+                      "end": 125.387
+                    },
+                    {
+                      "word": "teléfono ",
+                      "start": 125.387,
+                      "end": 126.107
+                    },
+                    {
+                      "word": "es ",
+                      "start": 126.107,
+                      "end": 126.427
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 127.167,
+                      "end": 127.406996
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 127.406996,
+                      "end": 127.646994
+                    },
+                    {
+                      "word": "nueve ",
+                      "start": 127.646994,
+                      "end": 127.96699
+                    },
+                    {
+                      "word": "dos ",
+                      "start": 128.237,
+                      "end": 128.637
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 128.637,
+                      "end": 128.877
+                    },
+                    {
+                      "word": "siete ",
+                      "start": 128.877,
+                      "end": 129.35700000000003
+                    },
+                    {
+                      "word": "siete ",
+                      "start": 129.35700000000003,
+                      "end": 129.757
+                    },
+                    {
+                      "word": "cinco ",
+                      "start": 129.757,
+                      "end": 130.07700000000003
+                    },
+                    {
+                      "word": "siete.",
+                      "start": 130.07700000000003,
+                      "end": 130.31699
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Perfecto, Pablo. Repaso contigo:\n\nCita para ortodoncia el martes, dos de diciembre, a la una en punto.\nTeléfono: 6...6...9... - 2...6...7... - 7...5...7...\nCorreo: Alvarez Vidal Pablo arroba gemeil punto com.\n\n¿Es correcto?",
+                  "words": [
+                    {
+                      "word": "Perfecto, ",
+                      "start": 131.8447021484375,
+                      "end": 132.31385107421875
+                    },
+                    {
+                      "word": "Pablo.",
+                      "start": 132.31385107421875,
+                      "end": 132.91917016601562
+                    },
+                    {
+                      "word": " Repaso ",
+                      "start": 132.9206826171875,
+                      "end": 133.25366137695312
+                    },
+                    {
+                      "word": "contigo:\n",
+                      "start": 133.25366137695312,
+                      "end": 133.96961889648438
+                    },
+                    {
+                      "word": "\nCita ",
+                      "start": 133.96961889648438,
+                      "end": 134.31642724609375
+                    },
+                    {
+                      "word": "para ",
+                      "start": 134.31642724609375,
+                      "end": 134.51323583984376
+                    },
+                    {
+                      "word": "ortodoncia ",
+                      "start": 134.51323583984376,
+                      "end": 135.11855493164063
+                    },
+                    {
+                      "word": "el ",
+                      "start": 135.11855493164063,
+                      "end": 135.25472509765626
+                    },
+                    {
+                      "word": "martes, ",
+                      "start": 135.25472509765626,
+                      "end": 135.69940600585937
+                    },
+                    {
+                      "word": "dos ",
+                      "start": 135.69940600585937,
+                      "end": 135.88451245117187
+                    },
+                    {
+                      "word": "de ",
+                      "start": 135.88451245117187,
+                      "end": 135.98344848632811
+                    },
+                    {
+                      "word": "diciembre, ",
+                      "start": 135.98344848632811,
+                      "end": 136.55153369140626
+                    },
+                    {
+                      "word": "a ",
+                      "start": 136.55153369140626,
+                      "end": 136.63770385742188
+                    },
+                    {
+                      "word": "la ",
+                      "start": 136.63770385742188,
+                      "end": 136.73664013671876
+                    },
+                    {
+                      "word": "una ",
+                      "start": 136.73664013671876,
+                      "end": 136.88451245117187
+                    },
+                    {
+                      "word": "en ",
+                      "start": 136.88451245117187,
+                      "end": 137.00898046875
+                    },
+                    {
+                      "word": "punto.",
+                      "start": 137.00898046875,
+                      "end": 137.74940600585938
+                    },
+                    {
+                      "word": "\nTeléfono: ",
+                      "start": 137.7899777832031,
+                      "end": 138.518701171875
+                    },
+                    {
+                      "word": "6...",
+                      "start": 138.518701171875,
+                      "end": 139.32189282226562
+                    },
+                    {
+                      "word": "6...",
+                      "start": 139.335509765625,
+                      "end": 139.85465869140626
+                    },
+                    {
+                      "word": "9...",
+                      "start": 139.89664453125,
+                      "end": 140.44026147460937
+                    },
+                    {
+                      "word": " - ",
+                      "start": 140.445259765625,
+                      "end": 141.01334497070312
+                    },
+                    {
+                      "word": "2...",
+                      "start": 141.00595825195313,
+                      "end": 141.00595825195313
+                    },
+                    {
+                      "word": "6...",
+                      "start": 141.03042651367187,
+                      "end": 141.49957543945314
+                    },
+                    {
+                      "word": "7...",
+                      "start": 141.49726586914062,
+                      "end": 142.07705322265625
+                    },
+                    {
+                      "word": " - ",
+                      "start": 142.09785913085938,
+                      "end": 142.60424194335937
+                    },
+                    {
+                      "word": "7...",
+                      "start": 142.59470825195314,
+                      "end": 142.59470825195314
+                    },
+                    {
+                      "word": "5...",
+                      "start": 142.61917651367187,
+                      "end": 143.08832543945311
+                    },
+                    {
+                      "word": "7...",
+                      "start": 143.10030151367187,
+                      "end": 143.56945043945314
+                    },
+                    {
+                      "word": "\nCorreo: ",
+                      "start": 143.60073413085937,
+                      "end": 144.24328735351563
+                    },
+                    {
+                      "word": "Alvarez ",
+                      "start": 144.24328735351563,
+                      "end": 144.6752021484375
+                    },
+                    {
+                      "word": "Vidal ",
+                      "start": 144.6752021484375,
+                      "end": 145.05818090820313
+                    },
+                    {
+                      "word": "Pablo ",
+                      "start": 145.05818090820313,
+                      "end": 145.63796801757812
+                    },
+                    {
+                      "word": "arroba ",
+                      "start": 145.63796801757812,
+                      "end": 146.23158520507812
+                    },
+                    {
+                      "word": "gemeil ",
+                      "start": 146.23158520507812,
+                      "end": 146.82413818359376
+                    },
+                    {
+                      "word": "punto ",
+                      "start": 146.82413818359376,
+                      "end": 147.24435107421874
+                    },
+                    {
+                      "word": "com.",
+                      "start": 147.24435107421874,
+                      "end": 147.81243627929686
+                    },
+                    {
+                      "word": "\n\n¿Es ",
+                      "start": 147.84851953125,
+                      "end": 148.0463918457031
+                    },
+                    {
+                      "word": "correcto?",
+                      "start": 148.0463918457031,
+                      "end": 148.8368173828125
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 12
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Sí.",
+                  "words": [
+                    {
+                      "word": "Sí.",
+                      "start": 149.497,
+                      "end": 149.89701000000002
+                    }
+                  ]
+                }
+              ],
+              "transcript_with_tool_calls": [
+                {
+                  "role": "agent",
+                  "content": "Hola, muy buenas, soy Toni. ¿En qué puedo ayudarte hoy?",
+                  "words": [
+                    {
+                      "word": "Hola, ",
+                      "start": 0.434936279296875,
+                      "end": 0.68280859375
+                    },
+                    {
+                      "word": "muy ",
+                      "start": 0.68280859375,
+                      "end": 0.867914794921875
+                    },
+                    {
+                      "word": "buenas, ",
+                      "start": 0.867914794921875,
+                      "end": 1.21365966796875
+                    },
+                    {
+                      "word": "soy ",
+                      "start": 1.21365966796875,
+                      "end": 1.411531982421875
+                    },
+                    {
+                      "word": "Toni. ",
+                      "start": 1.411531982421875,
+                      "end": 1.830680908203125
+                    },
+                    {
+                      "word": "¿En ",
+                      "start": 1.830680908203125,
+                      "end": 2.07855322265625
+                    },
+                    {
+                      "word": "qué ",
+                      "start": 2.07855322265625,
+                      "end": 2.226425537109375
+                    },
+                    {
+                      "word": "puedo ",
+                      "start": 2.226425537109375,
+                      "end": 2.448765869140625
+                    },
+                    {
+                      "word": "ayudarte ",
+                      "start": 2.448765869140625,
+                      "end": 2.917914794921875
+                    },
+                    {
+                      "word": "hoy?",
+                      "start": 2.917914794921875,
+                      "end": 3.399829833984375
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 0
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Hola, Tony, me gustaría agendar una cita.",
+                  "words": [
+                    {
+                      "word": "Hola, ",
+                      "start": 4.707,
+                      "end": 5.1069997
+                    },
+                    {
+                      "word": "Tony, ",
+                      "start": 5.1069997,
+                      "end": 5.587
+                    },
+                    {
+                      "word": "me ",
+                      "start": 5.587,
+                      "end": 5.747
+                    },
+                    {
+                      "word": "gustaría ",
+                      "start": 5.747,
+                      "end": 6.1469996
+                    },
+                    {
+                      "word": "agendar ",
+                      "start": 6.1469996,
+                      "end": 6.467
+                    },
+                    {
+                      "word": "una ",
+                      "start": 6.467,
+                      "end": 6.707
+                    },
+                    {
+                      "word": "cita.",
+                      "start": 6.707,
+                      "end": 6.867
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Perfecto, ¿para qué tratamiento te gustaría reservar la cita? ¿Cuál es el motivo de tu visita?",
+                  "words": [
+                    {
+                      "word": "Perfecto, ",
+                      "start": 8.4317021484375,
+                      "end": 8.925319091796876
+                    },
+                    {
+                      "word": "¿para ",
+                      "start": 8.925319091796876,
+                      "end": 9.272127685546875
+                    },
+                    {
+                      "word": "qué ",
+                      "start": 9.272127685546875,
+                      "end": 9.382765869140625
+                    },
+                    {
+                      "word": "tratamiento ",
+                      "start": 9.382765869140625,
+                      "end": 9.926383056640624
+                    },
+                    {
+                      "word": "te ",
+                      "start": 9.926383056640624,
+                      "end": 10.025319091796876
+                    },
+                    {
+                      "word": "gustaría ",
+                      "start": 10.025319091796876,
+                      "end": 10.42
+                    },
+                    {
+                      "word": "reservar ",
+                      "start": 10.42,
+                      "end": 10.87744677734375
+                    },
+                    {
+                      "word": "la ",
+                      "start": 10.87744677734375,
+                      "end": 10.988085205078125
+                    },
+                    {
+                      "word": "cita?",
+                      "start": 10.988085205078125,
+                      "end": 11.63063818359375
+                    },
+                    {
+                      "word": " ¿Cuál ",
+                      "start": 11.672227783203125,
+                      "end": 12.019036376953125
+                    },
+                    {
+                      "word": "es ",
+                      "start": 12.019036376953125,
+                      "end": 12.129674560546874
+                    },
+                    {
+                      "word": "el ",
+                      "start": 12.129674560546874,
+                      "end": 12.22861083984375
+                    },
+                    {
+                      "word": "motivo ",
+                      "start": 12.22861083984375,
+                      "end": 12.6360576171875
+                    },
+                    {
+                      "word": "de ",
+                      "start": 12.6360576171875,
+                      "end": 12.747759765625
+                    },
+                    {
+                      "word": "tu ",
+                      "start": 12.747759765625,
+                      "end": 12.8828662109375
+                    },
+                    {
+                      "word": "visita?",
+                      "start": 12.8828662109375,
+                      "end": 13.648823486328125
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 1
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "¿Qué servicios tenéis?",
+                  "words": [
+                    {
+                      "word": "¿Qué ",
+                      "start": 16.947,
+                      "end": 17.427
+                    },
+                    {
+                      "word": "servicios ",
+                      "start": 17.427,
+                      "end": 17.747
+                    },
+                    {
+                      "word": "tenéis?",
+                      "start": 17.747,
+                      "end": 18.067
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Claro, te cuento. Hacemos limpiezas, empastes, ortodoncia, implantes y revisiones. ¿Te gustaría reservar para alguno de estos tratamientos?",
+                  "words": [
+                    {
+                      "word": "Claro, ",
+                      "start": 19.224468017578126,
+                      "end": 19.5085107421875
+                    },
+                    {
+                      "word": "te ",
+                      "start": 19.5085107421875,
+                      "end": 19.61914892578125
+                    },
+                    {
+                      "word": "cuento.",
+                      "start": 19.61914892578125,
+                      "end": 20.286170166015626
+                    },
+                    {
+                      "word": " Hacemos ",
+                      "start": 20.292593017578124,
+                      "end": 20.72557177734375
+                    },
+                    {
+                      "word": "limpiezas, ",
+                      "start": 20.72557177734375,
+                      "end": 21.56493359375
+                    },
+                    {
+                      "word": "empastes, ",
+                      "start": 21.56493359375,
+                      "end": 22.392593017578125
+                    },
+                    {
+                      "word": "ortodoncia, ",
+                      "start": 22.392593017578125,
+                      "end": 23.13408251953125
+                    },
+                    {
+                      "word": "implantes ",
+                      "start": 23.13408251953125,
+                      "end": 23.7266357421875
+                    },
+                    {
+                      "word": "y ",
+                      "start": 23.7266357421875,
+                      "end": 23.83727392578125
+                    },
+                    {
+                      "word": "revisiones.",
+                      "start": 23.83727392578125,
+                      "end": 24.76386962890625
+                    },
+                    {
+                      "word": " ¿Te ",
+                      "start": 24.773009765625,
+                      "end": 24.9464140625
+                    },
+                    {
+                      "word": "gustaría ",
+                      "start": 24.9464140625,
+                      "end": 25.30386083984375
+                    },
+                    {
+                      "word": "reservar ",
+                      "start": 25.30386083984375,
+                      "end": 25.7613076171875
+                    },
+                    {
+                      "word": "para ",
+                      "start": 25.7613076171875,
+                      "end": 25.9347119140625
+                    },
+                    {
+                      "word": "alguno ",
+                      "start": 25.9347119140625,
+                      "end": 26.21875439453125
+                    },
+                    {
+                      "word": "de ",
+                      "start": 26.21875439453125,
+                      "end": 26.29215869140625
+                    },
+                    {
+                      "word": "estos ",
+                      "start": 26.29215869140625,
+                      "end": 26.551733154296876
+                    },
+                    {
+                      "word": "tratamientos?",
+                      "start": 26.551733154296876,
+                      "end": 27.5644990234375
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 2
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Sí, me gustaría hacerme una ortodoncia.",
+                  "words": [
+                    {
+                      "word": "Sí, ",
+                      "start": 28.927,
+                      "end": 29.326999999999998
+                    },
+                    {
+                      "word": "me ",
+                      "start": 29.326999999999998,
+                      "end": 29.407
+                    },
+                    {
+                      "word": "gustaría ",
+                      "start": 29.407,
+                      "end": 29.727
+                    },
+                    {
+                      "word": "hacerme ",
+                      "start": 29.727,
+                      "end": 30.047
+                    },
+                    {
+                      "word": "una ",
+                      "start": 30.047,
+                      "end": 30.286999
+                    },
+                    {
+                      "word": "ortodoncia.",
+                      "start": 30.286999,
+                      "end": 30.847
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Estupendo. ¿Me podrías decir tu nombre para continuar con la reserva?",
+                  "words": [
+                    {
+                      "word": "Estupendo.",
+                      "start": 32.360234130859375,
+                      "end": 33.2612978515625
+                    },
+                    {
+                      "word": " ¿Me ",
+                      "start": 33.27005151367187,
+                      "end": 33.41898754882813
+                    },
+                    {
+                      "word": "podrías ",
+                      "start": 33.41898754882813,
+                      "end": 33.776434326171874
+                    },
+                    {
+                      "word": "decir ",
+                      "start": 33.776434326171874,
+                      "end": 34.04877490234375
+                    },
+                    {
+                      "word": "tu ",
+                      "start": 34.04877490234375,
+                      "end": 34.183881103515624
+                    },
+                    {
+                      "word": "nombre ",
+                      "start": 34.183881103515624,
+                      "end": 34.467923828125
+                    },
+                    {
+                      "word": "para ",
+                      "start": 34.467923828125,
+                      "end": 34.654093994140624
+                    },
+                    {
+                      "word": "continuar ",
+                      "start": 34.654093994140624,
+                      "end": 35.16047705078125
+                    },
+                    {
+                      "word": "con ",
+                      "start": 35.16047705078125,
+                      "end": 35.35728540039062
+                    },
+                    {
+                      "word": "la ",
+                      "start": 35.35728540039062,
+                      "end": 35.49345556640625
+                    },
+                    {
+                      "word": "reserva?",
+                      "start": 35.49345556640625,
+                      "end": 36.30834936523438
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 3
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Mi nombre es Pablo Álvarez.",
+                  "words": [
+                    {
+                      "word": "Mi ",
+                      "start": 37.597002,
+                      "end": 37.837
+                    },
+                    {
+                      "word": "nombre ",
+                      "start": 37.837,
+                      "end": 38.077
+                    },
+                    {
+                      "word": "es ",
+                      "start": 38.077,
+                      "end": 38.237
+                    },
+                    {
+                      "word": "Pablo ",
+                      "start": 38.237,
+                      "end": 38.557
+                    },
+                    {
+                      "word": "Álvarez.",
+                      "start": 38.557,
+                      "end": 38.957003
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Gracias, Pablo. ¿Qué día te vendría bien para la cita?",
+                  "words": [
+                    {
+                      "word": "Gracias, ",
+                      "start": 40.589234130859374,
+                      "end": 40.98391479492187
+                    },
+                    {
+                      "word": "Pablo.",
+                      "start": 40.98391479492187,
+                      "end": 41.63923413085938
+                    },
+                    {
+                      "word": " ¿Qué ",
+                      "start": 41.67476953125,
+                      "end": 41.82370556640625
+                    },
+                    {
+                      "word": "día ",
+                      "start": 41.82370556640625,
+                      "end": 42.00881201171875
+                    },
+                    {
+                      "word": "te ",
+                      "start": 42.00881201171875,
+                      "end": 42.107748291015625
+                    },
+                    {
+                      "word": "vendría ",
+                      "start": 42.107748291015625,
+                      "end": 42.46519506835938
+                    },
+                    {
+                      "word": "bien ",
+                      "start": 42.46519506835938,
+                      "end": 42.63859936523438
+                    },
+                    {
+                      "word": "para ",
+                      "start": 42.63859936523438,
+                      "end": 42.848173828125
+                    },
+                    {
+                      "word": "la ",
+                      "start": 42.848173828125,
+                      "end": 42.9598759765625
+                    },
+                    {
+                      "word": "cita?",
+                      "start": 42.9598759765625,
+                      "end": 43.651365234375
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 4
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "El martes que viene a las doce de la mañana, ¿es posible?",
+                  "words": [
+                    {
+                      "word": "El ",
+                      "start": 45.407,
+                      "end": 45.887
+                    },
+                    {
+                      "word": "martes ",
+                      "start": 45.887,
+                      "end": 46.207
+                    },
+                    {
+                      "word": "que ",
+                      "start": 46.207,
+                      "end": 46.446997
+                    },
+                    {
+                      "word": "viene ",
+                      "start": 46.446997,
+                      "end": 46.687
+                    },
+                    {
+                      "word": "a ",
+                      "start": 46.687,
+                      "end": 47.007
+                    },
+                    {
+                      "word": "las ",
+                      "start": 47.007,
+                      "end": 47.167
+                    },
+                    {
+                      "word": "doce ",
+                      "start": 47.167,
+                      "end": 47.407
+                    },
+                    {
+                      "word": "de ",
+                      "start": 47.407,
+                      "end": 47.567
+                    },
+                    {
+                      "word": "la ",
+                      "start": 47.567,
+                      "end": 47.646997999999996
+                    },
+                    {
+                      "word": "mañana, ",
+                      "start": 47.646997999999996,
+                      "end": 47.966997
+                    },
+                    {
+                      "word": "¿es ",
+                      "start": 47.966997,
+                      "end": 48.126997
+                    },
+                    {
+                      "word": "posible?",
+                      "start": 48.126997,
+                      "end": 48.367
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "¿Te refieres al martes 2 de diciembre, verdad?",
+                  "words": [
+                    {
+                      "word": "¿Te ",
+                      "start": 50.06223413085937,
+                      "end": 50.23457446289063
+                    },
+                    {
+                      "word": "refieres ",
+                      "start": 50.23457446289063,
+                      "end": 50.63031909179688
+                    },
+                    {
+                      "word": "al ",
+                      "start": 50.63031909179688,
+                      "end": 50.72925537109375
+                    },
+                    {
+                      "word": "martes ",
+                      "start": 50.72925537109375,
+                      "end": 51.12393627929688
+                    },
+                    {
+                      "word": "2 ",
+                      "start": 51.12393627929688,
+                      "end": 51.29734033203125
+                    },
+                    {
+                      "word": "de ",
+                      "start": 51.29734033203125,
+                      "end": 51.407978759765626
+                    },
+                    {
+                      "word": "diciembre, ",
+                      "start": 51.407978759765626,
+                      "end": 51.951595703125
+                    },
+                    {
+                      "word": "verdad?",
+                      "start": 51.951595703125,
+                      "end": 52.54414892578125
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 5
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Sí, el martes, dos.",
+                  "words": [
+                    {
+                      "word": "Sí, ",
+                      "start": 56.497,
+                      "end": 56.817
+                    },
+                    {
+                      "word": "el ",
+                      "start": 56.817,
+                      "end": 56.977
+                    },
+                    {
+                      "word": "martes, ",
+                      "start": 56.977,
+                      "end": 57.297
+                    },
+                    {
+                      "word": "dos.",
+                      "start": 57.297,
+                      "end": 57.377
+                    }
+                  ]
+                },
+                {
+                  "role": "tool_call_invocation",
+                  "tool_call_id": "5694f5990b0cf598",
+                  "name": "gestionar_citas",
+                  "arguments": "{\"fecha\":\"2025-12-02\",\"servicio\":\"ortodoncia\",\"execution_message\":\"Permíteme consultar la agenda un segundo...\",\"hora\":\"12:00\",\"action\":\"check_availability\",\"telefono\":null,\"nombre\":\"Pablo Álvarez\",\"email\":null}",
+                  "time_sec": 58.953,
+                  "type": "custom"
+                },
+                {
+                  "role": "tool_call_result",
+                  "tool_call_id": "5694f5990b0cf598",
+                  "successful": true,
+                  "content": "{\"response\":\"Lo siento, esa hora ya está reservada. ¿Te va bien otra hora?\"}",
+                  "time_sec": 62.493
+                },
+                {
+                  "role": "agent",
+                  "content": "Permíteme consultar la agenda un segundo...Lo siento, Pablo, a las doce en punto lo tengo ocupado. ¿Te iría bien un poco más tarde ese mismo día, o prefieres otra hora?",
+                  "words": [
+                    {
+                      "word": "Permíteme ",
+                      "start": 59.32117016601563,
+                      "end": 59.69244677734375
+                    },
+                    {
+                      "word": "consultar ",
+                      "start": 59.69244677734375,
+                      "end": 60.0998935546875
+                    },
+                    {
+                      "word": "la ",
+                      "start": 60.0998935546875,
+                      "end": 60.19882983398438
+                    },
+                    {
+                      "word": "agenda ",
+                      "start": 60.19882983398438,
+                      "end": 60.54457446289062
+                    },
+                    {
+                      "word": "un ",
+                      "start": 60.54457446289062,
+                      "end": 60.667978759765624
+                    },
+                    {
+                      "word": "segundo...",
+                      "start": 60.667978759765624,
+                      "end": 61.458404296875
+                    },
+                    {
+                      "word": "Lo ",
+                      "start": 63.79393627929687,
+                      "end": 63.96734033203125
+                    },
+                    {
+                      "word": "siento, ",
+                      "start": 63.96734033203125,
+                      "end": 64.33755322265625
+                    },
+                    {
+                      "word": "Pablo, ",
+                      "start": 64.33755322265625,
+                      "end": 64.65882983398437
+                    },
+                    {
+                      "word": "a ",
+                      "start": 64.65882983398437,
+                      "end": 64.72053198242187
+                    },
+                    {
+                      "word": "las ",
+                      "start": 64.72053198242187,
+                      "end": 64.89393627929688
+                    },
+                    {
+                      "word": "doce ",
+                      "start": 64.89393627929688,
+                      "end": 65.14074462890625
+                    },
+                    {
+                      "word": "en ",
+                      "start": 65.14074462890625,
+                      "end": 65.25138305664062
+                    },
+                    {
+                      "word": "punto ",
+                      "start": 65.25138305664062,
+                      "end": 65.59712768554688
+                    },
+                    {
+                      "word": "lo ",
+                      "start": 65.59712768554688,
+                      "end": 65.721595703125
+                    },
+                    {
+                      "word": "tengo ",
+                      "start": 65.721595703125,
+                      "end": 65.93117016601562
+                    },
+                    {
+                      "word": "ocupado.",
+                      "start": 65.93117016601562,
+                      "end": 66.75882983398438
+                    },
+                    {
+                      "word": " ¿Te ",
+                      "start": 66.76609301757813,
+                      "end": 67.01290161132812
+                    },
+                    {
+                      "word": "iría ",
+                      "start": 67.01290161132812,
+                      "end": 67.28524194335938
+                    },
+                    {
+                      "word": "bien ",
+                      "start": 67.28524194335938,
+                      "end": 67.47034838867188
+                    },
+                    {
+                      "word": "un ",
+                      "start": 67.47034838867188,
+                      "end": 67.56928466796874
+                    },
+                    {
+                      "word": "poco ",
+                      "start": 67.56928466796874,
+                      "end": 67.81609301757813
+                    },
+                    {
+                      "word": "más ",
+                      "start": 67.81609301757813,
+                      "end": 68.02566748046875
+                    },
+                    {
+                      "word": "tarde ",
+                      "start": 68.02566748046875,
+                      "end": 68.29800805664063
+                    },
+                    {
+                      "word": "ese ",
+                      "start": 68.29800805664063,
+                      "end": 68.45864624023437
+                    },
+                    {
+                      "word": "mismo ",
+                      "start": 68.45864624023437,
+                      "end": 68.76715698242188
+                    },
+                    {
+                      "word": "día, ",
+                      "start": 68.76715698242188,
+                      "end": 69.59481640625
+                    },
+                    {
+                      "word": "o ",
+                      "start": 69.59481640625,
+                      "end": 69.69375268554687
+                    },
+                    {
+                      "word": "prefieres ",
+                      "start": 69.69375268554687,
+                      "end": 70.1501357421875
+                    },
+                    {
+                      "word": "otra ",
+                      "start": 70.1501357421875,
+                      "end": 70.38524194335938
+                    },
+                    {
+                      "word": "hora?",
+                      "start": 70.38524194335938,
+                      "end": 70.99056127929687
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 6
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Ese mismo día a la una,",
+                  "words": [
+                    {
+                      "word": "Ese ",
+                      "start": 74.53699,
+                      "end": 74.857
+                    },
+                    {
+                      "word": "mismo ",
+                      "start": 74.857,
+                      "end": 75.097
+                    },
+                    {
+                      "word": "día ",
+                      "start": 75.097,
+                      "end": 75.497
+                    },
+                    {
+                      "word": "a ",
+                      "start": 75.497,
+                      "end": 75.737
+                    },
+                    {
+                      "word": "la ",
+                      "start": 75.737,
+                      "end": 75.896994
+                    },
+                    {
+                      "word": "una,",
+                      "start": 75.896994,
+                      "end": 76.137
+                    }
+                  ]
+                },
+                {
+                  "role": "user",
+                  "content": "es posible?",
+                  "words": [
+                    {
+                      "word": "es ",
+                      "start": 76.52701,
+                      "end": 76.767004
+                    },
+                    {
+                      "word": "posible?",
+                      "start": 76.767004,
+                      "end": 77.087004
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Permíteme ",
+                  "words": [
+                    {
+                      "word": "Permíteme ",
+                      "start": 79.36046801757813,
+                      "end": 79.85408520507812
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 8
+                  }
+                },
+                {
+                  "role": "tool_call_invocation",
+                  "tool_call_id": "effdb181e6d48222",
+                  "name": "gestionar_citas",
+                  "arguments": "{\"fecha\":\"2025-12-02\",\"servicio\":\"ortodoncia\",\"execution_message\":\"Permíteme consultar la agenda un segundo...\",\"hora\":\"13:00\",\"action\":\"check_availability\",\"telefono\":null,\"nombre\":\"Pablo Álvarez\",\"email\":null}",
+                  "time_sec": 79.468,
+                  "type": "custom"
+                },
+                {
+                  "role": "agent",
+                  "content": "consultar la agenda un",
+                  "words": [
+                    {
+                      "word": "consultar ",
+                      "start": 79.85408520507812,
+                      "end": 80.36046801757813
+                    },
+                    {
+                      "word": "la ",
+                      "start": 80.36046801757813,
+                      "end": 80.47217016601563
+                    },
+                    {
+                      "word": "agenda ",
+                      "start": 80.47217016601563,
+                      "end": 80.99025537109375
+                    },
+                    {
+                      "word": "un",
+                      "start": 80.99025537109375,
+                      "end": 81.36046801757813
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 8
+                  }
+                },
+                {
+                  "role": "tool_call_result",
+                  "tool_call_id": "effdb181e6d48222",
+                  "successful": true,
+                  "content": "{\"response\":\"Sí, tengo disponibilidad a esa hora. ¿Quieres que te reserve la cita?\"}",
+                  "time_sec": 81.226
+                },
+                {
+                  "role": "agent",
+                  "content": " segundo...Estupendo, Pablo, tengo ese hueco libre a la una en punto. Para confirmar la reserva, necesito tu teléfono móvil y un correo electrónico.",
+                  "words": [
+                    {
+                      "word": " segundo...",
+                      "start": 81.375259765625,
+                      "end": 82.14121728515624
+                    },
+                    {
+                      "word": "Estupendo, ",
+                      "start": 83.26793627929688,
+                      "end": 83.83602124023437
+                    },
+                    {
+                      "word": "Pablo, ",
+                      "start": 83.83602124023437,
+                      "end": 84.13282983398437
+                    },
+                    {
+                      "word": "tengo ",
+                      "start": 84.13282983398437,
+                      "end": 84.37963818359376
+                    },
+                    {
+                      "word": "ese ",
+                      "start": 84.37963818359376,
+                      "end": 84.61474462890625
+                    },
+                    {
+                      "word": "hueco ",
+                      "start": 84.61474462890625,
+                      "end": 85.00942553710938
+                    },
+                    {
+                      "word": "libre ",
+                      "start": 85.00942553710938,
+                      "end": 85.29346801757812
+                    },
+                    {
+                      "word": "a ",
+                      "start": 85.29346801757812,
+                      "end": 85.36793627929687
+                    },
+                    {
+                      "word": "la ",
+                      "start": 85.36793627929687,
+                      "end": 85.47963818359375
+                    },
+                    {
+                      "word": "una ",
+                      "start": 85.47963818359375,
+                      "end": 85.64027661132812
+                    },
+                    {
+                      "word": "en ",
+                      "start": 85.64027661132812,
+                      "end": 85.73814892578125
+                    },
+                    {
+                      "word": "punto.",
+                      "start": 85.73814892578125,
+                      "end": 86.4307021484375
+                    },
+                    {
+                      "word": " Para ",
+                      "start": 86.43492651367187,
+                      "end": 86.67003271484376
+                    },
+                    {
+                      "word": "confirmar ",
+                      "start": 86.67003271484376,
+                      "end": 87.10194775390624
+                    },
+                    {
+                      "word": "la ",
+                      "start": 87.10194775390624,
+                      "end": 87.22535205078125
+                    },
+                    {
+                      "word": "reserva, ",
+                      "start": 87.22535205078125,
+                      "end": 87.85513916015626
+                    },
+                    {
+                      "word": "necesito ",
+                      "start": 87.85513916015626,
+                      "end": 88.41152221679687
+                    },
+                    {
+                      "word": "tu ",
+                      "start": 88.41152221679687,
+                      "end": 88.65833056640625
+                    },
+                    {
+                      "word": "teléfono ",
+                      "start": 88.65833056640625,
+                      "end": 89.14024560546875
+                    },
+                    {
+                      "word": "móvil ",
+                      "start": 89.14024560546875,
+                      "end": 89.59662866210938
+                    },
+                    {
+                      "word": "y ",
+                      "start": 89.59662866210938,
+                      "end": 89.68386254882813
+                    },
+                    {
+                      "word": "un ",
+                      "start": 89.68386254882813,
+                      "end": 89.80726684570313
+                    },
+                    {
+                      "word": "correo ",
+                      "start": 89.80726684570313,
+                      "end": 90.12854345703126
+                    },
+                    {
+                      "word": "electrónico.",
+                      "start": 90.12854345703126,
+                      "end": 91.15301147460937
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 8
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Mi teléfono es seis seis nueve dos seis siete.",
+                  "words": [
+                    {
+                      "word": "Mi ",
+                      "start": 92.817,
+                      "end": 93.057
+                    },
+                    {
+                      "word": "teléfono ",
+                      "start": 93.057,
+                      "end": 93.616995
+                    },
+                    {
+                      "word": "es ",
+                      "start": 93.616995,
+                      "end": 94.017
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 94.017,
+                      "end": 94.417
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 94.417,
+                      "end": 94.737
+                    },
+                    {
+                      "word": "nueve ",
+                      "start": 94.737,
+                      "end": 95.296995
+                    },
+                    {
+                      "word": "dos ",
+                      "start": 95.296995,
+                      "end": 95.616995
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 95.616995,
+                      "end": 95.857
+                    },
+                    {
+                      "word": "siete.",
+                      "start": 95.857,
+                      "end": 96.097
+                    }
+                  ]
+                },
+                {
+                  "role": "user",
+                  "content": "cinco siete y el correo electrónico es Álvarez Vidal Pablo arroba Gmail punto com.",
+                  "words": [
+                    {
+                      "word": "cinco ",
+                      "start": 96.677,
+                      "end": 96.997
+                    },
+                    {
+                      "word": "siete ",
+                      "start": 96.997,
+                      "end": 97.317
+                    },
+                    {
+                      "word": "y ",
+                      "start": 97.937,
+                      "end": 98.177
+                    },
+                    {
+                      "word": "el ",
+                      "start": 98.177,
+                      "end": 98.337004
+                    },
+                    {
+                      "word": "correo ",
+                      "start": 98.337004,
+                      "end": 98.577
+                    },
+                    {
+                      "word": "electrónico ",
+                      "start": 98.577,
+                      "end": 99.137
+                    },
+                    {
+                      "word": "es ",
+                      "start": 99.137,
+                      "end": 99.377
+                    },
+                    {
+                      "word": "Álvarez ",
+                      "start": 99.637,
+                      "end": 100.117
+                    },
+                    {
+                      "word": "Vidal ",
+                      "start": 100.117,
+                      "end": 100.517
+                    },
+                    {
+                      "word": "Pablo ",
+                      "start": 100.517,
+                      "end": 100.917
+                    },
+                    {
+                      "word": "arroba ",
+                      "start": 100.917,
+                      "end": 101.317
+                    },
+                    {
+                      "word": "Gmail ",
+                      "start": 101.317,
+                      "end": 101.717
+                    },
+                    {
+                      "word": "punto ",
+                      "start": 101.717,
+                      "end": 101.957
+                    },
+                    {
+                      "word": "com.",
+                      "start": 101.957,
+                      "end": 102.117
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Gracias, Pablo. ¿Podrías repetirme el número de teléfono un poco más despacio para anotarlo bien, por favor? Y también, ¿me puedes confirmar si tu correo es “Álvarez Vidal Pablo” todo junto, o lleva algún punto o guion?",
+                  "words": [
+                    {
+                      "word": "Gracias, ",
+                      "start": 103.65193627929688,
+                      "end": 104.10938305664062
+                    },
+                    {
+                      "word": "Pablo.",
+                      "start": 104.10938305664062,
+                      "end": 104.73917016601563
+                    },
+                    {
+                      "word": " ¿Podrías ",
+                      "start": 104.77801953125,
+                      "end": 105.3461044921875
+                    },
+                    {
+                      "word": "repetirme ",
+                      "start": 105.3461044921875,
+                      "end": 105.85355151367187
+                    },
+                    {
+                      "word": "el ",
+                      "start": 105.85355151367187,
+                      "end": 105.951423828125
+                    },
+                    {
+                      "word": "número ",
+                      "start": 105.951423828125,
+                      "end": 106.26099829101562
+                    },
+                    {
+                      "word": "de ",
+                      "start": 106.26099829101562,
+                      "end": 106.35993432617188
+                    },
+                    {
+                      "word": "teléfono ",
+                      "start": 106.35993432617188,
+                      "end": 106.8163173828125
+                    },
+                    {
+                      "word": "un ",
+                      "start": 106.8163173828125,
+                      "end": 106.9397216796875
+                    },
+                    {
+                      "word": "poco ",
+                      "start": 106.9397216796875,
+                      "end": 107.18653002929688
+                    },
+                    {
+                      "word": "más ",
+                      "start": 107.18653002929688,
+                      "end": 107.37270043945313
+                    },
+                    {
+                      "word": "despacio ",
+                      "start": 107.37270043945313,
+                      "end": 107.8663173828125
+                    },
+                    {
+                      "word": "para ",
+                      "start": 107.8663173828125,
+                      "end": 108.1131259765625
+                    },
+                    {
+                      "word": "anotarlo ",
+                      "start": 108.1131259765625,
+                      "end": 108.6195087890625
+                    },
+                    {
+                      "word": "bien, ",
+                      "start": 108.6195087890625,
+                      "end": 108.8663173828125
+                    },
+                    {
+                      "word": "por ",
+                      "start": 108.8663173828125,
+                      "end": 109.0397216796875
+                    },
+                    {
+                      "word": "favor?",
+                      "start": 109.0397216796875,
+                      "end": 109.71844506835937
+                    },
+                    {
+                      "word": " Y ",
+                      "start": 109.75818627929688,
+                      "end": 109.86988818359374
+                    },
+                    {
+                      "word": "también, ",
+                      "start": 109.86988818359374,
+                      "end": 110.35180322265624
+                    },
+                    {
+                      "word": "¿me ",
+                      "start": 110.35180322265624,
+                      "end": 110.51244140625
+                    },
+                    {
+                      "word": "puedes ",
+                      "start": 110.51244140625,
+                      "end": 110.83371801757812
+                    },
+                    {
+                      "word": "confirmar ",
+                      "start": 110.83371801757812,
+                      "end": 111.67307983398437
+                    },
+                    {
+                      "word": "si ",
+                      "start": 111.67307983398437,
+                      "end": 111.83371801757812
+                    },
+                    {
+                      "word": "tu ",
+                      "start": 111.83371801757812,
+                      "end": 111.95712231445313
+                    },
+                    {
+                      "word": "correo ",
+                      "start": 111.95712231445313,
+                      "end": 112.41456909179688
+                    },
+                    {
+                      "word": "es ",
+                      "start": 112.41456909179688,
+                      "end": 112.72307983398437
+                    },
+                    {
+                      "word": "“Álvarez ",
+                      "start": 112.72307983398437,
+                      "end": 113.19222875976563
+                    },
+                    {
+                      "word": "Vidal ",
+                      "start": 113.19222875976563,
+                      "end": 113.52520751953125
+                    },
+                    {
+                      "word": "Pablo” ",
+                      "start": 113.52520751953125,
+                      "end": 113.90818627929687
+                    },
+                    {
+                      "word": "todo ",
+                      "start": 113.90818627929687,
+                      "end": 114.20499462890625
+                    },
+                    {
+                      "word": "junto, ",
+                      "start": 114.20499462890625,
+                      "end": 115.13159033203125
+                    },
+                    {
+                      "word": "o ",
+                      "start": 115.13159033203125,
+                      "end": 115.34116479492188
+                    },
+                    {
+                      "word": "lleva ",
+                      "start": 115.34116479492188,
+                      "end": 115.835845703125
+                    },
+                    {
+                      "word": "algún ",
+                      "start": 115.835845703125,
+                      "end": 116.18159033203125
+                    },
+                    {
+                      "word": "punto ",
+                      "start": 116.18159033203125,
+                      "end": 116.73690966796875
+                    },
+                    {
+                      "word": "o ",
+                      "start": 116.73690966796875,
+                      "end": 117.0209521484375
+                    },
+                    {
+                      "word": "guion?",
+                      "start": 117.0209521484375,
+                      "end": 117.81137768554687
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 10
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "¿Es Álvarez Vidal Pablo todo junto?",
+                  "words": [
+                    {
+                      "word": "¿Es ",
+                      "start": 119.687,
+                      "end": 120.327
+                    },
+                    {
+                      "word": "Álvarez ",
+                      "start": 120.327,
+                      "end": 120.727
+                    },
+                    {
+                      "word": "Vidal ",
+                      "start": 120.727,
+                      "end": 121.047
+                    },
+                    {
+                      "word": "Pablo ",
+                      "start": 121.047,
+                      "end": 121.367
+                    },
+                    {
+                      "word": "todo ",
+                      "start": 121.367,
+                      "end": 121.607
+                    },
+                    {
+                      "word": "junto?",
+                      "start": 121.607,
+                      "end": 121.927
+                    }
+                  ]
+                },
+                {
+                  "role": "user",
+                  "content": "Y mi número de teléfono es seis seis nueve dos seis siete siete cinco siete.",
+                  "words": [
+                    {
+                      "word": "Y ",
+                      "start": 124.427,
+                      "end": 124.747
+                    },
+                    {
+                      "word": "mi ",
+                      "start": 124.747,
+                      "end": 124.987005
+                    },
+                    {
+                      "word": "número ",
+                      "start": 124.987005,
+                      "end": 125.227
+                    },
+                    {
+                      "word": "de ",
+                      "start": 125.227,
+                      "end": 125.387
+                    },
+                    {
+                      "word": "teléfono ",
+                      "start": 125.387,
+                      "end": 126.107
+                    },
+                    {
+                      "word": "es ",
+                      "start": 126.107,
+                      "end": 126.427
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 127.167,
+                      "end": 127.406996
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 127.406996,
+                      "end": 127.646994
+                    },
+                    {
+                      "word": "nueve ",
+                      "start": 127.646994,
+                      "end": 127.96699
+                    },
+                    {
+                      "word": "dos ",
+                      "start": 128.237,
+                      "end": 128.637
+                    },
+                    {
+                      "word": "seis ",
+                      "start": 128.637,
+                      "end": 128.877
+                    },
+                    {
+                      "word": "siete ",
+                      "start": 128.877,
+                      "end": 129.35700000000003
+                    },
+                    {
+                      "word": "siete ",
+                      "start": 129.35700000000003,
+                      "end": 129.757
+                    },
+                    {
+                      "word": "cinco ",
+                      "start": 129.757,
+                      "end": 130.07700000000003
+                    },
+                    {
+                      "word": "siete.",
+                      "start": 130.07700000000003,
+                      "end": 130.31699
+                    }
+                  ]
+                },
+                {
+                  "role": "agent",
+                  "content": "Perfecto, Pablo. Repaso contigo:\n\nCita para ortodoncia el martes, dos de diciembre, a la una en punto.\nTeléfono: 6...6...9... - 2...6...7... - 7...5...7...\nCorreo: Alvarez Vidal Pablo arroba gemeil punto com.\n\n¿Es correcto?",
+                  "words": [
+                    {
+                      "word": "Perfecto, ",
+                      "start": 131.8447021484375,
+                      "end": 132.31385107421875
+                    },
+                    {
+                      "word": "Pablo.",
+                      "start": 132.31385107421875,
+                      "end": 132.91917016601562
+                    },
+                    {
+                      "word": " Repaso ",
+                      "start": 132.9206826171875,
+                      "end": 133.25366137695312
+                    },
+                    {
+                      "word": "contigo:\n",
+                      "start": 133.25366137695312,
+                      "end": 133.96961889648438
+                    },
+                    {
+                      "word": "\nCita ",
+                      "start": 133.96961889648438,
+                      "end": 134.31642724609375
+                    },
+                    {
+                      "word": "para ",
+                      "start": 134.31642724609375,
+                      "end": 134.51323583984376
+                    },
+                    {
+                      "word": "ortodoncia ",
+                      "start": 134.51323583984376,
+                      "end": 135.11855493164063
+                    },
+                    {
+                      "word": "el ",
+                      "start": 135.11855493164063,
+                      "end": 135.25472509765626
+                    },
+                    {
+                      "word": "martes, ",
+                      "start": 135.25472509765626,
+                      "end": 135.69940600585937
+                    },
+                    {
+                      "word": "dos ",
+                      "start": 135.69940600585937,
+                      "end": 135.88451245117187
+                    },
+                    {
+                      "word": "de ",
+                      "start": 135.88451245117187,
+                      "end": 135.98344848632811
+                    },
+                    {
+                      "word": "diciembre, ",
+                      "start": 135.98344848632811,
+                      "end": 136.55153369140626
+                    },
+                    {
+                      "word": "a ",
+                      "start": 136.55153369140626,
+                      "end": 136.63770385742188
+                    },
+                    {
+                      "word": "la ",
+                      "start": 136.63770385742188,
+                      "end": 136.73664013671876
+                    },
+                    {
+                      "word": "una ",
+                      "start": 136.73664013671876,
+                      "end": 136.88451245117187
+                    },
+                    {
+                      "word": "en ",
+                      "start": 136.88451245117187,
+                      "end": 137.00898046875
+                    },
+                    {
+                      "word": "punto.",
+                      "start": 137.00898046875,
+                      "end": 137.74940600585938
+                    },
+                    {
+                      "word": "\nTeléfono: ",
+                      "start": 137.7899777832031,
+                      "end": 138.518701171875
+                    },
+                    {
+                      "word": "6...",
+                      "start": 138.518701171875,
+                      "end": 139.32189282226562
+                    },
+                    {
+                      "word": "6...",
+                      "start": 139.335509765625,
+                      "end": 139.85465869140626
+                    },
+                    {
+                      "word": "9...",
+                      "start": 139.89664453125,
+                      "end": 140.44026147460937
+                    },
+                    {
+                      "word": " - ",
+                      "start": 140.445259765625,
+                      "end": 141.01334497070312
+                    },
+                    {
+                      "word": "2...",
+                      "start": 141.00595825195313,
+                      "end": 141.00595825195313
+                    },
+                    {
+                      "word": "6...",
+                      "start": 141.03042651367187,
+                      "end": 141.49957543945314
+                    },
+                    {
+                      "word": "7...",
+                      "start": 141.49726586914062,
+                      "end": 142.07705322265625
+                    },
+                    {
+                      "word": " - ",
+                      "start": 142.09785913085938,
+                      "end": 142.60424194335937
+                    },
+                    {
+                      "word": "7...",
+                      "start": 142.59470825195314,
+                      "end": 142.59470825195314
+                    },
+                    {
+                      "word": "5...",
+                      "start": 142.61917651367187,
+                      "end": 143.08832543945311
+                    },
+                    {
+                      "word": "7...",
+                      "start": 143.10030151367187,
+                      "end": 143.56945043945314
+                    },
+                    {
+                      "word": "\nCorreo: ",
+                      "start": 143.60073413085937,
+                      "end": 144.24328735351563
+                    },
+                    {
+                      "word": "Alvarez ",
+                      "start": 144.24328735351563,
+                      "end": 144.6752021484375
+                    },
+                    {
+                      "word": "Vidal ",
+                      "start": 144.6752021484375,
+                      "end": 145.05818090820313
+                    },
+                    {
+                      "word": "Pablo ",
+                      "start": 145.05818090820313,
+                      "end": 145.63796801757812
+                    },
+                    {
+                      "word": "arroba ",
+                      "start": 145.63796801757812,
+                      "end": 146.23158520507812
+                    },
+                    {
+                      "word": "gemeil ",
+                      "start": 146.23158520507812,
+                      "end": 146.82413818359376
+                    },
+                    {
+                      "word": "punto ",
+                      "start": 146.82413818359376,
+                      "end": 147.24435107421874
+                    },
+                    {
+                      "word": "com.",
+                      "start": 147.24435107421874,
+                      "end": 147.81243627929686
+                    },
+                    {
+                      "word": "\n\n¿Es ",
+                      "start": 147.84851953125,
+                      "end": 148.0463918457031
+                    },
+                    {
+                      "word": "correcto?",
+                      "start": 148.0463918457031,
+                      "end": 148.8368173828125
+                    }
+                  ],
+                  "metadata": {
+                    "response_id": 12
+                  }
+                },
+                {
+                  "role": "user",
+                  "content": "Sí.",
+                  "words": [
+                    {
+                      "word": "Sí.",
+                      "start": 149.497,
+                      "end": 149.89701000000002
+                    }
+                  ]
+                },
+                {
+                  "role": "tool_call_invocation",
+                  "tool_call_id": "d75760b7979ffff1",
+                  "name": "gestionar_citas",
+                  "arguments": "{\"fecha\":\"2025-12-02\",\"servicio\":\"ortodoncia\",\"execution_message\":\"Reservando tu cita para ortodoncia el martes dos de diciembre a la una en punto.\",\"hora\":\"13:00\",\"action\":\"book_appointment\",\"telefono\":\"669267757\",\"nombre\":\"Pablo Álvarez\",\"email\":\"alvarezvidalpablo@gmail.com\"}",
+                  "time_sec": 153.098,
+                  "type": "custom"
+                }
+              ],
+              "latency": {},
+              "call_cost": {
+                "product_costs": [],
+                "total_duration_unit_price": 0,
+                "total_duration_seconds": 0,
+                "combined_cost": 0
+              },
+              "data_storage_setting": "everything",
+              "opt_in_signed_url": false,
+              "access_token": "eyJhbGciOiJIUzI1NiJ9.eyJ2aWRlbyI6eyJyb29tSm9pbiI6dHJ1ZSwicm9vbSI6IndlYl9jYWxsXzBiN2VkNzljNmQwMTBkOGIxOWMxOTA1NjdjMSJ9LCJpc3MiOiJBUElqWGZBMzVHTmM3WHgiLCJleHAiOjE3NjQxODY2OTIsIm5iZiI6MCwic3ViIjoiY2xpZW50In0.HazRkHdBdk2wcnFjTDQ4_wC6HpLgX3MosinJYhbZ7lU"
+            },
+            "name": "gestionar_citas",
+            "args": {
+              "fecha": "2025-12-02",
+              "servicio": "ortodoncia",
+              "hora": "13:00",
+              "action": "book_appointment",
+              "telefono": "669267757",
+              "nombre": "Pablo Álvarez",
+              "email": "alvarezvidalpablo@gmail.com"
+            }
+          },
+          "webhookUrl": "https://n8n-n8n.u5h0lw.easypanel.host/webhook/agente-clinica",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-15T11:19:17.985Z",
+      "createdAt": "2025-11-15T11:19:17.985Z",
+      "role": "workflow:owner",
+      "workflowId": "vpXlm0kI4sMbdcNg",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-27T18:03:02.000Z",
+  "versionId": "d6255d6f-547a-4f7c-afac-5274ecfd6e75"
+}
