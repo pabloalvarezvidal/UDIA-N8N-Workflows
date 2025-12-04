@@ -1,0 +1,338 @@
+{
+  "active": false,
+  "connections": {
+    "Tally Trigger": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Create a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a document": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-04T09:52:19.004Z",
+  "id": "VhCziu8j9maiJVaf",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Creacion de base de conocimiento tras formulario",
+  "nodes": [
+    {
+      "parameters": {
+        "formId": "A7rVN0"
+      },
+      "type": "n8n-nodes-tallyforms.tallyTrigger",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f8acc033-ce94-4463-91a2-9a2fe8a1d5a5",
+      "name": "Tally Trigger",
+      "webhookId": "b82a8cb5-dd0f-4502-858e-8c8b9ff5f0b8",
+      "credentials": {
+        "tallyApi": {
+          "id": "0j5nuZ4zQpfJ4GB3",
+          "name": "Tally account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analiza las siguientes PREGUNTAS y RESPUESTAS del cliente y genera la Base de Conocimiento técnica:\n\nDATOS DEL FORMULARIO:\n---\n1. Nombre Real de la Clínica: {{ $json.question_k6P7GM.value }}\n\n2. Pregunta: ¿Cómo quiere que se presente la IA al descolgar?\n   Respuesta: {{ $json.question_rAZaPR.value }}\n\n3. Pregunta: Dirección Exacta\n   Respuesta: {{ $json.question_4xbJrY.value }}\n\n4. Pregunta: Indicaciones de Llegada (Puntos de referencia)\n   Respuesta: {{ $json.question_jQV6P4.value }}\n\n5. Pregunta: ¿Tienen parking propio? Si no, ¿Cuál es el más cercano?\n   Respuesta: {{ $json.question_2N6aP9.value }}\n\n6. Pregunta: ¿Qué programa utilizan actualmente para llevar la agenda?\n   Respuesta: {{ $json.question_xaWMY5.value }}\n\n7. Pregunta: Liste los nombres de los doctores y su especialidad.\n   Respuesta: {{ $json.question_Z6BEaB.value }}\n\n8. Pregunta: Reglas de Tiempos (Duración de citas por servicio)\n   Respuesta: {{ $json.question_NWZloj.value }}\n\n9. Pregunta: Política de Cancelaciones (Antelación y penalización)\n   Respuesta: {{ $json.question_qAlDV9.value }}\n\n10. Pregunta: Liste TODAS las aseguradoras con las que trabajan.\n    Respuesta: {{ $json.question_Q5QeVG.value }}\n\n11. Pregunta: ¿Qué debe decir la IA si el paciente tiene un seguro que NO aceptan?\n    Respuesta: {{ $json.question_9DK9QV.value }}\n\n12. Pregunta: Lista de precios según servicio\n    Respuesta: {{ $json.question_eeXQRk.value }}\n\n13. Pregunta: ¿Ofrecen financiación? ¿A partir de qué importe?\n    Respuesta: {{ $json.question_W57Ezv.value }}\n\n14. Pregunta: Protocolo de Urgencias Médicas (Grave o dolor incontrolable)\n    Respuesta: {{ $json.question_aYM5db.value }}\n\n15. Pregunta: Número al que transferir la llamada (Humano/Urgencia)\n    Respuesta: {{ $json.question_62Bj2J.value }}\n\n16. Pregunta: Correo electrónico para notificaciones\n    Respuesta: {{ $json.question_72kL2R.value }}\n\n17. Pregunta: Idiomas (¿Solo castellano o detectar otros?)\n    Respuesta: {{ $json.question_bxJjxZ.value }}\n\n18. Pregunta: Tono (¿Cómo prefiere que trate al paciente?)\n    Respuesta: {{ $json.question_ALX2Lz.value }}\n\n19. Pregunta: Información Adicional / Casos Raros\n    Respuesta: {{ $json.question_BkRdkK.value }}\n---",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=ACTÚA COMO: Arquitecto de Conocimiento para IA Conversacional.\n\nTU OBJETIVO:\nRecibirás una lista de PREGUNTAS y RESPUESTAS provenientes de un formulario de clínica.\nTu tarea es transformar esas respuestas (que pueden ser breves o coloquiales) en INSTRUCCIONES TÉCNICAS PRECISAS para un Agente de Voz.\n\nREGLAS DE INTERPRETACIÓN:\n1. Contextualiza: Si en \"Tono\" dicen \"De tú\", escribe: \"El agente debe tratar al paciente de manera cercana e informal (tuteo)\".\n2. Negativas: Si en \"Financiación\" dicen \"No\", escribe: \"La clínica no ofrece servicios de financiación actualmente\".\n3. Lógica: Si en \"Parking\" dicen \"No, el más cercano es el del Mercado\", escribe: \"No hay parking propio. Recomendar el parking público del Mercado\".\n4. Estilo: Usa un formato sobrio, técnico y directo. Sin adornos.\n\nFORMATO DE SALIDA (MARKDOWN PURO):\nGenera el documento siguiendo estrictamente esta estructura:\n\n# KNOWLEDGE BASE: [Nombre Clínica]\n\n## 1. IDENTIDAD Y ROL\n- **Nombre a usar:** [Nombre Oficial]\n- **Script de Saludo:** \"[Saludo Inicial]\"\n- **Dirección:** [Dirección]\n- **Llegada:** [Indicaciones]\n- **Parking:** [Situación Parking]\n\n## 2. PERSONALIDAD Y LENGUAJE\n- **Tono:** [Instrucción precisa sobre el tono]\n- **Idiomas:** [Instrucción sobre idiomas]\n\n## 3. LÓGICA DE AGENDA\n- **Software:** [Software]\n- **Política Cancelación:** [Política]\n- **Reglas de Tiempos:**\n[Lista detallada de tiempos]\n\n- **Equipo Médico:**\n[Lista de doctores]\n\n## 4. ECONÓMICO\n- **Precios Referencia:**\n[Lista de precios]\n\n- **Seguros:** [Lista seguros]\n- **Script rechazo seguro:** \"[Respuesta si no aceptan seguro]\"\n- **Financiación:** [Política financiación]\n\n## 5. URGENCIAS Y ESCALADO\n- **Protocolo Dolor/Urgencia:** [Instrucción precisa]\n- **Teléfono Desvío:** [Teléfono]\n- **Email Reporte:** [Email]\n\n## 6. NOTAS ADICIONALES\n[Información Extra]\n\n\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "e65b8bf4-5f8f-49ef-a81f-f69684973fdc",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "sendTo": "alvarezvidalpablo@gmail.com",
+        "subject": "Base de Conocimiento",
+        "emailType": "text",
+        "message": "=Base de conocimiento de {{ $('Tally Trigger').item.json.question_k6P7GM.value }} ha sido completada.\n\nhttps://docs.google.com/document/d/{{ $json.documentId }}/edit?tab=t.0\n\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        912,
+        0
+      ],
+      "id": "6ec7f761-fd9d-4f8f-b100-1ae9ee4bb5e9",
+      "name": "Send a message",
+      "webhookId": "b5b65af7-5845-42ce-894c-21d2864bee08",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "FhGOZ7dk8SKIOH6F",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "default",
+        "title": "=Base de conocimiento {{ $('Tally Trigger').item.json.question_k6P7GM.value }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        528,
+        0
+      ],
+      "id": "9c0d16e3-6c98-4b5a-8e63-3255d8d41a1a",
+      "name": "Create a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "NGEWWNivLd63JJu8",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "=https://docs.google.com/document/d/{{ $json.id }}/edit?tab=t.0",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $('Basic LLM Chain').item.json.text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        736,
+        0
+      ],
+      "id": "3e907137-9b60-49b3-9083-3f84db1cf675",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "NGEWWNivLd63JJu8",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        144,
+        208
+      ],
+      "id": "440dac1f-eedf-49eb-a6c5-9dba1ce38e3b",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YHe997AlWBEa1Czy",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Tally Trigger": [
+      {
+        "json": {
+          "id": "yPr46Y0",
+          "formId": "A7rVN0",
+          "formName": "Información Agente voz Intelite AI",
+          "respondentId": "q4GXJ85",
+          "createdAt": "2025-12-04T17:48:13.000Z",
+          "question_k6P7GM": {
+            "label": null,
+            "value": "Clinica Dental Álvarez",
+            "type": "INPUT_TEXT"
+          },
+          "question_rAZaPR": {
+            "label": "Hola, soy Sandra la recepcionista virtual de Clínica X, ¿en qué puedo ayudarte hoy?",
+            "value": "Hola, soy Ana la recepcionista virtual de Clínica Álvarez, ¿en qué puedo ayudarte hoy?\n\n",
+            "type": "TEXTAREA"
+          },
+          "question_4xbJrY": {
+            "label": null,
+            "value": "Calle Juan Fernández 21, Alicante",
+            "type": "INPUT_TEXT"
+          },
+          "question_jQV6P4": {
+            "label": "Estamos justo encima del Banco Sabadell, entrada por la calle lateral.",
+            "value": "Junto al banco santander",
+            "type": "TEXTAREA"
+          },
+          "question_2N6aP9": {
+            "label": "\n",
+            "value": "No",
+            "type": "TEXTAREA"
+          },
+          "question_xaWMY5": {
+            "label": "Doctoralia, Gesden, Dentadesk...",
+            "value": "Doctoralia",
+            "type": "INPUT_TEXT"
+          },
+          "question_Z6BEaB": {
+            "label": "Dr. García - Cirugía e Implantes / Dra. López - Ortodoncia",
+            "value": "Dr. Martínez: Endodoncias\nDra. González: Empastes\nDr. Gutiérrez: Implantes dentales",
+            "type": "TEXTAREA"
+          },
+          "question_NWZloj": {
+            "label": "Limpieza: 20 minutos / Empastes: 45 minutos",
+            "value": "Endodoncia: 30 minutos\nEmpastes: 40 minutos\nImplantes dentales: 30 minutos",
+            "type": "TEXTAREA"
+          },
+          "question_qAlDV9": {
+            "label": null,
+            "value": "24 horas. No",
+            "type": "TEXTAREA"
+          },
+          "question_Q5QeVG": {
+            "label": "Adeslas, Sanitas, DKV, Asisa... o si no trabajan con ninguna, escriba \"Solo pacientes privados\"",
+            "value": "Adeslas y sanitas",
+            "type": "TEXTAREA"
+          },
+          "question_9DK9QV": {
+            "label": "No trabajamos con esa compañía, pero podemos emitir factura para que solicite el reembolso.",
+            "value": "Lo siento, pero con esa compañía no trabajamos.",
+            "type": "TEXTAREA"
+          },
+          "question_eeXQRk": {
+            "label": "Primera visita: Gratuita / Implante: 1200€ / Ortodoncia: Pedir presupuesto en la primera visita...",
+            "value": "Primera visita y diagnostico: 20€\nEmpastes: 200€\nEndodoncia: Pedir presupuesto\nImplantes dentales: 1200€",
+            "type": "TEXTAREA"
+          },
+          "question_W57Ezv": {
+            "label": null,
+            "value": "Si, a partir de 1000€",
+            "type": "TEXTAREA"
+          },
+          "question_aYM5db": {
+            "label": "Dar la primera cita disponible normal. / Transferir la llamada a un teléfono móvil de urgencias (Indicar número abajo). / Indicar que acudan al Hospital más cercano.",
+            "value": "Transferir la llamada",
+            "type": "TEXTAREA"
+          },
+          "question_62Bj2J": {
+            "label": null,
+            "value": "687949034",
+            "type": "INPUT_TEXT"
+          },
+          "question_72kL2R": {
+            "label": "info@clinicaXYZ.com",
+            "value": "info@clinicaalvarez.com",
+            "type": "INPUT_TEXT"
+          },
+          "question_bxJjxZ": {
+            "label": null,
+            "value": "Castellano",
+            "type": "INPUT_TEXT"
+          },
+          "question_ALX2Lz": {
+            "label": "De \"Usted\" (Más formal, clínica tradicional). De \"Tú\" (Más cercano, clínica moderna/familiar).",
+            "value": "De tú.",
+            "type": "TEXTAREA"
+          },
+          "question_BkRdkK": {
+            "label": "\"Los viernes por la tarde no operamos\", \"En agosto cerramos por la tarde\", etc.",
+            "value": "No",
+            "type": "TEXTAREA"
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-04T09:52:19.015Z",
+      "createdAt": "2025-12-04T09:52:19.015Z",
+      "role": "workflow:owner",
+      "workflowId": "VhCziu8j9maiJVaf",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": {
+    "node:Tally Trigger": {}
+  },
+  "tags": [
+    {
+      "updatedAt": "2025-12-04T19:32:08.258Z",
+      "createdAt": "2025-12-04T19:32:08.258Z",
+      "id": "j7QNaTc1YJYhcWcq",
+      "name": "Importante"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-04T19:32:14.000Z",
+  "versionId": "8024c722-2321-4f44-ab7a-9289bf88faf9"
+}
