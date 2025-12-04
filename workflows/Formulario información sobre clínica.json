@@ -1,0 +1,28 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2025-12-04T09:52:19.004Z",
+  "id": "VhCziu8j9maiJVaf",
+  "isArchived": false,
+  "meta": null,
+  "name": "Formulario información sobre clínica",
+  "nodes": [],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-04T09:52:19.015Z",
+      "createdAt": "2025-12-04T09:52:19.015Z",
+      "role": "workflow:owner",
+      "workflowId": "VhCziu8j9maiJVaf",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-04T09:52:19.004Z",
+  "versionId": "a8604826-6e62-4cca-ac7c-793f9dfc4df1"
+}
