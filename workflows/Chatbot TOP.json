@@ -1,0 +1,1595 @@
+{
+  "active": false,
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Verificador de Respuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificador de Respuesta": {
+      "main": [
+        [
+          {
+            "node": "envía parte 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Verificador de Respuesta",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Verificador de Respuesta",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Push mensajes": {
+      "main": [
+        [
+          {
+            "node": "Espera 10\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Espera 10\"": {
+      "main": [
+        [
+          {
+            "node": "Obtener mensajes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener mensajes": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "borrar mensajes cola",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "borrar mensajes cola": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "si mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "get audio url",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download media",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "ordenar campos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "envia parte 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "envía parte 1": {
+      "main": [
+        [
+          {
+            "node": "si parte 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "si parte 2": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "si parte ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "envia parte 2": {
+      "main": [
+        [
+          {
+            "node": "si parte ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "si parte ": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "envia parte ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "envia parte ": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ordenar campos": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Descarga audio": {
+      "main": [
+        [
+          {
+            "node": "transcribir audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get audio url": {
+      "main": [
+        [
+          {
+            "node": "Descarga audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "transcribir audio": {
+      "main": [
+        [
+          {
+            "node": "ordenar campos1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download media": {
+      "main": [
+        [
+          {
+            "node": "Descarga img",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Descarga img": {
+      "main": [
+        [
+          {
+            "node": "Analyze image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image": {
+      "main": [
+        [
+          {
+            "node": "ordenar campos2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "si mensaje": {
+      "main": [
+        [
+          {
+            "node": "Push mensajes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Nada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ordenar campos1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ordenar campos2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-09T09:42:20.951Z",
+  "id": "mG8Wa9D8Ivlb1lda",
+  "isArchived": false,
+  "meta": null,
+  "name": "Chatbot TOP",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.content }}",
+        "options": {
+          "systemMessage": "=MODIFICA ESTE SYSTEM MESSAGE PARA QUE REALIZE LAS FUNCIONES DESEADAS. AÑADE LAS TOOLS NECESARIAS (Calendario, RAG, etc...)"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        4672,
+        1104
+      ],
+      "id": "a0fa912c-7fc9-4623-be05-453cd2a28255",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        4448,
+        1264
+      ],
+      "id": "2c898f92-a35f-4959-a30e-24a0692d8096",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sender }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        4592,
+        1264
+      ],
+      "id": "b59d7b0a-da13-433e-ab5a-32df78610c6b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "description": "Utiliza siempre esta herramienta para analizar la petición y mejorar tus respuestas antes de contestar al usuario."
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        4816,
+        1408
+      ],
+      "id": "f728a458-5da0-4276-8e3c-e6e776a96ca6",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "content": "### Think Tool\nRazonamiento avanzado",
+        "height": 208,
+        "width": 192
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4768,
+        1328
+      ],
+      "typeVersion": 1,
+      "id": "9485c08b-308a-4d05-8ca8-565b5d8422d4",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        5040,
+        1280
+      ],
+      "id": "02e31647-d634-43e2-8e78-9e900b21b1f1",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Texto de entrada:  {{ $json.output }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# Rol\nEres un formateador de salidas para WhatsApp de manera que suene lo más humano posible.\n\n# Objetivo\nToma el texto de la entrada y devuelve la salida en formato JSON como te describo en el Output Parser. Debes dividir la salida en 3 partes, pero solo una parte es obligatoria. Si la respuesta es corta, la part_2 y la part_3 pueden ir vacías.\n\n# Reglas\n- part_1 debe contener siempre texto. part_2 y part_3 pueden quedar vacías (\"\") o no incluirse si no son necesarias.\n- Jamás devuelvas en la salida algo que no venga del input de la entrada.\n- Elimina todos los caracteres: *, ¿, ¡, #.\n- Divide la entrada en hasta 3 partes lógicas, manteniendo el sentido original.\n- Si la entrada contiene una lista, deposítala entera en una única parte, con saltos de línea si són necesarias.\n- No añadas, quites ni reordenes información.\n- Nunca envíes texto fuera del JSON; ni explicaciones ni comillas traza.\n\n# Comportamiento\n1. Lee el contenido de Entrada a formatear.\n2. Aplica las reglas para limpiar y segmentar.\n3. Devuelve solo el JSON resultante.\n\n# Ejemplo simple\nEntrada:\nHola, estoy aquí para ayudarte. ¿En qué puedo asistirte hoy?\n\nSalida esperada:\n\n{\n  \"part_1\": \"Hola, estoy aquí para ayudarte.\",\n  \"part_2\": \"En qué puedo asistirte hoy?\",\n  \"part_3\": \"\"\n}"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        5264,
+        1104
+      ],
+      "id": "15284439-b9a1-495f-84a7-0aace7d05bdd",
+      "name": "Verificador de Respuesta"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"response\" : {\n    \"part_1\": \"Parte uno de la respuesta\",\n    \"part_2\": \"Parte dos de la respuesta (opcional)\",\n    \"part_3\": \"Parte tres de la respuesta (opcional)\"\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        5440,
+        1280
+      ],
+      "id": "a1599a79-de18-4d99-b4f7-9219616be640",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-nano",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-nano"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        5264,
+        1280
+      ],
+      "id": "b1bb5620-3a58-40b0-8b93-f18822cc8c9d",
+      "name": "OpenAI Chat Model1"
+    },
+    {
+      "parameters": {
+        "content": "# Verificador de Respuesta",
+        "height": 592,
+        "width": 448,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5200,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "10d962d4-d396-4a11-8190-f6e36ba36ad3",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# Agente IA\n",
+        "height": 640,
+        "width": 784,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4368,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "079b89ab-c023-4a4b-be55-f2f7acd3fc66",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# Entrada de mensajes\n",
+        "height": 384,
+        "width": 368,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        864,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "a3113cf7-73e4-430c-89ae-3de2229808da",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "# Encolamiento de mensajes (qDrant)\n",
+        "height": 496,
+        "width": 1456,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1264,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "eb7df1ac-3be8-4b9d-808e-5ad7529584a4",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $json.contacts[0].wa_id }}_buffer",
+        "messageData": "={{ JSON.stringify($json.messages[0]) }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        1104
+      ],
+      "id": "0c0b382e-524d-4a6a-a098-822ddbd2cc55",
+      "name": "Push mensajes"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1680,
+        1104
+      ],
+      "id": "c9d0f8d8-9110-45b9-932a-c82394316f05",
+      "name": "Espera 10\"",
+      "webhookId": "de980195-25c1-414d-9900-cba9d51ccc86"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "message",
+        "key": "={{ $json.contacts[0].wa_id }}_buffer",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        1104
+      ],
+      "id": "e407d735-7c0c-4670-b81f-af2360a2abd8",
+      "name": "Obtener mensajes"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a59d46c4-5c87-434c-b587-d30c1c3cadfe",
+              "leftValue": "={{ JSON.parse($json.message.last()).id }}",
+              "rightValue": "={{ $('WhatsApp Trigger').item.json.messages[0].id }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2032,
+        1104
+      ],
+      "id": "d817f4a1-2cc7-47f9-ab8d-a9edbf8697d9",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        1248
+      ],
+      "id": "a43599c2-d0b1-439f-b8f9-65e95a15fd79",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}_buffer"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        1088
+      ],
+      "id": "19fd955b-71c8-4748-8e75-9089ced9fd53",
+      "name": "borrar mensajes cola"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "message",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2432,
+        1088
+      ],
+      "id": "e0d6938e-1e88-4c63-8df1-7dd3b53fafd4",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ JSON.parse($json.message) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2592,
+        1088
+      ],
+      "id": "63bbf76f-6491-4067-ba3a-ebfd97ea0b28",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        1120
+      ],
+      "id": "14c4306b-d5b8-4c28-abb5-39761ed800e3",
+      "name": "WhatsApp Trigger",
+      "webhookId": "77136945-6254-41b2-9457-13e0747b8787"
+    },
+    {
+      "parameters": {
+        "content": "# Procesamiento del mensaje (texto, imagen, video, audio)\n",
+        "height": 640,
+        "width": 1600,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2736,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "db7746f8-8ab2-45bb-a487-0276f642302b",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "audio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "60e2c94e-3bfe-4b06-9678-1996d061471c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "57cbf698-5315-4e28-a006-bbf3d363ba00",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ba29a53c-1de3-4bb6-a772-1dfc0ec74170",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2784,
+        1168
+      ],
+      "id": "13ec3361-81c1-4b4c-acc9-9bce802936a6",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3728,
+        1088
+      ],
+      "id": "8a86b22b-2a95-4510-99b3-9b457a20aa97",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "timestamp"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        3872,
+        1104
+      ],
+      "id": "0d6a2fac-1eac-4c8a-b9e3-7658175c375b",
+      "name": "Sort"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "content"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        4048,
+        1104
+      ],
+      "id": "2ff402fd-3069-4bd1-8d03-ecbf286346de",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "93720bb1-c2fd-4106-9a96-049b945ca810",
+              "name": "content",
+              "value": "={{ $json.content.join(\"\\n\") }}",
+              "type": "string"
+            },
+            {
+              "id": "132a1a82-da1c-4e0a-aae4-43d7941a3bfe",
+              "name": "sender",
+              "value": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4224,
+        1104
+      ],
+      "id": "5b0ba555-9dd8-4d6a-87dc-f0a2c9f2148d",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "content": "# Salida de mensaje\n",
+        "height": 336,
+        "width": 1472,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5680,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "91c97965-47df-4d65-b9b1-2db9a39099a0",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        6064,
+        1024
+      ],
+      "id": "db7752ad-56f6-4055-a105-b5c6a02a5753",
+      "name": "Wait",
+      "webhookId": "63e36632-84c3-40f8-88cb-a51cfb624600"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "794364320420153",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.messages[0].from }}",
+        "textBody": "={{ $json.output.response.part_1 }}",
+        "additionalFields": {
+          "previewUrl": true
+        }
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        5744,
+        1104
+      ],
+      "id": "8b2e7612-e3e1-41a7-97eb-13fd9ed259b0",
+      "name": "envía parte 1",
+      "webhookId": "f672727a-8079-49df-9aff-5bf0bb07b989"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "574e160b-a256-4188-9fa6-8061c5872dd9",
+              "leftValue": "={{ $('Verificador de Respuesta').item.json.output.response.part_2 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        5888,
+        1104
+      ],
+      "id": "fe2777b0-0d46-4b86-8d56-f585db9ae554",
+      "name": "si parte 2"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "794364320420153",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.messages[0].from }}",
+        "textBody": "={{ $('Verificador de Respuesta').item.json.output.response.part_2 }}",
+        "additionalFields": {
+          "previewUrl": true
+        }
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        6208,
+        1024
+      ],
+      "id": "4bf23ae6-3a3a-458d-96dd-4337bd61c21d",
+      "name": "envia parte 2",
+      "webhookId": "f672727a-8079-49df-9aff-5bf0bb07b989"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "574e160b-a256-4188-9fa6-8061c5872dd9",
+              "leftValue": "={{ $('Verificador de Respuesta').item.json.output.response.part_3 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        6400,
+        1120
+      ],
+      "id": "d5022918-e24b-447e-a222-26fc05181fa2",
+      "name": "si parte "
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        6592,
+        1040
+      ],
+      "id": "2499333a-73e2-47ed-b80c-e4f5d7e17c0d",
+      "name": "Wait1",
+      "webhookId": "63e36632-84c3-40f8-88cb-a51cfb624600"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "794364320420153",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.messages[0].from }}",
+        "textBody": "={{ $('Verificador de Respuesta').item.json.output.response.part_3 }}",
+        "additionalFields": {
+          "previewUrl": true
+        }
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        6752,
+        1040
+      ],
+      "id": "7817f129-c283-4109-b080-d62becb90286",
+      "name": "envia parte ",
+      "webhookId": "f672727a-8079-49df-9aff-5bf0bb07b989"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        6944,
+        1136
+      ],
+      "id": "191b6d34-ca90-426f-80d1-39a17d07a6b3",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a11114fa-b124-4337-a0e1-bb058fd69b11",
+              "name": "content",
+              "value": "={{ $json.text.body }}",
+              "type": "string"
+            },
+            {
+              "id": "6443fde0-d58e-4150-9cbb-1ee4fb875b78",
+              "name": "timestamp",
+              "value": "={{ $json.timestamp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3488,
+        1344
+      ],
+      "id": "6513ae4c-395f-4e3e-9cf4-dd9d551c4bef",
+      "name": "ordenar campos"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "whatsAppApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3136,
+        1040
+      ],
+      "id": "662ee287-2e07-4437-abb3-43d2d07d4916",
+      "name": "Descarga audio"
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "operation": "mediaUrlGet",
+        "mediaGetId": "={{ $json.audio.id }}"
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        2960,
+        1040
+      ],
+      "id": "8802a024-6478-4c7b-a5ee-364074ebb1d5",
+      "name": "get audio url",
+      "webhookId": "19d35dae-c47c-4d9e-9e19-250d1241a256"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        3312,
+        1040
+      ],
+      "id": "3916598e-00b1-4f07-8141-c52e469943f5",
+      "name": "transcribir audio"
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "operation": "mediaUrlGet",
+        "mediaGetId": "={{ $json.image.id }}"
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        2960,
+        1184
+      ],
+      "id": "4e234ea8-dc4a-457c-ac85-0631b32f53c0",
+      "name": "Download media",
+      "webhookId": "0bf2338c-2a8b-44ab-8016-9f087d4fb576"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "whatsAppApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3136,
+        1184
+      ],
+      "id": "052fe78d-3814-4eef-952b-e6419651051c",
+      "name": "Descarga img"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "¿Qué se ve en esta imágen?",
+        "inputType": "base64",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        3312,
+        1184
+      ],
+      "id": "136b3a09-f95a-400d-a078-78b1dc873591",
+      "name": "Analyze image"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        1296
+      ],
+      "id": "52d73021-9704-42b1-b7d4-7b20a7910e12",
+      "name": "Nada"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "abcfa870-94b2-4972-a268-37cfe6c1a492",
+              "leftValue": "={{ $json.messages }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1296,
+        1120
+      ],
+      "id": "14c3b927-041d-4445-a85c-4aeb0ab87087",
+      "name": "si mensaje"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a11114fa-b124-4337-a0e1-bb058fd69b11",
+              "name": "content",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "6443fde0-d58e-4150-9cbb-1ee4fb875b78",
+              "name": "timestamp",
+              "value": "={{ $('Switch').item.json.timestamp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3488,
+        1040
+      ],
+      "id": "99bf2488-f0ee-4da1-84aa-1832d13c1ea0",
+      "name": "ordenar campos1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a11114fa-b124-4337-a0e1-bb058fd69b11",
+              "name": "content",
+              "value": "={{ $json.text.body }}",
+              "type": "string"
+            },
+            {
+              "id": "6443fde0-d58e-4150-9cbb-1ee4fb875b78",
+              "name": "timestamp",
+              "value": "={{ $('Switch').item.json.timestamp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3488,
+        1184
+      ],
+      "id": "2b0694ea-c2de-41df-ad9b-f59cfc4bba2c",
+      "name": "ordenar campos2"
+    },
+    {
+      "parameters": {
+        "content": "# Entrada de mensajes\n\nEste bloque recibe todos los mensajes entrantes desde WhatsApp Cloud (texto, audio e imagen).\n\nQué debes saber:\n- El nodo `WhatsApp Trigger` está conectado al webhook de Meta.\n- Desde aquí solo validamos que haya mensajes y los mandamos al sistema de encolado.\n- Si cambias el número de WhatsApp o el app de Meta, actualiza esta credencial.\n",
+        "height": 304,
+        "width": 368,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        864,
+        640
+      ],
+      "typeVersion": 1,
+      "id": "ae3dc153-d94f-42eb-8f49-0a9b2a46e200",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Encolamiento de mensajes (Redis)\n\nEste bloque evita que el bot responda de forma caótica cuando el usuario manda varios mensajes seguidos.\n\nFuncionamiento:\n- Cada mensaje se mete en una lista Redis por usuario: `<wa_id>_buffer`.\n- Esperamos unos segundos (`Espera 10\"`) para acumular varios mensajes.\n- Recuperamos todos los mensajes de la cola y nos quedamos solo con el último.\n- Limpiamos la cola antes de procesar (para no duplicar).\n\nQué puedes tocar:\n- Tiempo de espera (nodo `Espera 10\"`).\n- Configuración de Redis (credencial `redis`).\n",
+        "height": 352,
+        "width": 752,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1264,
+        592
+      ],
+      "typeVersion": 1,
+      "id": "16c8ea10-634d-442c-8d70-37430ed984cf",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Procesamiento del mensaje (texto, imagen, audio)\n\nEste bloque normaliza cualquier tipo de mensaje a texto:\n\n- `Switch` separa la lógica según `type`:\n  - `audio`: obtenemos la URL, descargamos el archivo y usamos Whisper (`transcribir audio`) para transcribirlo.\n  - `image`: obtenemos la URL, descargamos la imagen y usamos un modelo vision (`Analyze image`) para describir qué hay en la foto.\n  - `text`: usamos directamente el contenido del mensaje.\n\nResultado:\n- Todos los caminos generan un campo `content` con texto y un `timestamp`.\n- Luego se hace un `Merge` para unir todas las posibles entradas y ordenarlas por tiempo.\n\nSi quieres simplificar:\n- Puedes eliminar la rama de audio o imagen si tu caso de uso solo admite texto.\n",
+        "height": 464,
+        "width": 752,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2736,
+        480
+      ],
+      "typeVersion": 1,
+      "id": "929dd5b0-a34b-46b6-aa86-6888af937c8b",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "# Agente IA\n\nEste bloque es el cerebro del chatbot.\n\nComponentes:\n- `OpenAI Chat Model`: modelo principal (por defecto gpt-4.1-mini).\n- `Simple Memory`: mantiene una ventana de contexto por usuario (`contextWindowLength`).\n- `AI Agent`: orquesta la conversación, decide qué herramienta usar y genera la respuesta final.\n\nQué debes configurar:\n- Credencial `openAiApi`.\n- Prompt del agente (rol, objetivo, herramientas, tono, idioma, lógica de negocio).\n- Lista de herramientas conectadas:\n  - `Conocimiento` (RAG).\n  - `Think` (razonamiento).\n  - `Calculator`.\n  - Herramientas de calendarios u otras que añadas.\n\n⚠️ Aquí adaptas todo a tu negocio.\n",
+        "height": 448,
+        "width": 688,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4368,
+        496
+      ],
+      "typeVersion": 1,
+      "id": "4f167687-3ed1-49ee-a907-d72b97a6212d",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "# Verificador de Respuesta\n\nEste bloque formatea la respuesta del agente para que se envíe en hasta 3 mensajes cortos.\n\nFuncionamiento:\n- Toma el texto completo generado por el agente.\n- Aplica reglas:\n  - Limpia caracteres raros (*, ¿, ¡, #).\n  - Mantiene el idioma.\n  - No inventa nada que no esté en la entrada.\n- Devuelve un JSON con:\n  - `part_1` (obligatoria)\n  - `part_2` (opcional)\n  - `part_3` (opcional)\n\nSi la respuesta es corta, `part_2` y `part_3` se quedan vacías.\n",
+        "height": 432,
+        "width": 448,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5200,
+        512
+      ],
+      "typeVersion": 1,
+      "id": "771b422a-e5ac-4064-b730-4f4802f06a57",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "# Salida de mensajes a WhatsApp\n\nEste bloque se encarga de mandar la respuesta final al usuario de forma más humana:\n\n- `envía parte 1`: siempre envía la primera parte al instante.\n- `si parte 2`: comprueba si hay `part_2`:\n  - Si existe, espera unos segundos (`Wait`) y envía `part_2`.\n- `si parte`: comprueba si hay `part_3`:\n  - Si existe, vuelve a esperar (`Wait1`) y envía `part_3`.\n\nQué puedes ajustar:\n- Tiempos de los nodos `Wait` y `Wait1` para controlar el ritmo de la conversación.\n- El `phoneNumberId` y credencial `whatsAppApi` para adaptarlo a tu cuenta de WhatsApp Business.\n",
+        "height": 400,
+        "width": 560,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        5680,
+        544
+      ],
+      "typeVersion": 1,
+      "id": "a2e4f188-6d19-42a4-abfe-d3893fe9a9eb",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "# 🧠 Chatbot PRO para WhatsApp — Documentación General\n\nEste flujo implementa un **chatbot PRO completamente automatizado** para WhatsApp, con procesamiento multimodal, agente inteligente, control de contexto y encolado de mensajes por usuario.\n\nIncluye:\n\n- Encolado de mensajes con Redis (evita solapamientos).\n- Procesamiento de texto, audio e imagen.\n- Un agente de IA con herramientas (RAG, calendarios, calculadora…).\n- Un verificador de respuesta que divide la salida en 1–3 mensajes para sonar más humano.\n- Envío escalonado por WhatsApp.\n\n---\n\n## ⚙️ Qué debes configurar antes de usarlo\n\n### 1. Credenciales de WhatsApp Cloud\nDebes configurar tu cuenta de **WhatsApp Business Cloud**:\n\n- Nodo **WhatsApp Trigger** → credencial `whatsAppTriggerApi`.\n- Nodos **whatsApp** (envío de mensajes e interacción con media).\n- Nodos **httpRequest** que usan `whatsAppApi`.\n\nAsegúrate de actualizar:\n- `phoneNumberId`  \n- Token de Meta  \n- URL base de la API  \n\n---\n\n### 2. Redis — Encolado de mensajes\nRedis se usa como cola por usuario.\n\nConfigura la credencial `redis` en:\n- `Push mensajes`\n- `Obtener mensajes`\n- `borrar mensajes cola`\n\nCada usuario tiene su propia cola:  \n`<wa_id>_buffer`\n\n---\n\n### 3. OpenAI API\nEl flujo usa varios modelos:\n\n- **GPT-4.1-mini** → agente principal  \n- **GPT-4.1-nano** → verificador/segmentador  \n- **Whisper** → transcripción de audio  \n- **GPT-4o-mini** → análisis de imágenes\n\nConfigura la credencial `openAiApi` en todos los nodos OpenAI.\n\nPuedes cambiar modelos si quieres.\n\n---\n\n### 4. Prompt del Agente IA\nEn el nodo **AI Agent**:\n\n- Cambiar completamente el rol y la lógica.\n- Adaptar reglas, tono, idioma y herramientas a tu negocio.\n- Añadir/eliminar herramientas según tus necesidades.\n\n---\n\n### 5. Ritmo de conversación (delays)\nControlas los tiempos desde:\n\n- `Espera 10\"` → acumular mensajes en la cola\n- `Wait` → retraso entre la parte 1 y la parte 2\n- `Wait1` → retraso entre parte 2 y parte 3\n\nAjusta para un estilo de conversación más rápido o más humano.\n\n---\n\n## 🧪 Pruebas recomendadas\n\nAntes de usarlo en producción:\n\n1. Enviar un **texto**.\n2. Enviar un **audio** (Whisper debe transcribir).\n3. Enviar una **imagen** (el análisis debe devolver texto).\n4. Escribir varios mensajes rápido (Redis debe encolar).\n5. Revisar que la salida llega en **1–3 mensajes** según el tamaño.\n\n---\n\n## 📡 APIs/Servicios requeridos\n\n- **Meta WhatsApp Business Cloud API**  \n- **Redis** (encolado)\n- **OpenAI API** (chat, audio, imagen)\n\n---\n\n## 📝 En resumen\n\nEste flujo es un **chatbot PRO**:  \nconvierte cualquier mensaje en texto, lo pasa por un agente inteligente con herramientas, formatea la salida para que suene humana y controla la conversación para que no haya caos cuando el usuario escribe mucho.\n\nSolo necesitas editar:\n- Credenciales  \n- Prompt del agente  \n- Conexiones a tus servicios (RAG, calendarios, etc.)  \n\nY listo: chatbot nivel agencia funcionando.\n",
+        "height": 2464,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "1c9d2dd0-47c7-45b7-b508-5e3f4b57b748",
+      "name": "Sticky Note13"
+    }
+  ],
+  "pinData": {
+    "WhatsApp Trigger": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "metadata": {
+            "display_phone_number": "34644290826",
+            "phone_number_id": "794364320420153"
+          },
+          "contacts": [
+            {
+              "profile": {
+                "name": "🐬"
+              },
+              "wa_id": "34722266966"
+            }
+          ],
+          "messages": [
+            {
+              "from": "34722266966",
+              "id": "wamid.HBgLMzQ3MjIyNjY5NjYVAgASGBQzQjdCRjJFOTNBMTgyNEJDMkVFQgA=",
+              "timestamp": "1762866419",
+              "type": "audio",
+              "audio": {
+                "mime_type": "audio/ogg; codecs=opus",
+                "sha256": "uyVTHy0WF3Cr5MIVNvSAxWEI4aZL+Eg7vpqOQrSIEmA=",
+                "id": "1398723978493159",
+                "voice": true
+              }
+            }
+          ],
+          "field": "messages"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-09T09:42:20.958Z",
+      "createdAt": "2025-12-09T09:42:20.958Z",
+      "role": "workflow:owner",
+      "workflowId": "mG8Wa9D8Ivlb1lda",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-09T09:42:44.000Z",
+  "versionId": "e7e093e2-713c-4ffd-8bdb-08d1ec4c57a6"
+}
