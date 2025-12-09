@@ -1,5 +1,311 @@
 {
   "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T18:04:13.692Z",
+    "createdAt": "2025-11-26T18:04:13.692Z",
+    "versionId": "43b64969-2c4a-4bdb-a0c3-b108722f7ee6",
+    "workflowId": "4cTlDLAyzlrSof9Z",
+    "nodes": [
+      {
+        "parameters": {
+          "options": {
+            "systemMessage": "=# ROL\n\nEres Miguel el asistente virtual de la clínica dental Gran Vía. Llevas más de 10 años ayudando en la atención al cliente de la clínica, eres útil e inteligente.\n\n# CONTEXTO\n\nVas a responder todos los mensajes de los clientes entrantes y vas a intentar agendar todos los leads que busquen un turno en la clínica.\n\nNuestros servicios son:\n\n**Empastes Dentales:** Restauran las caries y daños menores en los dientes.\n**Endodoncia:** Tratamiento del conducto radicular para salvar dientes dañados.\n**Implantes Dentales:** Reemplazan dientes perdidos, restaurando funcionalidad y\nestética.\n**Odontopediatría:** Cuidado dental infantil, enfocándose en la prevención desde los tres\naños.\n**Ortodoncia:** Corrección de alineación dental con brackets metálicos o alineadores\ntransparentes.\n**Prótesis Dentales:** Sustituyen piezas dentales perdidas, utilizando técnicas avanzadas\ncomo el sistema CAD CAM.\n**Cirugía Maxilofacial:** Intervenciones quirúrgicas complejas de la zona facial y maxilar.\n**Periodoncia:** Tratamientos para mantener la salud de encías y huesos de soporte\ndental.\n**Estética Dental:** Incluye blanqueamiento, carillas, coronas, y más.\n\nLos precios son todos de 100€ por sesión.\n\n# TAREA\n\nTu tarea consiste en entender la conversación, los mensajes del usuario y activar las funciones necesarias para tener una conversación fluida y natural y que el cliente se quede satisfecho.\n\n# PROCESO DE AGENDACIÓN DE CITAS\n\n1. Cuando el cliente te diga que quiere agendar una cita o le interesa agendar una cita, debes preguntarle por el día que quiere la cita\n2. Debes activar la herramienta disponibilidad enviando a la herramienta la fecha en este formato yyyy-mm-dd\n3. Envíale al usuario todos los horarios disponibles en el día que dijo que quería agendar la cita\n4. Cuando el cliente te diga la hora que quiere debes pedirle su email y nombre completo\n5. Activa la herramienta citas enviando la fecha en este formato yyyy-mm-dd y la hora en este formato 00:00:00\n6. Enviale un mensaje al usuario que se ha registrado en la cita y que lo esperamos\n\n## Herramienta cancelar :\n\nDebes activar esta herramienta cuando el usuario desea reagendar una cita o cancelar.\n\nEn caso de que quiera cancelar debes activar la herramienta y preguntarle si desea un horario nuevo, de ser así debes activar de cero el proceso de agendación .\n\n# NOTAS GENERALES\n\n- La fecha de hoy es: {{ $now }} y estamos en el año 2025 siempre.\n\n- Si te dicen mañana, el próximo lunes o se refieren a una fecha en específico de esa forma, utiliza: {{ $now }} para saber cual es el día de hoy y calcula cual es la fecha a la que se refiere el usuario, es decir, que si te dicen el próximo lunes debes interpretar que se refieren al lunes más cerca de la fecha actual.\n\n  - Este es un calendario anual de todos los primeros dias del año:\n\nEnero: Miércoles, 1 de enero.\nFebrero: Sábado, 1 de febrero.\nMarzo: Sábado, 1 de marzo.\nAbril: Martes, 1 de abril.\nMayo: Jueves, 1 de mayo.\nJunio: Domingo, 1 de junio.\nJulio: Martes, 1 de julio.\nAgosto: Viernes, 1 de agosto.\nSeptiembre: Lunes, 1 de septiembre.\nOctubre: Miércoles, 1 de octubre.\nNoviembre: Sábado, 1 de noviembre.\nDiciembre: Lunes, 1 de diciembre.\n\n\n\n# ESTRUCTURA DE SALIDA\n\nEnvía mensajes cálidos, formales y respetuosos\n\n\n\n\n\n\n"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          416,
+          0
+        ],
+        "id": "0a6e3af8-bce9-4989-8cb0-24b50b26c7ef",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "mode": "list",
+            "value": "gpt-4.1-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          224,
+          224
+        ],
+        "id": "1dbca929-2ee0-45c2-bf82-d7be45a3a120",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "lF7UohlhOobJXkZr",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+        "typeVersion": 1.3,
+        "position": [
+          352,
+          224
+        ],
+        "id": "6bfa9350-9570-40bc-b9d0-7129ec8f2376",
+        "name": "Postgres Chat Memory",
+        "credentials": {
+          "postgres": {
+            "id": "lokIFsz3JzGzuMsH",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "description": "Esta herramienta se encarga de cancelar la cita del usuario en el calendario",
+          "workflowId": {
+            "__rl": true,
+            "value": "WF7Aal7ykaOAA5H6",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/WF7Aal7ykaOAA5H6",
+            "cachedResultName": "Cancelar"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "numero",
+                "displayName": "numero",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          480,
+          224
+        ],
+        "id": "ce2d1638-16e3-4da9-a6ac-472d6a3afa3b",
+        "name": "Cancelar"
+      },
+      {
+        "parameters": {
+          "description": "Esta herramienta se encarga de agendar de agendar una cita al usuario en el calendario",
+          "workflowId": {
+            "__rl": true,
+            "value": "XbnaPClsebJmKR1J",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/XbnaPClsebJmKR1J",
+            "cachedResultName": "Agendar"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "fecha": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fecha', `La fecha que eligió el usuario para agendar la cita en formato yyyy-mm-dd`, 'string') }}",
+              "horario": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('horario', `El horario que eligió el usuario en formato 00:00:00`, 'string') }}",
+              "nombre completo ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nombre_completo_', `Nombre completo del usuario`, 'string') }}",
+              "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `Email del usuario`, 'string') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "fecha",
+                "displayName": "fecha",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "horario",
+                "displayName": "horario",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "nombre completo ",
+                "displayName": "nombre completo ",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "email",
+                "displayName": "email",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          608,
+          224
+        ],
+        "id": "46c0fa74-2b1d-45bd-9ea8-9b344f448ca8",
+        "name": "Agendar"
+      },
+      {
+        "parameters": {
+          "description": "Esta herramienta sirve para ver la disponibilidad en el calendario",
+          "workflowId": {
+            "__rl": true,
+            "value": "cd69iDubYeGN7urP",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/cd69iDubYeGN7urP",
+            "cachedResultName": "Disponibilidad"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "fecha": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fecha', `La fecha que eligió el usuario para agendar la cita en formato yyyy-mm-dd`, 'string') }}"
+            },
+            "matchingColumns": [
+              "fecha"
+            ],
+            "schema": [
+              {
+                "id": "fecha",
+                "displayName": "fecha",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          736,
+          224
+        ],
+        "id": "edaa4c04-d9d8-4422-9776-4b12f1794f4a",
+        "name": "Disponibilidad"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          0,
+          0
+        ],
+        "id": "fcabe4a3-c24a-4bc2-8401-bde77eeb6c03",
+        "name": "When chat message received",
+        "webhookId": "954e5d33-b74a-4800-a396-3db04fc9ba89"
+      }
+    ],
+    "connections": {
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Postgres Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Cancelar": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Agendar": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Disponibilidad": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When chat message received": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "43b64969-2c4a-4bdb-a0c3-b108722f7ee6",
   "connections": {
     "OpenAI Chat Model": {
       "ai_languageModel": [
