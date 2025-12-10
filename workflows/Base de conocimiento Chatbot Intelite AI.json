@@ -1,0 +1,182 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Code - Definir Conocimiento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Definir Conocimiento": {
+      "main": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-10T19:39:03.816Z",
+  "id": "SeHhDowzrn422tMX",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Base de conocimiento Chatbot Intelite AI",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6b49779a-9640-482a-bc95-c43bc5357879",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      text: `\n      INFORMACIÓN DE MI EMPRESA:\n      Nombre: Intelite AI\n      Servicios: Chatbots impulsados por IA, agentes de voz con inteligencia artificial, Automatización de procesos, Consultoría de IA.\n      Horarios: Lunes a Viernes de 9:00 a 18:00.\n      Precios: Consultorías desde 100$, Proyectos desde 1500$.\n      Contacto: inteliteai@gmail.com\n      `\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "6fe2710e-c643-4910-9e88-b41a4172b42d",
+      "name": "Code - Definir Conocimiento"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": "chatweb_vectors",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        0
+      ],
+      "id": "f3ebd602-a16f-4034-a86a-b3f4df7ccbc2",
+      "name": "Postgres PGVector Store",
+      "credentials": {
+        "postgres": {
+          "id": "g6bIsRgyIRSoqVzD",
+          "name": "Postgres account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        576,
+        224
+      ],
+      "id": "5f13d4c4-e9ca-49c4-9f44-2b0f916f24d9",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkSize": 500,
+        "chunkOverlap": 50,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        656,
+        432
+      ],
+      "id": "62f5f06d-8b4d-40e5-8f4c-17031ad17ac3",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        224
+      ],
+      "id": "c11c2351-2b05-4283-8472-7dc2555b3fcf",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-10T19:39:03.825Z",
+      "createdAt": "2025-12-10T19:39:03.825Z",
+      "role": "workflow:owner",
+      "workflowId": "SeHhDowzrn422tMX",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-10T21:10:27.341Z",
+  "versionId": "235bd7be-1975-4f55-b1e0-ddd643766e10"
+}
