@@ -3,44 +3,55 @@
   "activeVersion": null,
   "activeVersionId": null,
   "connections": {
-    "Chat Trigger - Web Intelite": {
+    "Chat Trigger - Entrada Web": {
       "main": [
         [
           {
-            "node": "AI Agent - Orquestador",
+            "node": "AI Agent - Orquestador Principal",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "OpenAI Model - GPT4o": {
+    "OpenAI - GPT-4o": {
       "ai_languageModel": [
         [
           {
-            "node": "AI Agent - Orquestador",
+            "node": "AI Agent - Orquestador Principal",
             "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "Memory - Memoria Corto Plazo": {
+    "Memory - Historial Reciente": {
       "ai_memory": [
         [
           {
-            "node": "AI Agent - Orquestador",
+            "node": "AI Agent - Orquestador Principal",
             "type": "ai_memory",
             "index": 0
           }
         ]
       ]
     },
-    "Simple Vector Store": {
+    "Google Calendar - Agendar": {
       "ai_tool": [
         [
           {
-            "node": "AI Agent - Orquestador",
+            "node": "AI Agent - Orquestador Principal",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres - Lector": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Orquestador Principal",
             "type": "ai_tool",
             "index": 0
           }
@@ -51,7 +62,7 @@
       "ai_embedding": [
         [
           {
-            "node": "Simple Vector Store",
+            "node": "Postgres - Lector",
             "type": "ai_embedding",
             "index": 0
           }
@@ -70,35 +81,33 @@
     {
       "parameters": {
         "public": true,
-        "initialMessages": "Hola! Soy el asistente virtual de Intelite AI. ¿Qué necesitas?",
-        "options": {
-          "allowedOrigins": "*"
-        }
+        "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
       "position": [
         0,
-        0
+        16
       ],
-      "id": "b0eb13ef-4ff2-4b88-a987-c0aea5f65e68",
-      "name": "Chat Trigger - Web Intelite",
-      "webhookId": "30e761cb-4a2e-4319-8a48-06ca1f62bea8"
+      "id": "e39fc355-7abd-41a1-9248-7895c9509b96",
+      "name": "Chat Trigger - Entrada Web",
+      "webhookId": "666b81dc-5b98-47bc-98ab-0799ee48cdb5"
     },
     {
       "parameters": {
+        "hasOutputParser": true,
         "options": {
-          "systemMessage": "Eres el asistente virtual experto de Intelite AI, una agencia de automatización con IA. Tu tono es profesional, innovador y servicial. Tu objetivo es resolver dudas sobre nuestros servicios y calificar leads. Responde siempre en el idioma en el que te habla el usuario y de forma concisa."
+          "systemMessage": "=## TAREA\n\nEres un asistente virtual experto y amable de la empresa Intelite AI, dedicada a la automatización de procesos con inteligencia artificial. Tu objetivo es ayudar a los usuarios respondiendo dudas sobre nuestros servicios y agendando reuniones. Mantén un tono profesional pero cercano. Si no sabes una respuesta, no la inventes; di que necesitas consultar más información.\n\n# CONTEXTO TEMPORAL\n\nHoy es: {{ $now.setZone('Europe/Madrid').toFormat('EEEE, d MMMM yyyy, HH:mm') }} (Zona horaria local).\nUsa esta fecha y hora exactas como referencia para calcular cualquier fecha relativa (como \"mañana\", \"el viernes que viene\", etc.).\n\n## HERRAMIENTAS\n\n- Utiliza la herramienta llamada \"Google Calendar - Agendar\"  cuando el usuario quiera agendar, reservar o programar una cita o reunión. ** Debes obtener la fecha, hora y correo del usuario antes de llamarla. **\n\n\n[INSTRUCCIONES DE RESPUESTA]\n\n1. RESPONDE SIEMPRE EN LENGUAJE NATURAL Y CONVERSACIONAL.\n2. Nunca devuelvas JSON, XML ni código al usuario final. Confirma la cita con una frase amable como: \"He agendado tu reunión para el [fecha] a las [hora]. Te he enviado una invitación a [email].\"\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        280,
-        0
+        352,
+        16
       ],
-      "id": "0dad2350-a963-4ce3-a095-4f6698293612",
-      "name": "AI Agent - Orquestador"
+      "id": "c42b0ca5-ba13-47b3-b50d-abac0d5917ef",
+      "name": "AI Agent - Orquestador Principal"
     },
     {
       "parameters": {
@@ -114,11 +123,11 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        224,
-        224
+        128,
+        192
       ],
-      "id": "15472aa2-495d-40f5-9322-2947588fff24",
-      "name": "OpenAI Model - GPT4o",
+      "id": "befebcae-2dbd-4a42-ba4e-634a0a05e04f",
+      "name": "OpenAI - GPT-4o",
       "credentials": {
         "openAiApi": {
           "id": "lF7UohlhOobJXkZr",
@@ -128,33 +137,74 @@
     },
     {
       "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        320
+      ],
+      "id": "a99ac839-166a-4e4a-99eb-f7b268418ab2",
+      "name": "Memory - Historial Reciente",
+      "credentials": {
+        "postgres": {
+          "id": "kEQmBFGP78Nli8h4",
+          "name": "Postgres Intelite AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "alvarezvidalpablo@gmail.com",
+          "mode": "list",
+          "cachedResultName": "alvarezvidalpablo@gmail.com"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ $fromAI('guestEmail', 'El correo electrónico del usuario para invitarle', 'string') }}"
+          ],
+          "sendUpdates": "all",
+          "summary": "={{ $fromAI('topic', 'El tema de la reunión o el nombre del cliente', 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
       "typeVersion": 1.3,
       "position": [
         352,
-        224
+        272
       ],
-      "id": "aca4ee2f-59d8-41ba-a7a4-267bc5d5a03c",
-      "name": "Memory - Memoria Corto Plazo"
+      "id": "6ae6bc0b-cda3-4fe0-a7b6-15e75e8f893f",
+      "name": "Google Calendar - Agendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "RSjmCgtcmSyhYKoN",
+          "name": "Google Calendar account"
+        }
+      }
     },
     {
       "parameters": {
         "mode": "retrieve-as-tool",
-        "memoryKey": {
-          "__rl": true,
-          "value": "vector_store_key",
-          "mode": "list",
-          "cachedResultName": "vector_store_key"
-        }
+        "tableName": "chatweb_vectors",
+        "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
       "typeVersion": 1.3,
       "position": [
-        480,
-        224
+        496,
+        304
       ],
-      "id": "f2f9cac6-d654-423b-9fcb-ebe2d60690de",
-      "name": "Simple Vector Store"
+      "id": "91202dd2-9555-4f78-960f-661be8fe1936",
+      "name": "Postgres - Lector",
+      "credentials": {
+        "postgres": {
+          "id": "g6bIsRgyIRSoqVzD",
+          "name": "Postgres account 2"
+        }
+      }
     },
     {
       "parameters": {
@@ -164,9 +214,9 @@
       "typeVersion": 1.2,
       "position": [
         448,
-        384
+        464
       ],
-      "id": "f3a45c53-3f8c-452c-b59d-b82b788cf319",
+      "id": "9c779903-fc7c-4326-9507-754bdd7a3f3d",
       "name": "Embeddings OpenAI",
       "credentials": {
         "openAiApi": {
@@ -178,7 +228,11 @@
   ],
   "pinData": {},
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
   },
   "shared": [
     {
@@ -192,6 +246,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-12-09T18:53:58.273Z",
-  "versionId": "943c95fd-4c67-4952-b256-cc848d7d0566"
+  "updatedAt": "2025-12-10T21:20:43.443Z",
+  "versionId": "a1ba6862-a348-4e4d-910e-20a7eba7ce7a"
 }
