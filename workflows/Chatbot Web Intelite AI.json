@@ -1,7 +1,241 @@
 {
-  "active": false,
-  "activeVersion": null,
-  "activeVersionId": null,
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-11T20:10:57.416Z",
+    "createdAt": "2025-12-11T20:10:57.416Z",
+    "versionId": "792411d7-9e1e-4924-a73e-b3ab9446deda",
+    "workflowId": "52ZuJSGWDP9d8Qw3",
+    "nodes": [
+      {
+        "parameters": {
+          "public": true,
+          "initialMessages": "Bienvenido a Intelite AI. ¿En qué podemos ayudarte hoy?",
+          "options": {
+            "allowedOrigins": "*",
+            "inputPlaceholder": "Escribe aquí tu duda",
+            "showWelcomeScreen": false,
+            "subtitle": "Asistente virtual",
+            "title": "Intelite AI",
+            "customCss": ":root {\n  /* Colors - Intelite AI */\n  --chat--color-primary: #006DE7;\n  --chat--color-primary-shade-50: #0060cc;\n  --chat--color-primary-shade-100: #0054b3;\n  --chat--color-secondary: #006DE7;\n  --chat--color-secondary-shade-50: #0060cc;\n  --chat--color-white: #ffffff;\n  --chat--color-light: #f2f4f8;\n  --chat--color-light-shade-50: #e6e9f1;\n  --chat--color-light-shade-100: #c2c5cc;\n  --chat--color-medium: #d2d4d9;\n  --chat--color-dark: #101330;\n  --chat--color-disabled: #d2d4d9;\n  --chat--color-typing: #404040;\n  --chat--color-online: #10b981;\n\n  /* Base Layout */\n  --chat--spacing: 1rem;\n  --chat--border-radius: 0.25rem;\n  --chat--transition-duration: 0.15s;\n  --chat--font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n\n  /* Window Dimensions */\n  --chat--window--width: 400px;\n  --chat--window--height: 600px;\n  --chat--window--bottom: var(--chat--spacing);\n  --chat--window--right: var(--chat--spacing);\n  --chat--window--z-index: 9999;\n  --chat--window--border: 1px solid var(--chat--color-light-shade-50);\n  --chat--window--border-radius: 0.75rem;\n  --chat--window--margin-bottom: var(--chat--spacing);\n\n  /* Header Styles */\n  --chat--header-height: auto;\n  --chat--header--padding: 0.75rem var(--chat--spacing) 0.5rem;\n  --chat--header--background: #006DE7;\n  --chat--header--color: var(--chat--color-white);\n  --chat--header--border-top: none;\n  --chat--header--border-bottom: none;\n  --chat--header--border-left: none;\n  --chat--header--border-right: none;\n  --chat--heading--font-size: 1.5em;\n  --chat--subtitle--font-size: 0.85em;\n  --chat--subtitle--line-height: 1.2;\n\n  /* Message Styles */\n  --chat--message--font-size: 1rem;\n  --chat--message--padding: var(--chat--spacing);\n  --chat--message--border-radius: 0.75rem;\n  --chat--message-line-height: 1.5;\n  --chat--message--margin-bottom: calc(var(--chat--spacing) * 1);\n  --chat--message--bot--background: var(--chat--color-white);\n  --chat--message--bot--color: var(--chat--color-dark);\n  --chat--message--bot--border: none;\n  --chat--message--user--background: #006DE7;\n  --chat--message--user--color: var(--chat--color-white);\n  --chat--message--user--border: none;\n  --chat--message--pre--background: rgba(0, 0, 0, 0.05);\n  --chat--messages-list--padding: var(--chat--spacing);\n\n  /* Toggle Button */\n  --chat--toggle--size: 64px;\n  --chat--toggle--width: var(--chat--toggle--size);\n  --chat--toggle--height: var(--chat--toggle--size);\n  --chat--toggle--border-radius: 50%;\n  --chat--toggle--background: #006DE7;\n  --chat--toggle--hover--background: #0060cc;\n  --chat--toggle--active--background: #0054b3;\n  --chat--toggle--color: var(--chat--color-white);\n\n  /* Input Area */\n  --chat--textarea--height: 50px;\n  --chat--textarea--max-height: 30rem;\n  --chat--input--font-size: inherit;\n  --chat--input--border: 0;\n  --chat--input--border-radius: 0.5rem;\n  --chat--input--padding: 0.8rem;\n  --chat--input--background: var(--chat--color-white);\n  --chat--input--text-color: initial;\n  --chat--input--line-height: 1.5;\n  --chat--input--placeholder--font-size: var(--chat--input--font-size);\n  --chat--input--border-active: 0;\n  --chat--input--left--panel--width: 2rem;\n\n  /* Button Styles */\n  --chat--button--color: var(--chat--color-white);\n  --chat--button--background: #006DE7;\n  --chat--button--padding: calc(var(--chat--spacing) * 1 / 2) var(--chat--spacing);\n  --chat--button--border-radius: var(--chat--border-radius);\n  --chat--button--hover--color: var(--chat--color-white);\n  --chat--button--hover--background: #0060cc;\n  --chat--close--button--color-hover: #006DE7;\n\n  /* Send and File Buttons */\n  --chat--input--send--button--background: var(--chat--color-white);\n  --chat--input--send--button--color: #006DE7;\n  --chat--input--send--button--background-hover: #f0f0f0;\n  --chat--input--send--button--color-hover: #0060cc;\n  --chat--input--file--button--background: var(--chat--color-white);\n  --chat--input--file--button--color: #006DE7;\n  --chat--input--file--button--background-hover: var(--chat--input--file--button--background);\n  --chat--input--file--button--color-hover: #0060cc;\n  --chat--files-spacing: 0.25rem;\n\n  /* Body and Footer */\n  --chat--body--background: var(--chat--color-light);\n  --chat--footer--background: var(--chat--color-light);\n  --chat--footer--color: var(--chat--color-dark);\n}\n\n/* Aplicar fuente Poppins a todo el chat */\n* {\n  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;\n  font-weight: 600;\n}\n\n/* Header con posición relativa para los controles */\n.chat-header {\n  position: relative !important;\n  padding-right: 5rem !important;\n}\n\n.chat-heading {\n  margin-bottom: 0.25rem !important;\n  font-weight: 700 !important;\n}\n\n.chat-subtitle {\n  margin-top: 0 !important;\n  line-height: 1.2 !important;\n  margin-bottom: 0.5rem !important;\n}\n\n/* Indicador de estado en línea - agregado con ::before */\n.chat-subtitle::before {\n  content: '● ';\n  color: #10b981;\n  font-size: 0.7em;\n  animation: pulse 2s ease-in-out infinite;\n  margin-right: 0.25rem;\n}\n\n@keyframes pulse {\n  0%, 100% {\n    opacity: 1;\n  }\n  50% {\n    opacity: 0.6;\n  }\n}\n\n/* Fecha del chat - se agrega automáticamente después del subtítulo */\n.chat-subtitle::after {\n  content: attr(data-date);\n  display: block;\n  text-align: center;\n  font-size: 0.7rem;\n  color: rgba(255, 255, 255, 0.75);\n  font-weight: 500;\n  margin-top: 0.5rem;\n  padding-top: 0.5rem;\n  border-top: 1px solid rgba(255, 255, 255, 0.15);\n  width: 100%;\n}\n\n/* Botones de control del header (minimizar y cerrar) */\n.chat-header::after {\n  content: '−  ×';\n  position: absolute;\n  top: 0.75rem;\n  right: 1rem;\n  display: flex;\n  gap: 0.75rem;\n  font-size: 1.5rem;\n  color: white;\n  cursor: pointer;\n  letter-spacing: 0.5rem;\n  font-weight: 300;\n  line-height: 1;\n}\n\n/* Override para mensajes */\n.chat-message {\n  max-width: 50%;\n  font-weight: 600;\n}\n\n/* Texto en negrita e itálica */\n.chat-heading,\n.chat-message strong {\n  font-weight: 700;\n  font-style: italic;\n}\n\n/* BOTONES DE ACCESO RÁPIDO */\n.chat-messages-list::after {\n  content: '';\n  display: block;\n  height: 0;\n}\n\n/* Footer wrapper para los botones */\n.chat-input {\n  position: relative;\n}\n\n/* Crear contenedor de botones antes del input */\n.chat-input::before {\n  content: '🚀 ¿Qué servicios ofrecéis?\\A📅 Quiero agendar una reunión\\A💰 ¿Cuáles son los precios?\\A🤖 ¿Cómo me ayuda la IA?';\n  display: block;\n  white-space: pre-line;\n  padding: 0.75rem;\n  background: var(--chat--color-light);\n  border-top: 1px solid var(--chat--color-light-shade-50);\n  pointer-events: none;\n  line-height: 2.5;\n}\n\n/* Estilos visuales para simular botones en el ::before */\n.chat-footer {\n  position: relative;\n}\n\n.chat-footer::before {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 0;\n  right: 0;\n  padding: 0.75rem;\n  background: var(--chat--color-light);\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n  border-top: 1px solid var(--chat--color-light-shade-50);\n  z-index: 1;\n}\n\n/* Crear los botones de acceso rápido de forma visual */\n.chat-messages-list {\n  margin-bottom: 0 !important;\n}\n\n/* Espacio para los botones encima del input */\n.chat-input-container {\n  margin-top: 180px;\n}\n\n/* Botones de acceso rápido usando pseudo-elementos */\nbody .chat-window .chat-footer {\n  padding-top: 200px;\n  position: relative;\n}\n\nbody .chat-window .chat-footer::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 190px;\n  background: var(--chat--color-light);\n  border-top: 1px solid var(--chat--color-light-shade-50);\n  background-image: \n    linear-gradient(to bottom, white 0%, white 20%, transparent 20%, transparent 25%),\n    linear-gradient(to bottom, white 25%, white 45%, transparent 45%, transparent 50%),\n    linear-gradient(to bottom, white 50%, white 70%, transparent 70%, transparent 75%),\n    linear-gradient(to bottom, white 75%, white 95%, transparent 95%, transparent 100%);\n  background-size: 100% 25%;\n  background-repeat: no-repeat;\n  box-shadow: inset 0 0 0 1px #e5e7eb;\n  padding: 0.75rem;\n}\n\n/* Agregar texto a los botones simulados */\nbody .chat-window .chat-footer::after {\n  content: '🚀 ¿Qué servicios ofrecéis?\\A\\A📅 Quiero agendar una reunión\\A\\A💰 ¿Cuáles son los precios?\\A\\A🤖 ¿Cómo me ayuda la IA?';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 190px;\n  padding: 1rem;\n  white-space: pre-line;\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: #374151;\n  line-height: 2.8;\n  pointer-events: none;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n}"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+        "typeVersion": 1.4,
+        "position": [
+          0,
+          16
+        ],
+        "id": "e39fc355-7abd-41a1-9248-7895c9509b96",
+        "name": "Chat Trigger - Entrada Web",
+        "webhookId": "666b81dc-5b98-47bc-98ab-0799ee48cdb5"
+      },
+      {
+        "parameters": {
+          "hasOutputParser": true,
+          "options": {
+            "systemMessage": "=## TAREA\n\nEres un asistente virtual experto y amable de la empresa Intelite AI, dedicada a la automatización de procesos con inteligencia artificial. Tu objetivo es ayudar a los usuarios respondiendo dudas sobre nuestros servicios y agendando reuniones. Mantén un tono profesional pero cercano. Si no sabes una respuesta, no la inventes; di que necesitas consultar más información.\n\n# CONTEXTO TEMPORAL\n\nHoy es: {{ $now.setZone('Europe/Madrid').toFormat('EEEE, d MMMM yyyy, HH:mm') }} (Zona horaria local).\nUsa esta fecha y hora exactas como referencia para calcular cualquier fecha relativa (como \"mañana\", \"el viernes que viene\", etc.).\n\n## HERRAMIENTAS\n\n- Utiliza la herramienta llamada \"Google Calendar - Agendar\"  cuando el usuario quiera agendar, reservar o programar una cita o reunión. ** Debes obtener la fecha, hora y correo del usuario antes de llamarla. **\n\n- Utiliza siempre la herramienta \"Postgres - Lector\" cuando el usuario pregunte sobre la empresa Intelite AI, sus servicios, precios, horarios, políticas de cancelación o información de contacto. No intentes responder de memoria, ** usa siempre esta herramienta para dar datos precisos. **\n\n\n[INSTRUCCIONES DE RESPUESTA]\n\n1. RESPONDE SIEMPRE EN LENGUAJE NATURAL Y CONVERSACIONAL.\n2. Nunca devuelvas JSON, XML ni código al usuario final. Confirma la cita con una frase amable como: \"He agendado tu reunión para el [fecha] a las [hora]. Te he enviado una invitación a [email].\"\n"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3,
+        "position": [
+          344,
+          16
+        ],
+        "id": "c42b0ca5-ba13-47b3-b50d-abac0d5917ef",
+        "name": "AI Agent - Orquestador Principal"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o",
+            "mode": "list",
+            "cachedResultName": "gpt-4o"
+          },
+          "builtInTools": {},
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.3,
+        "position": [
+          144,
+          240
+        ],
+        "id": "befebcae-2dbd-4a42-ba4e-634a0a05e04f",
+        "name": "OpenAI - GPT-4o",
+        "credentials": {
+          "openAiApi": {
+            "id": "lF7UohlhOobJXkZr",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+        "typeVersion": 1.3,
+        "position": [
+          320,
+          240
+        ],
+        "id": "a99ac839-166a-4e4a-99eb-f7b268418ab2",
+        "name": "Memory - Historial Reciente",
+        "credentials": {
+          "postgres": {
+            "id": "g6bIsRgyIRSoqVzD",
+            "name": "Postgres account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "calendar": {
+            "__rl": true,
+            "value": "alvarezvidalpablo@gmail.com",
+            "mode": "list",
+            "cachedResultName": "alvarezvidalpablo@gmail.com"
+          },
+          "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+          "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+          "additionalFields": {
+            "attendees": [
+              "={{ $fromAI('guestEmail', 'El correo electrónico del usuario para invitarle', 'string') }}"
+            ],
+            "sendUpdates": "all",
+            "summary": "={{ $fromAI('topic', 'El tema de la reunión o el nombre del cliente', 'string') }}"
+          }
+        },
+        "type": "n8n-nodes-base.googleCalendarTool",
+        "typeVersion": 1.3,
+        "position": [
+          480,
+          240
+        ],
+        "id": "6ae6bc0b-cda3-4fe0-a7b6-15e75e8f893f",
+        "name": "Google Calendar - Agendar",
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "RSjmCgtcmSyhYKoN",
+            "name": "Google Calendar account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolDescription": "=Utiliza esta herramienta cuando quieras obtener información de la empresa Intelite AI, para cualquier pregunta que te haga el usuario.",
+          "tableName": "chatweb_vectors",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+        "typeVersion": 1.3,
+        "position": [
+          608,
+          240
+        ],
+        "id": "91202dd2-9555-4f78-960f-661be8fe1936",
+        "name": "Postgres - Lector",
+        "credentials": {
+          "postgres": {
+            "id": "g6bIsRgyIRSoqVzD",
+            "name": "Postgres account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          688,
+          448
+        ],
+        "id": "9c779903-fc7c-4326-9507-754bdd7a3f3d",
+        "name": "Embeddings - Traductor",
+        "credentials": {
+          "openAiApi": {
+            "id": "lF7UohlhOobJXkZr",
+            "name": "OpenAi account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Chat Trigger - Entrada Web": {
+        "main": [
+          [
+            {
+              "node": "AI Agent - Orquestador Principal",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI - GPT-4o": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent - Orquestador Principal",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Memory - Historial Reciente": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent - Orquestador Principal",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Calendar - Agendar": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent - Orquestador Principal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Postgres - Lector": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent - Orquestador Principal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings - Traductor": {
+        "ai_embedding": [
+          [
+            {
+              "node": "Postgres - Lector",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "792411d7-9e1e-4924-a73e-b3ab9446deda",
   "connections": {
     "Chat Trigger - Entrada Web": {
       "main": [
@@ -58,7 +292,7 @@
         ]
       ]
     },
-    "Embeddings OpenAI": {
+    "Embeddings - Traductor": {
       "ai_embedding": [
         [
           {
@@ -81,7 +315,15 @@
     {
       "parameters": {
         "public": true,
-        "options": {}
+        "initialMessages": "Bienvenido a Intelite AI. ¿En qué podemos ayudarte hoy?",
+        "options": {
+          "allowedOrigins": "*",
+          "inputPlaceholder": "Escribe aquí tu duda",
+          "showWelcomeScreen": false,
+          "subtitle": "Asistente virtual",
+          "title": "Intelite AI",
+          "customCss": ":root {\n  /* Colors - Intelite AI */\n  --chat--color-primary: #006DE7;\n  --chat--color-primary-shade-50: #0060cc;\n  --chat--color-primary-shade-100: #0054b3;\n  --chat--color-secondary: #006DE7;\n  --chat--color-secondary-shade-50: #0060cc;\n  --chat--color-white: #ffffff;\n  --chat--color-light: #f2f4f8;\n  --chat--color-light-shade-50: #e6e9f1;\n  --chat--color-light-shade-100: #c2c5cc;\n  --chat--color-medium: #d2d4d9;\n  --chat--color-dark: #101330;\n  --chat--color-disabled: #d2d4d9;\n  --chat--color-typing: #404040;\n  --chat--color-online: #10b981;\n\n  /* Base Layout */\n  --chat--spacing: 1rem;\n  --chat--border-radius: 0.25rem;\n  --chat--transition-duration: 0.15s;\n  --chat--font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n\n  /* Window Dimensions */\n  --chat--window--width: 400px;\n  --chat--window--height: 600px;\n  --chat--window--bottom: var(--chat--spacing);\n  --chat--window--right: var(--chat--spacing);\n  --chat--window--z-index: 9999;\n  --chat--window--border: 1px solid var(--chat--color-light-shade-50);\n  --chat--window--border-radius: 0.75rem;\n  --chat--window--margin-bottom: var(--chat--spacing);\n\n  /* Header Styles */\n  --chat--header-height: auto;\n  --chat--header--padding: 0.75rem var(--chat--spacing) 0.5rem;\n  --chat--header--background: #006DE7;\n  --chat--header--color: var(--chat--color-white);\n  --chat--header--border-top: none;\n  --chat--header--border-bottom: none;\n  --chat--header--border-left: none;\n  --chat--header--border-right: none;\n  --chat--heading--font-size: 1.5em;\n  --chat--subtitle--font-size: 0.85em;\n  --chat--subtitle--line-height: 1.2;\n\n  /* Message Styles */\n  --chat--message--font-size: 1rem;\n  --chat--message--padding: var(--chat--spacing);\n  --chat--message--border-radius: 0.75rem;\n  --chat--message-line-height: 1.5;\n  --chat--message--margin-bottom: calc(var(--chat--spacing) * 1);\n  --chat--message--bot--background: var(--chat--color-white);\n  --chat--message--bot--color: var(--chat--color-dark);\n  --chat--message--bot--border: none;\n  --chat--message--user--background: #006DE7;\n  --chat--message--user--color: var(--chat--color-white);\n  --chat--message--user--border: none;\n  --chat--message--pre--background: rgba(0, 0, 0, 0.05);\n  --chat--messages-list--padding: var(--chat--spacing);\n\n  /* Toggle Button */\n  --chat--toggle--size: 64px;\n  --chat--toggle--width: var(--chat--toggle--size);\n  --chat--toggle--height: var(--chat--toggle--size);\n  --chat--toggle--border-radius: 50%;\n  --chat--toggle--background: #006DE7;\n  --chat--toggle--hover--background: #0060cc;\n  --chat--toggle--active--background: #0054b3;\n  --chat--toggle--color: var(--chat--color-white);\n\n  /* Input Area */\n  --chat--textarea--height: 50px;\n  --chat--textarea--max-height: 30rem;\n  --chat--input--font-size: inherit;\n  --chat--input--border: 0;\n  --chat--input--border-radius: 0.5rem;\n  --chat--input--padding: 0.8rem;\n  --chat--input--background: var(--chat--color-white);\n  --chat--input--text-color: initial;\n  --chat--input--line-height: 1.5;\n  --chat--input--placeholder--font-size: var(--chat--input--font-size);\n  --chat--input--border-active: 0;\n  --chat--input--left--panel--width: 2rem;\n\n  /* Button Styles */\n  --chat--button--color: var(--chat--color-white);\n  --chat--button--background: #006DE7;\n  --chat--button--padding: calc(var(--chat--spacing) * 1 / 2) var(--chat--spacing);\n  --chat--button--border-radius: var(--chat--border-radius);\n  --chat--button--hover--color: var(--chat--color-white);\n  --chat--button--hover--background: #0060cc;\n  --chat--close--button--color-hover: #006DE7;\n\n  /* Send and File Buttons */\n  --chat--input--send--button--background: var(--chat--color-white);\n  --chat--input--send--button--color: #006DE7;\n  --chat--input--send--button--background-hover: #f0f0f0;\n  --chat--input--send--button--color-hover: #0060cc;\n  --chat--input--file--button--background: var(--chat--color-white);\n  --chat--input--file--button--color: #006DE7;\n  --chat--input--file--button--background-hover: var(--chat--input--file--button--background);\n  --chat--input--file--button--color-hover: #0060cc;\n  --chat--files-spacing: 0.25rem;\n\n  /* Body and Footer */\n  --chat--body--background: var(--chat--color-light);\n  --chat--footer--background: var(--chat--color-light);\n  --chat--footer--color: var(--chat--color-dark);\n}\n\n/* Aplicar fuente Poppins a todo el chat */\n* {\n  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;\n  font-weight: 600;\n}\n\n/* Header con posición relativa para los controles */\n.chat-header {\n  position: relative !important;\n  padding-right: 5rem !important;\n}\n\n.chat-heading {\n  margin-bottom: 0.25rem !important;\n  font-weight: 700 !important;\n}\n\n.chat-subtitle {\n  margin-top: 0 !important;\n  line-height: 1.2 !important;\n  margin-bottom: 0.5rem !important;\n}\n\n/* Indicador de estado en línea - agregado con ::before */\n.chat-subtitle::before {\n  content: '● ';\n  color: #10b981;\n  font-size: 0.7em;\n  animation: pulse 2s ease-in-out infinite;\n  margin-right: 0.25rem;\n}\n\n@keyframes pulse {\n  0%, 100% {\n    opacity: 1;\n  }\n  50% {\n    opacity: 0.6;\n  }\n}\n\n/* Fecha del chat - se agrega automáticamente después del subtítulo */\n.chat-subtitle::after {\n  content: attr(data-date);\n  display: block;\n  text-align: center;\n  font-size: 0.7rem;\n  color: rgba(255, 255, 255, 0.75);\n  font-weight: 500;\n  margin-top: 0.5rem;\n  padding-top: 0.5rem;\n  border-top: 1px solid rgba(255, 255, 255, 0.15);\n  width: 100%;\n}\n\n/* Botones de control del header (minimizar y cerrar) */\n.chat-header::after {\n  content: '−  ×';\n  position: absolute;\n  top: 0.75rem;\n  right: 1rem;\n  display: flex;\n  gap: 0.75rem;\n  font-size: 1.5rem;\n  color: white;\n  cursor: pointer;\n  letter-spacing: 0.5rem;\n  font-weight: 300;\n  line-height: 1;\n}\n\n/* Override para mensajes */\n.chat-message {\n  max-width: 50%;\n  font-weight: 600;\n}\n\n/* Texto en negrita e itálica */\n.chat-heading,\n.chat-message strong {\n  font-weight: 700;\n  font-style: italic;\n}\n\n/* BOTONES DE ACCESO RÁPIDO */\n.chat-messages-list::after {\n  content: '';\n  display: block;\n  height: 0;\n}\n\n/* Footer wrapper para los botones */\n.chat-input {\n  position: relative;\n}\n\n/* Crear contenedor de botones antes del input */\n.chat-input::before {\n  content: '🚀 ¿Qué servicios ofrecéis?\\A📅 Quiero agendar una reunión\\A💰 ¿Cuáles son los precios?\\A🤖 ¿Cómo me ayuda la IA?';\n  display: block;\n  white-space: pre-line;\n  padding: 0.75rem;\n  background: var(--chat--color-light);\n  border-top: 1px solid var(--chat--color-light-shade-50);\n  pointer-events: none;\n  line-height: 2.5;\n}\n\n/* Estilos visuales para simular botones en el ::before */\n.chat-footer {\n  position: relative;\n}\n\n.chat-footer::before {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 0;\n  right: 0;\n  padding: 0.75rem;\n  background: var(--chat--color-light);\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n  border-top: 1px solid var(--chat--color-light-shade-50);\n  z-index: 1;\n}\n\n/* Crear los botones de acceso rápido de forma visual */\n.chat-messages-list {\n  margin-bottom: 0 !important;\n}\n\n/* Espacio para los botones encima del input */\n.chat-input-container {\n  margin-top: 180px;\n}\n\n/* Botones de acceso rápido usando pseudo-elementos */\nbody .chat-window .chat-footer {\n  padding-top: 200px;\n  position: relative;\n}\n\nbody .chat-window .chat-footer::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 190px;\n  background: var(--chat--color-light);\n  border-top: 1px solid var(--chat--color-light-shade-50);\n  background-image: \n    linear-gradient(to bottom, white 0%, white 20%, transparent 20%, transparent 25%),\n    linear-gradient(to bottom, white 25%, white 45%, transparent 45%, transparent 50%),\n    linear-gradient(to bottom, white 50%, white 70%, transparent 70%, transparent 75%),\n    linear-gradient(to bottom, white 75%, white 95%, transparent 95%, transparent 100%);\n  background-size: 100% 25%;\n  background-repeat: no-repeat;\n  box-shadow: inset 0 0 0 1px #e5e7eb;\n  padding: 0.75rem;\n}\n\n/* Agregar texto a los botones simulados */\nbody .chat-window .chat-footer::after {\n  content: '🚀 ¿Qué servicios ofrecéis?\\A\\A📅 Quiero agendar una reunión\\A\\A💰 ¿Cuáles son los precios?\\A\\A🤖 ¿Cómo me ayuda la IA?';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 190px;\n  padding: 1rem;\n  white-space: pre-line;\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: #374151;\n  line-height: 2.8;\n  pointer-events: none;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n}"
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
@@ -97,13 +339,13 @@
       "parameters": {
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=## TAREA\n\nEres un asistente virtual experto y amable de la empresa Intelite AI, dedicada a la automatización de procesos con inteligencia artificial. Tu objetivo es ayudar a los usuarios respondiendo dudas sobre nuestros servicios y agendando reuniones. Mantén un tono profesional pero cercano. Si no sabes una respuesta, no la inventes; di que necesitas consultar más información.\n\n# CONTEXTO TEMPORAL\n\nHoy es: {{ $now.setZone('Europe/Madrid').toFormat('EEEE, d MMMM yyyy, HH:mm') }} (Zona horaria local).\nUsa esta fecha y hora exactas como referencia para calcular cualquier fecha relativa (como \"mañana\", \"el viernes que viene\", etc.).\n\n## HERRAMIENTAS\n\n- Utiliza la herramienta llamada \"Google Calendar - Agendar\"  cuando el usuario quiera agendar, reservar o programar una cita o reunión. ** Debes obtener la fecha, hora y correo del usuario antes de llamarla. **\n\n\n[INSTRUCCIONES DE RESPUESTA]\n\n1. RESPONDE SIEMPRE EN LENGUAJE NATURAL Y CONVERSACIONAL.\n2. Nunca devuelvas JSON, XML ni código al usuario final. Confirma la cita con una frase amable como: \"He agendado tu reunión para el [fecha] a las [hora]. Te he enviado una invitación a [email].\"\n"
+          "systemMessage": "=## TAREA\n\nEres un asistente virtual experto y amable de la empresa Intelite AI, dedicada a la automatización de procesos con inteligencia artificial. Tu objetivo es ayudar a los usuarios respondiendo dudas sobre nuestros servicios y agendando reuniones. Mantén un tono profesional pero cercano. Si no sabes una respuesta, no la inventes; di que necesitas consultar más información.\n\n# CONTEXTO TEMPORAL\n\nHoy es: {{ $now.setZone('Europe/Madrid').toFormat('EEEE, d MMMM yyyy, HH:mm') }} (Zona horaria local).\nUsa esta fecha y hora exactas como referencia para calcular cualquier fecha relativa (como \"mañana\", \"el viernes que viene\", etc.).\n\n## HERRAMIENTAS\n\n- Utiliza la herramienta llamada \"Google Calendar - Agendar\"  cuando el usuario quiera agendar, reservar o programar una cita o reunión. ** Debes obtener la fecha, hora y correo del usuario antes de llamarla. **\n\n- Utiliza siempre la herramienta \"Postgres - Lector\" cuando el usuario pregunte sobre la empresa Intelite AI, sus servicios, precios, horarios, políticas de cancelación o información de contacto. No intentes responder de memoria, ** usa siempre esta herramienta para dar datos precisos. **\n\n\n[INSTRUCCIONES DE RESPUESTA]\n\n1. RESPONDE SIEMPRE EN LENGUAJE NATURAL Y CONVERSACIONAL.\n2. Nunca devuelvas JSON, XML ni código al usuario final. Confirma la cita con una frase amable como: \"He agendado tu reunión para el [fecha] a las [hora]. Te he enviado una invitación a [email].\"\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        352,
+        344,
         16
       ],
       "id": "c42b0ca5-ba13-47b3-b50d-abac0d5917ef",
@@ -123,8 +365,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        128,
-        192
+        144,
+        240
       ],
       "id": "befebcae-2dbd-4a42-ba4e-634a0a05e04f",
       "name": "OpenAI - GPT-4o",
@@ -140,15 +382,15 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        224,
-        320
+        320,
+        240
       ],
       "id": "a99ac839-166a-4e4a-99eb-f7b268418ab2",
       "name": "Memory - Historial Reciente",
       "credentials": {
         "postgres": {
-          "id": "kEQmBFGP78Nli8h4",
-          "name": "Postgres Intelite AI"
+          "id": "g6bIsRgyIRSoqVzD",
+          "name": "Postgres account 2"
         }
       }
     },
@@ -173,8 +415,8 @@
       "type": "n8n-nodes-base.googleCalendarTool",
       "typeVersion": 1.3,
       "position": [
-        352,
-        272
+        480,
+        240
       ],
       "id": "6ae6bc0b-cda3-4fe0-a7b6-15e75e8f893f",
       "name": "Google Calendar - Agendar",
@@ -188,14 +430,15 @@
     {
       "parameters": {
         "mode": "retrieve-as-tool",
+        "toolDescription": "=Utiliza esta herramienta cuando quieras obtener información de la empresa Intelite AI, para cualquier pregunta que te haga el usuario.",
         "tableName": "chatweb_vectors",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
       "typeVersion": 1.3,
       "position": [
-        496,
-        304
+        608,
+        240
       ],
       "id": "91202dd2-9555-4f78-960f-661be8fe1936",
       "name": "Postgres - Lector",
@@ -213,11 +456,11 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        448,
-        464
+        688,
+        448
       ],
       "id": "9c779903-fc7c-4326-9507-754bdd7a3f3d",
-      "name": "Embeddings OpenAI",
+      "name": "Embeddings - Traductor",
       "credentials": {
         "openAiApi": {
           "id": "lF7UohlhOobJXkZr",
@@ -245,7 +488,7 @@
   ],
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2025-12-10T21:20:43.443Z",
-  "versionId": "a1ba6862-a348-4e4d-910e-20a7eba7ce7a"
+  "triggerCount": 1,
+  "updatedAt": "2025-12-11T20:10:57.412Z",
+  "versionId": "792411d7-9e1e-4924-a73e-b3ab9446deda"
 }
