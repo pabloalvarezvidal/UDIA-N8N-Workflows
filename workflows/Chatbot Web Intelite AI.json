@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-12-11T20:10:57.416Z",
-    "createdAt": "2025-12-11T20:10:57.416Z",
-    "versionId": "792411d7-9e1e-4924-a73e-b3ab9446deda",
+    "updatedAt": "2025-12-14T17:43:37.153Z",
+    "createdAt": "2025-12-14T17:43:37.153Z",
+    "versionId": "11b96844-a3fb-437a-b185-df88687056aa",
     "workflowId": "52ZuJSGWDP9d8Qw3",
     "nodes": [
       {
@@ -39,37 +39,11 @@
         "type": "@n8n/n8n-nodes-langchain.agent",
         "typeVersion": 3,
         "position": [
-          344,
+          352,
           16
         ],
         "id": "c42b0ca5-ba13-47b3-b50d-abac0d5917ef",
         "name": "AI Agent - Orquestador Principal"
-      },
-      {
-        "parameters": {
-          "model": {
-            "__rl": true,
-            "value": "gpt-4o",
-            "mode": "list",
-            "cachedResultName": "gpt-4o"
-          },
-          "builtInTools": {},
-          "options": {}
-        },
-        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-        "typeVersion": 1.3,
-        "position": [
-          144,
-          240
-        ],
-        "id": "befebcae-2dbd-4a42-ba4e-634a0a05e04f",
-        "name": "OpenAI - GPT-4o",
-        "credentials": {
-          "openAiApi": {
-            "id": "lF7UohlhOobJXkZr",
-            "name": "OpenAi account"
-          }
-        }
       },
       {
         "parameters": {},
@@ -145,16 +119,41 @@
       },
       {
         "parameters": {
+          "model": {
+            "__rl": true,
+            "mode": "list",
+            "value": "gpt-4.1-mini"
+          },
+          "builtInTools": {},
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.3,
+        "position": [
+          144,
+          240
+        ],
+        "id": "7930c05e-9c51-414a-b384-5f9fbeb4c4dd",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "lF7UohlhOobJXkZr",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
         "typeVersion": 1.2,
         "position": [
-          688,
-          448
+          640,
+          400
         ],
-        "id": "9c779903-fc7c-4326-9507-754bdd7a3f3d",
-        "name": "Embeddings - Traductor",
+        "id": "11367fd4-4f81-4015-a5cc-35d7b813c640",
+        "name": "Embeddings OpenAI",
         "credentials": {
           "openAiApi": {
             "id": "lF7UohlhOobJXkZr",
@@ -170,17 +169,6 @@
             {
               "node": "AI Agent - Orquestador Principal",
               "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "OpenAI - GPT-4o": {
-        "ai_languageModel": [
-          [
-            {
-              "node": "AI Agent - Orquestador Principal",
-              "type": "ai_languageModel",
               "index": 0
             }
           ]
@@ -219,7 +207,18 @@
           ]
         ]
       },
-      "Embeddings - Traductor": {
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent - Orquestador Principal",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI": {
         "ai_embedding": [
           [
             {
@@ -235,7 +234,7 @@
     "name": null,
     "description": null
   },
-  "activeVersionId": "792411d7-9e1e-4924-a73e-b3ab9446deda",
+  "activeVersionId": "11b96844-a3fb-437a-b185-df88687056aa",
   "connections": {
     "Chat Trigger - Entrada Web": {
       "main": [
@@ -243,17 +242,6 @@
           {
             "node": "AI Agent - Orquestador Principal",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI - GPT-4o": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent - Orquestador Principal",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -292,7 +280,18 @@
         ]
       ]
     },
-    "Embeddings - Traductor": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Orquestador Principal",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
       "ai_embedding": [
         [
           {
@@ -345,37 +344,11 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        344,
+        352,
         16
       ],
       "id": "c42b0ca5-ba13-47b3-b50d-abac0d5917ef",
       "name": "AI Agent - Orquestador Principal"
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-4o",
-          "mode": "list",
-          "cachedResultName": "gpt-4o"
-        },
-        "builtInTools": {},
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.3,
-      "position": [
-        144,
-        240
-      ],
-      "id": "befebcae-2dbd-4a42-ba4e-634a0a05e04f",
-      "name": "OpenAI - GPT-4o",
-      "credentials": {
-        "openAiApi": {
-          "id": "lF7UohlhOobJXkZr",
-          "name": "OpenAi account"
-        }
-      }
     },
     {
       "parameters": {},
@@ -451,16 +424,41 @@
     },
     {
       "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        144,
+        240
+      ],
+      "id": "7930c05e-9c51-414a-b384-5f9fbeb4c4dd",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        688,
-        448
+        640,
+        400
       ],
-      "id": "9c779903-fc7c-4326-9507-754bdd7a3f3d",
-      "name": "Embeddings - Traductor",
+      "id": "11367fd4-4f81-4015-a5cc-35d7b813c640",
+      "name": "Embeddings OpenAI",
       "credentials": {
         "openAiApi": {
           "id": "lF7UohlhOobJXkZr",
@@ -489,6 +487,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-12-11T20:10:57.412Z",
-  "versionId": "792411d7-9e1e-4924-a73e-b3ab9446deda"
+  "updatedAt": "2025-12-14T17:43:37.148Z",
+  "versionId": "11b96844-a3fb-437a-b185-df88687056aa"
 }
