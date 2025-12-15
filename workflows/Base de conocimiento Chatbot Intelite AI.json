@@ -80,7 +80,7 @@
     },
     {
       "parameters": {
-        "jsCode": "return [\n  {\n    json: {\n      text: `\n      INFORMACIÓN DE MI EMPRESA:\n      Nombre: Intelite AI\n      Servicios: Chatbots impulsados por IA, agentes de voz con inteligencia artificial, Automatización de procesos, Consultoría de IA.\n      Horarios: Lunes a Viernes de 9:00 a 18:00.\n      Precios: Consultorías desde 100$, Proyectos desde 1500$.\n      Contacto: inteliteai@gmail.com\n      `\n    }\n  }\n];"
+        "jsCode": "return [\n  {\n    json: {\n      text: `\n      INFORMACIÓN DE MI EMPRESA:\n      Nombre: Intelite AI\n      INFORMACIÓN CORPORATIVA DE INTELITE AI:\n\n      1. CHATBOTS INTELIGENTES\n      Nuestros chatbots no son simples contestadores. Están diseñados \"al gusto del cliente\" y conectados a sus sistemas internos.\n      Funcionalidades principales:\n      - Gestión de Citas: Capacidad autónoma para agendar, cancelar y comprobar disponibilidad en tiempo real (Google Calendar, Outlook, etc.).\n      - Atención al Cliente: Responden dudas sobre el negocio basándose en documentación propia de la empresa.\n      - Multicanal: Integrables en Web, WhatsApp, Telegram e Instagram.\n\n      2. AGENTES DE VOZ (VOICE AGENTS)\n      Tecnología capaz de mantener conversaciones telefónicas naturales y fluidas.\n      - Capacidades: Tienen las mismas funcionalidades que nuestros chatbots (agendar, informar, filtrar clientes) pero operando vía llamada telefónica.\n      - Casos de uso: Recepción de pedidos, confirmación de asistencia, encuestas de satisfacción y cualificación de leads en frío.\n\n      3. AUTOMATIZACIONES A MEDIDA\n      Analizamos los problemas productivos específicos de cada cliente para crear soluciones personalizadas.\n      - Objetivo: Eliminar tareas repetitivas y manuales.\n      - Ejemplos: Generación automática de facturas, sincronización de CRMs, notificaciones inteligentes y reportes de datos automatizados.\n\n      FILOSOFÍA DE PRECIOS\n      En Intelite AI no vendemos paquetes cerrados genéricos. Valoramos cada caso para ofrecer un presupuesto personalizado.\n      Modelo de costes: Coste único por instalación + Mensualidad de mantenimiento para asegurar que la IA evolucione con tu negocio.\n      `\n    }\n  }\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -177,6 +177,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-12-10T21:10:27.341Z",
-  "versionId": "235bd7be-1975-4f55-b1e0-ddd643766e10"
+  "updatedAt": "2025-12-15T10:43:16.751Z",
+  "versionId": "61f60977-09e6-4492-9a8c-58ee9ddd341d"
 }
