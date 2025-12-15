@@ -1,0 +1,690 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger - Diario 16:00": {
+      "main": [
+        [
+          {
+            "node": "RSS Read - TechCrunch AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read - TechCrunch AI": {
+      "main": [
+        [
+          {
+            "node": "Code - Normalizador de Feeds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Normalizador de Feeds": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Filtro Relevancia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Filtro Relevancia": {
+      "main": [
+        [
+          {
+            "node": "Code - Parsear Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Parsear Decision": {
+      "main": [
+        [
+          {
+            "node": "If - Es Relevante",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-15T18:15:00.304Z",
+  "id": "Z37aeV58s6dYK5VO",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Automatización Post Linkedin",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 16
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -336,
+        64
+      ],
+      "id": "c172f77e-d2ff-4e80-a0ab-0cf240338a24",
+      "name": "Schedule Trigger - Diario 16:00"
+    },
+    {
+      "parameters": {
+        "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+        "options": {
+          "ignoreSSL": true
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -112,
+        64
+      ],
+      "id": "66ce980f-15e3-4fcf-80ba-d810feab35ea",
+      "name": "RSS Read - TechCrunch AI"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Normalización de datos para Intelite AI\n// Mapeamos los datos del RSS a nuestro esquema interno\n\n// Intentamos limpiar el resumen de etiquetas HTML si existen\nconst summaryRaw = $json.contentSnippet || $json.content || \"\";\nconst summaryClean = summaryRaw.replace(/<[^>]*>?/gm, '');\n\nreturn {\n  source_name: \"TechCrunch AI\",\n  article_title: $json.title,\n  article_url: $json.link,\n  article_summary: summaryClean.substring(0, 500) + \"...\", // Limitamos longitud\n  pub_date: $json.pubDate || $json.isoDate,\n  // Guardamos el ID único (guid) para usarlo luego en la deduplicación\n  article_guid: $json.guid || $json.link\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        112,
+        64
+      ],
+      "id": "25b122c0-8bfb-4d18-adde-16d703911066",
+      "name": "Code - Normalizador de Feeds"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "=Actúa como el Editor Jefe de 'Intelite AI', una consultora de tecnología Enterprise. Tu trabajo es filtrar noticias. Analiza el título y resumen proporcionados.\n\nCriterios de Aprobación:\n1. Relevancia para negocios, infraestructura tecnológica, o avances científicos significativos.\n2. Seriedad y credibilidad.\n3. Noticias que puedan generar debate.\n\nCriterios de Rechazo:\n1. Noticias sobre gadgets de consumo triviales (ej. nuevos auriculares).\n2. Rumores sin confirmar.\n3. Contenido excesivamente técnico sin aplicación práctica visible.\n\nOutput: Responde ÚNICAMENTE con un objeto JSON sin bloques de código markdown: { \"is_relevant\": true/false, \"reason\": \"breve explicación\", \"category\": \"Investigación/Negocio/Regulación\" }"
+            },
+            {
+              "content": "=Input: {{ $json.article_title }} - {{ $json.article_summary }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        336,
+        64
+      ],
+      "id": "e2105c32-183a-45d1-9f8c-717bd7c2619f",
+      "name": "OpenAI - Filtro Relevancia",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// INTELITE AI - PARSEADOR QUIRÚRGICO V3\n\n// 1. Obtener respuesta de la IA (soporte robusto para cualquier estructura)\nconst aiContent = $json.message?.content || $json.content || \"\";\n\n// 2. Recuperar los datos ORIGINALES de la noticia correspondiente.\n// Usamos $itemIndex para asegurar que la respuesta 1 va con la noticia 1, la 2 con la 2, etc.\n// IMPORTANTE: Verifica que el nombre 'Code - Normalizador de Feeds' sea EXACTO.\nlet originalData = {};\ntry {\n    originalData = $('Code - Normalizador de Feeds').all()[$itemIndex].json;\n} catch (e) {\n    // Si falla la recuperación, mantenemos un objeto vacío para no romper el flujo\n    originalData = { error: \"No se pudo recuperar el dato original\" };\n}\n\nlet decision;\n\n// 3. Extracción Quirúrgica del JSON\n// Buscamos cualquier cosa que empiece por '{' y termine por '}', ignorando el resto.\nconst jsonMatch = aiContent.match(/\\{[\\s\\S]*\\}/);\n\nif (jsonMatch) {\n    try {\n        decision = JSON.parse(jsonMatch[0]);\n    } catch (e) {\n        decision = { is_relevant: false, reason: \"JSON inválido: \" + e.message };\n    }\n} else {\n    // Si no encontramos llaves, asumimos que no es relevante o la IA falló\n    decision = { is_relevant: false, reason: \"No se encontró estructura JSON en la respuesta\" };\n}\n\n// 4. Devolver la fusión\nreturn {\n    ...originalData,\n    relevance_decision: decision\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        64
+      ],
+      "id": "21a5daa2-d699-46e3-93fc-41251f58be41",
+      "name": "Code - Parsear Decision",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "82d2d0b8-48b0-4705-9b55-92c462ef09ce",
+              "leftValue": "={{ $json.relevance_decision.is_relevant }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        816,
+        64
+      ],
+      "id": "934126a5-2e1b-45dd-bc77-f91fe17995dd",
+      "name": "If - Es Relevante"
+    }
+  ],
+  "pinData": {
+    "OpenAI - Filtro Relevancia": [
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_06e19076d6b642e20069406c4e4534819684346c143be8f6fb",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en una elección de palabras y la medición cultural sin implicaciones directas en negocios o avances tecnológicos significativos.\", \"category\": \"N/A\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0aaf05078a6d6c890069406c4ffe1c819395ab6d536dc60880",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en un producto de consumo específico (una IA para hábitos) que no tiene una aplicación práctica significativa en el ámbito empresarial o tecnológico.\" , \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_01463f3083f84e3a0069406c5268fc8194b8efc5f183c7ddbb",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": true, \"reason\": \"La noticia implica un incremento en la producción de chips H200 de Nvidia, lo cual es relevante para la infraestructura tecnológica y la demanda del mercado, especialmente en el contexto chino.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_00163cb79ec184bb0069406c5532f48193b84bf0b3d6e52ef4",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en una startup de consumo que desarrolla tecnología para video, pero no presenta un impacto significativo en el ámbito empresarial o tecnológico en general.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 3
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0021f47c31f3a1260069406c57b07c8194b9b5c8cd1cc59ff0",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": false, \"reason\": \"Se trata de un error de un chatbot y no aporta información relevante para negocios o tecnología empresarial.\", \"category\": \"N/A\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 4
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_04a8ba17cf6e46460069406c591a908197be4d567f4681b355",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": true, \"reason\": \"Analiza el impacto de la construcción de centros de datos en proyectos de infraestructura, lo que tiene relevancia para la planificación de inversiones en tecnología y desarrollo urbano.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 5
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_00fab348cf34e67c0069406c5b8e048194aea13e5466e84537",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": false, \"reason\": \"El artículo trata sobre un experimento en torno a la percepción de sesgo de género en un algoritmo de redes sociales, lo que no tiene un impacto significativo en negocios o infraestructura tecnológica.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 6
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_02f3e4cd3a4173af0069406c5df3848190908c72489b15cd28",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": true, \"reason\": \"La orden ejecutiva de Trump sobre IA puede afectar significativamente la estructura regulatoria para startups tecnológicas, lo cual es crítico para la infraestructura de negocios en el sector.\", \"category\": \"Regulación\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 7
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0a13d75b1e6a1a030069406c60b6cc8194ac2c9590e20d5757",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en un gadget de consumo y una función de un servicio que no tiene un impacto significativo en el ámbito empresarial ni en la infraestructura tecnológica.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 8
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0b27d89043cb54280069406c640684819799c49a5b2801c491",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": false, \"reason\": \"El contenido se centra en actualizaciones de un chatbot de consumo, sin aplicación práctica significativa para negocios o infraestructura tecnológica.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 9
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_07b81d35267d75560069406c675cac8197bfa19bd12bdfe9e6",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": true, \"reason\": \"La noticia trata sobre un avance significativo en la investigación de IA por parte de Google, lo que puede impactar en el desarrollo de aplicaciones empresariales y la infraestructura tecnológica.\", \"category\": \"Investigación\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 10
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_06c29274abefe07e0069406c68f7d88193b6f0b6f2013cc018",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": true, \"reason\": \"La noticia aborda la aplicación de robots humanoides en entornos industriales, lo que podría transformar la automatización en fábricas y almacenes.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 11
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_050fd8ce2522e36d0069406c6a990c8193876787868205f037",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": true, \"reason\": \"El caso de copyright entre Disney y Google podría impactar la regulación de la propiedad intelectual en la tecnología, lo cual es crucial para las empresas. \", \"category\": \"Regulación\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 12
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_050c158608e33cf50069406c6c26b081968a6d5b8f80226a74",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en una característica de consumo de Google relacionada con la moda, que no tiene impacto significativo en negocios o infraestructura tecnológica.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 13
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0526fa21dd6bb36b0069406c6ecc5881979261147c2578043b",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": true, \"reason\": \"El lanzamiento de GPT-5.2 representa un avance significativo en IA, con implicaciones para el desarrollo profesional y empresarial, además de su impacto en la competencia con Google.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 14
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0398fc8e69177d6f0069406c70f0488196b605c50a075c2a96",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": true, \"reason\": \"La herramienta de Google puede mejorar la eficiencia en la creación de aplicaciones web, lo que es relevante para los negocios y la infraestructura tecnológica.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 15
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_05e9f1be95c66d790069406c72953c81958ce1640d307d2e01",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": true, \"reason\": \"La noticia destaca un avance significativo en la creación de un modelo mundial que puede tener aplicaciones en múltiples sectores, incluido video y robótica, lo cual es relevante para negocios de tecnología y avances científicos.\", \"category\": \"Investigación\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 16
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0b5201bbf1c8e3590069406c7467148197b80885717a31b29c",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": true, \"reason\": \"La colaboración entre Disney y OpenAI para generar contenido AI puede tener un impacto significativo en la industria del entretenimiento y la creación de medios digitales.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 17
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0b4134b7323cd9340069406c75e6b4819383013cfebe3012c1",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": true, \"reason\": \"Reconocimiento a figuras clave en el desarrollo de la inteligencia artificial, relevante para negocios y avances tecnológicos.\", \"category\": \"Negocio\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 18
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0e928e74d3615c780069406c7793508196bb3ae75a12f596cd",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en un navegador para consumidores con un costo de suscripción, lo cual no es significativo para la infraestructura tecnológica o avances empresariales.\", \"category\": \"Consumo\" }"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 19
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-15T18:15:00.313Z",
+      "createdAt": "2025-12-15T18:15:00.313Z",
+      "role": "workflow:owner",
+      "workflowId": "Z37aeV58s6dYK5VO",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-15T20:37:05.655Z",
+  "versionId": "d30bb023-33b4-40f7-bd93-e600f1af1782"
+}
