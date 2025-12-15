@@ -1,0 +1,178 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Notificación en Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificación en Telegram": {
+      "main": [
+        [
+          {
+            "node": "Rellenar pregunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rellenar pregunta": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2025-12-15T12:21:25.621Z",
+  "id": "N23XRp0TPEoFPfIf",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Preguntas sin resolver",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        64,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "7186973879",
+        "text": "=Falta Entrenamiento | Pregunta: {{ $json.chatInput }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        256,
+        336
+      ],
+      "id": "260b5c89-f7b8-4e6c-b580-165afd81693a",
+      "name": "Notificación en Telegram",
+      "webhookId": "3909781c-e39c-4185-87f1-a2e2707e6b18",
+      "credentials": {
+        "telegramApi": {
+          "id": "GyCkN7M0nmQB9BTK",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE",
+          "mode": "list",
+          "cachedResultName": "Preguntas sin respuesta",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Pregunta": "={{ $('When Executed by Another Workflow').item.json.chatInput }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Pregunta",
+              "displayName": "Pregunta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        336
+      ],
+      "id": "1dc0e520-0c67-435a-a137-e413297258ea",
+      "name": "Rellenar pregunta",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "sessionId": "111fa8dd58d1466bb0a3c1c0e8205c96",
+          "action": "sendMessage",
+          "chatInput": "actualmente trabajais con n8n?",
+          "input": "actualmente trabajais con n8n?",
+          "toolCallId": "call_848W4YKfjMJ91RXyM9POmenF",
+          "type": "actualmente trabajais con n8n?"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-15T12:21:25.630Z",
+      "createdAt": "2025-12-15T12:21:25.630Z",
+      "role": "workflow:owner",
+      "workflowId": "N23XRp0TPEoFPfIf",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-15T16:41:46.791Z",
+  "versionId": "a21cf599-6f08-455f-9715-b0680de13415"
+}
