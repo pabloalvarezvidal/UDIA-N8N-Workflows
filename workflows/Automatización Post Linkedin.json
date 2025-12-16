@@ -40,17 +40,6 @@
       "main": [
         [
           {
-            "node": "Code - Parsear Decision",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code - Parsear Decision": {
-      "main": [
-        [
-          {
             "node": "If - Es Relevante",
             "type": "main",
             "index": 0
@@ -95,7 +84,7 @@
       "main": [
         [
           {
-            "node": "Generate an image",
+            "node": "Append row in sheet1",
             "type": "main",
             "index": 0
           }
@@ -114,11 +103,11 @@
         ]
       ]
     },
-    "Generate an image": {
+    "Append row in sheet1": {
       "main": [
         [
           {
-            "node": "Append row in sheet",
+            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -232,13 +221,13 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict",
+            "typeValidation": "loose",
             "version": 3
           },
           "conditions": [
             {
               "id": "82d2d0b8-48b0-4705-9b55-92c462ef09ce",
-              "leftValue": "={{ $json.relevance_decision.is_relevant_string }}",
+              "leftValue": "={{ $json.output[0].content[0].text.is_relevant }}",
               "rightValue": "true",
               "operator": {
                 "type": "string",
@@ -248,6 +237,7 @@
           ],
           "combinator": "and"
         },
+        "looseTypeValidation": true,
         "options": {}
       },
       "type": "n8n-nodes-base.if",
@@ -258,21 +248,6 @@
       ],
       "id": "934126a5-2e1b-45dd-bc77-f91fe17995dd",
       "name": "If - Es Relevante"
-    },
-    {
-      "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "// INTELITE AI - PARSEADOR V7 (BÚSQUEDA PROFUNDA)\n// Este script busca recursivamente cualquier string que parezca un JSON válido con la clave \"is_relevant\"\n// No importa qué tan anidada esté la respuesta de OpenAI.\n\n// --- FUNCIÓN DE BÚSQUEDA RECURSIVA ---\nfunction findDecisionJson(obj) {\n    if (!obj) return null;\n\n    // 1. Si encontramos un Texto, comprobamos si contiene nuestra \"pepita de oro\"\n    if (typeof obj === 'string') {\n        // Buscamos si tiene la clave clave \"is_relevant\"\n        if (obj.includes('is_relevant')) {\n            try {\n                // Intentamos extraer el JSON\n                const match = obj.match(/\\{[\\s\\S]*\\}/);\n                if (match) {\n                    const parsed = JSON.parse(match[0]);\n                    // Verificamos que sea el objeto correcto\n                    if (parsed.hasOwnProperty('is_relevant')) {\n                        return parsed;\n                    }\n                }\n            } catch (e) {\n                // Si falla el parseo, seguimos buscando\n            }\n        }\n        return null;\n    }\n\n    // 2. Si es un Array o un Objeto, buceamos dentro (Recursión)\n    if (typeof obj === 'object') {\n        for (const key in obj) {\n            if (obj.hasOwnProperty(key)) {\n                const result = findDecisionJson(obj[key]);\n                if (result) return result; // ¡Encontrado! Devolvemos y paramos.\n            }\n        }\n    }\n\n    return null;\n}\n\n// --- EJECUCIÓN ---\n\n// Buscamos en todo el objeto $json entrante\nconst decisionFound = findDecisionJson($json) || {};\n\n// Lógica de seguridad por si no encuentra nada\nconst decisionFinal = {\n    is_relevant: decisionFound.is_relevant === true, // Forzamos booleano\n    reason: decisionFound.reason || \"ERROR: No se pudo encontrar la decisión en la respuesta de OpenAI\",\n    category: decisionFound.category || \"N/A\"\n};\n\n// Generamos el String para el nodo IF\nconst decisionString = decisionFinal.is_relevant ? \"true\" : \"false\";\n\n// Recuperamos datos originales de la noticia\nlet originalData = {};\ntry {\n    originalData = $('Code - Normalizador de Feeds').all()[$itemIndex].json;\n} catch (e) {\n    originalData = { error: \"Datos originales perdidos\" };\n}\n\nreturn {\n    ...originalData,\n    relevance_decision: {\n        ...decisionFinal,\n        is_relevant_string: decisionString\n    }\n};"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        736,
-        -272
-      ],
-      "id": "21a5daa2-d699-46e3-93fc-41251f58be41",
-      "name": "Code - Parsear Decision",
-      "executeOnce": false
     },
     {
       "parameters": {
@@ -289,7 +264,7 @@
               "content": "=Eres el Editor Jefe de Contenidos en Intelite AI. Tu misión es demostrar que la empresa está al pulso de la actualidad en Inteligencia Artificial, generando conversación y valor real.\n\nTU OBJETIVO:\nEscribir un post de LinkedIn sobre la noticia proporcionada. El post debe ser accesible para cualquier profesional (no solo técnicos), informativo y debe invitar a la reflexión o al debate.\n\nINSTRUCCIONES DE VARIEDAD (Elige dinámicamente el mejor enfoque según la noticia):\nNo uses siempre la misma estructura. Analiza la noticia y adopta uno de estos ángulos:\n1. El Analista: Explica por qué esta noticia es importante y cambia el panorama actual.\n2. El Escéptico: Cuestiona el \"hype\" o plantea preguntas difíciles sobre las implicaciones éticas/sociales.\n3. El Visionario: Reflexiona sobre cómo esto afectará a la sociedad o las empresas en unos años.\n4. El Educador: Traduce un avance complejo a un lenguaje sencillo y explica su utilidad real.\n\nREGLAS DE ESTILO (Innegociables):\n- IDIOMA: Español de España, tono profesional pero cercano.\n- GANCHO: La primera frase debe captar la atención inmediatamente. PROHIBIDO empezar con \"¡Noticias emocionantes!\", \"En el mundo de hoy...\" o preguntas retóricas obvias.\n- FORMATO: Párrafos cortos (1-2 frases) muy fáciles de leer. Usa espacios en blanco.\n- CIERRE: Termina con una pregunta abierta genuina que invite al lector a dejar un comentario.\n- HASHTAGS: Incluye solo 3-5 hashtags relevantes al final.\n- FIRMA: No firmes el post, es para la página de empresa.\n\nIMPORTANTE: No menciones qué ángulo has elegido, simplemente escribe el post directamente."
             },
             {
-              "content": "=Título: {{ $json.article_title }}\nResumen: {{ $json.article_summary }}\nFuente: {{ $json.source_name }}"
+              "content": "=Título: {{ $('Code - Normalizador de Feeds').item.json.article_title }}\nResumen: {{ $('Code - Normalizador de Feeds').item.json.article_summary }}"
             }
           ]
         },
@@ -337,7 +312,7 @@
           "values": [
             {
               "role": "system",
-              "content": "=Actúa como un Director de Arte experto en estilo \"Tech Corporate\".\nTu tarea es leer un post de LinkedIn y extraer su concepto central para crear un prompt de DALL-E 3.\n\nESTÉTICA OBLIGATORIA (Incluye siempre al final):\n\"isometric 3D style, corporate memphis but sophisticated, color palette: deep navy blue, cyan neon accents and white, clean minimal background, unreal engine 5 render, high quality, no text, no letters, geometrical shapes, connecting nodes.\"\n\nTU TAREA:\n1. Lee el 'Post Redactado'.\n2. Identifica la metáfora principal o el tema central del texto.\n3. Crea un concepto visual ABSTRACTO que represente esa idea.\n4. Output: SOLO el prompt en inglés con la estética."
+              "content": "=Actúa como un Director de Arte Senior en \"Intelite AI\", una consultora tecnológica de alto nivel.\nTu objetivo es leer un post de LinkedIn sobre Inteligencia Artificial y redactar un PROMPT DE IMAGEN para un modelo generativo (como Gemini o DALL-E).\n\nTU MISIÓN:\nTraducir el concepto principal del texto a una metáfora visual elegante y minimalista.\n\nREGLAS DE ESTILO (ESTRICTAS):\n1. ESTILO VISUAL: \"High-end corporate editorial illustration\". Debe parecer diseñado por un estudio de Nueva York, no un render de videojuego.\n2. MATERIALES: Usa texturas de \"cristal esmerilado\" (frosted glass), \"cerámica blanca mate\" y \"metal cepillado\". Evita el plástico brillante o los neones excesivos.\n3. COMPOSICIÓN: Isométrica o cenital. Fondo limpio y uniforme (color sólido o degradado sutil). Debe haber mucho espacio negativo (aire) alrededor del objeto central.\n4. PALETA DE COLORES: Dominante \"Deep Navy Blue\" y \"White\". Acentos en \"Electric Cyan\" o \"Soft Gold\".\n5. PROHIBIDO: No representes cerebros humanos, no pongas robots dando la mano a humanos, no pongas códigos binarios estilo Matrix, NO incluyas TEXTO ni letras.\n\nESTRUCTURA DEL PROMPT QUE DEBES GENERAR:\n[Sujeto Principal: Metáfora visual del post] + [Entorno: Minimalista/Studio Lighting] + [Estilo y Materiales] + [Paleta de Colores] + [Parámetros Técnicos: 8k, octane render, soft shadows].\n\nEJEMPLO DE RAZONAMIENTO:\n- Si el post es sobre \"Regulación de la IA\":\n- Prompt Salida: \"A balanced scale made of frosted glass and matte white metal, resting on a deep navy blue surface. On one side, a glowing cyan geometric cube (representing AI); on the other, a stack of minimalist white documents (representing law). Soft studio lighting, isometric view, ultra-clean composition, 8k resolution, architectural style.\"\n\nOUTPUT:\nGenera ÚNICAMENTE el prompt en INGLÉS. No añadas introducciones ni comillas."
             },
             {
               "content": "=Post Redactado: {{ $('OpenAI - Generador de Post').item.json.output[0].content[0].text }}"
@@ -374,152 +349,6 @@
       ],
       "id": "66df0c55-cca9-4fe5-b4fc-f00af0e60eee",
       "name": "Loop Over Items"
-    },
-    {
-      "parameters": {
-        "resource": "image",
-        "modelId": {
-          "__rl": true,
-          "value": "models/gemini-3-pro-image-preview",
-          "mode": "list",
-          "cachedResultName": "models/gemini-3-pro-image-preview (Nano Banana Pro)"
-        },
-        "prompt": "={{ $json.output[0].content[0].text }}",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.googleGemini",
-      "typeVersion": 1,
-      "position": [
-        1200,
-        -48
-      ],
-      "id": "0aee5d99-8a4d-4985-b105-212df4df7991",
-      "name": "Generate an image",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "YHe997AlWBEa1Czy",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "create",
-        "base": {
-          "__rl": true,
-          "value": "appDVOmlNDqPNGoin",
-          "mode": "list",
-          "cachedResultName": "Content_Pipeline",
-          "cachedResultUrl": "https://airtable.com/appDVOmlNDqPNGoin"
-        },
-        "table": {
-          "__rl": true,
-          "value": "tblPtdeKyknU8RpyV",
-          "mode": "list",
-          "cachedResultName": "Content_Pipeline",
-          "cachedResultUrl": "https://airtable.com/appDVOmlNDqPNGoin/tblPtdeKyknU8RpyV"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Generated Image": "=",
-            "Headline": "=",
-            "Generated Copy": "="
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Headline",
-              "displayName": "Headline",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Generated Copy",
-              "displayName": "Generated Copy",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Generated Image",
-              "displayName": "Generated Image",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "array",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Status",
-              "displayName": "Status",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "options",
-              "options": [
-                {
-                  "name": "Draft",
-                  "value": "Draft"
-                }
-              ],
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Source URL",
-              "displayName": "Source URL",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Related Task",
-              "displayName": "Related Task",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.airtable",
-      "typeVersion": 2.1,
-      "position": [
-        1552,
-        -224
-      ],
-      "id": "80e7b270-95cd-4491-940b-c6f3c5cac17e",
-      "name": "Create a record",
-      "credentials": {
-        "airtableTokenApi": {
-          "id": "OwtNlpzJfBnO2SmU",
-          "name": "Airtable Personal Access Token account"
-        }
-      }
     },
     {
       "parameters": {
@@ -599,8 +428,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        1408,
-        -48
+        1344,
+        -576
       ],
       "id": "b92fbaab-41c9-41cd-b76a-6debb212e097",
       "name": "Append row in sheet",
@@ -610,15 +439,109 @@
           "name": "Google Sheets account"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1fQnfugN6uw-bbFW1rzVZmQfQZ8n20gR8LnfZc13-VeA",
+          "mode": "list",
+          "cachedResultName": "Post Automaticos Linkedin",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fQnfugN6uw-bbFW1rzVZmQfQZ8n20gR8LnfZc13-VeA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fQnfugN6uw-bbFW1rzVZmQfQZ8n20gR8LnfZc13-VeA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Headline": "={{ $('Code - Normalizador de Feeds').item.json.article_title }}",
+            "Generate Copy": "={{ $('OpenAI - Generador de Post').item.json.output[0].content[0].text }}",
+            "Generate Image": "={{ $json.output[0].content[0].text }}",
+            "Status": "draft",
+            "Source URL": "={{ $('Code - Normalizador de Feeds').item.json.article_url }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Headline",
+              "displayName": "Headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Generate Copy",
+              "displayName": "Generate Copy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Generate Image",
+              "displayName": "Generate Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Source URL",
+              "displayName": "Source URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1168,
+        -48
+      ],
+      "id": "b7d73e2b-0d5b-4301-ad80-798adef87c95",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "pinData": {
-    "OpenAI - Filtro Relevancia": [
+    "OpenAI - Generador de Post": [
       {
         "json": {
           "output": [
             {
-              "id": "msg_06e19076d6b642e20069406c4e4534819684346c143be8f6fb",
+              "id": "msg_03da60d27363dcbc0069413efaad548196896e37a4d010f117",
               "type": "message",
               "status": "completed",
               "content": [
@@ -626,7 +549,7 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en una elección de palabras y la medición cultural sin implicaciones directas en negocios o avances tecnológicos significativos.\", \"category\": \"N/A\" }"
+                  "text": "El avance de la biotecnología impulsa otra revolución silenciosa: la inteligencia artificial al servicio de la salud.\n\nChai Discovery, respaldada por OpenAI, ha recaudado 130 millones de dólares en una ronda Serie B, alcanzando una valoración de 1.300 millones. Están desarrollando modelos base para el descubrimiento de fármacos, centrados en predecir interacciones moleculares para reprogramarlas y encontrar curas.\n\nEste enfoque podría cambiar drásticamente la forma en que abordamos las enfermedades complejas. Imaginemos un futuro donde personalizar tratamientos sea tan ágil como descargar una actualización de software.\n\nPero, ¿estamos preparados para que la AI dirija tal parte crucial de nuestra vida? La integración de estas tecnologías puede generar una transformación profunda en la industria farmacéutica y la sanidad global.\n\n¿Hasta dónde crees que puede llegar la inteligencia artificial en la medicina? ¿Cuáles son tus expectativas o preocupaciones?\n\n#Biotecnología #InteligenciaArtificial #InnovaciónMedica"
                 }
               ],
               "role": "assistant"
@@ -641,7 +564,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_0aaf05078a6d6c890069406c4ffe1c819395ab6d536dc60880",
+              "id": "msg_0d8d3ca7710bfd9d0069413f008184819592dd885b08f7032d",
               "type": "message",
               "status": "completed",
               "content": [
@@ -649,7 +572,7 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en un producto de consumo específico (una IA para hábitos) que no tiene una aplicación práctica significativa en el ámbito empresarial o tecnológico.\" , \"category\": \"Negocio\" }"
+                  "text": "Disney ha dado un paso estratégico hacia el futuro al firmar un acuerdo exclusivo con OpenAI, pero solo por un año.\n\nEste movimiento refleja la creciente importancia de la Inteligencia Artificial para las empresas de entretenimiento, donde la capacidad de innovar más rápido y adaptar contenidos es clave para mantenerse relevante.\n\nLa decisión de cerrar un acuerdo de corta duración sugiere que Disney no quiere poner todos sus huevos en una sola cesta. Esto les abre la puerta a explorar nuevas colaboraciones tecnológicas en un mercado de IA cada vez más competitivo y dinámico.\n\nEl verdadero interés radica en qué ocurrirá cuando finalice este periodo exclusivo. ¿Cómo transformará esto el modo en que consumimos entretenimiento? \n\nLa versatilidad será fundamental para que Disney y otras empresas sigan compitiendo y ofreciendo experiencias únicas a sus audiencias.\n\n¿Qué crees que significará este movimiento para futuros desarrollos en la industria del entretenimiento?\n\n#InteligenciaArtificial #Entretenimiento #Innovación #Disney #OpenAI"
                 }
               ],
               "role": "assistant"
@@ -664,7 +587,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_01463f3083f84e3a0069406c5268fc8194b8efc5f183c7ddbb",
+              "id": "msg_016ba28a04173dbc0069413f061d1081979ee88b46fb8ce229",
               "type": "message",
               "status": "completed",
               "content": [
@@ -672,7 +595,7 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": true, \"reason\": \"La noticia implica un incremento en la producción de chips H200 de Nvidia, lo cual es relevante para la infraestructura tecnológica y la demanda del mercado, especialmente en el contexto chino.\", \"category\": \"Negocio\" }"
+                  "text": "Nvidia da un paso firme hacia el futuro de la inteligencia artificial abierta con movimientos estratégicos que marcan la pauta.\n\nLa adquisición de SchedMD, especialistas en el desarrollo de Slurm, y el lanzamiento de la familia de modelos de IA de código abierto Nemotron 3, no solo refuerzan el compromiso con el software abierto, sino que prometen transformar la forma en que las empresas gestionan recursos y desarrollan innovaciones.\n\nEstos desarrollos son fundamentales para democratizar el acceso a herramientas avanzadas de IA, permitiendo que más organizaciones participen en la vanguardia tecnológica. Esto no es solo un avance técnico, sino un cambio en cómo concebimos el trabajo colaborativo y el acceso al poder computacional.\n\n¿Cómo visualizas que esta tendencia hacia la apertura impactará en tu sector?\n\n#Nvidia #InteligenciaArtificial #OpenSource #Innovación #TecnologíaAbierta"
                 }
               ],
               "role": "assistant"
@@ -687,7 +610,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_00163cb79ec184bb0069406c5532f48193b84bf0b3d6e52ef4",
+              "id": "msg_096db5d469ae95a30069413f0b38a08195b8528543b193b32f",
               "type": "message",
               "status": "completed",
               "content": [
@@ -695,7 +618,7 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en una startup de consumo que desarrolla tecnología para video, pero no presenta un impacto significativo en el ámbito empresarial o tecnológico en general.\", \"category\": \"Negocio\" }"
+                  "text": "La irrupción de los sistemas \"pay-to-crawl\" está marcando un nuevo capítulo en el acceso y uso de datos para la inteligencia artificial. Creative Commons ha manifestado un apoyo tentativo a esta idea, sugiriendo principios rectores.\n\nEste enfoque podría transformar radicalmente cómo interactuamos con el contenido en línea y cómo se desarrollan las IA. La noción de un \"mercado\" para los datos plantea preguntas cruciales sobre el valor de la información y quién tiene acceso a ella.\n\nA medida que exploramos este territorio inexplorado, es esencial considerar quién se beneficia realmente y cómo podemos asegurar que el conocimiento siga siendo accesible y equitativo.\n\n¿Cómo crees que estos sistemas \"pay-to-crawl\" influirán en el futuro de la innovación en IA?\n\n#InteligenciaArtificial #DatosAbiertos #InnovaciónTech"
                 }
               ],
               "role": "assistant"
@@ -710,7 +633,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_0021f47c31f3a1260069406c57b07c8194b9b5c8cd1cc59ff0",
+              "id": "msg_0a5a03977df8199e0069413f0eefb48190888e362d596b4fcf",
               "type": "message",
               "status": "completed",
               "content": [
@@ -718,7 +641,7 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": false, \"reason\": \"Se trata de un error de un chatbot y no aporta información relevante para negocios o tecnología empresarial.\", \"category\": \"N/A\" }"
+                  "text": "La Inteligencia Artificial está en el centro de atención una vez más, ya que Lightspeed ha recaudado la asombrosa cifra de 9 mil millones de dólares en nueva financiación. Esta inyección de capital no solo subraya la confianza en las startups impulsadas por IA, sino también el ritmo acelerado de innovación en el sector. \n\nEn un entorno donde el efectivo es el rey, disponer de tal cantidad para respaldar nuevas ideas puede marcar una gran diferencia para las empresas emergentes que están moldeando el futuro de la tecnología.\n\nPero, ¿qué significa para el ecosistema de innovación global cuando una sola firma posee tanto poder de financiación? \n\nEs un momento crucial para reflexionar sobre el equilibrio entre el estímulo del progreso tecnológico y la concentración de recursos en manos de unos pocos jugadores.\n\n¿Cómo veis el impacto de este movimiento financiero en el panorama competitivo de la IA?\n\n#InteligenciaArtificial #Innovación #Startups #Inversión #Tecnología"
                 }
               ],
               "role": "assistant"
@@ -733,7 +656,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_04a8ba17cf6e46460069406c591a908197be4d567f4681b355",
+              "id": "msg_0e9e8d87224e143d0069413f167a0481959e12dd8da5482149",
               "type": "message",
               "status": "completed",
               "content": [
@@ -741,7 +664,7 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": true, \"reason\": \"Analiza el impacto de la construcción de centros de datos en proyectos de infraestructura, lo que tiene relevancia para la planificación de inversiones en tecnología y desarrollo urbano.\", \"category\": \"Negocio\" }"
+                  "text": "Nvidia da un nuevo paso estratégico para fortalecer su presencia en China.\n\nTras obtener luz verde para vender sus chips H200, la empresa está considerando aumentar su producción para satisfacer la creciente demanda en este mercado crucial.\n\nEl movimiento destaca la importancia de los semiconductores en las relaciones comerciales internacionales y su papel clave en la economía digital. \n\nA medida que las empresas tecnológicas se enfrentan a desafíos geopolíticos y necesidades de innovación, ¿cómo afectará este tipo de decisiones a la competitividad global y a la infraestructura tecnológica?\n\n¿Qué deberían priorizar las empresas al navegar en este terreno cada vez más complejo y competitivo?\n\n#Nvidia #Tecnología #Innovación #Geopolítica"
                 }
               ],
               "role": "assistant"
@@ -756,7 +679,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_00fab348cf34e67c0069406c5b8e048194aea13e5466e84537",
+              "id": "msg_0198635eeffa8a7d0069413f1a23a08197b25ae50095cf4652",
               "type": "message",
               "status": "completed",
               "content": [
@@ -764,7 +687,7 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": false, \"reason\": \"El artículo trata sobre un experimento en torno a la percepción de sesgo de género en un algoritmo de redes sociales, lo que no tiene un impacto significativo en negocios o infraestructura tecnológica.\", \"category\": \"Negocio\" }"
+                  "text": "La aceleración en la construcción de centros de datos está marcando una nueva tendencia en la asignación de recursos. \n\nMientras que estos centros son esenciales para el avance de la inteligencia artificial, su auge podría desviar fondos de importantes proyectos de infraestructura como carreteras y puentes, que también son cruciales para el desarrollo económico y social.\n\n¿Estamos preparados para equilibrar estas necesidades sin sacrificar el progreso?\n\nEl desafío radica en encontrar un punto medio que permita el crecimiento tecnológico sin olvidar las infraestructuras tradicionales que mantienen a nuestras ciudades en funcionamiento. \n\n¿Cómo podemos lograrlo sin comprometer el futuro?\n\n#InteligenciaArtificial #Infraestructura #CentrosDeDatos"
                 }
               ],
               "role": "assistant"
@@ -779,7 +702,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_02f3e4cd3a4173af0069406c5df3848190908c72489b15cd28",
+              "id": "msg_016b0e7ec89fa0070069413f1e5cd08195bb5bcecf58c673f2",
               "type": "message",
               "status": "completed",
               "content": [
@@ -787,7 +710,7 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": true, \"reason\": \"La orden ejecutiva de Trump sobre IA puede afectar significativamente la estructura regulatoria para startups tecnológicas, lo cual es crítico para la infraestructura de negocios en el sector.\", \"category\": \"Regulación\" }"
+                  "text": "¿Está LinkedIn realmente imparcial?\n\nRecientemente, un experimento con el algoritmo de LinkedIn ha generado un debate candente. Un grupo de mujeres intentó demostrar que las nuevas actualizaciones podían ser sexistas. Aunque sus hallazgos despertaron preocupaciones válidas, varios expertos señalan que el contexto es más complejo de lo que parece.\n\nLa cuestión va más allá de un simple sesgo algorítmico. Implica también cómo interactuamos con las plataformas, cómo diseñamos la tecnología y cuál es nuestro papel como usuarios para garantizar la equidad. Este caso nos invita a reflexionar sobre la responsabilidad compartida entre desarrolladores y usuarios.\n\n¿Cómo podemos asegurarnos de que la inteligencia artificial promueva la equidad y no perpetúe desigualdades existentes?\n\n#InteligenciaArtificial #IgualdadDeGénero #LinkedIn"
                 }
               ],
               "role": "assistant"
@@ -802,7 +725,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_0a13d75b1e6a1a030069406c60b6cc8194ac2c9590e20d5757",
+              "id": "msg_0387426dd4d70bc70069413f2425508197bd506d4d4d7be82f",
               "type": "message",
               "status": "completed",
               "content": [
@@ -810,7 +733,7 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en un gadget de consumo y una función de un servicio que no tiene un impacto significativo en el ámbito empresarial ni en la infraestructura tecnológica.\", \"category\": \"Negocio\" }"
+                  "text": "Una nueva orden ejecutiva sobre IA busca unificar la regulación a nivel nacional en EE.UU., prometiendo un \"único libro de reglas\". Sin embargo, este intento de simplificación podría sumir a las startups en un limbo legal en medio de litigios y debates en el Congreso sobre regulación federal. \n\nLa centralización de normas puede parecer atractiva, pero ¿realmente beneficiará a las pequeñas empresas enfrentadas a entornos legales inciertos? La adaptación de tecnologías emergentes requiere claridad y flexibilidad, dos elementos difíciles de equilibrar en este contexto.\n\n¿La promesa de un entorno regulador unificado facilitará la innovación, o creará más barreras y confusión?\n\n#InteligenciaArtificial #Regulación #StartupsAI"
                 }
               ],
               "role": "assistant"
@@ -825,7 +748,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_0b27d89043cb54280069406c640684819799c49a5b2801c491",
+              "id": "msg_008d459cf13e37ae0069413f28e3ec81939502eea95891c318",
               "type": "message",
               "status": "completed",
               "content": [
@@ -833,7 +756,7 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": false, \"reason\": \"El contenido se centra en actualizaciones de un chatbot de consumo, sin aplicación práctica significativa para negocios o infraestructura tecnológica.\", \"category\": \"Negocio\" }"
+                  "text": "La carrera por la innovación en Inteligencia Artificial sigue acelerándose. En un solo día, Google presentó su agente de investigación más profundo, mientras OpenAI lanzó GPT-5.2.\n\nLa posibilidad de integrar la potente herramienta de investigación de Google, basada en Gemini 3 Pro, directamente en aplicaciones propias marca un punto de inflexión. Esta capacidad abre la puerta a desarrollos personalizados y potencialmente revolucionarios en diversas industrias.\n\n¿Qué implica esto para las empresas y los consumidores? Los servicios podrían volverse más eficientes, personalizados e innovadores, pero también surge la pregunta sobre cómo gestionaremos el inmenso poder de estas herramientas.\n\n¿Estamos preparados para las oportunidades y retos que esta competencia entre gigantes tecnológicos traerá?\n\n#IA #Innovación #TecnologíaPuntera #DesarrolloEmpresarial"
                 }
               ],
               "role": "assistant"
@@ -848,7 +771,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_07b81d35267d75560069406c675cac8197bfa19bd12bdfe9e6",
+              "id": "msg_0212ce14147a3f590069413f2f3fe88190bc9db7836dc08cf2",
               "type": "message",
               "status": "completed",
               "content": [
@@ -856,7 +779,7 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": true, \"reason\": \"La noticia trata sobre un avance significativo en la investigación de IA por parte de Google, lo que puede impactar en el desarrollo de aplicaciones empresariales y la infraestructura tecnológica.\", \"category\": \"Investigación\" }"
+                  "text": "La robótica humanoide está tomando un rumbo inesperado que podría redefinir el futuro de las fábricas y almacenes.\n\n1X, conocida inicialmente por desarrollar robots para ayudar en el hogar, ha cerrado un acuerdo para implementar sus robots Neo en entornos industriales. Este cambio de estrategia no solo muestra la versatilidad de la robótica moderna, sino también una respuesta a la creciente demanda de automatización en el sector industrial.\n\nEl potencial de estos \"compañeros\" humanoides para transformar tareas repetitivas y laboriosas es inmenso. Pueden trabajar incansablemente, incrementar la eficiencia y reducir errores humanos, lo cual promete una mejora significativa en la productividad.\n\nSin embargo, esta transición también nos invita a reflexionar sobre el impacto en la fuerza laboral. ¿Cómo equilibrarán las empresas la integración de innovación tecnológica con la preservación de empleos?\n\n¿Qué piensas sobre el uso de robots humanoides en sectores industriales y el papel que deben jugar en nuestra economía?\n\n#Robótica #Automatización #InnovaciónTecnológica"
                 }
               ],
               "role": "assistant"
@@ -871,7 +794,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_06c29274abefe07e0069406c68f7d88193b6f0b6f2013cc018",
+              "id": "msg_0dce25007c32c10d0069413f34d2808197b54066e3e5ebe592",
               "type": "message",
               "status": "completed",
               "content": [
@@ -879,7 +802,333 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": true, \"reason\": \"La noticia aborda la aplicación de robots humanoides en entornos industriales, lo que podría transformar la automatización en fábricas y almacenes.\", \"category\": \"Negocio\" }"
+                  "text": "Disney desafía a Google con una orden de cese y desistimiento por supuesta infracción de derechos de autor. La disputa surge por el uso no autorizado de sus personajes icónicos a través de la plataforma Gemini AI.\n\nLa colisión de gigantes como Disney y Google no solo atrae titulares, sino que también reabre el debate sobre la protección de la propiedad intelectual en la era de la inteligencia artificial. \n\n¿Hasta dónde llega la responsabilidad de las empresas tecnológicas en la gestión de derechos de autor? Esta confrontación podría sentar precedentes que afecten a toda la industria tecnológica y a los creadores de contenidos.\n\nEs un recordatorio de que, aunque la tecnología avanza rápidamente, la ética y la normativa también deben mantener el ritmo.\n\n¿Qué medidas piensas que deberían implementar las empresas para proteger la propiedad intelectual en el mundo de la IA?\n\n#PropiedadIntelectual #InteligenciaArtificial #InnovaciónLegal #DerechosdeAutor #Tecnología"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 11
+        }
+      }
+    ],
+    "OpenAI - Filtro Relevancia": [
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0dccc369cd21aa3a0069413e30f47c8193801c28a83b75abc5",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": false,
+                    "reason": "La noticia se centra en startups de IA para consumidores, lo que no se alinea con infraestructura tecnológica o debates significativos en el ámbito empresarial.",
+                    "category": "Negocio"
+                  }
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0940e881d2795ab90069413e3306448194ac2a737a43cf625b",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "La recaudación de fondos y el enfoque en descubrimiento de fármacos a través de modelos de inteligencia artificial son altamente relevantes para el negocio y la investigación científica.",
+                    "category": "Investigación"
+                  }
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_04b8098ca950a1980069413e34b488819385ac597eeabcc582",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "El acuerdo exclusivo de Disney con OpenAI puede generar debates sobre la competencia y la innovación en la industria del entretenimiento y tecnología AI.",
+                    "category": "Negocio"
+                  }
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0806c9dc9ddb01930069413e367d088196878681d7e444a20f",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "La adquisición de SchedMD y el lanzamiento de nuevos modelos de IA de código abierto pueden influir en la infraestructura tecnológica y el desarrollo empresarial en el ámbito de la inteligencia artificial.",
+                    "category": "Negocio"
+                  }
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 3
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0ffbf3cc67d4df100069413e382f6c8190b7aa6a3c82a26349",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "El apoyo a sistemas de 'pago por rastreo' para AI plantea importantes cuestiones sobre la propiedad intelectual y la regulación en el uso de datos, lo que puede impactar a las empresas y a la infraestructura tecnológica.",
+                    "category": "Regulación"
+                  }
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 4
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0460cf02f80ea7d80069413e3a4c7c8190b4336d1eff94f111",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "El fondo significativo recaudado por Lightspeed indica un fuerte interés y capacidad de inversión en startups de IA, lo que puede impactar el ecosistema empresarial y tecnológico.",
+                    "category": "Negocio"
+                  }
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 5
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0628b56479931dcf0069413e3c18008197afe13653a34496b2",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": false,
+                    "reason": "La noticia se centra en un término específico y su nombramiento, sin implicaciones significativas para negocios o tecnología.",
+                    "category": "N/A"
+                  }
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 6
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_08ae42b5637f23890069413e3f173481948d3d97b8270c96c9",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": false,
+                    "reason": "La noticia se centra en una aplicación de consumo que ayuda a construir hábitos, lo que no es relevante para el ámbito empresarial o tecnológico a gran escala.",
+                    "category": "Negocio"
+                  }
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 7
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_067507e88365ddfe0069413e40a0988194a45f45376fcb15f7",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "La demanda creciente de semiconductores y el incremento en la producción de Nvidia tienen implicaciones significativas para la infraestructura tecnológica y la economía global.",
+                    "category": "Negocio"
+                  }
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 8
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_013c0e818665e7380069413e42f41c8190a867142c3f0f2c27",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": false,
+                    "reason": "La noticia se centra en una startup de consumo que desarrolla una solución de audio para videos, lo cual no tiene un impacto directo en el ámbito empresarial o avances tecnológicos significativos.",
+                    "category": "Negocio"
+                  }
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 9
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_0664891e1afe4a5c0069413e4517088194bfaadde02e079693",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": false,
+                    "reason": "La noticia se centra en errores de un chatbot y no en avances tecnológicos o infraestructuras críticas.",
+                    "category": "N/A"
+                  }
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 10
+        }
+      },
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_01bd9121dbb9cc9f0069413e474cb0819482715816410301b3",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "La construcción acelerada de centros de datos de IA puede desviar recursos y atención de proyectos de infraestructura crítica, generando un debate sobre la priorización de inversiones.",
+                    "category": "Regulación"
+                  }
                 }
               ],
               "role": "assistant"
@@ -894,7 +1143,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_050fd8ce2522e36d0069406c6a990c8193876787868205f037",
+              "id": "msg_07cedda8bc58109e0069413e4905148196a9195ac8fc546009",
               "type": "message",
               "status": "completed",
               "content": [
@@ -902,7 +1151,11 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": true, \"reason\": \"El caso de copyright entre Disney y Google podría impactar la regulación de la propiedad intelectual en la tecnología, lo cual es crucial para las empresas. \", \"category\": \"Regulación\" }"
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "El artículo aborda el impacto de los algoritmos en la equidad de género en el entorno profesional, lo cual es relevante para las discusiones sobre tecnología y ética en los negocios.",
+                    "category": "Regulación"
+                  }
                 }
               ],
               "role": "assistant"
@@ -917,7 +1170,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_050c158608e33cf50069406c6c26b081968a6d5b8f80226a74",
+              "id": "msg_0f12fe69c173dadf0069413e4a63048194830a3d53e621c440",
               "type": "message",
               "status": "completed",
               "content": [
@@ -925,7 +1178,11 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en una característica de consumo de Google relacionada con la moda, que no tiene impacto significativo en negocios o infraestructura tecnológica.\", \"category\": \"Negocio\" }"
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "El decreto ejecutivo de Trump sobre IA podría sentar un precedente importante en la regulación de la inteligencia artificial, lo que afectaría a las startups y al ecosistema empresarial.",
+                    "category": "Regulación"
+                  }
                 }
               ],
               "role": "assistant"
@@ -940,7 +1197,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_0526fa21dd6bb36b0069406c6ecc5881979261147c2578043b",
+              "id": "msg_0062be99289bc3f00069413e4c2d20819399c4eb568d46a4d9",
               "type": "message",
               "status": "completed",
               "content": [
@@ -948,7 +1205,11 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": true, \"reason\": \"El lanzamiento de GPT-5.2 representa un avance significativo en IA, con implicaciones para el desarrollo profesional y empresarial, además de su impacto en la competencia con Google.\", \"category\": \"Negocio\" }"
+                  "text": {
+                    "is_relevant": false,
+                    "reason": "Se trata de un avance en un gadget de consumo que no tiene implicaciones significativas para negocios o infraestructura tecnológica.",
+                    "category": "Negocio"
+                  }
                 }
               ],
               "role": "assistant"
@@ -963,7 +1224,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_0398fc8e69177d6f0069406c70f0488196b605c50a075c2a96",
+              "id": "msg_05fa8979d53326310069413e4d7c348196a1139438fb50a334",
               "type": "message",
               "status": "completed",
               "content": [
@@ -971,7 +1232,11 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": true, \"reason\": \"La herramienta de Google puede mejorar la eficiencia en la creación de aplicaciones web, lo que es relevante para los negocios y la infraestructura tecnológica.\", \"category\": \"Negocio\" }"
+                  "text": {
+                    "is_relevant": false,
+                    "reason": "El artículo se centra en actualizaciones de un chatbot de consumo sin implicaciones significativas para negocios o infraestructura tecnológica.",
+                    "category": "Negocio"
+                  }
                 }
               ],
               "role": "assistant"
@@ -986,7 +1251,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_05e9f1be95c66d790069406c72953c81958ce1640d307d2e01",
+              "id": "msg_0988eb673ecf58a70069413e4ec3248195b4096bb1732adb47",
               "type": "message",
               "status": "completed",
               "content": [
@@ -994,7 +1259,11 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": true, \"reason\": \"La noticia destaca un avance significativo en la creación de un modelo mundial que puede tener aplicaciones en múltiples sectores, incluido video y robótica, lo cual es relevante para negocios de tecnología y avances científicos.\", \"category\": \"Investigación\" }"
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "La noticia trata sobre avances significativos en inteligencia artificial que pueden impactar el desarrollo tecnológico y las aplicaciones empresariales.",
+                    "category": "Investigación"
+                  }
                 }
               ],
               "role": "assistant"
@@ -1009,7 +1278,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_0b5201bbf1c8e3590069406c7467148197b80885717a31b29c",
+              "id": "msg_0b2aab369a3041b50069413e503efc819789c9e5e71cbfdaf8",
               "type": "message",
               "status": "completed",
               "content": [
@@ -1017,7 +1286,11 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": true, \"reason\": \"La colaboración entre Disney y OpenAI para generar contenido AI puede tener un impacto significativo en la industria del entretenimiento y la creación de medios digitales.\", \"category\": \"Negocio\" }"
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "El uso de robots humanoides en fábricas y almacenes representa un avance significativo en la automatización industrial, lo cual puede impactar la infraestructura tecnológica y los negocios.",
+                    "category": "Negocio"
+                  }
                 }
               ],
               "role": "assistant"
@@ -1032,7 +1305,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_0b4134b7323cd9340069406c75e6b4819383013cfebe3012c1",
+              "id": "msg_0b35cfe1642eaf190069413e51bee48194a055854002bb58b8",
               "type": "message",
               "status": "completed",
               "content": [
@@ -1040,7 +1313,11 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": true, \"reason\": \"Reconocimiento a figuras clave en el desarrollo de la inteligencia artificial, relevante para negocios y avances tecnológicos.\", \"category\": \"Negocio\" }"
+                  "text": {
+                    "is_relevant": true,
+                    "reason": "La disputa legal entre Disney y Google sobre derechos de autor puede afectar la distribución de contenido digital y la inteligencia artificial, lo que es significativo para el negocio y regulación de tecnología.",
+                    "category": "Regulación"
+                  }
                 }
               ],
               "role": "assistant"
@@ -1055,7 +1332,7 @@
         "json": {
           "output": [
             {
-              "id": "msg_0e928e74d3615c780069406c7793508196bb3ae75a12f596cd",
+              "id": "msg_09e30bfa056262c10069413e541f8c8193a6f6d3c5b73916ed",
               "type": "message",
               "status": "completed",
               "content": [
@@ -1063,7 +1340,11 @@
                   "type": "output_text",
                   "annotations": [],
                   "logprobs": [],
-                  "text": "{ \"is_relevant\": false, \"reason\": \"La noticia se centra en un navegador para consumidores con un costo de suscripción, lo cual no es significativo para la infraestructura tecnológica o avances empresariales.\", \"category\": \"Consumo\" }"
+                  "text": {
+                    "is_relevant": false,
+                    "reason": "La noticia se centra en una función de prueba virtual de ropa que es trivial y se refiere principalmente a la moda, sin implicaciones significativas para negocios o tecnología.",
+                    "category": "Negocio"
+                  }
                 }
               ],
               "role": "assistant"
@@ -1073,6 +1354,536 @@
         "pairedItem": {
           "item": 19
         }
+      }
+    ],
+    "RSS Read - TechCrunch AI": [
+      {
+        "json": {
+          "creator": "Marina Temkin",
+          "title": "VCs discuss why most consumer AI startups still lack staying power",
+          "link": "https://techcrunch.com/2025/12/15/vcs-discuss-why-most-consumer-ai-startups-still-lack-staying-power/",
+          "pubDate": "Tue, 16 Dec 2025 00:22:07 +0000",
+          "dc:creator": "Marina Temkin",
+          "content": "The next consumer tech revolution may require an introduction of a new personal device. ",
+          "contentSnippet": "The next consumer tech revolution may require an introduction of a new personal device.",
+          "guid": "https://techcrunch.com/?p=3076284",
+          "categories": [
+            "Startups",
+            "AI",
+            "Gadgets",
+            "consumer",
+            "Goodwater Capital",
+            "Scribble Ventures",
+            "StrictlyVC"
+          ],
+          "isoDate": "2025-12-16T00:22:07.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Lucas Ropek",
+          "title": "OpenAI-backed biotech firm Chai Discovery raises $130M Series B at $1.3B valuation",
+          "link": "https://techcrunch.com/2025/12/15/openai-backed-biotech-firm-chai-discovery-raises-130m-series-b-at-1-3b-valuation/",
+          "pubDate": "Mon, 15 Dec 2025 23:41:26 +0000",
+          "dc:creator": "Lucas Ropek",
+          "content": "Chai is building foundation models for drug discovery, specifically to predict interactions between  molecules so they could be reprogramed for cures.",
+          "contentSnippet": "Chai is building foundation models for drug discovery, specifically to predict interactions between  molecules so they could be reprogramed for cures.",
+          "guid": "https://techcrunch.com/?p=3075995",
+          "categories": [
+            "AI",
+            "Biotech & Health",
+            "venture capital",
+            "OpenAI",
+            "In Brief",
+            "artificial intelligence",
+            "Chai Discovery"
+          ],
+          "isoDate": "2025-12-15T23:41:26.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Aisha Malik",
+          "title": "Disney’s OpenAI deal is exclusive for just one year — then it’s open season",
+          "link": "https://techcrunch.com/2025/12/15/disneys-openai-deal-is-exclusive-for-just-one-year-then-its-open-season/",
+          "pubDate": "Mon, 15 Dec 2025 22:17:36 +0000",
+          "dc:creator": "Aisha Malik",
+          "content": "After the one year is up, Disney is free to sign similar deals with other AI companies. ",
+          "contentSnippet": "After the one year is up, Disney is free to sign similar deals with other AI companies.",
+          "guid": "https://techcrunch.com/?p=3076160",
+          "categories": [
+            "Media & Entertainment",
+            "AI",
+            "Disney",
+            "In Brief",
+            "OpenAI",
+            "sora"
+          ],
+          "isoDate": "2025-12-15T22:17:36.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Rebecca Szkutak",
+          "title": "Nvidia bulks up open source offerings with an acquisition and new open AI models ",
+          "link": "https://techcrunch.com/2025/12/15/nvidia-bulks-up-open-source-offerings-with-an-acquisition-and-new-open-ai-models/",
+          "pubDate": "Mon, 15 Dec 2025 22:00:57 +0000",
+          "dc:creator": "Rebecca Szkutak",
+          "content": "Nvidia acquired SchedMD, the lead developer of Slurm, and launched the Nemotron 3 family of open source AI models. ",
+          "contentSnippet": "Nvidia acquired SchedMD, the lead developer of Slurm, and launched the Nemotron 3 family of open source AI models.",
+          "guid": "https://techcrunch.com/?p=3076166",
+          "categories": [
+            "AI",
+            "Enterprise",
+            "Robotics",
+            "TC",
+            "ai models",
+            "artificial intelligence",
+            "nvidia",
+            "open source",
+            "open source ai",
+            "physical ai",
+            "SchedMD",
+            "Slurm"
+          ],
+          "isoDate": "2025-12-15T22:00:57.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Sarah Perez",
+          "title": "Creative Commons announces tentative support for AI ‘pay-to-crawl’ systems",
+          "link": "https://techcrunch.com/2025/12/15/creative-commons-announces-tentative-support-for-ai-pay-to-crawl-systems/",
+          "pubDate": "Mon, 15 Dec 2025 20:54:54 +0000",
+          "dc:creator": "Sarah Perez",
+          "content": "The organization offered support for this idea of an AI marketplace, and  suggested several guiding principles. ",
+          "contentSnippet": "The organization offered support for this idea of an AI marketplace, and  suggested several guiding principles.",
+          "guid": "https://techcrunch.com/?p=3076085",
+          "categories": [
+            "AI",
+            "Media & Entertainment",
+            "TC",
+            "ai bots",
+            "creative commons",
+            "publishers",
+            "web standards"
+          ],
+          "isoDate": "2025-12-15T20:54:54.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Marina Temkin",
+          "title": "Lightspeed raises record $9B in fresh capital",
+          "link": "https://techcrunch.com/2025/12/15/lightspeed-raises-record-9b-in-fresh-capital/",
+          "pubDate": "Mon, 15 Dec 2025 20:32:33 +0000",
+          "dc:creator": "Marina Temkin",
+          "content": "The massive fund haul will allow the Silicon Valley firm to continue to invest in cash-hungry AI startups.",
+          "contentSnippet": "The massive fund haul will allow the Silicon Valley firm to continue to invest in cash-hungry AI startups.",
+          "guid": "https://techcrunch.com/?p=3076110",
+          "categories": [
+            "AI",
+            "Venture",
+            "In Brief",
+            "Lightspeed Venture Capital",
+            "limited partners"
+          ],
+          "isoDate": "2025-12-15T20:32:33.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Lucas Ropek",
+          "title": "Merriam-Webster names ‘slop’ the word of the year",
+          "link": "https://techcrunch.com/2025/12/15/merriam-webster-names-slop-the-word-of-the-year/",
+          "pubDate": "Mon, 15 Dec 2025 19:47:53 +0000",
+          "dc:creator": "Lucas Ropek",
+          "content": "AI-generated content has dominated the internet over the past year, and America's dictionary took note. ",
+          "contentSnippet": "AI-generated content has dominated the internet over the past year, and America's dictionary took note.",
+          "guid": "https://techcrunch.com/?p=3075979",
+          "categories": [
+            "AI",
+            "artificial intelligence",
+            "Merriam-Webster",
+            "slop",
+            "sora",
+            "Veo"
+          ],
+          "isoDate": "2025-12-15T19:47:53.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Dominic-Madori Davis",
+          "title": "First Voyage raises $2.5M for its AI companion that helps you build habits",
+          "link": "https://techcrunch.com/2025/12/15/first-voyage-raises-2-5m-for-its-ai-companion-helps-you-build-habits/",
+          "pubDate": "Mon, 15 Dec 2025 14:48:24 +0000",
+          "dc:creator": "Dominic-Madori Davis",
+          "content": "First Voyage has raised $2.5 million in a seed funding round from a16z speedrun, SignalFire, True Global, and other investors.",
+          "contentSnippet": "First Voyage has raised $2.5 million in a seed funding round from a16z speedrun, SignalFire, True Global, and other investors.",
+          "guid": "https://techcrunch.com/?p=3075846",
+          "categories": [
+            "Startups",
+            "AI",
+            "Apps",
+            "Fundraising",
+            "ai companion apps",
+            "Momo Self Care"
+          ],
+          "isoDate": "2025-12-15T14:48:24.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Ram Iyer",
+          "title": "Nvidia reportedly weighs ramping up H200 production to meet surging demand in China",
+          "link": "https://techcrunch.com/2025/12/15/nvidia-is-reportedly-weighs-ramping-up-h200-production-to-meet-surging-demand-in-china/",
+          "pubDate": "Mon, 15 Dec 2025 14:28:20 +0000",
+          "dc:creator": "Ram Iyer",
+          "content": "After successfully lobbying the Trump administration to approve the sales of its H200 chips to China, Nvidia is now thinking of adding capacity to produce more of the chips. ",
+          "contentSnippet": "After successfully lobbying the Trump administration to approve the sales of its H200 chips to China, Nvidia is now thinking of adding capacity to produce more of the chips.",
+          "guid": "https://techcrunch.com/?p=3075844",
+          "categories": [
+            "AI",
+            "Government & Policy",
+            "Hardware",
+            "nvidia",
+            "AI chips",
+            "In Brief",
+            "chip exports",
+            "h200"
+          ],
+          "isoDate": "2025-12-15T14:28:20.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Anna Heim",
+          "title": "Mirelo raises $41M from Index and a16z to solve AI video’s silent problem",
+          "link": "https://techcrunch.com/2025/12/15/mirelo-raises-41m-from-index-and-a16z-to-solve-ai-videos-silent-problem/",
+          "pubDate": "Mon, 15 Dec 2025 12:30:00 +0000",
+          "dc:creator": "Anna Heim",
+          "content": "Mirelo, a German startup that is building AI to add synced sound effects to videos, has raised a $41 million seed round led by Index Ventures and Andreessen Horowitz.",
+          "contentSnippet": "Mirelo, a German startup that is building AI to add synced sound effects to videos, has raised a $41 million seed round led by Index Ventures and Andreessen Horowitz.",
+          "guid": "https://techcrunch.com/?p=3075685",
+          "categories": [
+            "Startups",
+            "AI",
+            "Fundraising",
+            "Index Ventures",
+            "sound effects",
+            "a16z",
+            "ai models",
+            "mirelo"
+          ],
+          "isoDate": "2025-12-15T12:30:00.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Anthony Ha",
+          "title": "Grok got crucial facts wrong about Bondi Beach shooting",
+          "link": "https://techcrunch.com/2025/12/14/grok-gets-the-facts-wrong-about-bondi-beach-shooting/",
+          "pubDate": "Sun, 14 Dec 2025 23:17:47 +0000",
+          "dc:creator": "Anthony Ha",
+          "content": "Grok, the chatbot built by Elon Musk’s xAI and popularized on his social media platform X, appears to have repeatedly spread misinformation about today’s mass shooting at Bondi Beach in Australia.",
+          "contentSnippet": "Grok, the chatbot built by Elon Musk’s xAI and popularized on his social media platform X, appears to have repeatedly spread misinformation about today’s mass shooting at Bondi Beach in Australia.",
+          "guid": "https://techcrunch.com/?p=3075822",
+          "categories": [
+            "AI",
+            "Social",
+            "X",
+            "Grok",
+            "In Brief"
+          ],
+          "isoDate": "2025-12-14T23:17:47.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Anthony Ha",
+          "title": "AI data center boom could be bad news for other infrastructure projects",
+          "link": "https://techcrunch.com/2025/12/13/ai-data-center-boom-could-be-bad-news-for-other-infrastructure-projects/",
+          "pubDate": "Sat, 13 Dec 2025 19:37:47 +0000",
+          "dc:creator": "Anthony Ha",
+          "content": "Improvements to roads, bridges, and other infrastructure could take a hit as data center construction accelerates.",
+          "contentSnippet": "Improvements to roads, bridges, and other infrastructure could take a hit as data center construction accelerates.",
+          "guid": "https://techcrunch.com/?p=3075803",
+          "categories": [
+            "AI",
+            "Government & Policy",
+            "Andrew Anagnost",
+            "autodesk",
+            "In Brief"
+          ],
+          "isoDate": "2025-12-13T19:37:47.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Dominic-Madori Davis",
+          "title": "OK, what’s going on with LinkedIn’s algo?",
+          "link": "https://techcrunch.com/2025/12/12/ok-whats-going-on-with-linkedins-algo/",
+          "pubDate": "Fri, 12 Dec 2025 19:38:16 +0000",
+          "dc:creator": "Dominic-Madori Davis",
+          "content": "Women ran an experiment to see if LinkedIn's new algo was being sexist and thought they proved it. But there's more complexity involved, experts say.",
+          "contentSnippet": "Women ran an experiment to see if LinkedIn's new algo was being sexist and thought they proved it. But there's more complexity involved, experts say.",
+          "guid": "https://techcrunch.com/?p=3075418",
+          "categories": [
+            "AI",
+            "Social",
+            "social media",
+            "LinkedIn",
+            "algorithms",
+            "DEI",
+            "llm"
+          ],
+          "isoDate": "2025-12-12T19:38:16.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Rebecca Bellan",
+          "title": "Trump’s AI executive order promises ‘one rulebook’ — startups may get legal limbo instead",
+          "link": "https://techcrunch.com/2025/12/12/trumps-ai-executive-order-promises-one-rulebook-startups-may-get-legal-limbo-instead/",
+          "pubDate": "Fri, 12 Dec 2025 17:07:22 +0000",
+          "dc:creator": "Rebecca Bellan",
+          "content": "Trump signed an AI executive order targeting state laws and promising one national rulebook. Critics warn it could trigger court battles and prolong uncertainty for startups while Congress debates federal rules.",
+          "contentSnippet": "Trump signed an AI executive order targeting state laws and promising one national rulebook. Critics warn it could trigger court battles and prolong uncertainty for startups while Congress debates federal rules.",
+          "guid": "https://techcrunch.com/?p=3075611",
+          "categories": [
+            "AI",
+            "Government & Policy",
+            "trump executive order",
+            "Trump",
+            "AI policy",
+            "White House"
+          ],
+          "isoDate": "2025-12-12T17:07:22.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Aisha Malik",
+          "title": "Google Translate now lets you hear real-time translations in your headphones",
+          "link": "https://techcrunch.com/2025/12/12/google-translate-now-lets-you-hear-real-time-translations-in-your-headphones/",
+          "pubDate": "Fri, 12 Dec 2025 17:00:00 +0000",
+          "dc:creator": "Aisha Malik",
+          "content": "The real-time headphone translations experience keeps each speaker’s tone, emphasis, and cadence intact, so it’s easier to follow the conversation and tell who’s saying what.",
+          "contentSnippet": "The real-time headphone translations experience keeps each speaker’s tone, emphasis, and cadence intact, so it’s easier to follow the conversation and tell who’s saying what.",
+          "guid": "https://techcrunch.com/?p=3075551",
+          "categories": [
+            "AI",
+            "Apps",
+            "Google",
+            "Google Translate"
+          ],
+          "isoDate": "2025-12-12T17:00:00.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Kate Park, Kyle Wiggers, Cody Corrall, Alyssa Stringer",
+          "title": "ChatGPT: Everything you need to know about the AI-powered chatbot",
+          "link": "https://techcrunch.com/2025/12/12/chatgpt-everything-to-know-about-the-ai-chatbot/",
+          "pubDate": "Fri, 12 Dec 2025 16:01:00 +0000",
+          "dc:creator": "Kate Park, Kyle Wiggers, Cody Corrall, Alyssa Stringer",
+          "content": "A timeline of ChatGPT product updates and releases, starting with the latest, which we’ve been updating throughout the year.",
+          "contentSnippet": "A timeline of ChatGPT product updates and releases, starting with the latest, which we’ve been updating throughout the year.",
+          "guid": "https://techcrunch.com/?p=2607630",
+          "categories": [
+            "AI",
+            "OpenAI",
+            "Generative AI",
+            "ChatGPT",
+            "evergreens"
+          ],
+          "isoDate": "2025-12-12T16:01:00.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Julie Bort",
+          "title": "Google launched its deepest AI research agent yet — on the same day OpenAI dropped GPT-5.2",
+          "link": "https://techcrunch.com/2025/12/11/google-launched-its-deepest-ai-research-agent-yet-on-the-same-day-openai-dropped-gpt-5-2/",
+          "pubDate": "Fri, 12 Dec 2025 00:18:56 +0000",
+          "dc:creator": "Julie Bort",
+          "content": "For the first time, developers can embed Google's Deep Research tool, based on Gemini 3 Pro, into their own apps.",
+          "contentSnippet": "For the first time, developers can embed Google's Deep Research tool, based on Gemini 3 Pro, into their own apps.",
+          "guid": "https://techcrunch.com/?p=3075457",
+          "categories": [
+            "AI",
+            "Google",
+            "google ai",
+            "gemini ai",
+            "deep research"
+          ],
+          "isoDate": "2025-12-12T00:18:56.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Rebecca Szkutak",
+          "title": "1X struck a deal to send its ‘home’ humanoids to factories and warehouses",
+          "link": "https://techcrunch.com/2025/12/11/1x-struck-a-deal-to-send-its-home-humanoids-to-factories-and-warehouses/",
+          "pubDate": "Thu, 11 Dec 2025 22:03:36 +0000",
+          "dc:creator": "Rebecca Szkutak",
+          "content": "Despite launching as a humanoid robot designed to help consumers around the house, 1X's Neo robots are heading to industrial use cases. ",
+          "contentSnippet": "Despite launching as a humanoid robot designed to help consumers around the house, 1X's Neo robots are heading to industrial use cases.",
+          "guid": "https://techcrunch.com/?p=3075424",
+          "categories": [
+            "TC",
+            "Startups",
+            "AI",
+            "Robotics",
+            "neo",
+            "robotics",
+            "humanoids",
+            "eqt",
+            "OpenAI Startup Fund",
+            "1x"
+          ],
+          "isoDate": "2025-12-11T22:03:36.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Aisha Malik",
+          "title": "Disney hits Google with cease-and-desist claiming ‘massive’ copyright infringement",
+          "link": "https://techcrunch.com/2025/12/11/disney-hits-google-with-cease-and-desist-claiming-massive-copyright-infringement/",
+          "pubDate": "Thu, 11 Dec 2025 18:53:09 +0000",
+          "dc:creator": "Aisha Malik",
+          "content": "Disney is accusing the tech giant of unauthorized distribution of its copyrighted characters without permission via Gemini AI.",
+          "contentSnippet": "Disney is accusing the tech giant of unauthorized distribution of its copyrighted characters without permission via Gemini AI.",
+          "guid": "https://techcrunch.com/?p=3075292",
+          "categories": [
+            "Media & Entertainment",
+            "AI",
+            "Google",
+            "Disney",
+            "In Brief"
+          ],
+          "isoDate": "2025-12-11T18:53:09.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
+      },
+      {
+        "json": {
+          "creator": "Aisha Malik",
+          "title": "Google’s AI try-on feature for clothes now works with just a selfie",
+          "link": "https://techcrunch.com/2025/12/11/googles-ai-try-on-feature-for-clothes-now-works-with-just-a-selfie/",
+          "pubDate": "Thu, 11 Dec 2025 18:09:27 +0000",
+          "dc:creator": "Aisha Malik",
+          "content": "In the past, users had to upload a full-body picture of themselves to virtually try on a piece of clothing. Now they can use a selfie and Nano Banana will generate a full-body digital version of them.",
+          "contentSnippet": "In the past, users had to upload a full-body picture of themselves to virtually try on a piece of clothing. Now they can use a selfie and Nano Banana will generate a full-body digital version of them.",
+          "guid": "https://techcrunch.com/?p=3075253",
+          "categories": [
+            "AI",
+            "Apps",
+            "Google",
+            "nano banana"
+          ],
+          "isoDate": "2025-12-11T18:09:27.000Z"
+        },
+        "pairedItem": [
+          {
+            "item": 0
+          }
+        ]
       }
     ]
   },
@@ -1095,6 +1906,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-12-16T10:40:00.307Z",
-  "versionId": "569885ea-6ea3-4d53-bad7-9f5e489c5604"
+  "updatedAt": "2025-12-16T12:17:24.806Z",
+  "versionId": "1c535c55-56c2-4d1f-b3b7-9c580f143606"
 }
