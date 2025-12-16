@@ -57,6 +57,73 @@
           }
         ]
       ]
+    },
+    "If - Es Relevante": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generador de Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generador de Post": {
+      "main": [
+        [
+          {
+            "node": "Code - Limpiar Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Limpiar Post": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Director de Arte": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "OpenAI - Director de Arte",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-12-15T18:15:00.304Z",
@@ -80,8 +147,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
       "position": [
-        -336,
-        64
+        -288,
+        -272
       ],
       "id": "c172f77e-d2ff-4e80-a0ab-0cf240338a24",
       "name": "Schedule Trigger - Diario 16:00"
@@ -96,8 +163,8 @@
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1.2,
       "position": [
-        -112,
-        64
+        -64,
+        -272
       ],
       "id": "66ce980f-15e3-4fcf-80ba-d810feab35ea",
       "name": "RSS Read - TechCrunch AI"
@@ -110,8 +177,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        112,
-        64
+        160,
+        -272
       ],
       "id": "25b122c0-8bfb-4d18-adde-16d703911066",
       "name": "Code - Normalizador de Feeds"
@@ -136,13 +203,19 @@
           ]
         },
         "builtInTools": {},
-        "options": {}
+        "options": {
+          "textFormat": {
+            "textOptions": {
+              "type": "json_object"
+            }
+          }
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
       "position": [
-        336,
-        64
+        384,
+        -272
       ],
       "id": "e2105c32-183a-45d1-9f8c-717bd7c2619f",
       "name": "OpenAI - Filtro Relevancia",
@@ -152,21 +225,6 @@
           "name": "OpenAi account"
         }
       }
-    },
-    {
-      "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "// INTELITE AI - PARSEADOR QUIRÚRGICO V3\n\n// 1. Obtener respuesta de la IA (soporte robusto para cualquier estructura)\nconst aiContent = $json.message?.content || $json.content || \"\";\n\n// 2. Recuperar los datos ORIGINALES de la noticia correspondiente.\n// Usamos $itemIndex para asegurar que la respuesta 1 va con la noticia 1, la 2 con la 2, etc.\n// IMPORTANTE: Verifica que el nombre 'Code - Normalizador de Feeds' sea EXACTO.\nlet originalData = {};\ntry {\n    originalData = $('Code - Normalizador de Feeds').all()[$itemIndex].json;\n} catch (e) {\n    // Si falla la recuperación, mantenemos un objeto vacío para no romper el flujo\n    originalData = { error: \"No se pudo recuperar el dato original\" };\n}\n\nlet decision;\n\n// 3. Extracción Quirúrgica del JSON\n// Buscamos cualquier cosa que empiece por '{' y termine por '}', ignorando el resto.\nconst jsonMatch = aiContent.match(/\\{[\\s\\S]*\\}/);\n\nif (jsonMatch) {\n    try {\n        decision = JSON.parse(jsonMatch[0]);\n    } catch (e) {\n        decision = { is_relevant: false, reason: \"JSON inválido: \" + e.message };\n    }\n} else {\n    // Si no encontramos llaves, asumimos que no es relevante o la IA falló\n    decision = { is_relevant: false, reason: \"No se encontró estructura JSON en la respuesta\" };\n}\n\n// 4. Devolver la fusión\nreturn {\n    ...originalData,\n    relevance_decision: decision\n};"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        640,
-        64
-      ],
-      "id": "21a5daa2-d699-46e3-93fc-41251f58be41",
-      "name": "Code - Parsear Decision",
-      "executeOnce": false
     },
     {
       "parameters": {
@@ -180,10 +238,10 @@
           "conditions": [
             {
               "id": "82d2d0b8-48b0-4705-9b55-92c462ef09ce",
-              "leftValue": "={{ $json.relevance_decision.is_relevant }}",
-              "rightValue": true,
+              "leftValue": "={{ $json.relevance_decision.is_relevant_string }}",
+              "rightValue": "true",
               "operator": {
-                "type": "boolean",
+                "type": "string",
                 "operation": "equals"
               }
             }
@@ -195,11 +253,363 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        816,
-        64
+        -240,
+        -48
       ],
       "id": "934126a5-2e1b-45dd-bc77-f91fe17995dd",
       "name": "If - Es Relevante"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// INTELITE AI - PARSEADOR V7 (BÚSQUEDA PROFUNDA)\n// Este script busca recursivamente cualquier string que parezca un JSON válido con la clave \"is_relevant\"\n// No importa qué tan anidada esté la respuesta de OpenAI.\n\n// --- FUNCIÓN DE BÚSQUEDA RECURSIVA ---\nfunction findDecisionJson(obj) {\n    if (!obj) return null;\n\n    // 1. Si encontramos un Texto, comprobamos si contiene nuestra \"pepita de oro\"\n    if (typeof obj === 'string') {\n        // Buscamos si tiene la clave clave \"is_relevant\"\n        if (obj.includes('is_relevant')) {\n            try {\n                // Intentamos extraer el JSON\n                const match = obj.match(/\\{[\\s\\S]*\\}/);\n                if (match) {\n                    const parsed = JSON.parse(match[0]);\n                    // Verificamos que sea el objeto correcto\n                    if (parsed.hasOwnProperty('is_relevant')) {\n                        return parsed;\n                    }\n                }\n            } catch (e) {\n                // Si falla el parseo, seguimos buscando\n            }\n        }\n        return null;\n    }\n\n    // 2. Si es un Array o un Objeto, buceamos dentro (Recursión)\n    if (typeof obj === 'object') {\n        for (const key in obj) {\n            if (obj.hasOwnProperty(key)) {\n                const result = findDecisionJson(obj[key]);\n                if (result) return result; // ¡Encontrado! Devolvemos y paramos.\n            }\n        }\n    }\n\n    return null;\n}\n\n// --- EJECUCIÓN ---\n\n// Buscamos en todo el objeto $json entrante\nconst decisionFound = findDecisionJson($json) || {};\n\n// Lógica de seguridad por si no encuentra nada\nconst decisionFinal = {\n    is_relevant: decisionFound.is_relevant === true, // Forzamos booleano\n    reason: decisionFound.reason || \"ERROR: No se pudo encontrar la decisión en la respuesta de OpenAI\",\n    category: decisionFound.category || \"N/A\"\n};\n\n// Generamos el String para el nodo IF\nconst decisionString = decisionFinal.is_relevant ? \"true\" : \"false\";\n\n// Recuperamos datos originales de la noticia\nlet originalData = {};\ntry {\n    originalData = $('Code - Normalizador de Feeds').all()[$itemIndex].json;\n} catch (e) {\n    originalData = { error: \"Datos originales perdidos\" };\n}\n\nreturn {\n    ...originalData,\n    relevance_decision: {\n        ...decisionFinal,\n        is_relevant_string: decisionString\n    }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        736,
+        -272
+      ],
+      "id": "21a5daa2-d699-46e3-93fc-41251f58be41",
+      "name": "Code - Parsear Decision",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "=Eres el Editor Jefe de Contenidos en Intelite AI. Tu misión es demostrar que la empresa está al pulso de la actualidad en Inteligencia Artificial, generando conversación y valor real.\n\nTU OBJETIVO:\nEscribir un post de LinkedIn sobre la noticia proporcionada. El post debe ser accesible para cualquier profesional (no solo técnicos), informativo y debe invitar a la reflexión o al debate.\n\nINSTRUCCIONES DE VARIEDAD (Elige dinámicamente el mejor enfoque según la noticia):\nNo uses siempre la misma estructura. Analiza la noticia y adopta uno de estos ángulos:\n1. El Analista: Explica por qué esta noticia es importante y cambia el panorama actual.\n2. El Escéptico: Cuestiona el \"hype\" o plantea preguntas difíciles sobre las implicaciones éticas/sociales.\n3. El Visionario: Reflexiona sobre cómo esto afectará a la sociedad o las empresas en unos años.\n4. El Educador: Traduce un avance complejo a un lenguaje sencillo y explica su utilidad real.\n\nREGLAS DE ESTILO (Innegociables):\n- IDIOMA: Español de España, tono profesional pero cercano.\n- GANCHO: La primera frase debe captar la atención inmediatamente. PROHIBIDO empezar con \"¡Noticias emocionantes!\", \"En el mundo de hoy...\" o preguntas retóricas obvias.\n- FORMATO: Párrafos cortos (1-2 frases) muy fáciles de leer. Usa espacios en blanco.\n- CIERRE: Termina con una pregunta abierta genuina que invite al lector a dejar un comentario.\n- HASHTAGS: Incluye solo 3-5 hashtags relevantes al final.\n- FIRMA: No firmes el post, es para la página de empresa.\n\nIMPORTANTE: No menciones qué ángulo has elegido, simplemente escribe el post directamente."
+            },
+            {
+              "content": "=Título: {{ $json.article_title }}\nResumen: {{ $json.article_summary }}\nFuente: {{ $json.source_name }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        -16,
+        -48
+      ],
+      "id": "4a98408d-257b-4590-83cb-9eff8a3868ca",
+      "name": "OpenAI - Generador de Post",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// 1. Obtenemos el borrador del post que acaba de escribir la IA\nconst rawContent = $json.message?.content || $json.content || \"\";\n\n// 2. Limpieza: Quitamos comillas al inicio/final si las hay (\" \")\nconst cleanPost = rawContent.replace(/^\"|\"$/g, '').trim();\n\n// 3. Recuperamos los datos originales (Título, URL, Fuente)\n// Buscamos en el nodo 'If - Es Relevante' usando el índice actual ($itemIndex)\n// para asegurarnos de que el Post 1 se une con el Título 1.\nlet originalData = {};\ntry {\n     originalData = $('If - Es Relevante').all()[$itemIndex]?.json || {};\n} catch(e) {\n     console.log(\"Advertencia: No se pudieron recuperar datos originales\");\n}\n\n// 4. Salida Final: Datos originales + El Post limpio\nreturn {\n    ...originalData,\n    generated_post: cleanPost\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        336,
+        -48
+      ],
+      "id": "c2134fe2-db73-46fc-a6b9-c9cd54143bfb",
+      "name": "Code - Limpiar Post"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "=Actúa como un Director de Arte experto en estilo \"Tech Corporate\".\nTu tarea es leer un post de LinkedIn y extraer su concepto central para crear un prompt de DALL-E 3.\n\nESTÉTICA OBLIGATORIA (Incluye siempre al final):\n\"isometric 3D style, corporate memphis but sophisticated, color palette: deep navy blue, cyan neon accents and white, clean minimal background, unreal engine 5 render, high quality, no text, no letters, geometrical shapes, connecting nodes.\"\n\nTU TAREA:\n1. Lee el 'Post Redactado'.\n2. Identifica la metáfora principal o el tema central del texto.\n3. Crea un concepto visual ABSTRACTO que represente esa idea.\n4. Output: SOLO el prompt en inglés con la estética."
+            },
+            {
+              "content": "=Post Redactado: {{ $('OpenAI - Generador de Post').item.json.output[0].content[0].text }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        848,
+        -48
+      ],
+      "id": "9cc90162-43ed-4419-a6b4-1e7e83e38991",
+      "name": "OpenAI - Director de Arte",
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        544,
+        -48
+      ],
+      "id": "66df0c55-cca9-4fe5-b4fc-f00af0e60eee",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-pro-image-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-pro-image-preview (Nano Banana Pro)"
+        },
+        "prompt": "={{ $json.output[0].content[0].text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        -48
+      ],
+      "id": "0aee5d99-8a4d-4985-b105-212df4df7991",
+      "name": "Generate an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YHe997AlWBEa1Czy",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDVOmlNDqPNGoin",
+          "mode": "list",
+          "cachedResultName": "Content_Pipeline",
+          "cachedResultUrl": "https://airtable.com/appDVOmlNDqPNGoin"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblPtdeKyknU8RpyV",
+          "mode": "list",
+          "cachedResultName": "Content_Pipeline",
+          "cachedResultUrl": "https://airtable.com/appDVOmlNDqPNGoin/tblPtdeKyknU8RpyV"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Generated Image": "=",
+            "Headline": "=",
+            "Generated Copy": "="
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Headline",
+              "displayName": "Headline",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Generated Copy",
+              "displayName": "Generated Copy",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Generated Image",
+              "displayName": "Generated Image",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Draft",
+                  "value": "Draft"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Source URL",
+              "displayName": "Source URL",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Related Task",
+              "displayName": "Related Task",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1552,
+        -224
+      ],
+      "id": "80e7b270-95cd-4491-940b-c6f3c5cac17e",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OwtNlpzJfBnO2SmU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1fQnfugN6uw-bbFW1rzVZmQfQZ8n20gR8LnfZc13-VeA",
+          "mode": "list",
+          "cachedResultName": "Post Automaticos Linkedin",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fQnfugN6uw-bbFW1rzVZmQfQZ8n20gR8LnfZc13-VeA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fQnfugN6uw-bbFW1rzVZmQfQZ8n20gR8LnfZc13-VeA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Headline": "={{ $('Code - Limpiar Post').item.json.article_title }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Headline",
+              "displayName": "Headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Generate Copy",
+              "displayName": "Generate Copy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Generate Image",
+              "displayName": "Generate Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Source URL",
+              "displayName": "Source URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1408,
+        -48
+      ],
+      "id": "b92fbaab-41c9-41cd-b76a-6debb212e097",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "pinData": {
@@ -685,6 +1095,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-12-15T20:37:05.655Z",
-  "versionId": "d30bb023-33b4-40f7-bd93-e600f1af1782"
+  "updatedAt": "2025-12-16T10:40:00.307Z",
+  "versionId": "569885ea-6ea3-4d53-bad7-9f5e489c5604"
 }
