@@ -1,7 +1,78 @@
 {
-  "active": false,
-  "activeVersion": null,
-  "activeVersionId": null,
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T18:04:13.692Z",
+    "createdAt": "2025-11-26T18:04:13.692Z",
+    "versionId": "9e6433d7-f7ef-4e33-ba16-81f5b8c75195",
+    "workflowId": "RdHkt2rWtKWTwIJU",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "Mensaje"
+              }
+            ]
+          }
+        },
+        "id": "9a32ff3c-3ecd-420d-9e0c-d8bcc1b2d65b",
+        "typeVersion": 1.1,
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          0,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "create",
+          "databaseId": 40,
+          "tableId": 698,
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": 6754,
+                "fieldValue": "={{ $json.Mensaje }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.baserow",
+        "typeVersion": 1,
+        "position": [
+          224,
+          0
+        ],
+        "id": "c4b4d9e6-7328-42ed-b944-0ba64b6d1d90",
+        "name": "Create a row",
+        "credentials": {
+          "baserowApi": {
+            "id": "Y1ARKRpDlDNJXNDd",
+            "name": "Baserow account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Create a row",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "9e6433d7-f7ef-4e33-ba16-81f5b8c75195",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
