@@ -1,7 +1,189 @@
 {
-  "active": false,
-  "activeVersion": null,
-  "activeVersionId": null,
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T18:04:13.692Z",
+    "createdAt": "2025-11-26T18:04:13.692Z",
+    "versionId": "da885adf-cd68-45af-b113-7db259aa8585",
+    "workflowId": "fQ3uRhF4a3ejdORn",
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "id": "c055762a-8fe7-4141-a639-df2372f30060",
+        "typeVersion": 1.1,
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          272,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "databaseId": 40,
+          "tableId": 697,
+          "returnAll": true,
+          "additionalOptions": {}
+        },
+        "type": "n8n-nodes-base.baserow",
+        "typeVersion": 1,
+        "position": [
+          480,
+          352
+        ],
+        "id": "e47f98cd-223b-4fc1-8ebc-d3196981b863",
+        "name": "Get many rows",
+        "credentials": {
+          "baserowApi": {
+            "id": "Y1ARKRpDlDNJXNDd",
+            "name": "Baserow account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "aggregate": "aggregateAllItemData",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          816,
+          352
+        ],
+        "id": "da62d901-bae5-4704-bac6-0d3a24004216",
+        "name": "Aggregate"
+      },
+      {
+        "parameters": {
+          "fieldsToSummarize": {
+            "values": [
+              {
+                "aggregation": "append",
+                "field": "Tipo de propiedad"
+              },
+              {
+                "aggregation": "append",
+                "field": "Ciudad/Pueblo"
+              },
+              {
+                "aggregation": "append",
+                "field": "Barrio/Zona"
+              },
+              {
+                "aggregation": "append",
+                "field": "m2"
+              },
+              {
+                "aggregation": "append",
+                "field": "Precio"
+              },
+              {
+                "aggregation": "append",
+                "field": "Número de habitaciones"
+              },
+              {
+                "aggregation": "append",
+                "field": "Aire acondicionado"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.summarize",
+        "typeVersion": 1.1,
+        "position": [
+          656,
+          352
+        ],
+        "id": "942da860-cbd1-4732-83e4-e050d839be0f",
+        "name": "Summarize"
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "models/gemini-2.5-flash",
+            "mode": "list",
+            "cachedResultName": "models/gemini-2.5-flash"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "=Utiliza tu base de datos que tienes en el prompt para devolverme la respuesta a mi pregunta que es esta: {{ $('When Executed by Another Workflow').item.json.query }}\n\n{{(() => {\n  const d = $json.data[0];\n  const total = d.appended_Tipo_de_propiedad.length;\n  return Array.from({ length: total }).map((_, i) =>\n`Tipo de propiedad: ${d.appended_Tipo_de_propiedad[i]}\nCiudad/Pueblo: ${d[\"appended_Ciudad/Pueblo\"][i]}\nBarrio/Zona: ${d[\"appended_Barrio/Zona\"][i]}\nm2: ${d.appended_m2[i]}\nPrecio: ${d.appended_Precio[i]}\nNúmero de habitaciones: ${d[\"appended_Número_de_habitaciones\"][i]}\nAire acondicionado: ${d.appended_Aire_acondicionado ? d.appended_Aire_acondicionado[i] : \"\"}\n\n`\n  ).join('\\n');\n})()}}\n\n\n\n\n"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.googleGemini",
+        "typeVersion": 1,
+        "position": [
+          1024,
+          352
+        ],
+        "id": "a4b114b4-e3be-4f75-9211-5182b9402809",
+        "name": "Message a model",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "YHe997AlWBEa1Czy",
+            "name": "Google Gemini(PaLM) Api account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Get many rows",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many rows": {
+        "main": [
+          [
+            {
+              "node": "Summarize",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Summarize": {
+        "main": [
+          [
+            {
+              "node": "Aggregate",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Aggregate": {
+        "main": [
+          [
+            {
+              "node": "Message a model",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "da885adf-cd68-45af-b113-7db259aa8585",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
