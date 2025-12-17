@@ -1,7 +1,147 @@
 {
-  "active": false,
-  "activeVersion": null,
-  "activeVersionId": null,
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-15T12:50:18.791Z",
+    "createdAt": "2025-12-15T12:50:18.791Z",
+    "versionId": "a21cf599-6f08-455f-9715-b0680de13415",
+    "workflowId": "N23XRp0TPEoFPfIf",
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "id": "c055762a-8fe7-4141-a639-df2372f30060",
+        "typeVersion": 1.1,
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          64,
+          336
+        ]
+      },
+      {
+        "parameters": {
+          "chatId": "7186973879",
+          "text": "=Falta Entrenamiento | Pregunta: {{ $json.chatInput }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          256,
+          336
+        ],
+        "id": "260b5c89-f7b8-4e6c-b580-165afd81693a",
+        "name": "Notificación en Telegram",
+        "webhookId": "3909781c-e39c-4185-87f1-a2e2707e6b18",
+        "credentials": {
+          "telegramApi": {
+            "id": "GyCkN7M0nmQB9BTK",
+            "name": "Telegram account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE",
+            "mode": "list",
+            "cachedResultName": "Preguntas sin respuesta",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Hoja 1",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Pregunta": "={{ $('When Executed by Another Workflow').item.json.chatInput }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Pregunta",
+                "displayName": "Pregunta",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Respuesta",
+                "displayName": "Respuesta",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          464,
+          336
+        ],
+        "id": "1dc0e520-0c67-435a-a137-e413297258ea",
+        "name": "Rellenar pregunta",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Notificación en Telegram",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Notificación en Telegram": {
+        "main": [
+          [
+            {
+              "node": "Rellenar pregunta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Rellenar pregunta": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "a21cf599-6f08-455f-9715-b0680de13415",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
