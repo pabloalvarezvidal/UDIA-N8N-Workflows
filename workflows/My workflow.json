@@ -1,22 +1,112 @@
 {
-  "active": false,
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-26T10:55:18.000Z",
+    "createdAt": "2025-12-26T10:54:04.970Z",
+    "versionId": "0228d72d-22be-43d6-9fa2-3d722cbc344a",
+    "workflowId": "0G9ukRQxqYnRiX4e",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "intelite-website-form-client-v1",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "e83f7724-8c4f-4b3b-93dc-a90e57f5d24c",
+        "name": "Webhook",
+        "webhookId": "03e66e96-be73-40bd-8bb6-9746a729d804"
+      },
+      {
+        "parameters": {
+          "sendTo": "inteliteai@gmail.com",
+          "subject": "={{ $json.subject }}",
+          "message": "={{ $json.html }}",
+          "options": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.2,
+        "position": [
+          464,
+          -48
+        ],
+        "id": "37e13747-6e0f-4c9d-bab8-ac639024be8c",
+        "name": "Send a message",
+        "webhookId": "f760cd2d-6be5-4991-b0ab-550db1014c50",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "FhGOZ7dk8SKIOH6F",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// 1. Recogemos los datos que vienen del Webhook\n// Nota: Dependiendo de tu config del Webhook, los datos pueden estar en \n// items[0].json.body o directamente en items[0].json\nconst inputData = items[0].json.body || items[0].json;\n\nconst name = inputData.name || 'Desconocido';\nconst email = inputData.email || 'No especificado';\nconst message = inputData.message || 'Sin mensaje';\nconst date = new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });\n\n// 2. Diseñamos el HTML del correo (Estilo Intelite AI)\n// Usamos estilos inline porque Gmail borra las hojas de estilo externas.\nconst emailHtml = `\n<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');\n  </style>\n</head>\n<body style=\"margin: 0; padding: 0; background-color: #ECEDF1; font-family: 'Poppins', sans-serif, Arial;\">\n  \n  <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"background-color: #ECEDF1; padding: 40px 0;\">\n    <tr>\n      <td align=\"center\">\n        \n        <table width=\"600\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05);\">\n          \n          <tr>\n            <td style=\"background-color: #006DE7; padding: 30px; text-align: center;\">\n              <h1 style=\"color: #ffffff; margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.5px;\">\n                Nuevo Lead Capturado\n              </h1>\n              <p style=\"color: rgba(255,255,255,0.8); margin: 5px 0 0 0; font-size: 14px;\">\n                Desde Formulario Web - Intelite AI\n              </p>\n            </td>\n            </tr>\n\n          <tr>\n            <td style=\"padding: 40px;\">\n              \n              <p style=\"margin: 0 0 5px 0; color: #9CA3AF; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;\">Nombre del contacto</p>\n              <p style=\"margin: 0 0 25px 0; color: #111827; font-size: 18px; font-weight: 500;\">\n                ${name}\n              </p>\n\n              <p style=\"margin: 0 0 5px 0; color: #9CA3AF; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;\">Correo Electrónico</p>\n              <p style=\"margin: 0 0 25px 0; color: #006DE7; font-size: 18px; font-weight: 500; text-decoration: none;\">\n                <a href=\"mailto:${email}\" style=\"color: #006DE7; text-decoration: none;\">${email}</a>\n              </p>\n\n              <p style=\"margin: 0 0 10px 0; color: #9CA3AF; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;\">Mensaje</p>\n              <div style=\"background-color: #F9FAFB; border-left: 4px solid #006DE7; padding: 20px; border-radius: 8px; color: #374151; line-height: 1.6;\">\n                ${message.replace(/\\n/g, '<br>')}\n              </div>\n\n            </td>\n            </tr>\n\n          <tr>\n            <td style=\"background-color: #F3F4F6; padding: 20px; text-align: center; border-top: 1px solid #E5E7EB;\">\n              <p style=\"color: #6B7280; font-size: 12px; margin: 0;\">\n                Recibido el ${date} <br>\n                <strong>Intelite AI System</strong>\n              </p>\n            </td>\n            </tr>\n\n        </table>\n      </td>\n    </tr>\n  </table>\n\n</body>\n</html>\n`;\n\n// 3. Devolvemos los datos para el siguiente nodo (Gmail)\nreturn [\n  {\n    json: {\n      subject: `🚀 Nuevo Lead: ${name}`,\n      html: emailHtml,\n      replyTo: email\n    }\n  }\n];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          240,
+          -64
+        ],
+        "id": "55e97edf-9628-4e40-8343-85a03764f2a1",
+        "name": "Code in JavaScript"
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "Send a message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version 0228d72d",
+    "description": ""
+  },
+  "activeVersionId": "0228d72d-22be-43d6-9fa2-3d722cbc344a",
   "connections": {
-    "When clicking ‘Execute workflow’": {
+    "Webhook": {
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "HTTP Request": {
+    "Code in JavaScript": {
       "main": [
         [
           {
-            "node": "Append row in sheet",
+            "node": "Send a message",
             "type": "main",
             "index": 0
           }
@@ -24,8 +114,8 @@
       ]
     }
   },
-  "createdAt": "2025-11-08T17:05:53.943Z",
-  "id": "7ifWGEIaNiHYGDO3",
+  "createdAt": "2025-12-26T10:48:14.489Z",
+  "id": "0G9ukRQxqYnRiX4e",
   "isArchived": false,
   "meta": {
     "templateCredsSetupCompleted": true
@@ -33,90 +123,58 @@
   "name": "My workflow",
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "intelite-website-form-client-v1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
       "position": [
         0,
         0
       ],
-      "id": "b36b9287-78ce-44e2-9d0f-5b7901495b3b",
-      "name": "When clicking ‘Execute workflow’"
+      "id": "e83f7724-8c4f-4b3b-93dc-a90e57f5d24c",
+      "name": "Webhook",
+      "webhookId": "03e66e96-be73-40bd-8bb6-9746a729d804"
     },
     {
       "parameters": {
-        "authentication": "genericCredentialType",
-        "options": {}
+        "sendTo": "inteliteai@gmail.com",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.html }}",
+        "options": {
+          "appendAttribution": false
+        }
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
       "position": [
-        208,
-        0
+        464,
+        -48
       ],
-      "id": "c6c785b8-9757-4292-9f02-77281bf26ceb",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "10wnTxQsepDevHXiei3_dUZyPHgyBOiNR-ffsJAXhL0M",
-          "mode": "list",
-          "cachedResultName": "AGENDAS CLINICA",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10wnTxQsepDevHXiei3_dUZyPHgyBOiNR-ffsJAXhL0M/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Hoja 1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10wnTxQsepDevHXiei3_dUZyPHgyBOiNR-ffsJAXhL0M/edit#gid=0"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {},
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "numero",
-              "displayName": "numero",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "id calendar",
-              "displayName": "id calendar",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        416,
-        0
-      ],
-      "id": "d184bfd7-2fb7-4c43-a973-3172d999fd6c",
-      "name": "Append row in sheet",
+      "id": "37e13747-6e0f-4c9d-bab8-ac639024be8c",
+      "name": "Send a message",
+      "webhookId": "f760cd2d-6be5-4991-b0ab-550db1014c50",
       "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "7QvCi5UUFUsiQIlm",
-          "name": "Google Sheets account"
+        "gmailOAuth2": {
+          "id": "FhGOZ7dk8SKIOH6F",
+          "name": "Gmail account"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Recogemos los datos\nconst inputData = items[0].json.body || items[0].json;\n\nconst name = inputData.name || 'Desconocido';\nconst email = inputData.email || 'No especificado';\nconst message = inputData.message || 'Sin mensaje';\nconst userAgent = inputData.userAgent || '';\nconst date = new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });\n\n// --- LÓGICA TÉCNICA DE DISPOSITIVO (SIN EMOJIS) ---\nlet device = \"Escritorio / Desconocido\";\nlet techDetails = userAgent; // Guardamos el raw string por si acaso\n\nif (/iPhone/i.test(userAgent)) {\n    // Apple oculta el modelo exacto, extraemos la versión de iOS\n    const iosVersion = userAgent.match(/OS\\s([\\d_]+)/)?.[1]?.replace(/_/g, '.') || \"\";\n    device = `Apple iPhone - iOS ${iosVersion}`;\n} else if (/iPad/i.test(userAgent)) {\n    device = \"Apple iPad\";\n} else if (/Android/i.test(userAgent)) {\n    // En Android extraemos el modelo exacto (Suele estar antes de 'Build/')\n    // Ej: \"...; SM-S918B Build/...\" -> SM-S918B (Samsung S23 Ultra)\n    const match = userAgent.match(/;\\s([^;]+?)\\sBuild\\//);\n    device = match ? `Android: ${match[1].trim()}` : \"Android (Modelo no detectado)\";\n} else if (/Macintosh/i.test(userAgent)) {\n    device = \"Apple Mac / MacBook\";\n} else if (/Windows/i.test(userAgent)) {\n    device = \"PC Windows\";\n} else if (/Linux/i.test(userAgent)) {\n    device = \"Sistema Linux\";\n}\n\n// 2. HTML PROFESIONAL (Estilo Corporativo)\nconst emailHtml = `\n<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');\n  </style>\n</head>\n<body style=\"margin: 0; padding: 0; background-color: #ECEDF1; font-family: 'Poppins', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;\">\n  \n  <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"background-color: #ECEDF1; padding: 40px 0;\">\n    <tr>\n      <td align=\"center\">\n        \n        <table width=\"600\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 15px rgba(0,0,0,0.08); border: 1px solid #E5E7EB;\">\n          \n          <tr>\n            <td style=\"background-color: #006DE7; padding: 30px 40px;\">\n              <h1 style=\"color: #ffffff; margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.5px;\">\n                Nuevo Lead\n              </h1>\n              <p style=\"color: rgba(255,255,255,0.9); margin: 5px 0 0 0; font-size: 13px; font-weight: 400;\">\n                Origen: Formulario Web\n              </p>\n            </td>\n          </tr>\n\n          <tr>\n            <td style=\"padding: 40px;\">\n              \n              <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"margin-bottom: 30px;\">\n                <tr>\n                  <td width=\"30%\" style=\"padding-bottom: 15px; color: #6B7280; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;\">Nombre</td>\n                  <td width=\"70%\" style=\"padding-bottom: 15px; color: #111827; font-size: 16px; font-weight: 500;\">${name}</td>\n                </tr>\n                <tr>\n                  <td style=\"padding-bottom: 15px; color: #6B7280; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;\">Email</td>\n                  <td style=\"padding-bottom: 15px; color: #006DE7; font-size: 16px; font-weight: 500;\"><a href=\"mailto:${email}\" style=\"color: #006DE7; text-decoration: none;\">${email}</a></td>\n                </tr>\n              </table>\n\n              <div style=\"background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 15px; margin-bottom: 30px;\">\n                 <p style=\"margin: 0 0 5px 0; color: #475569; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;\">Dispositivo / Modelo</p>\n                 <p style=\"margin: 0; font-size: 15px; color: #0F172A; font-family: monospace, sans-serif; font-weight: 600;\">\n                    ${device}\n                 </p>\n                 <p style=\"margin: 8px 0 0 0; font-size: 10px; color: #94A3B8; font-family: monospace; line-height: 1.4; overflow-wrap: break-word;\">\n                    User-Agent: ${userAgent}\n                 </p>\n              </div>\n\n              <p style=\"margin: 0 0 10px 0; color: #6B7280; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;\">Mensaje del cliente</p>\n              <div style=\"background-color: #ffffff; border-left: 3px solid #006DE7; padding: 10px 20px; color: #374151; line-height: 1.6; font-size: 15px;\">\n                ${message.replace(/\\n/g, '<br>')}\n              </div>\n\n            </td>\n          </tr>\n\n          <tr>\n            <td style=\"background-color: #F9FAFB; padding: 20px 40px; border-top: 1px solid #E5E7EB;\">\n              <table width=\"100%\" border=\"0\">\n                <tr>\n                  <td style=\"color: #9CA3AF; font-size: 11px;\">\n                    Recibido: ${date}\n                  </td>\n                  <td align=\"right\" style=\"color: #9CA3AF; font-size: 11px; font-weight: 600;\">\n                    INTELITE AI\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n\n        </table>\n      </td>\n    </tr>\n  </table>\n\n</body>\n</html>\n`;\n\nreturn [\n  {\n    json: {\n      subject: `Nuevo Lead: ${name}`,\n      html: emailHtml,\n      replyTo: email,\n      deviceModel: device\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        -64
+      ],
+      "id": "55e97edf-9628-4e40-8343-85a03764f2a1",
+      "name": "Code in JavaScript"
     }
   ],
   "pinData": {},
@@ -125,16 +183,16 @@
   },
   "shared": [
     {
-      "createdAt": "2025-11-08T17:05:53.951Z",
-      "updatedAt": "2025-11-08T17:05:53.951Z",
+      "updatedAt": "2025-12-26T10:48:14.500Z",
+      "createdAt": "2025-12-26T10:48:14.500Z",
       "role": "workflow:owner",
-      "workflowId": "7ifWGEIaNiHYGDO3",
+      "workflowId": "0G9ukRQxqYnRiX4e",
       "projectId": "ROscBA9yKA7j3TQn"
     }
   ],
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2025-11-08T17:05:53.943Z",
-  "versionId": "99d3113f-ad2c-4c7e-ab26-05d1556a35c7"
+  "triggerCount": 1,
+  "updatedAt": "2025-12-26T11:30:16.296Z",
+  "versionId": "c0bf5c13-98a3-4efe-9f8c-11437124730a"
 }
