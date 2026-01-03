@@ -1,0 +1,270 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-29T23:05:49.260Z",
+  "id": "AkAaY8fWKyGiG5ac",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[INTELITE] SCRAPER",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -160
+      ],
+      "id": "f565ea44-5153-4dfd-bef9-a8c79c064d48",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega aquí tus 17 URLs entre comillas y separadas por comas\nconst misUrls = [\n  \"https://zenitclinic.com/implantologia-dental-carga-inmediata/\",\n  \"https://zenitclinic.com/implantes-dentales/\",\n  \"https://zenitclinic.com/ortodoncia-invisible/\",\n  \"https://zenitclinic.com/ortodoncia/\",\n  \"https://zenitclinic.com/carillas-dentales/\",\n  \"https://zenitclinic.com/periodoncia/\",\n  \"https://zenitclinic.com/estetica-dental/\",\n  \"https://zenitclinic.com/dentista-infantil-alicante/\",\n  \"https://zenitclinic.com/endodoncia/\",\n  \"https://zenitclinic.com/blanqueamiento-dental/\",\n  \"https://zenitclinic.com/medicina-estetica/\",\n  \"https://zenitclinic.com/doctora-serezade-rodriguez/\",\n  \"https://zenitclinic.com/doctor-vicente-belvis/\",\n  \"https://zenitclinic.com/equipo-medico-dental/\",\n  \"https://zenitclinic.com/clinica-dental-playa-san-juan/\",\n  \"https://zenitclinic.com/clinica-albufereta/\",\n  \"https://zenitclinic.com/\"\n];\n\n// Este código convierte esa lista simple en el formato que n8n necesita para trabajar en bucle\nreturn misUrls.map(url => {\n  return {\n    json: {\n      url: url\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        -160
+      ],
+      "id": "47de24c7-ba66-49ce-ae4c-ff805000f6fe",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        432,
+        -224
+      ],
+      "id": "9c96cf05-66d3-4193-92c4-fc824bb779fd",
+      "name": "Wait",
+      "webhookId": "2a95b8a5-f577-4fd2-9c2a-0721f0079b2f"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Code in JavaScript').item.json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        656,
+        -224
+      ],
+      "id": "de65778c-2bdf-43ec-8593-84ab1bb5e91a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtenemos el HTML crudo que viene del nodo HTTP\n// A veces viene en 'data', otras veces n8n lo pone directo en el body\nconst input = $input.first().json;\nconst html = input.data || input.body || JSON.stringify(input); \n\n// Limpieza\nconst textoLimpio = html\n  .replace(/<style[^>]*>[\\s\\S]*?<\\/style>/gi, '') // Adiós CSS\n  .replace(/<script[^>]*>[\\s\\S]*?<\\/script>/gi, '') // Adiós JS scripts\n  .replace(/<[^>]+>/g, ' ') // Adiós etiquetas HTML\n  .replace(/\\s+/g, ' ') // Adiós espacios dobles\n  .trim();\n\n// Pasamos también la URL original para saber de dónde vino este texto\nreturn [\n  {\n    json: {\n      url_origen: $input.first().json.url, // Mantenemos la referencia\n      contenido: textoLimpio\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        -224
+      ],
+      "id": "48d83f87-cc87-420e-ac75-db6fd296751f",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        208,
+        -160
+      ],
+      "id": "06850817-ab75-445f-90af-f86b0648f695",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        -160
+      ],
+      "id": "38531fb4-fdc3-45a8-b776-4a0a4676f718"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Cogemos todos los ítems que han llegado a este nodo (los 17 textos)\nconst items = $input.all();\n\nlet textoCompleto = \"\";\nconst fechaHoy = new Date().toISOString().split('T')[0];\n\n// Encabezado\ntextoCompleto += `BASE DE CONOCIMIENTO - ZENIT CLINIC\\n`;\ntextoCompleto += `Fecha: ${fechaHoy} | Páginas: ${items.length}\\n`;\ntextoCompleto += `--------------------------------------------------\\n\\n`;\n\n// Bucle para pegar cada texto uno debajo del otro\nfor (const item of items) {\n  // Ajustamos para leer del JSON que te llega\n  const datos = item.json;\n  \n  // Usamos los nombres de variables que definimos en el nodo limpiador anterior\n  const url = datos.url_origen || datos.url || \"URL no especificada\";\n  const texto = datos.contenido || datos.texto_limpio || \"Sin contenido\";\n\n  textoCompleto += `### PÁGINA: ${url}\\n`;\n  textoCompleto += `\\n${texto}\\n`;\n  textoCompleto += `\\n==================================================\\n\\n`;\n}\n\n// Salida: Un solo objeto con todo el texto listo para Google Docs\nreturn [\n  {\n    json: {\n      nombre_archivo: `Base_Conocimiento_${fechaHoy}`,\n      contenido_final: textoCompleto\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        384,
+        -432
+      ],
+      "id": "8ef29101-c599-4d0d-b386-fe8abd2a5845",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "https://docs.google.com/document/d/11mmBU4V84-F7QEq4RR-K--jLVZ53SUKs6IMy-GVylrk/edit?tab=t.0",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $json.contenido_final }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        592,
+        -432
+      ],
+      "id": "4055b3ec-ccb5-4974-924e-f09300d8a6dd",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "NGEWWNivLd63JJu8",
+          "name": "Google Docs account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-29T23:05:49.274Z",
+      "createdAt": "2025-12-29T23:05:49.274Z",
+      "role": "workflow:owner",
+      "workflowId": "AkAaY8fWKyGiG5ac",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-03T18:40:28.584Z",
+  "versionId": "b2e0c5a2-c1a3-4611-9832-ce52d60e24fe"
+}
