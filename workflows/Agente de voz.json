@@ -1,0 +1,46 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {},
+  "createdAt": "2026-01-03T18:40:42.566Z",
+  "id": "LT5zsI4GUVbu7oGQ",
+  "isArchived": false,
+  "meta": null,
+  "name": "Agente de voz",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "agente-voz-clinica-zenit",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "47a6fb23-907d-46d2-b9e6-c82d383236a1",
+      "name": "Webhook",
+      "webhookId": "3a8d9ef0-6d22-4470-9e6e-77019c801492"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-03T18:40:42.589Z",
+      "createdAt": "2026-01-03T18:40:42.589Z",
+      "role": "workflow:owner",
+      "workflowId": "LT5zsI4GUVbu7oGQ",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-03T18:51:46.941Z",
+  "versionId": "5a4e94d1-1e15-4fdd-94bc-a79f2cfe89f5"
+}
