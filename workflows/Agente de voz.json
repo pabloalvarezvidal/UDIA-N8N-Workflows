@@ -1,33 +1,2139 @@
 {
-  "active": false,
-  "activeVersion": null,
-  "activeVersionId": null,
-  "connections": {},
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-04T19:59:26.000Z",
+    "createdAt": "2026-01-04T19:59:23.727Z",
+    "versionId": "82571940-e935-4440-a4de-5222104ded1a",
+    "workflowId": "LT5zsI4GUVbu7oGQ",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "agendar-cita",
+          "responseMode": "lastNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          -16
+        ],
+        "id": "47a6fb23-907d-46d2-b9e6-c82d383236a1",
+        "name": "Webhook",
+        "webhookId": "3a8d9ef0-6d22-4470-9e6e-77019c801492"
+      },
+      {
+        "parameters": {
+          "operation": "create",
+          "base": {
+            "__rl": true,
+            "value": "appNLaeIrGsIc395P",
+            "mode": "list",
+            "cachedResultName": "Clinica dental",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+          },
+          "table": {
+            "__rl": true,
+            "value": "tbl1hrxyWHKnxxzGI",
+            "mode": "list",
+            "cachedResultName": "Clientes",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl1hrxyWHKnxxzGI"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Nombre": "={{ $('Webhook').item.json.body.nombre_cliente }}",
+              "Telefono": "={{ $('Webhook').item.json.body.numero_telefono }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Nombre",
+                "displayName": "Nombre",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Telefono",
+                "displayName": "Telefono",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "ID_Cliente",
+                "displayName": "ID_Cliente",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": true,
+                "removed": true
+              },
+              {
+                "id": "Citas",
+                "displayName": "Citas",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "array",
+                "readOnly": false,
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.1,
+        "position": [
+          672,
+          80
+        ],
+        "id": "44340322-fd44-4de3-a2d7-40b13ca3d08c",
+        "name": "crear nuevo cliente",
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "l787fY54TR1NiFZ3",
+            "name": "AIRTABLE INTELITE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "search",
+          "base": {
+            "__rl": true,
+            "value": "appNLaeIrGsIc395P",
+            "mode": "list",
+            "cachedResultName": "Clinica dental",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+          },
+          "table": {
+            "__rl": true,
+            "value": "tbl1hrxyWHKnxxzGI",
+            "mode": "list",
+            "cachedResultName": "Clientes",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl1hrxyWHKnxxzGI"
+          },
+          "filterByFormula": "={Telefono} = '{{ $('Webhook').item.json.body.numero_telefono }}'",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.1,
+        "position": [
+          224,
+          -16
+        ],
+        "id": "646888bb-f37d-4ac5-b72d-a28b570781b8",
+        "name": "comprobar numero",
+        "alwaysOutputData": true,
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "l787fY54TR1NiFZ3",
+            "name": "AIRTABLE INTELITE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "a2b56824-dc23-4324-a9e8-e092dc9414bc",
+                "leftValue": "={{ $json.id }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          448,
+          -16
+        ],
+        "id": "256e9cbe-712c-4401-99ee-ba5032f5aa28",
+        "name": "existente"
+      },
+      {
+        "parameters": {
+          "operation": "create",
+          "base": {
+            "__rl": true,
+            "value": "appNLaeIrGsIc395P",
+            "mode": "list",
+            "cachedResultName": "Clinica dental",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+          },
+          "table": {
+            "__rl": true,
+            "value": "tbl08JdusGZNIaCUH",
+            "mode": "list",
+            "cachedResultName": "Citas",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Servicio": "={{ $('Webhook').item.json.body.servicio_cita }}",
+              "Fecha": "={{ DateTime.fromISO($('Webhook').item.json.body.fecha_solicitada).toFormat('dd-MM-yyyy') }}",
+              "Hora": "={{ $('Webhook').item.json.body.hora_solicitada }}",
+              "Estado": "Confirmada",
+              "ID Cliente": "={{ $json.id }}",
+              "Clientes": "={{ [ $json[\"id\"] ] }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Servicio",
+                "displayName": "Servicio",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Fecha",
+                "displayName": "Fecha",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Hora",
+                "displayName": "Hora",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Estado",
+                "displayName": "Estado",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "options",
+                "options": [
+                  {
+                    "name": "Confirmada",
+                    "value": "Confirmada"
+                  },
+                  {
+                    "name": "Cancelada",
+                    "value": "Cancelada"
+                  }
+                ],
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "ID Cliente",
+                "displayName": "ID Cliente",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Clientes",
+                "displayName": "Clientes",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "array",
+                "readOnly": false,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.1,
+        "position": [
+          896,
+          80
+        ],
+        "id": "777294e5-4e4a-4b36-8519-2d143063d49a",
+        "name": "crear nueva cita",
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "l787fY54TR1NiFZ3",
+            "name": "AIRTABLE INTELITE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $('Webhook').item.json.body.accion }}",
+                      "rightValue": "crear",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      },
+                      "id": "94ae1004-733d-4743-8422-8c4fa499b970"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "crear"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "947d7f91-9688-4bbe-bf94-cf1b9a5997cc",
+                      "leftValue": "={{ $('Webhook').item.json.body.accion }}",
+                      "rightValue": "cancelar",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "cancelar"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "553dbc50-b3fa-466f-8591-ec49eb51c42a",
+                      "leftValue": "={{ $('Webhook').item.json.body.accion }}",
+                      "rightValue": "modificar",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "modificar"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          672,
+          -304
+        ],
+        "id": "bf15edb5-aa20-4952-ace8-d96301529139",
+        "name": "Accion"
+      },
+      {
+        "parameters": {
+          "operation": "create",
+          "base": {
+            "__rl": true,
+            "value": "appNLaeIrGsIc395P",
+            "mode": "list",
+            "cachedResultName": "Clinica dental",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+          },
+          "table": {
+            "__rl": true,
+            "value": "tbl08JdusGZNIaCUH",
+            "mode": "list",
+            "cachedResultName": "Citas",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Servicio": "={{ $('Webhook').item.json.body.servicio_cita }}",
+              "Fecha": "={{ DateTime.fromISO($('Webhook').item.json.body.fecha_solicitada).toFormat('dd-MM-yyyy') }}",
+              "Hora": "={{ $('Webhook').item.json.body.hora_solicitada }}",
+              "Estado": "Confirmada",
+              "Cliente": "={{ [ $json[\"id\"] ] }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Servicio",
+                "displayName": "Servicio",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Fecha",
+                "displayName": "Fecha",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Hora",
+                "displayName": "Hora",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Estado",
+                "displayName": "Estado",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "options",
+                "options": [
+                  {
+                    "name": "Confirmada",
+                    "value": "Confirmada"
+                  },
+                  {
+                    "name": "Cancelada",
+                    "value": "Cancelada"
+                  }
+                ],
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Cliente",
+                "displayName": "Cliente",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "array",
+                "readOnly": false,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.1,
+        "position": [
+          1104,
+          -496
+        ],
+        "id": "20ef5f84-6c66-4e23-950e-edda5ad893a3",
+        "name": "crear nueva cita cliente existente",
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "l787fY54TR1NiFZ3",
+            "name": "AIRTABLE INTELITE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "search",
+          "base": {
+            "__rl": true,
+            "value": "appNLaeIrGsIc395P",
+            "mode": "list",
+            "cachedResultName": "Clinica dental",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+          },
+          "table": {
+            "__rl": true,
+            "value": "tbl08JdusGZNIaCUH",
+            "mode": "list",
+            "cachedResultName": "Citas",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+          },
+          "filterByFormula": "=AND( {Fecha} = '{{ DateTime.fromISO($('Webhook').item.json.body.fecha_solicitada).toFormat('dd-MM-yyyy') }}', {ID Cliente} = '{{ $json.ID_Cliente }}' )",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.1,
+        "position": [
+          1104,
+          -288
+        ],
+        "id": "7a912ea9-8088-4280-89a1-171989f9ac91",
+        "name": "buscar cita cliente existente",
+        "alwaysOutputData": false,
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "l787fY54TR1NiFZ3",
+            "name": "AIRTABLE INTELITE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "search",
+          "base": {
+            "__rl": true,
+            "value": "appNLaeIrGsIc395P",
+            "mode": "list",
+            "cachedResultName": "Clinica dental",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+          },
+          "table": {
+            "__rl": true,
+            "value": "tbl08JdusGZNIaCUH",
+            "mode": "list",
+            "cachedResultName": "Citas",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+          },
+          "filterByFormula": "=AND( {Fecha} = '{{ DateTime.fromISO($('Webhook').item.json.body.fecha_solicitada).toFormat('dd-MM-yyyy') }}', {ID Cliente} = '{{ $json.ID_Cliente }}' )",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.1,
+        "position": [
+          1104,
+          -80
+        ],
+        "id": "a1dd3393-7095-45c6-afdd-b426ee05ea2e",
+        "name": "buscar cita cliente existente 2",
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "l787fY54TR1NiFZ3",
+            "name": "AIRTABLE INTELITE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "base": {
+            "__rl": true,
+            "value": "appNLaeIrGsIc395P",
+            "mode": "list",
+            "cachedResultName": "Clinica dental",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+          },
+          "table": {
+            "__rl": true,
+            "value": "tbl08JdusGZNIaCUH",
+            "mode": "list",
+            "cachedResultName": "Citas",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Estado": "Cancelada",
+              "id": "={{ $json.id }}"
+            },
+            "matchingColumns": [
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": true,
+                "removed": false
+              },
+              {
+                "id": "Servicio",
+                "displayName": "Servicio",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": true
+              },
+              {
+                "id": "Fecha",
+                "displayName": "Fecha",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": true
+              },
+              {
+                "id": "Hora",
+                "displayName": "Hora",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": true
+              },
+              {
+                "id": "Estado",
+                "displayName": "Estado",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "options",
+                "options": [
+                  {
+                    "name": "Confirmada",
+                    "value": "Confirmada"
+                  },
+                  {
+                    "name": "Cancelada",
+                    "value": "Cancelada"
+                  }
+                ],
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Cliente",
+                "displayName": "Cliente",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "array",
+                "readOnly": false,
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.1,
+        "position": [
+          1376,
+          -288
+        ],
+        "id": "8bc49071-f979-4bcd-bad6-786769348d98",
+        "name": "cancelar cita",
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "l787fY54TR1NiFZ3",
+            "name": "AIRTABLE INTELITE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "base": {
+            "__rl": true,
+            "value": "appNLaeIrGsIc395P",
+            "mode": "list",
+            "cachedResultName": "Clinica dental",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+          },
+          "table": {
+            "__rl": true,
+            "value": "tbl08JdusGZNIaCUH",
+            "mode": "list",
+            "cachedResultName": "Citas",
+            "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Estado": "Confirmada",
+              "Hora": "={{ $('Webhook').item.json.body.hora_solicitada }}",
+              "Fecha": "={{ DateTime.fromISO($('Webhook').item.json.body.fecha_solicitada).toFormat('dd-MM-yyyy') }}",
+              "Servicio": "={{ $('Webhook').item.json.body.servicio_cita }}",
+              "ID Cliente": "={{ $('comprobar numero').item.json.id }}"
+            },
+            "matchingColumns": [
+              "ID Cliente"
+            ],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": true,
+                "removed": true
+              },
+              {
+                "id": "Servicio",
+                "displayName": "Servicio",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Fecha",
+                "displayName": "Fecha",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Hora",
+                "displayName": "Hora",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Estado",
+                "displayName": "Estado",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "options",
+                "options": [
+                  {
+                    "name": "Confirmada",
+                    "value": "Confirmada"
+                  },
+                  {
+                    "name": "Cancelada",
+                    "value": "Cancelada"
+                  }
+                ],
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "ID Cliente",
+                "displayName": "ID Cliente",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Clientes",
+                "displayName": "Clientes",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "array",
+                "readOnly": false,
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.1,
+        "position": [
+          1328,
+          -80
+        ],
+        "id": "0d1a1172-03b7-40eb-bca8-f3a69d1edb8c",
+        "name": "modificar cita",
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "l787fY54TR1NiFZ3",
+            "name": "AIRTABLE INTELITE"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "comprobar numero",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "comprobar numero": {
+        "main": [
+          [
+            {
+              "node": "existente",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "existente": {
+        "main": [
+          [
+            {
+              "node": "Accion",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "crear nuevo cliente",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "crear nuevo cliente": {
+        "main": [
+          [
+            {
+              "node": "crear nueva cita",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Accion": {
+        "main": [
+          [
+            {
+              "node": "crear nueva cita cliente existente",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "buscar cita cliente existente",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "buscar cita cliente existente 2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "buscar cita cliente existente": {
+        "main": [
+          [
+            {
+              "node": "cancelar cita",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "buscar cita cliente existente 2": {
+        "main": [
+          [
+            {
+              "node": "modificar cita",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version 82571940",
+    "description": ""
+  },
+  "activeVersionId": "82571940-e935-4440-a4de-5222104ded1a",
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "comprobar numero",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "comprobar numero": {
+      "main": [
+        [
+          {
+            "node": "existente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "existente": {
+      "main": [
+        [
+          {
+            "node": "Accion",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "crear nuevo cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "crear nuevo cliente": {
+      "main": [
+        [
+          {
+            "node": "crear nueva cita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Accion": {
+      "main": [
+        [
+          {
+            "node": "crear nueva cita cliente existente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "buscar cita cliente existente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "buscar cita cliente existente 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "buscar cita cliente existente": {
+      "main": [
+        [
+          {
+            "node": "cancelar cita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "buscar cita cliente existente 2": {
+      "main": [
+        [
+          {
+            "node": "modificar cita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "crear nueva cita cliente existente": {
+      "main": [
+        [
+          {
+            "node": "creada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cancelar cita": {
+      "main": [
+        [
+          {
+            "node": "cancelada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "modificar cita": {
+      "main": [
+        [
+          {
+            "node": "modificada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "crear nueva cita": {
+      "main": [
+        [
+          {
+            "node": "creada2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "creada": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cancelada": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "modificada": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "creada2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "createdAt": "2026-01-03T18:40:42.566Z",
   "id": "LT5zsI4GUVbu7oGQ",
   "isArchived": false,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "Agente de voz",
   "nodes": [
     {
       "parameters": {
-        "path": "agente-voz-clinica-zenit",
+        "httpMethod": "POST",
+        "path": "agendar-cita",
+        "responseMode": "lastNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
         0,
-        0
+        -16
       ],
       "id": "47a6fb23-907d-46d2-b9e6-c82d383236a1",
       "name": "Webhook",
       "webhookId": "3a8d9ef0-6d22-4470-9e6e-77019c801492"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appNLaeIrGsIc395P",
+          "mode": "list",
+          "cachedResultName": "Clinica dental",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl1hrxyWHKnxxzGI",
+          "mode": "list",
+          "cachedResultName": "Clientes",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl1hrxyWHKnxxzGI"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nombre": "={{ $('Webhook').item.json.body.nombre_cliente }}",
+            "Telefono": "={{ $('Webhook').item.json.body.numero_telefono }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Telefono",
+              "displayName": "Telefono",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ID_Cliente",
+              "displayName": "ID_Cliente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Citas",
+              "displayName": "Citas",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        672,
+        80
+      ],
+      "id": "44340322-fd44-4de3-a2d7-40b13ca3d08c",
+      "name": "crear nuevo cliente",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l787fY54TR1NiFZ3",
+          "name": "AIRTABLE INTELITE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appNLaeIrGsIc395P",
+          "mode": "list",
+          "cachedResultName": "Clinica dental",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl1hrxyWHKnxxzGI",
+          "mode": "list",
+          "cachedResultName": "Clientes",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl1hrxyWHKnxxzGI"
+        },
+        "filterByFormula": "={Telefono} = '{{ $('Webhook').item.json.body.numero_telefono }}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        224,
+        -16
+      ],
+      "id": "646888bb-f37d-4ac5-b72d-a28b570781b8",
+      "name": "comprobar numero",
+      "alwaysOutputData": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l787fY54TR1NiFZ3",
+          "name": "AIRTABLE INTELITE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a2b56824-dc23-4324-a9e8-e092dc9414bc",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        -16
+      ],
+      "id": "256e9cbe-712c-4401-99ee-ba5032f5aa28",
+      "name": "existente"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appNLaeIrGsIc395P",
+          "mode": "list",
+          "cachedResultName": "Clinica dental",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl08JdusGZNIaCUH",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Servicio": "={{ $('Webhook').item.json.body.servicio_cita }}",
+            "Fecha": "={{ DateTime.fromISO($('Webhook').item.json.body.fecha_solicitada).toFormat('dd-MM-yyyy') }}",
+            "Hora": "={{ $('Webhook').item.json.body.hora_solicitada }}",
+            "Estado": "Confirmada",
+            "ID Cliente": "={{ $json.id }}",
+            "Clientes": "={{ [ $json[\"id\"] ] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Servicio",
+              "displayName": "Servicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Hora",
+              "displayName": "Hora",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Confirmada",
+                  "value": "Confirmada"
+                },
+                {
+                  "name": "Cancelada",
+                  "value": "Cancelada"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ID Cliente",
+              "displayName": "ID Cliente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Clientes",
+              "displayName": "Clientes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        896,
+        80
+      ],
+      "id": "777294e5-4e4a-4b36-8519-2d143063d49a",
+      "name": "crear nueva cita",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l787fY54TR1NiFZ3",
+          "name": "AIRTABLE INTELITE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.accion }}",
+                    "rightValue": "crear",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "94ae1004-733d-4743-8422-8c4fa499b970"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "crear"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "947d7f91-9688-4bbe-bf94-cf1b9a5997cc",
+                    "leftValue": "={{ $('Webhook').item.json.body.accion }}",
+                    "rightValue": "cancelar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cancelar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "553dbc50-b3fa-466f-8591-ec49eb51c42a",
+                    "leftValue": "={{ $('Webhook').item.json.body.accion }}",
+                    "rightValue": "modificar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "modificar"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        -304
+      ],
+      "id": "bf15edb5-aa20-4952-ace8-d96301529139",
+      "name": "Accion"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appNLaeIrGsIc395P",
+          "mode": "list",
+          "cachedResultName": "Clinica dental",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl08JdusGZNIaCUH",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Servicio": "={{ $('Webhook').item.json.body.servicio_cita }}",
+            "Fecha": "={{ DateTime.fromISO($('Webhook').item.json.body.fecha_solicitada).toFormat('dd-MM-yyyy') }}",
+            "Hora": "={{ $('Webhook').item.json.body.hora_solicitada }}",
+            "Estado": "Confirmada",
+            "Cliente": "={{ [ $json[\"id\"] ] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Servicio",
+              "displayName": "Servicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Hora",
+              "displayName": "Hora",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Confirmada",
+                  "value": "Confirmada"
+                },
+                {
+                  "name": "Cancelada",
+                  "value": "Cancelada"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Cliente",
+              "displayName": "Cliente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1104,
+        -496
+      ],
+      "id": "20ef5f84-6c66-4e23-950e-edda5ad893a3",
+      "name": "crear nueva cita cliente existente",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l787fY54TR1NiFZ3",
+          "name": "AIRTABLE INTELITE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appNLaeIrGsIc395P",
+          "mode": "list",
+          "cachedResultName": "Clinica dental",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl08JdusGZNIaCUH",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+        },
+        "filterByFormula": "=AND( {Fecha} = '{{ DateTime.fromISO($('Webhook').item.json.body.fecha_solicitada).toFormat('dd-MM-yyyy') }}', {ID Cliente} = '{{ $json.ID_Cliente }}' )",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1104,
+        -288
+      ],
+      "id": "7a912ea9-8088-4280-89a1-171989f9ac91",
+      "name": "buscar cita cliente existente",
+      "alwaysOutputData": false,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l787fY54TR1NiFZ3",
+          "name": "AIRTABLE INTELITE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appNLaeIrGsIc395P",
+          "mode": "list",
+          "cachedResultName": "Clinica dental",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl08JdusGZNIaCUH",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+        },
+        "filterByFormula": "=AND( {Fecha} = '{{ DateTime.fromISO($('Webhook').item.json.body.fecha_solicitada).toFormat('dd-MM-yyyy') }}', {ID Cliente} = '{{ $json.ID_Cliente }}' )",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1104,
+        -80
+      ],
+      "id": "a1dd3393-7095-45c6-afdd-b426ee05ea2e",
+      "name": "buscar cita cliente existente 2",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l787fY54TR1NiFZ3",
+          "name": "AIRTABLE INTELITE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appNLaeIrGsIc395P",
+          "mode": "list",
+          "cachedResultName": "Clinica dental",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl08JdusGZNIaCUH",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Estado": "Cancelada",
+            "id": "={{ $json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Servicio",
+              "displayName": "Servicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Hora",
+              "displayName": "Hora",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Confirmada",
+                  "value": "Confirmada"
+                },
+                {
+                  "name": "Cancelada",
+                  "value": "Cancelada"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Cliente",
+              "displayName": "Cliente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1328,
+        -288
+      ],
+      "id": "8bc49071-f979-4bcd-bad6-786769348d98",
+      "name": "cancelar cita",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l787fY54TR1NiFZ3",
+          "name": "AIRTABLE INTELITE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appNLaeIrGsIc395P",
+          "mode": "list",
+          "cachedResultName": "Clinica dental",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl08JdusGZNIaCUH",
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://airtable.com/appNLaeIrGsIc395P/tbl08JdusGZNIaCUH"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Estado": "Confirmada",
+            "Hora": "={{ $('Webhook').item.json.body.hora_solicitada }}",
+            "Fecha": "={{ DateTime.fromISO($('Webhook').item.json.body.fecha_solicitada).toFormat('dd-MM-yyyy') }}",
+            "Servicio": "={{ $('Webhook').item.json.body.servicio_cita }}",
+            "ID Cliente": "={{ $('comprobar numero').item.json.id }}"
+          },
+          "matchingColumns": [
+            "ID Cliente"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Servicio",
+              "displayName": "Servicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Hora",
+              "displayName": "Hora",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Confirmada",
+                  "value": "Confirmada"
+                },
+                {
+                  "name": "Cancelada",
+                  "value": "Cancelada"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ID Cliente",
+              "displayName": "ID Cliente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Clientes",
+              "displayName": "Clientes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1328,
+        -80
+      ],
+      "id": "0d1a1172-03b7-40eb-bca8-f3a69d1edb8c",
+      "name": "modificar cita",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "l787fY54TR1NiFZ3",
+          "name": "AIRTABLE INTELITE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2774f10c-edba-44bc-a23a-f1a5e1a443fc",
+              "name": "texto_voz",
+              "value": "=Cita creada para el {{ $('Webhook').item.json.body.fecha_solicitada }} a las {{ $('Webhook').item.json.body.hora_solicitada }}. Te esperamos.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        -496
+      ],
+      "id": "f7d577fb-2001-4336-b8e6-3cf11ec3ef8f",
+      "name": "creada"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8306e55d-6022-4e50-85b9-5f72d21156a6",
+              "name": "texto_voz",
+              "value": "Cita cancelada correctamente",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        -288
+      ],
+      "id": "ae4c9a02-d7a4-49a3-90ca-10c7d6acfb16",
+      "name": "cancelada"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e32a867a-db46-4639-a11e-47bf150df5cb",
+              "name": "texto_voz",
+              "value": "=Cambio confirmado. Nueva fecha: {{ $('Webhook').item.json.body.fecha_solicitada }} a las {{ $('Webhook').item.json.body.hora_solicitada }}.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        -80
+      ],
+      "id": "d928ea8c-fbbf-4d28-91b5-a9397548d45c",
+      "name": "modificada"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2774f10c-edba-44bc-a23a-f1a5e1a443fc",
+              "name": "texto_voz",
+              "value": "=Bienvenido a la clínica {{ $('Webhook').item.json.body.nombre_cliente }}!!! Cita creada para el {{ $('Webhook').item.json.body.fecha_solicitada }} a las {{ $('Webhook').item.json.body.hora_solicitada }}. Te esperamos.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        80
+      ],
+      "id": "c766094e-3fb2-4cdd-a2a9-713d2b0ff7ea",
+      "name": "creada2"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"response\": \"{{ $json.texto_voz }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2000,
+        -176
+      ],
+      "id": "8f7cf4b9-3be8-4dc0-a572-908072d13dc8",
+      "name": "Respond to Webhook"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n.u5h0lw.easypanel.host",
+            "user-agent": "ElevenLabs/1.0",
+            "content-length": "192",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "34.59.11.47",
+            "x-forwarded-host": "n8n-n8n.u5h0lw.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "95c649fc8578",
+            "x-real-ip": "34.59.11.47"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "nombre_cliente": "Marc Balaguer Maciá",
+            "fecha_solicitada": "2026-02-17",
+            "hora_solicitada": "12:30",
+            "numero_telefono": "610082255",
+            "servicio_cita": "Limpieza",
+            "accion": "modificar"
+          },
+          "webhookUrl": "https://n8n-n8n.u5h0lw.easypanel.host/webhook/agendar-cita",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
   },
   "shared": [
     {
@@ -40,7 +2146,7 @@
   ],
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2026-01-03T18:51:46.941Z",
-  "versionId": "5a4e94d1-1e15-4fdd-94bc-a79f2cfe89f5"
+  "triggerCount": 1,
+  "updatedAt": "2026-01-04T20:30:04.687Z",
+  "versionId": "f51affc3-3dcf-47a3-af62-4af4cd42fb96"
 }
