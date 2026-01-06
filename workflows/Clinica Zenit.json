@@ -1409,8 +1409,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -3936,
-        1920
+        -3904,
+        1776
       ],
       "typeVersion": 1,
       "id": "c65bba0f-5c8c-44b0-a27c-77299efb4750",
@@ -2114,6 +2114,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-11-26T18:12:09.000Z",
-  "versionId": "0ff63438-0903-4257-a3e1-d93bf5216820"
+  "updatedAt": "2026-01-06T18:01:09.747Z",
+  "versionId": "a4421a2e-6e05-4cbf-bc07-c8b4769900ca"
 }
