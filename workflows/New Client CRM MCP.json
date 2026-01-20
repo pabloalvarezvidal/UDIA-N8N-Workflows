@@ -1,0 +1,294 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-20T18:58:20.000Z",
+    "createdAt": "2026-01-20T18:58:16.459Z",
+    "versionId": "85f651c8-fe0e-44ad-9dc3-b2aca8c680c2",
+    "workflowId": "Eff9FOJtVMjAXldj",
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "jsonExample",
+          "jsonExample": "{\n  \"name\": \"Pepe Prueba\",\n  \"phoneNumber\": \"600123456\",\n  \"email\": \"pepe@prueba.com\"\n}"
+        },
+        "id": "c055762a-8fe7-4141-a639-df2372f30060",
+        "typeVersion": 1.1,
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          272,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+            "mode": "list",
+            "cachedResultName": "Agente de voz Zenit Clinic V2",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Clientes",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Nombre Completo": "={{ $json.name }}",
+              "Telefono": "={{ $json.phoneNumber }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Nombre Completo",
+                "displayName": "Nombre Completo",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Telefono",
+                "displayName": "Telefono",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          528,
+          352
+        ],
+        "id": "796945ec-fef2-4bd0-923a-927a24c587bd",
+        "name": "Append row in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "1229f373-559f-4a36-9890-74e7325c8678",
+                "name": "Mensaje",
+                "value": "Perfil creado correctamente. Ahora puedes ayudarle a agendar una cita.",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          736,
+          352
+        ],
+        "id": "80bdbf02-7aa2-4b48-8f09-a28f25007210",
+        "name": "Edit Fields"
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Append row in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Append row in sheet": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version 85f651c8",
+    "description": "",
+    "autosaved": false
+  },
+  "activeVersionId": "85f651c8-fe0e-44ad-9dc3-b2aca8c680c2",
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-20T18:06:09.338Z",
+  "id": "Eff9FOJtVMjAXldj",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "New Client CRM MCP",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"name\": \"Pepe Prueba\",\n  \"phoneNumber\": \"600123456\",\n  \"email\": \"pepe@prueba.com\"\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+          "mode": "list",
+          "cachedResultName": "Agente de voz Zenit Clinic V2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nombre Completo": "={{ $json.name }}",
+            "Telefono": "={{ $json.phoneNumber }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nombre Completo",
+              "displayName": "Nombre Completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefono",
+              "displayName": "Telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        352
+      ],
+      "id": "796945ec-fef2-4bd0-923a-927a24c587bd",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1229f373-559f-4a36-9890-74e7325c8678",
+              "name": "Mensaje",
+              "value": "Perfil creado correctamente. Ahora puedes ayudarle a agendar una cita.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        736,
+        352
+      ],
+      "id": "80bdbf02-7aa2-4b48-8f09-a28f25007210",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-20T18:06:09.347Z",
+      "createdAt": "2026-01-20T18:06:09.347Z",
+      "role": "workflow:owner",
+      "workflowId": "Eff9FOJtVMjAXldj",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-20T18:58:16.456Z",
+  "versionId": "85f651c8-fe0e-44ad-9dc3-b2aca8c680c2"
+}
