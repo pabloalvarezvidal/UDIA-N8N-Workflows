@@ -1,0 +1,188 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-21T10:10:11.000Z",
+    "createdAt": "2026-01-21T09:53:53.366Z",
+    "versionId": "4e2b779d-0411-4d4b-996d-10b974f0d96c",
+    "workflowId": "QkCgvroGiqPI8pLC",
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "jsonExample",
+          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente para buscar sus citas agendadas.\"\n    }\n  },\n  \"required\": [\n    \"phoneNumber\"\n  ]\n}"
+        },
+        "id": "c055762a-8fe7-4141-a639-df2372f30060",
+        "typeVersion": 1.1,
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          272,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+            "mode": "list",
+            "cachedResultName": "Agente de voz Zenit Clinic V2",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 21844311,
+            "mode": "list",
+            "cachedResultName": "Citas",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
+          },
+          "filtersUI": {
+            "values": [
+              {
+                "lookupColumn": "Telefono",
+                "lookupValue": "={{ $json.phoneNumber }}"
+              },
+              {
+                "lookupColumn": "Estado",
+                "lookupValue": "Confirmada"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          528,
+          352
+        ],
+        "id": "b5612d32-1afd-4889-8cc0-5c94c4360b0f",
+        "name": "Get row(s) in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Get row(s) in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version 4e2b779d",
+    "description": "",
+    "autosaved": false
+  },
+  "activeVersionId": "4e2b779d-0411-4d4b-996d-10b974f0d96c",
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-21T09:46:03.551Z",
+  "id": "QkCgvroGiqPI8pLC",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Lookup Appointment MCP",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente para buscar sus citas agendadas.\"\n    }\n  },\n  \"required\": [\n    \"phoneNumber\"\n  ]\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+          "mode": "list",
+          "cachedResultName": "Agente de voz Zenit Clinic V2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 21844311,
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Telefono",
+              "lookupValue": "={{ $json.phoneNumber }}"
+            },
+            {
+              "lookupColumn": "Estado",
+              "lookupValue": "Confirmada"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        352
+      ],
+      "id": "b5612d32-1afd-4889-8cc0-5c94c4360b0f",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-21T09:46:03.557Z",
+      "createdAt": "2026-01-21T09:46:03.557Z",
+      "role": "workflow:owner",
+      "workflowId": "QkCgvroGiqPI8pLC",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-21T10:54:00.046Z",
+  "versionId": "4e2b779d-0411-4d4b-996d-10b974f0d96c"
+}
