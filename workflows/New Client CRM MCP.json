@@ -1,15 +1,15 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-20T18:58:20.000Z",
-    "createdAt": "2026-01-20T18:58:16.459Z",
-    "versionId": "85f651c8-fe0e-44ad-9dc3-b2aca8c680c2",
+    "updatedAt": "2026-01-21T12:19:09.000Z",
+    "createdAt": "2026-01-21T12:19:07.630Z",
+    "versionId": "2f71f0c5-f5ad-47dc-b325-79ef8a2caf1e",
     "workflowId": "Eff9FOJtVMjAXldj",
     "nodes": [
       {
         "parameters": {
           "inputSource": "jsonExample",
-          "jsonExample": "{\n  \"name\": \"Pepe Prueba\",\n  \"phoneNumber\": \"600123456\",\n  \"email\": \"pepe@prueba.com\"\n}"
+          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"El nombre completo del cliente.\"\n    },\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente.\"\n    }\n  },\n  \"required\": [\n    \"name\",\n    \"phoneNumber\"\n  ]\n}"
         },
         "id": "c055762a-8fe7-4141-a639-df2372f30060",
         "typeVersion": 1.1,
@@ -40,8 +40,8 @@
           "columns": {
             "mappingMode": "defineBelow",
             "value": {
-              "Nombre Completo": "={{ $json.name }}",
-              "Telefono": "={{ $json.phoneNumber }}"
+              "Nombre Completo": "={{ $json.properties.name }}",
+              "Telefono": "={{ $json.properties.phoneNumber }}"
             },
             "matchingColumns": [],
             "schema": [
@@ -72,7 +72,7 @@
         "type": "n8n-nodes-base.googleSheets",
         "typeVersion": 4.7,
         "position": [
-          528,
+          496,
           352
         ],
         "id": "796945ec-fef2-4bd0-923a-927a24c587bd",
@@ -101,7 +101,7 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          736,
+          720,
           352
         ],
         "id": "80bdbf02-7aa2-4b48-8f09-a28f25007210",
@@ -133,11 +133,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 85f651c8",
+    "name": "Version 2f71f0c5",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "85f651c8-fe0e-44ad-9dc3-b2aca8c680c2",
+  "activeVersionId": "2f71f0c5-f5ad-47dc-b325-79ef8a2caf1e",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -171,7 +171,10 @@
   "name": "New Client CRM MCP",
   "nodes": [
     {
-      "parameters": {},
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"El nombre completo del cliente.\"\n    },\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente.\"\n    }\n  },\n  \"required\": [\n    \"name\",\n    \"phoneNumber\"\n  ]\n}"
+      },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
       "name": "When Executed by Another Workflow",
@@ -201,8 +204,8 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Nombre Completo": "={{ $json.name }}",
-            "Telefono": "={{ $json.phoneNumber }}"
+            "Nombre Completo": "={{ $json.properties.name }}",
+            "Telefono": "={{ $json.properties.phoneNumber }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -233,7 +236,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        528,
+        496,
         352
       ],
       "id": "796945ec-fef2-4bd0-923a-927a24c587bd",
@@ -262,27 +265,14 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        736,
+        720,
         352
       ],
       "id": "80bdbf02-7aa2-4b48-8f09-a28f25007210",
       "name": "Edit Fields"
     }
   ],
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "name": null,
-          "phoneNumber": null,
-          "email": null
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false
@@ -299,6 +289,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-21T11:11:42.044Z",
-  "versionId": "703e7ba3-cce9-4f0b-8b79-05aec418fd0e"
+  "updatedAt": "2026-01-21T12:19:18.167Z",
+  "versionId": "2f71f0c5-f5ad-47dc-b325-79ef8a2caf1e"
 }
