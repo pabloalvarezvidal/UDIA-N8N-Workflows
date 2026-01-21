@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-21T11:52:02.000Z",
-    "createdAt": "2026-01-21T11:52:01.419Z",
-    "versionId": "0a07a7df-7ace-4e5e-b5e8-87f7c903e8bf",
+    "updatedAt": "2026-01-21T12:27:39.000Z",
+    "createdAt": "2026-01-21T12:27:38.329Z",
+    "versionId": "1a1ec248-e2b3-42d9-9469-552dec26b111",
     "workflowId": "2e9xvr2d0ANtxVMD",
     "nodes": [
       {
@@ -29,8 +29,8 @@
             "mode": "list",
             "cachedResultName": "alvarezvidalpablo@gmail.com"
           },
-          "timeMin": "=",
-          "timeMax": "={{ $json.toTime }}",
+          "timeMin": "={{ $json.properties.date }}T{{ $json.properties.fromTime }}:00",
+          "timeMax": "={{ $json.properties.date }}T{{ $json.properties.toTime }}:00",
           "options": {}
         },
         "type": "n8n-nodes-base.googleCalendar",
@@ -41,6 +41,7 @@
         ],
         "id": "02466197-b03b-4849-83ef-1f8b491d0e7c",
         "name": "Get many events",
+        "alwaysOutputData": true,
         "credentials": {
           "googleCalendarOAuth2Api": {
             "id": "RSjmCgtcmSyhYKoN",
@@ -50,12 +51,12 @@
       },
       {
         "parameters": {
-          "jsCode": "// Loop over inpu// Si Google Calendar no devuelve nada (lista vacía), está todo libre\nif (items.length === 0 || (items.length === 1 && Object.keys(items[0].json).length === 0)) {\n  return [{\n    json: {\n      status: \"free\",\n      message: \"No hay citas ocupadas en este rango. Todo el horario está disponible.\"\n    }\n  }];\n}\n\n// Si hay citas, creamos una lista de texto para que la IA la lea\nconst busySlots = items.map(item => {\n  const start = item.json.start.dateTime || item.json.start.date; // Soporta eventos de todo el día y horas\n  const end = item.json.end.dateTime || item.json.end.date;\n  \n  // Limpiamos un poco el formato de la fecha para que sea legible (opcional, pero ayuda)\n  // Simplemente devolvemos la hora cruda, GPT-4 la entiende bien.\n  return `Ocupado desde ${start} hasta ${end}`;\n}).join(\". \");\n\nreturn [{\n  json: {\n    status: \"busy\",\n    message: \"Hay horarios ocupados: \" + busySlots\n  }\n}];t items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+          "jsCode": "const items = $input.all();\n\n// 1. VERIFICACIÓN ROBUSTA DE HUECO LIBRE\n// Comprobamos si la lista está vacía O si el primer elemento NO tiene propiedad 'start'.\n// Esto cubre el caso donde \"Always Output Data\" envía un item vacío.\nif (items.length === 0 || !items[0].json.start) {\n  return [{\n    json: {\n      status: \"free\",\n      message: \"El horario está libre. Puedes reservar.\"\n    }\n  }];\n}\n\n// 2. SI HAY CITAS (HUECO OCUPADO)\n// Usamos \"optional chaining\" (?.) para evitar errores si falta algún dato raro\nconst busySlots = items.map(item => {\n  const start = item.json.start?.dateTime || item.json.start?.date || \"Hora desconocida\";\n  const end = item.json.end?.dateTime || item.json.end?.date || \"Hora desconocida\";\n  \n  return `Ocupado desde ${start} hasta ${end}`;\n}).join(\". \");\n\n// 3. DEVOLVER RESPUESTA\nreturn [{\n  json: {\n    status: \"busy\",\n    message: \"Ese horario no está disponible. Conflictos: \" + busySlots\n  }\n}];"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          720,
+          656,
           352
         ],
         "id": "9b37c0b2-0c01-4d20-9d44-b6d66e606ecb",
@@ -76,16 +77,22 @@
       },
       "Get many events": {
         "main": [
-          []
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
         ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 0a07a7df",
+    "name": "Version 1a1ec248",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "0a07a7df-7ace-4e5e-b5e8-87f7c903e8bf",
+  "activeVersionId": "1a1ec248-e2b3-42d9-9469-552dec26b111",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -100,7 +107,13 @@
     },
     "Get many events": {
       "main": [
-        []
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -135,8 +148,8 @@
           "mode": "list",
           "cachedResultName": "alvarezvidalpablo@gmail.com"
         },
-        "timeMin": "=",
-        "timeMax": "={{ $json.toTime }}",
+        "timeMin": "={{ $json.properties.date }}T{{ $json.properties.fromTime }}:00",
+        "timeMax": "={{ $json.properties.date }}T{{ $json.properties.toTime }}:00",
         "options": {}
       },
       "type": "n8n-nodes-base.googleCalendar",
@@ -147,6 +160,7 @@
       ],
       "id": "02466197-b03b-4849-83ef-1f8b491d0e7c",
       "name": "Get many events",
+      "alwaysOutputData": true,
       "credentials": {
         "googleCalendarOAuth2Api": {
           "id": "RSjmCgtcmSyhYKoN",
@@ -156,19 +170,40 @@
     },
     {
       "parameters": {
-        "jsCode": "// Loop over inpu// Si Google Calendar no devuelve nada (lista vacía), está todo libre\nif (items.length === 0 || (items.length === 1 && Object.keys(items[0].json).length === 0)) {\n  return [{\n    json: {\n      status: \"free\",\n      message: \"No hay citas ocupadas en este rango. Todo el horario está disponible.\"\n    }\n  }];\n}\n\n// Si hay citas, creamos una lista de texto para que la IA la lea\nconst busySlots = items.map(item => {\n  const start = item.json.start.dateTime || item.json.start.date; // Soporta eventos de todo el día y horas\n  const end = item.json.end.dateTime || item.json.end.date;\n  \n  // Limpiamos un poco el formato de la fecha para que sea legible (opcional, pero ayuda)\n  // Simplemente devolvemos la hora cruda, GPT-4 la entiende bien.\n  return `Ocupado desde ${start} hasta ${end}`;\n}).join(\". \");\n\nreturn [{\n  json: {\n    status: \"busy\",\n    message: \"Hay horarios ocupados: \" + busySlots\n  }\n}];t items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+        "jsCode": "const items = $input.all();\n\n// 1. VERIFICACIÓN ROBUSTA DE HUECO LIBRE\n// Comprobamos si la lista está vacía O si el primer elemento NO tiene propiedad 'start'.\n// Esto cubre el caso donde \"Always Output Data\" envía un item vacío.\nif (items.length === 0 || !items[0].json.start) {\n  return [{\n    json: {\n      status: \"free\",\n      message: \"El horario está libre. Puedes reservar.\"\n    }\n  }];\n}\n\n// 2. SI HAY CITAS (HUECO OCUPADO)\n// Usamos \"optional chaining\" (?.) para evitar errores si falta algún dato raro\nconst busySlots = items.map(item => {\n  const start = item.json.start?.dateTime || item.json.start?.date || \"Hora desconocida\";\n  const end = item.json.end?.dateTime || item.json.end?.date || \"Hora desconocida\";\n  \n  return `Ocupado desde ${start} hasta ${end}`;\n}).join(\". \");\n\n// 3. DEVOLVER RESPUESTA\nreturn [{\n  json: {\n    status: \"busy\",\n    message: \"Ese horario no está disponible. Conflictos: \" + busySlots\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        720,
+        656,
         352
       ],
       "id": "9b37c0b2-0c01-4d20-9d44-b6d66e606ecb",
       "name": "Code in JavaScript"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "type": "check_availability",
+          "properties": {
+            "date": "2026-01-29",
+            "fromTime": "12:00",
+            "toTime": "13:00"
+          },
+          "required": [
+            "date",
+            "fromTime",
+            "toTime"
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false
@@ -185,6 +220,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-21T11:52:01.417Z",
-  "versionId": "0a07a7df-7ace-4e5e-b5e8-87f7c903e8bf"
+  "updatedAt": "2026-01-21T12:27:38.326Z",
+  "versionId": "1a1ec248-e2b3-42d9-9469-552dec26b111"
 }
