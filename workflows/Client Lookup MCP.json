@@ -1,15 +1,15 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-21T09:16:06.000Z",
-    "createdAt": "2026-01-21T09:16:04.841Z",
-    "versionId": "d48c005d-ce4e-487f-bd1b-1d265f7ffe9b",
+    "updatedAt": "2026-01-21T12:16:55.000Z",
+    "createdAt": "2026-01-21T12:16:54.339Z",
+    "versionId": "67ef11ba-7f23-4a4e-a9c1-a48d0ef9806e",
     "workflowId": "SaTeGE2E5veNmT6n",
     "nodes": [
       {
         "parameters": {
           "inputSource": "jsonExample",
-          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente que llama (Caller ID) para buscarlo en la base de datos.\"\n    }\n  },\n  \"required\": [\n    \"phoneNumber\"\n  ]\n}"
+          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente que está llamando (Caller ID).\"\n    }\n  },\n  \"required\": [\"phoneNumber\"]\n}"
         },
         "id": "c055762a-8fe7-4141-a639-df2372f30060",
         "typeVersion": 1.1,
@@ -63,7 +63,7 @@
             "values": [
               {
                 "lookupColumn": "Telefono",
-                "lookupValue": "+34665267756"
+                "lookupValue": "={{ $json.properties.phoneNumber }}"
               }
             ]
           },
@@ -318,11 +318,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version d48c005d",
+    "name": "Version 67ef11ba",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "d48c005d-ce4e-487f-bd1b-1d265f7ffe9b",
+  "activeVersionId": "67ef11ba-7f23-4a4e-a9c1-a48d0ef9806e",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -403,7 +403,10 @@
   "name": "Client Lookup MCP",
   "nodes": [
     {
-      "parameters": {},
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente que está llamando (Caller ID).\"\n    }\n  },\n  \"required\": [\"phoneNumber\"]\n}"
+      },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
       "name": "When Executed by Another Workflow",
@@ -455,7 +458,8 @@
         "filtersUI": {
           "values": [
             {
-              "lookupColumn": "Telefono"
+              "lookupColumn": "Telefono",
+              "lookupValue": "={{ $json.properties.phoneNumber }}"
             }
           ]
         },
@@ -655,6 +659,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-21T11:28:55.509Z",
-  "versionId": "5b1634de-91ca-4ff7-90d9-821e4f5a1e1b"
+  "updatedAt": "2026-01-21T12:17:14.825Z",
+  "versionId": "67ef11ba-7f23-4a4e-a9c1-a48d0ef9806e"
 }
