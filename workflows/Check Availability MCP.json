@@ -1,0 +1,190 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-21T11:52:02.000Z",
+    "createdAt": "2026-01-21T11:52:01.419Z",
+    "versionId": "0a07a7df-7ace-4e5e-b5e8-87f7c903e8bf",
+    "workflowId": "2e9xvr2d0ANtxVMD",
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "jsonExample",
+          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"fecha\": {\n      \"type\": \"string\",\n      \"description\": \"La fecha que se quiere consultar (YYYY-MM-DD). Ej: 2026-01-23\"\n    },\n    \"hora\": {\n      \"type\": \"string\",\n      \"description\": \"La hora específica que se quiere verificar (HH:MM). Ej: 10:00\"\n    }\n  },\n  \"required\": [\n    \"fecha\",\n    \"hora\"\n  ]\n}"
+        },
+        "id": "c055762a-8fe7-4141-a639-df2372f30060",
+        "typeVersion": 1.1,
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          272,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "calendar": {
+            "__rl": true,
+            "value": "alvarezvidalpablo@gmail.com",
+            "mode": "list",
+            "cachedResultName": "alvarezvidalpablo@gmail.com"
+          },
+          "timeMin": "=",
+          "timeMax": "={{ $json.toTime }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleCalendar",
+        "typeVersion": 1.3,
+        "position": [
+          496,
+          352
+        ],
+        "id": "02466197-b03b-4849-83ef-1f8b491d0e7c",
+        "name": "Get many events",
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "RSjmCgtcmSyhYKoN",
+            "name": "Google Calendar account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Loop over inpu// Si Google Calendar no devuelve nada (lista vacía), está todo libre\nif (items.length === 0 || (items.length === 1 && Object.keys(items[0].json).length === 0)) {\n  return [{\n    json: {\n      status: \"free\",\n      message: \"No hay citas ocupadas en este rango. Todo el horario está disponible.\"\n    }\n  }];\n}\n\n// Si hay citas, creamos una lista de texto para que la IA la lea\nconst busySlots = items.map(item => {\n  const start = item.json.start.dateTime || item.json.start.date; // Soporta eventos de todo el día y horas\n  const end = item.json.end.dateTime || item.json.end.date;\n  \n  // Limpiamos un poco el formato de la fecha para que sea legible (opcional, pero ayuda)\n  // Simplemente devolvemos la hora cruda, GPT-4 la entiende bien.\n  return `Ocupado desde ${start} hasta ${end}`;\n}).join(\". \");\n\nreturn [{\n  json: {\n    status: \"busy\",\n    message: \"Hay horarios ocupados: \" + busySlots\n  }\n}];t items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          720,
+          352
+        ],
+        "id": "9b37c0b2-0c01-4d20-9d44-b6d66e606ecb",
+        "name": "Code in JavaScript"
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Get many events",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many events": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version 0a07a7df",
+    "description": "",
+    "autosaved": false
+  },
+  "activeVersionId": "0a07a7df-7ace-4e5e-b5e8-87f7c903e8bf",
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Get many events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2026-01-21T09:37:17.908Z",
+  "id": "2e9xvr2d0ANtxVMD",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Check Availability MCP",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"fecha\": {\n      \"type\": \"string\",\n      \"description\": \"La fecha que se quiere consultar (YYYY-MM-DD). Ej: 2026-01-23\"\n    },\n    \"hora\": {\n      \"type\": \"string\",\n      \"description\": \"La hora específica que se quiere verificar (HH:MM). Ej: 10:00\"\n    }\n  },\n  \"required\": [\n    \"fecha\",\n    \"hora\"\n  ]\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "alvarezvidalpablo@gmail.com",
+          "mode": "list",
+          "cachedResultName": "alvarezvidalpablo@gmail.com"
+        },
+        "timeMin": "=",
+        "timeMax": "={{ $json.toTime }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        496,
+        352
+      ],
+      "id": "02466197-b03b-4849-83ef-1f8b491d0e7c",
+      "name": "Get many events",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "RSjmCgtcmSyhYKoN",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over inpu// Si Google Calendar no devuelve nada (lista vacía), está todo libre\nif (items.length === 0 || (items.length === 1 && Object.keys(items[0].json).length === 0)) {\n  return [{\n    json: {\n      status: \"free\",\n      message: \"No hay citas ocupadas en este rango. Todo el horario está disponible.\"\n    }\n  }];\n}\n\n// Si hay citas, creamos una lista de texto para que la IA la lea\nconst busySlots = items.map(item => {\n  const start = item.json.start.dateTime || item.json.start.date; // Soporta eventos de todo el día y horas\n  const end = item.json.end.dateTime || item.json.end.date;\n  \n  // Limpiamos un poco el formato de la fecha para que sea legible (opcional, pero ayuda)\n  // Simplemente devolvemos la hora cruda, GPT-4 la entiende bien.\n  return `Ocupado desde ${start} hasta ${end}`;\n}).join(\". \");\n\nreturn [{\n  json: {\n    status: \"busy\",\n    message: \"Hay horarios ocupados: \" + busySlots\n  }\n}];t items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        352
+      ],
+      "id": "9b37c0b2-0c01-4d20-9d44-b6d66e606ecb",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-21T09:37:17.916Z",
+      "createdAt": "2026-01-21T09:37:17.916Z",
+      "role": "workflow:owner",
+      "workflowId": "2e9xvr2d0ANtxVMD",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-21T11:52:01.417Z",
+  "versionId": "0a07a7df-7ace-4e5e-b5e8-87f7c903e8bf"
+}
