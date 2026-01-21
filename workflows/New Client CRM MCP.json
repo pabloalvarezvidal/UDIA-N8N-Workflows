@@ -171,10 +171,7 @@
   "name": "New Client CRM MCP",
   "nodes": [
     {
-      "parameters": {
-        "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"name\": \"Pepe Prueba\",\n  \"phoneNumber\": \"600123456\",\n  \"email\": \"pepe@prueba.com\"\n}"
-      },
+      "parameters": {},
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
       "name": "When Executed by Another Workflow",
@@ -272,7 +269,20 @@
       "name": "Edit Fields"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "name": null,
+          "phoneNumber": null,
+          "email": null
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false
@@ -289,6 +299,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-20T18:58:16.456Z",
-  "versionId": "85f651c8-fe0e-44ad-9dc3-b2aca8c680c2"
+  "updatedAt": "2026-01-21T11:11:42.044Z",
+  "versionId": "703e7ba3-cce9-4f0b-8b79-05aec418fd0e"
 }
