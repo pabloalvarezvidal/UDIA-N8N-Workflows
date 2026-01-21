@@ -1,0 +1,458 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-21T09:34:36.000Z",
+    "createdAt": "2026-01-21T09:34:34.694Z",
+    "versionId": "5f799411-ad38-4d04-91f3-57336e1ba8fe",
+    "workflowId": "U3T3hBNLvK1rayDt",
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "jsonExample",
+          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"nombre_completo\": {\n      \"type\": \"string\",\n      \"description\": \"El nombre completo del cliente.\"\n    },\n    \"fecha\": {\n      \"type\": \"string\",\n      \"description\": \"La fecha de la cita (formato YYYY-MM-DD).\"\n    },\n    \"hora\": {\n      \"type\": \"string\",\n      \"description\": \"La hora de inicio de la cita (formato HH:MM).\"\n    },\n    \"servicio\": {\n      \"type\": \"string\",\n      \"description\": \"El tipo de servicio que el cliente solicita.\"\n    },\n    \"telefono\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente.\"\n    }\n  },\n  \"required\": [\n    \"nombre_completo\",\n    \"fecha\",\n    \"hora\",\n    \"servicio\",\n    \"telefono\"\n  ]\n}"
+        },
+        "id": "c055762a-8fe7-4141-a639-df2372f30060",
+        "typeVersion": 1.1,
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          272,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "calendar": {
+            "__rl": true,
+            "value": "alvarezvidalpablo@gmail.com",
+            "mode": "list",
+            "cachedResultName": "alvarezvidalpablo@gmail.com"
+          },
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.googleCalendar",
+        "typeVersion": 1.3,
+        "position": [
+          480,
+          352
+        ],
+        "id": "2791174f-d3b9-4156-b1cb-2ff0bd478254",
+        "name": "Crear Cita",
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "RSjmCgtcmSyhYKoN",
+            "name": "Google Calendar account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+            "mode": "list",
+            "cachedResultName": "Agente de voz Zenit Clinic V2",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 21844311,
+            "mode": "list",
+            "cachedResultName": "Citas",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Estado": "Confirmada",
+              "ID Cita": "={{ $json.id }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Nombre Completo",
+                "displayName": "Nombre Completo",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Fecha",
+                "displayName": "Fecha",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Hora",
+                "displayName": "Hora",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Servicio",
+                "displayName": "Servicio",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Estado",
+                "displayName": "Estado",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Telefono",
+                "displayName": "Telefono",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "ID Cita",
+                "displayName": "ID Cita",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          640,
+          352
+        ],
+        "id": "fd34a97e-24b1-46d9-94aa-6e206b84a2f4",
+        "name": "Cita Confirmada",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "e23023ca-c406-4ff8-8cf8-5f467a5b28c5",
+                "name": "Mensaje",
+                "value": "La cita ha sido confirmada con éxito",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          848,
+          352
+        ],
+        "id": "057084b0-f4ed-43f0-838f-4d1633653f46",
+        "name": "Respuesta"
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Crear Cita",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Crear Cita": {
+        "main": [
+          [
+            {
+              "node": "Cita Confirmada",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Cita Confirmada": {
+        "main": [
+          [
+            {
+              "node": "Respuesta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version 5f799411",
+    "description": "",
+    "autosaved": false
+  },
+  "activeVersionId": "5f799411-ad38-4d04-91f3-57336e1ba8fe",
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Crear Cita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear Cita": {
+      "main": [
+        [
+          {
+            "node": "Cita Confirmada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cita Confirmada": {
+      "main": [
+        [
+          {
+            "node": "Respuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-21T09:23:42.628Z",
+  "id": "U3T3hBNLvK1rayDt",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Book Event MCP",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"nombre_completo\": {\n      \"type\": \"string\",\n      \"description\": \"El nombre completo del cliente.\"\n    },\n    \"fecha\": {\n      \"type\": \"string\",\n      \"description\": \"La fecha de la cita (formato YYYY-MM-DD).\"\n    },\n    \"hora\": {\n      \"type\": \"string\",\n      \"description\": \"La hora de inicio de la cita (formato HH:MM).\"\n    },\n    \"servicio\": {\n      \"type\": \"string\",\n      \"description\": \"El tipo de servicio que el cliente solicita.\"\n    },\n    \"telefono\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente.\"\n    }\n  },\n  \"required\": [\n    \"nombre_completo\",\n    \"fecha\",\n    \"hora\",\n    \"servicio\",\n    \"telefono\"\n  ]\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "alvarezvidalpablo@gmail.com",
+          "mode": "list",
+          "cachedResultName": "alvarezvidalpablo@gmail.com"
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        352
+      ],
+      "id": "2791174f-d3b9-4156-b1cb-2ff0bd478254",
+      "name": "Crear Cita",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "RSjmCgtcmSyhYKoN",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+          "mode": "list",
+          "cachedResultName": "Agente de voz Zenit Clinic V2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 21844311,
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Estado": "Confirmada",
+            "ID Cita": "={{ $json.id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nombre Completo",
+              "displayName": "Nombre Completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Hora",
+              "displayName": "Hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Servicio",
+              "displayName": "Servicio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefono",
+              "displayName": "Telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID Cita",
+              "displayName": "ID Cita",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        640,
+        352
+      ],
+      "id": "fd34a97e-24b1-46d9-94aa-6e206b84a2f4",
+      "name": "Cita Confirmada",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e23023ca-c406-4ff8-8cf8-5f467a5b28c5",
+              "name": "Mensaje",
+              "value": "La cita ha sido confirmada con éxito",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        848,
+        352
+      ],
+      "id": "057084b0-f4ed-43f0-838f-4d1633653f46",
+      "name": "Respuesta"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-21T09:23:42.645Z",
+      "createdAt": "2026-01-21T09:23:42.645Z",
+      "role": "workflow:owner",
+      "workflowId": "U3T3hBNLvK1rayDt",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-21T10:53:54.755Z",
+  "versionId": "5f799411-ad38-4d04-91f3-57336e1ba8fe"
+}
