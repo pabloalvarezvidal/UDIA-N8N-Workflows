@@ -169,7 +169,10 @@
   "pinData": {},
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "shared": [
     {
@@ -183,6 +186,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-21T10:54:00.046Z",
+  "updatedAt": "2026-01-22T11:38:54.665Z",
   "versionId": "4e2b779d-0411-4d4b-996d-10b974f0d96c"
 }
