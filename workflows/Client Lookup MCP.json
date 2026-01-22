@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-21T12:16:55.000Z",
-    "createdAt": "2026-01-21T12:16:54.339Z",
-    "versionId": "67ef11ba-7f23-4a4e-a9c1-a48d0ef9806e",
+    "updatedAt": "2026-01-22T11:44:52.000Z",
+    "createdAt": "2026-01-22T11:44:50.629Z",
+    "versionId": "dc0d7382-fe25-4ed5-8c31-ec714762a0be",
     "workflowId": "SaTeGE2E5veNmT6n",
     "nodes": [
       {
@@ -63,7 +63,7 @@
             "values": [
               {
                 "lookupColumn": "Telefono",
-                "lookupValue": "={{ $json.properties.phoneNumber }}"
+                "lookupValue": "={{ $json.properties.telefono }}"
               }
             ]
           },
@@ -318,11 +318,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 67ef11ba",
+    "name": "Version dc0d7382",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "67ef11ba-7f23-4a4e-a9c1-a48d0ef9806e",
+  "activeVersionId": "dc0d7382-fe25-4ed5-8c31-ec714762a0be",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -459,7 +459,7 @@
           "values": [
             {
               "lookupColumn": "Telefono",
-              "lookupValue": "={{ $json.properties.phoneNumber }}"
+              "lookupValue": "={{ $json.properties.telefono }}"
             }
           ]
         },
@@ -645,7 +645,10 @@
   "pinData": {},
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "shared": [
     {
@@ -659,6 +662,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-21T12:17:14.825Z",
-  "versionId": "67ef11ba-7f23-4a4e-a9c1-a48d0ef9806e"
+  "updatedAt": "2026-01-22T11:52:05.338Z",
+  "versionId": "dc0d7382-fe25-4ed5-8c31-ec714762a0be"
 }
