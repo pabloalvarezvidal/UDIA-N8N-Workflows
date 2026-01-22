@@ -1,15 +1,15 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-21T12:27:39.000Z",
-    "createdAt": "2026-01-21T12:27:38.329Z",
-    "versionId": "1a1ec248-e2b3-42d9-9469-552dec26b111",
+    "updatedAt": "2026-01-22T10:45:52.000Z",
+    "createdAt": "2026-01-22T10:45:47.224Z",
+    "versionId": "89d7244b-4916-4ab8-b107-c45401034a01",
     "workflowId": "2e9xvr2d0ANtxVMD",
     "nodes": [
       {
         "parameters": {
           "inputSource": "jsonExample",
-          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"fecha\": {\n      \"type\": \"string\",\n      \"description\": \"La fecha que se quiere consultar (YYYY-MM-DD). Ej: 2026-01-23\"\n    },\n    \"hora\": {\n      \"type\": \"string\",\n      \"description\": \"La hora específica que se quiere verificar (HH:MM). Ej: 10:00\"\n    }\n  },\n  \"required\": [\n    \"fecha\",\n    \"hora\"\n  ]\n}"
+          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"fecha\": {\n      \"type\": \"string\",\n      \"description\": \"La fecha que se quiere consultar (YYYY-MM-DD). Ej: 2026-01-23\"\n    },\n    \"hora\": {\n      \"type\": \"string\",\n      \"description\": \"La hora específica que se quiere verificar (HH:MM). Ej: 10:00\"\n    }\n  },\n  \"required\": [\n    \"date\",\n    \"fromTime\",\n    \"toTime\"\n  ]\n}"
         },
         "id": "c055762a-8fe7-4141-a639-df2372f30060",
         "typeVersion": 1.1,
@@ -36,7 +36,7 @@
         "type": "n8n-nodes-base.googleCalendar",
         "typeVersion": 1.3,
         "position": [
-          496,
+          464,
           352
         ],
         "id": "02466197-b03b-4849-83ef-1f8b491d0e7c",
@@ -88,11 +88,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 1a1ec248",
+    "name": "Version 89d7244b",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "1a1ec248-e2b3-42d9-9469-552dec26b111",
+  "activeVersionId": "89d7244b-4916-4ab8-b107-c45401034a01",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -128,7 +128,7 @@
     {
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"fecha\": {\n      \"type\": \"string\",\n      \"description\": \"La fecha que se quiere consultar (YYYY-MM-DD). Ej: 2026-01-23\"\n    },\n    \"hora\": {\n      \"type\": \"string\",\n      \"description\": \"La hora específica que se quiere verificar (HH:MM). Ej: 10:00\"\n    }\n  },\n  \"required\": [\n    \"fecha\",\n    \"hora\"\n  ]\n}"
+        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"fecha\": {\n      \"type\": \"string\",\n      \"description\": \"La fecha que se quiere consultar (YYYY-MM-DD). Ej: 2026-01-23\"\n    },\n    \"hora\": {\n      \"type\": \"string\",\n      \"description\": \"La hora específica que se quiere verificar (HH:MM). Ej: 10:00\"\n    }\n  },\n  \"required\": [\n    \"date\",\n    \"fromTime\",\n    \"toTime\"\n  ]\n}"
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
@@ -155,7 +155,7 @@
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1.3,
       "position": [
-        496,
+        464,
         352
       ],
       "id": "02466197-b03b-4849-83ef-1f8b491d0e7c",
@@ -182,31 +182,13 @@
       "name": "Code in JavaScript"
     }
   ],
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "type": "check_availability",
-          "properties": {
-            "date": "2026-01-29",
-            "fromTime": "12:00",
-            "toTime": "13:00"
-          },
-          "required": [
-            "date",
-            "fromTime",
-            "toTime"
-          ]
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "shared": [
     {
@@ -220,6 +202,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-21T12:27:38.326Z",
-  "versionId": "1a1ec248-e2b3-42d9-9469-552dec26b111"
+  "updatedAt": "2026-01-22T11:51:40.150Z",
+  "versionId": "89d7244b-4916-4ab8-b107-c45401034a01"
 }
