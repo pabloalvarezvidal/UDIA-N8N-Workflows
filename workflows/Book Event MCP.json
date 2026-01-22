@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-21T09:34:36.000Z",
-    "createdAt": "2026-01-21T09:34:34.694Z",
-    "versionId": "5f799411-ad38-4d04-91f3-57336e1ba8fe",
+    "updatedAt": "2026-01-22T11:53:05.000Z",
+    "createdAt": "2026-01-22T11:53:04.233Z",
+    "versionId": "b2dd3e23-d57b-44fd-87c7-9c07adde4dd2",
     "workflowId": "U3T3hBNLvK1rayDt",
     "nodes": [
       {
@@ -28,6 +28,8 @@
             "mode": "list",
             "cachedResultName": "alvarezvidalpablo@gmail.com"
           },
+          "start": "={{ $json.properties.fecha }}T{{ $json.properties.hora }}:00",
+          "end": "={{ $json.properties.fecha }}T{{ (parseInt($json.properties.hora.split(':')[0]) + Math.floor((parseInt($json.properties.hora.split(':')[1]) + 30) / 60)).toString().padStart(2, '0') }}:{{ ((parseInt($json.properties.hora.split(':')[1]) + 30) % 60).toString().padStart(2, '0') }}:00",
           "additionalFields": {}
         },
         "type": "n8n-nodes-base.googleCalendar",
@@ -66,7 +68,12 @@
             "mappingMode": "defineBelow",
             "value": {
               "Estado": "Confirmada",
-              "ID Cita": "={{ $json.id }}"
+              "ID Cita": "={{ $json.id }}",
+              "Nombre Completo": "={{ $('When Executed by Another Workflow').item.json.properties.nombre_completo }}",
+              "Fecha": "={{ $('When Executed by Another Workflow').item.json.properties.fecha }}",
+              "Hora": "={{ $('When Executed by Another Workflow').item.json.properties.hora }}",
+              "Servicio": "={{ $('When Executed by Another Workflow').item.json.properties.servicio }}",
+              "Telefono": "='{{ $('When Executed by Another Workflow').item.json.properties.telefono }}"
             },
             "matchingColumns": [],
             "schema": [
@@ -215,11 +222,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 5f799411",
+    "name": "Version b2dd3e23",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "5f799411-ad38-4d04-91f3-57336e1ba8fe",
+  "activeVersionId": "b2dd3e23-d57b-44fd-87c7-9c07adde4dd2",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -285,6 +292,8 @@
           "mode": "list",
           "cachedResultName": "alvarezvidalpablo@gmail.com"
         },
+        "start": "={{ $json.properties.fecha }}T{{ $json.properties.hora }}:00",
+        "end": "={{ $json.properties.fecha }}T{{ (parseInt($json.properties.hora.split(':')[0]) + Math.floor((parseInt($json.properties.hora.split(':')[1]) + 30) / 60)).toString().padStart(2, '0') }}:{{ ((parseInt($json.properties.hora.split(':')[1]) + 30) % 60).toString().padStart(2, '0') }}:00",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.googleCalendar",
@@ -323,7 +332,12 @@
           "mappingMode": "defineBelow",
           "value": {
             "Estado": "Confirmada",
-            "ID Cita": "={{ $json.id }}"
+            "ID Cita": "={{ $json.id }}",
+            "Nombre Completo": "={{ $('When Executed by Another Workflow').item.json.properties.nombre_completo }}",
+            "Fecha": "={{ $('When Executed by Another Workflow').item.json.properties.fecha }}",
+            "Hora": "={{ $('When Executed by Another Workflow').item.json.properties.hora }}",
+            "Servicio": "={{ $('When Executed by Another Workflow').item.json.properties.servicio }}",
+            "Telefono": "='{{ $('When Executed by Another Workflow').item.json.properties.telefono }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -436,10 +450,38 @@
       "name": "Respuesta"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "type": "book_event",
+          "properties": {
+            "nombre_completo": "Mark Balaguer",
+            "fecha": "2026-01-27",
+            "hora": "10:30",
+            "servicio": "Blanqueamiento Philips Zoom",
+            "telefono": "+34610082255"
+          },
+          "required": [
+            "nombre_completo",
+            "fecha",
+            "hora",
+            "servicio",
+            "telefono"
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "shared": [
     {
@@ -453,6 +495,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-21T12:06:31.052Z",
-  "versionId": "5f799411-ad38-4d04-91f3-57336e1ba8fe"
+  "updatedAt": "2026-01-22T11:53:04.231Z",
+  "versionId": "b2dd3e23-d57b-44fd-87c7-9c07adde4dd2"
 }
