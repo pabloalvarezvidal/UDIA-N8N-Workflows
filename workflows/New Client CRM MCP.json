@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-21T12:19:09.000Z",
-    "createdAt": "2026-01-21T12:19:07.630Z",
-    "versionId": "2f71f0c5-f5ad-47dc-b325-79ef8a2caf1e",
+    "updatedAt": "2026-01-22T10:45:00.000Z",
+    "createdAt": "2026-01-22T10:44:59.526Z",
+    "versionId": "6b105fc8-c4bd-45d7-a886-4163597ff311",
     "workflowId": "Eff9FOJtVMjAXldj",
     "nodes": [
       {
@@ -41,7 +41,7 @@
             "mappingMode": "defineBelow",
             "value": {
               "Nombre Completo": "={{ $json.properties.name }}",
-              "Telefono": "={{ $json.properties.phoneNumber }}"
+              "Telefono": "='{{ $json.properties.phoneNumber }}"
             },
             "matchingColumns": [],
             "schema": [
@@ -133,11 +133,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 2f71f0c5",
+    "name": "Version 6b105fc8",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "2f71f0c5-f5ad-47dc-b325-79ef8a2caf1e",
+  "activeVersionId": "6b105fc8-c4bd-45d7-a886-4163597ff311",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -205,7 +205,7 @@
           "mappingMode": "defineBelow",
           "value": {
             "Nombre Completo": "={{ $json.properties.name }}",
-            "Telefono": "={{ $json.properties.phoneNumber }}"
+            "Telefono": "='{{ $json.properties.phoneNumber }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -275,7 +275,10 @@
   "pinData": {},
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "shared": [
     {
@@ -289,6 +292,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-21T12:19:18.167Z",
-  "versionId": "2f71f0c5-f5ad-47dc-b325-79ef8a2caf1e"
+  "updatedAt": "2026-01-22T11:37:54.390Z",
+  "versionId": "6b105fc8-c4bd-45d7-a886-4163597ff311"
 }
