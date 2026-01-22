@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-22T11:53:05.000Z",
-    "createdAt": "2026-01-22T11:53:04.233Z",
-    "versionId": "b2dd3e23-d57b-44fd-87c7-9c07adde4dd2",
+    "updatedAt": "2026-01-22T11:55:37.000Z",
+    "createdAt": "2026-01-22T11:55:36.069Z",
+    "versionId": "5dcd9b92-4346-41b6-b221-d8b6e58ebf9b",
     "workflowId": "U3T3hBNLvK1rayDt",
     "nodes": [
       {
@@ -30,7 +30,10 @@
           },
           "start": "={{ $json.properties.fecha }}T{{ $json.properties.hora }}:00",
           "end": "={{ $json.properties.fecha }}T{{ (parseInt($json.properties.hora.split(':')[0]) + Math.floor((parseInt($json.properties.hora.split(':')[1]) + 30) / 60)).toString().padStart(2, '0') }}:{{ ((parseInt($json.properties.hora.split(':')[1]) + 30) % 60).toString().padStart(2, '0') }}:00",
-          "additionalFields": {}
+          "additionalFields": {
+            "description": "=SERVICIO:{{ $json.properties.servicio }}\nHORA: {{ $json.properties.hora }}\nCLIENTE: {{ $json.properties.nombre_completo }}\nTELEFONO: {{ $json.properties.telefono }}",
+            "summary": "={{ $json.properties.servicio }} | {{ $json.properties.nombre_completo }}"
+          }
         },
         "type": "n8n-nodes-base.googleCalendar",
         "typeVersion": 1.3,
@@ -222,11 +225,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version b2dd3e23",
+    "name": "Version 5dcd9b92",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "b2dd3e23-d57b-44fd-87c7-9c07adde4dd2",
+  "activeVersionId": "5dcd9b92-4346-41b6-b221-d8b6e58ebf9b",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -294,7 +297,10 @@
         },
         "start": "={{ $json.properties.fecha }}T{{ $json.properties.hora }}:00",
         "end": "={{ $json.properties.fecha }}T{{ (parseInt($json.properties.hora.split(':')[0]) + Math.floor((parseInt($json.properties.hora.split(':')[1]) + 30) / 60)).toString().padStart(2, '0') }}:{{ ((parseInt($json.properties.hora.split(':')[1]) + 30) % 60).toString().padStart(2, '0') }}:00",
-        "additionalFields": {}
+        "additionalFields": {
+          "description": "=SERVICIO:{{ $json.properties.servicio }}\nHORA: {{ $json.properties.hora }}\nCLIENTE: {{ $json.properties.nombre_completo }}\nTELEFONO: {{ $json.properties.telefono }}",
+          "summary": "={{ $json.properties.servicio }} | {{ $json.properties.nombre_completo }}"
+        }
       },
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1.3,
@@ -450,32 +456,7 @@
       "name": "Respuesta"
     }
   ],
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "type": "book_event",
-          "properties": {
-            "nombre_completo": "Mark Balaguer",
-            "fecha": "2026-01-27",
-            "hora": "10:30",
-            "servicio": "Blanqueamiento Philips Zoom",
-            "telefono": "+34610082255"
-          },
-          "required": [
-            "nombre_completo",
-            "fecha",
-            "hora",
-            "servicio",
-            "telefono"
-          ]
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false,
@@ -495,6 +476,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-22T11:53:04.231Z",
-  "versionId": "b2dd3e23-d57b-44fd-87c7-9c07adde4dd2"
+  "updatedAt": "2026-01-22T11:56:48.884Z",
+  "versionId": "5dcd9b92-4346-41b6-b221-d8b6e58ebf9b"
 }
