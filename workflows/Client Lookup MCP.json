@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-22T11:44:52.000Z",
-    "createdAt": "2026-01-22T11:44:50.629Z",
-    "versionId": "dc0d7382-fe25-4ed5-8c31-ec714762a0be",
+    "updatedAt": "2026-01-23T11:28:26.000Z",
+    "createdAt": "2026-01-23T11:28:23.924Z",
+    "versionId": "4b4c6a37-ebbd-4311-af7a-89b56276dd1f",
     "workflowId": "SaTeGE2E5veNmT6n",
     "nodes": [
       {
@@ -318,11 +318,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version dc0d7382",
+    "name": "Version 4b4c6a37",
     "description": "",
-    "autosaved": false
+    "autosaved": true
   },
-  "activeVersionId": "dc0d7382-fe25-4ed5-8c31-ec714762a0be",
+  "activeVersionId": "4b4c6a37-ebbd-4311-af7a-89b56276dd1f",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -662,6 +662,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-22T11:52:05.338Z",
-  "versionId": "dc0d7382-fe25-4ed5-8c31-ec714762a0be"
+  "updatedAt": "2026-01-23T11:28:23.920Z",
+  "versionId": "4b4c6a37-ebbd-4311-af7a-89b56276dd1f"
 }
