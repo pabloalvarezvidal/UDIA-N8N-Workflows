@@ -1,15 +1,26 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-22T10:45:52.000Z",
-    "createdAt": "2026-01-22T10:45:47.224Z",
-    "versionId": "89d7244b-4916-4ab8-b107-c45401034a01",
+    "updatedAt": "2026-01-23T12:38:47.000Z",
+    "createdAt": "2026-01-23T12:38:44.127Z",
+    "versionId": "d5f47124-61b4-4e4a-ae09-5976dca1cb71",
     "workflowId": "2e9xvr2d0ANtxVMD",
     "nodes": [
       {
         "parameters": {
-          "inputSource": "jsonExample",
-          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"fecha\": {\n      \"type\": \"string\",\n      \"description\": \"La fecha que se quiere consultar (YYYY-MM-DD). Ej: 2026-01-23\"\n    },\n    \"hora\": {\n      \"type\": \"string\",\n      \"description\": \"La hora específica que se quiere verificar (HH:MM). Ej: 10:00\"\n    }\n  },\n  \"required\": [\n    \"date\",\n    \"fromTime\",\n    \"toTime\"\n  ]\n}"
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "date"
+              },
+              {
+                "name": "fromTime"
+              },
+              {
+                "name": "toTime"
+              }
+            ]
+          }
         },
         "id": "c055762a-8fe7-4141-a639-df2372f30060",
         "typeVersion": 1.1,
@@ -29,8 +40,8 @@
             "mode": "list",
             "cachedResultName": "alvarezvidalpablo@gmail.com"
           },
-          "timeMin": "={{ $json.properties.date }}T{{ $json.properties.fromTime }}:00",
-          "timeMax": "={{ $json.properties.date }}T{{ $json.properties.toTime }}:00",
+          "timeMin": "={{ $json.date }}T{{ $json.fromTime }}",
+          "timeMax": "={{ $json.date }}T{{ $json.toTime }}",
           "options": {}
         },
         "type": "n8n-nodes-base.googleCalendar",
@@ -88,11 +99,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 89d7244b",
+    "name": "Version d5f47124",
     "description": "",
-    "autosaved": false
+    "autosaved": true
   },
-  "activeVersionId": "89d7244b-4916-4ab8-b107-c45401034a01",
+  "activeVersionId": "d5f47124-61b4-4e4a-ae09-5976dca1cb71",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -127,8 +138,19 @@
   "nodes": [
     {
       "parameters": {
-        "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"fecha\": {\n      \"type\": \"string\",\n      \"description\": \"La fecha que se quiere consultar (YYYY-MM-DD). Ej: 2026-01-23\"\n    },\n    \"hora\": {\n      \"type\": \"string\",\n      \"description\": \"La hora específica que se quiere verificar (HH:MM). Ej: 10:00\"\n    }\n  },\n  \"required\": [\n    \"date\",\n    \"fromTime\",\n    \"toTime\"\n  ]\n}"
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "date"
+            },
+            {
+              "name": "fromTime"
+            },
+            {
+              "name": "toTime"
+            }
+          ]
+        }
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
@@ -148,8 +170,8 @@
           "mode": "list",
           "cachedResultName": "alvarezvidalpablo@gmail.com"
         },
-        "timeMin": "={{ $json.properties.date }}T{{ $json.properties.fromTime }}:00",
-        "timeMax": "={{ $json.properties.date }}T{{ $json.properties.toTime }}:00",
+        "timeMin": "={{ $json.date }}T{{ $json.fromTime }}",
+        "timeMax": "={{ $json.date }}T{{ $json.toTime }}",
         "options": {}
       },
       "type": "n8n-nodes-base.googleCalendar",
@@ -202,6 +224,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-22T11:51:40.150Z",
-  "versionId": "89d7244b-4916-4ab8-b107-c45401034a01"
+  "updatedAt": "2026-01-23T12:38:44.125Z",
+  "versionId": "d5f47124-61b4-4e4a-ae09-5976dca1cb71"
 }
