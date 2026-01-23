@@ -1,15 +1,23 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-22T10:45:00.000Z",
-    "createdAt": "2026-01-22T10:44:59.526Z",
-    "versionId": "6b105fc8-c4bd-45d7-a886-4163597ff311",
+    "updatedAt": "2026-01-23T12:22:46.000Z",
+    "createdAt": "2026-01-23T12:22:43.934Z",
+    "versionId": "8a82b732-2167-4a35-8b8a-3c4eebafa847",
     "workflowId": "Eff9FOJtVMjAXldj",
     "nodes": [
       {
         "parameters": {
-          "inputSource": "jsonExample",
-          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"El nombre completo del cliente.\"\n    },\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente.\"\n    }\n  },\n  \"required\": [\n    \"name\",\n    \"phoneNumber\"\n  ]\n}"
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "telefono"
+              },
+              {
+                "name": "nombre_completo"
+              }
+            ]
+          }
         },
         "id": "c055762a-8fe7-4141-a639-df2372f30060",
         "typeVersion": 1.1,
@@ -40,8 +48,8 @@
           "columns": {
             "mappingMode": "defineBelow",
             "value": {
-              "Nombre Completo": "={{ $json.properties.name }}",
-              "Telefono": "='{{ $json.properties.phoneNumber }}"
+              "Nombre Completo": "={{ $json.nombre_completo }}",
+              "Telefono": "='{{ $json.telefono }}"
             },
             "matchingColumns": [],
             "schema": [
@@ -133,11 +141,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 6b105fc8",
+    "name": "Version 8a82b732",
     "description": "",
-    "autosaved": false
+    "autosaved": true
   },
-  "activeVersionId": "6b105fc8-c4bd-45d7-a886-4163597ff311",
+  "activeVersionId": "8a82b732-2167-4a35-8b8a-3c4eebafa847",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -172,8 +180,16 @@
   "nodes": [
     {
       "parameters": {
-        "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"El nombre completo del cliente.\"\n    },\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente.\"\n    }\n  },\n  \"required\": [\n    \"name\",\n    \"phoneNumber\"\n  ]\n}"
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "telefono"
+            },
+            {
+              "name": "nombre_completo"
+            }
+          ]
+        }
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
@@ -204,8 +220,8 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Nombre Completo": "={{ $json.properties.name }}",
-            "Telefono": "='{{ $json.properties.phoneNumber }}"
+            "Nombre Completo": "={{ $json.nombre_completo }}",
+            "Telefono": "='{{ $json.telefono }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -292,6 +308,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-23T11:13:32.223Z",
-  "versionId": "6b105fc8-c4bd-45d7-a886-4163597ff311"
+  "updatedAt": "2026-01-23T12:22:43.929Z",
+  "versionId": "8a82b732-2167-4a35-8b8a-3c4eebafa847"
 }
