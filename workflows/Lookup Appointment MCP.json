@@ -1,15 +1,20 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-21T10:10:11.000Z",
-    "createdAt": "2026-01-21T09:53:53.366Z",
-    "versionId": "4e2b779d-0411-4d4b-996d-10b974f0d96c",
+    "updatedAt": "2026-01-23T13:19:32.000Z",
+    "createdAt": "2026-01-23T13:19:31.382Z",
+    "versionId": "02e0c08c-0520-4051-bbf1-da26b1e66ce7",
     "workflowId": "QkCgvroGiqPI8pLC",
     "nodes": [
       {
         "parameters": {
-          "inputSource": "jsonExample",
-          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente para buscar sus citas agendadas.\"\n    }\n  },\n  \"required\": [\n    \"phoneNumber\"\n  ]\n}"
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "telefono"
+              }
+            ]
+          }
         },
         "id": "c055762a-8fe7-4141-a639-df2372f30060",
         "typeVersion": 1.1,
@@ -40,7 +45,7 @@
             "values": [
               {
                 "lookupColumn": "Telefono",
-                "lookupValue": "={{ $json.phoneNumber }}"
+                "lookupValue": "=+34665267756"
               },
               {
                 "lookupColumn": "Estado",
@@ -64,6 +69,86 @@
             "name": "Google Sheets account"
           }
         }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "ceeafeac-6ae8-460b-9007-d7d711c4c87b",
+                "leftValue": "={{ $json.Telefono }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          736,
+          352
+        ],
+        "id": "992fffab-69c6-4fd8-a14c-2fb73521ca0a",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "1f4f8a3a-d090-4eb0-9b58-6eb80eeda2b3",
+                "name": "Mensaje",
+                "value": "No hay ninguna cita confirmada con ese número de telefono.",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          944,
+          448
+        ],
+        "id": "7506a4f4-67be-499b-8d91-0719c061fe63",
+        "name": "Respuesta_No_Hay"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "370f9f20-1df1-431b-b863-52c195baaf7c",
+                "name": "Mensaje",
+                "value": "=Tiene cita confirmada para {{ $json.Servicio }} a las {{ $json.Hora }} el día {{ $json.Fecha }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          912,
+          192
+        ],
+        "id": "1c9ae7d0-f7a9-4c82-9787-5302e34fc234",
+        "name": "Respuesta_Si_Hay"
       }
     ],
     "connections": {
@@ -77,20 +162,78 @@
             }
           ]
         ]
+      },
+      "Get row(s) in sheet": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Respuesta_Si_Hay",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Respuesta_No_Hay",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 4e2b779d",
+    "name": "Version 02e0c08c",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "4e2b779d-0411-4d4b-996d-10b974f0d96c",
+  "activeVersionId": "02e0c08c-0520-4051-bbf1-da26b1e66ce7",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
         [
           {
             "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Respuesta_Si_Hay",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respuesta_No_Hay",
             "type": "main",
             "index": 0
           }
@@ -108,8 +251,13 @@
   "nodes": [
     {
       "parameters": {
-        "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente para buscar sus citas agendadas.\"\n    }\n  },\n  \"required\": [\n    \"phoneNumber\"\n  ]\n}"
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "telefono"
+            }
+          ]
+        }
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
@@ -117,7 +265,7 @@
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
         272,
-        352
+        288
       ]
     },
     {
@@ -140,7 +288,7 @@
           "values": [
             {
               "lookupColumn": "Telefono",
-              "lookupValue": "={{ $json.phoneNumber }}"
+              "lookupValue": "={{ $json.telefono }}"
             },
             {
               "lookupColumn": "Estado",
@@ -153,17 +301,98 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        528,
-        352
+        496,
+        288
       ],
       "id": "b5612d32-1afd-4889-8cc0-5c94c4360b0f",
       "name": "Get row(s) in sheet",
+      "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "7QvCi5UUFUsiQIlm",
           "name": "Google Sheets account"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ceeafeac-6ae8-460b-9007-d7d711c4c87b",
+              "leftValue": "={{ $json.Telefono }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        720,
+        288
+      ],
+      "id": "992fffab-69c6-4fd8-a14c-2fb73521ca0a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1f4f8a3a-d090-4eb0-9b58-6eb80eeda2b3",
+              "name": "Mensaje",
+              "value": "No hay ninguna cita confirmada con ese número de telefono.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        944,
+        384
+      ],
+      "id": "7506a4f4-67be-499b-8d91-0719c061fe63",
+      "name": "Respuesta_No_Hay"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "370f9f20-1df1-431b-b863-52c195baaf7c",
+              "name": "Mensaje",
+              "value": "=Tiene cita confirmada para {{ $json.Servicio }} a las {{ $json.Hora }} el día {{ $json.Fecha }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        944,
+        192
+      ],
+      "id": "1c9ae7d0-f7a9-4c82-9787-5302e34fc234",
+      "name": "Respuesta_Si_Hay"
     }
   ],
   "pinData": {},
@@ -186,6 +415,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-22T11:38:54.665Z",
-  "versionId": "4e2b779d-0411-4d4b-996d-10b974f0d96c"
+  "updatedAt": "2026-01-23T13:23:04.545Z",
+  "versionId": "cda4b9e4-ee3f-4549-9801-c623c258882d"
 }
