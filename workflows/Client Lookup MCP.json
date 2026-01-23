@@ -1,15 +1,20 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-23T11:28:26.000Z",
-    "createdAt": "2026-01-23T11:28:23.924Z",
-    "versionId": "4b4c6a37-ebbd-4311-af7a-89b56276dd1f",
+    "updatedAt": "2026-01-23T12:53:32.000Z",
+    "createdAt": "2026-01-23T12:53:18.085Z",
+    "versionId": "64a88929-e12d-4c85-8597-0e526472e19b",
     "workflowId": "SaTeGE2E5veNmT6n",
     "nodes": [
       {
         "parameters": {
-          "inputSource": "jsonExample",
-          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente que está llamando (Caller ID).\"\n    }\n  },\n  \"required\": [\"phoneNumber\"]\n}"
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "telefono"
+              }
+            ]
+          }
         },
         "id": "c055762a-8fe7-4141-a639-df2372f30060",
         "typeVersion": 1.1,
@@ -63,7 +68,7 @@
             "values": [
               {
                 "lookupColumn": "Telefono",
-                "lookupValue": "={{ $json.properties.telefono }}"
+                "lookupValue": "={{ $json.telefono }}"
               }
             ]
           },
@@ -121,129 +126,26 @@
       },
       {
         "parameters": {
-          "documentId": {
-            "__rl": true,
-            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
-            "mode": "list",
-            "cachedResultName": "Agente de voz Zenit Clinic V2",
-            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
-          },
-          "sheetName": {
-            "__rl": true,
-            "value": 21844311,
-            "mode": "list",
-            "cachedResultName": "Citas",
-            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
-          },
-          "filtersUI": {
-            "values": [
+          "assignments": {
+            "assignments": [
               {
-                "lookupColumn": "Telefono",
-                "lookupValue": "={{ $json.Telefono }}"
-              },
-              {
-                "lookupColumn": "Estado",
-                "lookupValue": "Confirmada"
+                "id": "21f7468c-9858-4ca4-97ef-01a6dc352f4b",
+                "name": "Mensaje",
+                "value": "=Ya está registrado y se llama, {{ $json['Nombre Completo'] }}",
+                "type": "string"
               }
             ]
           },
           "options": {}
         },
-        "type": "n8n-nodes-base.googleSheets",
-        "typeVersion": 4.7,
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
         "position": [
           944,
           256
         ],
-        "id": "836be640-91c6-49ea-ba41-c6c6d21ca67f",
-        "name": "Get row(s) in sheet",
-        "alwaysOutputData": true,
-        "credentials": {
-          "googleSheetsOAuth2Api": {
-            "id": "7QvCi5UUFUsiQIlm",
-            "name": "Google Sheets account"
-          }
-        }
-      },
-      {
-        "parameters": {
-          "conditions": {
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 3
-            },
-            "conditions": [
-              {
-                "id": "dc41242c-cf50-4871-a8ee-a5866827c8f2",
-                "leftValue": "={{ $json.Telefono }}",
-                "rightValue": "={{ $json.Telefono }}",
-                "operator": {
-                  "type": "string",
-                  "operation": "exists",
-                  "singleValue": true
-                }
-              }
-            ],
-            "combinator": "and"
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.if",
-        "typeVersion": 2.3,
-        "position": [
-          1152,
-          256
-        ],
-        "id": "2a41706a-5e57-4c9d-b253-ecff73df1b43",
-        "name": "If"
-      },
-      {
-        "parameters": {
-          "assignments": {
-            "assignments": [
-              {
-                "id": "2f53949a-abeb-4f17-9619-3d07226b5fc0",
-                "name": "Mensaje",
-                "value": "=Su nombre es {{ $json['Nombre Completo'] }} y tiene una cita confirmada para {{ $json.Fecha }} a las {{ $json.Hora }} para {{ $json.Servicio }}",
-                "type": "string"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.set",
-        "typeVersion": 3.4,
-        "position": [
-          1360,
-          112
-        ],
-        "id": "7cd82ded-310a-4b8a-9358-5705574afea4",
-        "name": "Cliente_Encontrado_Cita"
-      },
-      {
-        "parameters": {
-          "assignments": {
-            "assignments": [
-              {
-                "id": "b587177c-4f71-4002-be7f-c5f899359fcc",
-                "name": "Mensaje",
-                "value": "=Su nombre es {{ $('¿Existe?').item.json['Nombre Completo'] }} y no tiene ninguna cita",
-                "type": "string"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.set",
-        "typeVersion": 3.4,
-        "position": [
-          1360,
-          352
-        ],
-        "id": "42a7a35a-405c-4e2d-97de-9dc52f53be3f",
-        "name": "Cliente_Encontrado_Sin_Cita"
+        "id": "1ccdc1f1-ad1d-45ee-968f-d89cc093be35",
+        "name": "Cliente_Encontrado"
       }
     ],
     "connections": {
@@ -273,7 +175,7 @@
         "main": [
           [
             {
-              "node": "Get row(s) in sheet",
+              "node": "Cliente_Encontrado",
               "type": "main",
               "index": 0
             }
@@ -286,43 +188,14 @@
             }
           ]
         ]
-      },
-      "Get row(s) in sheet": {
-        "main": [
-          [
-            {
-              "node": "If",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "If": {
-        "main": [
-          [
-            {
-              "node": "Cliente_Encontrado_Cita",
-              "type": "main",
-              "index": 0
-            }
-          ],
-          [
-            {
-              "node": "Cliente_Encontrado_Sin_Cita",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 4b4c6a37",
+    "name": "Version 64a88929",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "4b4c6a37-ebbd-4311-af7a-89b56276dd1f",
+  "activeVersionId": "64a88929-e12d-4c85-8597-0e526472e19b",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -350,7 +223,7 @@
       "main": [
         [
           {
-            "node": "Get row(s) in sheet",
+            "node": "Cliente_Encontrado",
             "type": "main",
             "index": 0
           }
@@ -358,35 +231,6 @@
         [
           {
             "node": "Cliente_No_Encontrado",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s) in sheet": {
-      "main": [
-        [
-          {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Cliente_Encontrado_Cita",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Cliente_Encontrado_Sin_Cita",
             "type": "main",
             "index": 0
           }
@@ -404,8 +248,13 @@
   "nodes": [
     {
       "parameters": {
-        "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"phoneNumber\": {\n      \"type\": \"string\",\n      \"description\": \"El número de teléfono del cliente que está llamando (Caller ID).\"\n    }\n  },\n  \"required\": [\"phoneNumber\"]\n}"
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "telefono"
+            }
+          ]
+        }
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
@@ -459,7 +308,7 @@
           "values": [
             {
               "lookupColumn": "Telefono",
-              "lookupValue": "={{ $json.properties.telefono }}"
+              "lookupValue": "={{ $json.telefono }}"
             }
           ]
         },
@@ -517,129 +366,26 @@
     },
     {
       "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
-          "mode": "list",
-          "cachedResultName": "Agente de voz Zenit Clinic V2",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 21844311,
-          "mode": "list",
-          "cachedResultName": "Citas",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
-        },
-        "filtersUI": {
-          "values": [
+        "assignments": {
+          "assignments": [
             {
-              "lookupColumn": "Telefono",
-              "lookupValue": "={{ $json.Telefono }}"
-            },
-            {
-              "lookupColumn": "Estado",
-              "lookupValue": "Confirmada"
+              "id": "21f7468c-9858-4ca4-97ef-01a6dc352f4b",
+              "name": "Mensaje",
+              "value": "=Ya está registrado y se llama, {{ $json['Nombre Completo'] }}",
+              "type": "string"
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
         944,
         256
       ],
-      "id": "836be640-91c6-49ea-ba41-c6c6d21ca67f",
-      "name": "Get row(s) in sheet",
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "7QvCi5UUFUsiQIlm",
-          "name": "Google Sheets account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "dc41242c-cf50-4871-a8ee-a5866827c8f2",
-              "leftValue": "={{ $json.Telefono }}",
-              "rightValue": "={{ $json.Telefono }}",
-              "operator": {
-                "type": "string",
-                "operation": "exists",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        1152,
-        256
-      ],
-      "id": "2a41706a-5e57-4c9d-b253-ecff73df1b43",
-      "name": "If"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2f53949a-abeb-4f17-9619-3d07226b5fc0",
-              "name": "Mensaje",
-              "value": "=Su nombre es {{ $json['Nombre Completo'] }} y tiene una cita confirmada para {{ $json.Fecha }} a las {{ $json.Hora }} para {{ $json.Servicio }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1360,
-        112
-      ],
-      "id": "7cd82ded-310a-4b8a-9358-5705574afea4",
-      "name": "Cliente_Encontrado_Cita"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "b587177c-4f71-4002-be7f-c5f899359fcc",
-              "name": "Mensaje",
-              "value": "=Su nombre es {{ $('¿Existe?').item.json['Nombre Completo'] }} y no tiene ninguna cita",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1360,
-        352
-      ],
-      "id": "42a7a35a-405c-4e2d-97de-9dc52f53be3f",
-      "name": "Cliente_Encontrado_Sin_Cita"
+      "id": "1ccdc1f1-ad1d-45ee-968f-d89cc093be35",
+      "name": "Cliente_Encontrado"
     }
   ],
   "pinData": {},
@@ -662,6 +408,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-23T11:28:23.920Z",
-  "versionId": "4b4c6a37-ebbd-4311-af7a-89b56276dd1f"
+  "updatedAt": "2026-01-23T12:53:58.101Z",
+  "versionId": "64a88929-e12d-4c85-8597-0e526472e19b"
 }
