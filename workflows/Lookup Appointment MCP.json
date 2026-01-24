@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-23T13:19:32.000Z",
-    "createdAt": "2026-01-23T13:19:31.382Z",
-    "versionId": "02e0c08c-0520-4051-bbf1-da26b1e66ce7",
+    "updatedAt": "2026-01-24T11:39:44.000Z",
+    "createdAt": "2026-01-24T11:39:27.072Z",
+    "versionId": "050501c2-3a53-470f-90a6-701547f32338",
     "workflowId": "QkCgvroGiqPI8pLC",
     "nodes": [
       {
@@ -22,53 +22,8 @@
         "type": "n8n-nodes-base.executeWorkflowTrigger",
         "position": [
           272,
-          352
+          288
         ]
-      },
-      {
-        "parameters": {
-          "documentId": {
-            "__rl": true,
-            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
-            "mode": "list",
-            "cachedResultName": "Agente de voz Zenit Clinic V2",
-            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
-          },
-          "sheetName": {
-            "__rl": true,
-            "value": 21844311,
-            "mode": "list",
-            "cachedResultName": "Citas",
-            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
-          },
-          "filtersUI": {
-            "values": [
-              {
-                "lookupColumn": "Telefono",
-                "lookupValue": "=+34665267756"
-              },
-              {
-                "lookupColumn": "Estado",
-                "lookupValue": "Confirmada"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.googleSheets",
-        "typeVersion": 4.7,
-        "position": [
-          528,
-          352
-        ],
-        "id": "b5612d32-1afd-4889-8cc0-5c94c4360b0f",
-        "name": "Get row(s) in sheet",
-        "credentials": {
-          "googleSheetsOAuth2Api": {
-            "id": "7QvCi5UUFUsiQIlm",
-            "name": "Google Sheets account"
-          }
-        }
       },
       {
         "parameters": {
@@ -98,8 +53,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          736,
-          352
+          720,
+          288
         ],
         "id": "992fffab-69c6-4fd8-a14c-2fb73521ca0a",
         "name": "If"
@@ -122,7 +77,7 @@
         "typeVersion": 3.4,
         "position": [
           944,
-          448
+          384
         ],
         "id": "7506a4f4-67be-499b-8d91-0719c061fe63",
         "name": "Respuesta_No_Hay"
@@ -134,7 +89,7 @@
               {
                 "id": "370f9f20-1df1-431b-b863-52c195baaf7c",
                 "name": "Mensaje",
-                "value": "=Tiene cita confirmada para {{ $json.Servicio }} a las {{ $json.Hora }} el día {{ $json.Fecha }}",
+                "value": "=Tiene cita confirmada para {{ $json.Servicio }} a las {{ $json.Hora }} el día {{ $json.Fecha }}\n\nID de la cita:{{ $json['ID Cita'] }}",
                 "type": "string"
               }
             ]
@@ -144,11 +99,57 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          912,
+          944,
           192
         ],
         "id": "1c9ae7d0-f7a9-4c82-9787-5302e34fc234",
         "name": "Respuesta_Si_Hay"
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+            "mode": "list",
+            "cachedResultName": "Agente de voz Zenit Clinic V2",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 21844311,
+            "mode": "list",
+            "cachedResultName": "Citas",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
+          },
+          "filtersUI": {
+            "values": [
+              {
+                "lookupColumn": "Telefono",
+                "lookupValue": "={{ $json.telefono }}"
+              },
+              {
+                "lookupColumn": "Estado",
+                "lookupValue": "Confirmada"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          496,
+          288
+        ],
+        "id": "b5612d32-1afd-4889-8cc0-5c94c4360b0f",
+        "name": "Buscar Cita",
+        "alwaysOutputData": true,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
       }
     ],
     "connections": {
@@ -156,18 +157,7 @@
         "main": [
           [
             {
-              "node": "Get row(s) in sheet",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Get row(s) in sheet": {
-        "main": [
-          [
-            {
-              "node": "If",
+              "node": "Buscar Cita",
               "type": "main",
               "index": 0
             }
@@ -191,31 +181,31 @@
             }
           ]
         ]
+      },
+      "Buscar Cita": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 02e0c08c",
+    "name": "Version 050501c2",
     "description": "",
-    "autosaved": false
+    "autosaved": true
   },
-  "activeVersionId": "02e0c08c-0520-4051-bbf1-da26b1e66ce7",
+  "activeVersionId": "050501c2-3a53-470f-90a6-701547f32338",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
         [
           {
-            "node": "Get row(s) in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s) in sheet": {
-      "main": [
-        [
-          {
-            "node": "If",
+            "node": "Buscar Cita",
             "type": "main",
             "index": 0
           }
@@ -234,6 +224,17 @@
         [
           {
             "node": "Respuesta_No_Hay",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Cita": {
+      "main": [
+        [
+          {
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -267,52 +268,6 @@
         272,
         288
       ]
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
-          "mode": "list",
-          "cachedResultName": "Agente de voz Zenit Clinic V2",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 21844311,
-          "mode": "list",
-          "cachedResultName": "Citas",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "Telefono",
-              "lookupValue": "={{ $json.telefono }}"
-            },
-            {
-              "lookupColumn": "Estado",
-              "lookupValue": "Confirmada"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        496,
-        288
-      ],
-      "id": "b5612d32-1afd-4889-8cc0-5c94c4360b0f",
-      "name": "Get row(s) in sheet",
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "7QvCi5UUFUsiQIlm",
-          "name": "Google Sheets account"
-        }
-      }
     },
     {
       "parameters": {
@@ -378,7 +333,7 @@
             {
               "id": "370f9f20-1df1-431b-b863-52c195baaf7c",
               "name": "Mensaje",
-              "value": "=Tiene cita confirmada para {{ $json.Servicio }} a las {{ $json.Hora }} el día {{ $json.Fecha }}",
+              "value": "=Tiene cita confirmada para {{ $json.Servicio }} a las {{ $json.Hora }} el día {{ $json.Fecha }}\n\nID de la cita:{{ $json['ID Cita'] }}",
               "type": "string"
             }
           ]
@@ -393,6 +348,52 @@
       ],
       "id": "1c9ae7d0-f7a9-4c82-9787-5302e34fc234",
       "name": "Respuesta_Si_Hay"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+          "mode": "list",
+          "cachedResultName": "Agente de voz Zenit Clinic V2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 21844311,
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Telefono",
+              "lookupValue": "={{ $json.telefono }}"
+            },
+            {
+              "lookupColumn": "Estado",
+              "lookupValue": "Confirmada"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        496,
+        288
+      ],
+      "id": "b5612d32-1afd-4889-8cc0-5c94c4360b0f",
+      "name": "Buscar Cita",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -415,6 +416,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-23T13:23:04.545Z",
-  "versionId": "cda4b9e4-ee3f-4549-9801-c623c258882d"
+  "updatedAt": "2026-01-24T11:40:19.398Z",
+  "versionId": "050501c2-3a53-470f-90a6-701547f32338"
 }
