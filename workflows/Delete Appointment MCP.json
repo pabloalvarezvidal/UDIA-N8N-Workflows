@@ -1,15 +1,20 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-21T10:13:22.000Z",
-    "createdAt": "2026-01-21T10:13:21.269Z",
-    "versionId": "01f30616-58dd-412a-baa2-583263e7aa80",
+    "updatedAt": "2026-01-24T11:12:34.000Z",
+    "createdAt": "2026-01-24T11:12:31.684Z",
+    "versionId": "d4994f83-b8d3-46ba-9f8e-fa92f406a035",
     "workflowId": "A9aXDyRXZAy8o0rK",
     "nodes": [
       {
         "parameters": {
-          "inputSource": "jsonExample",
-          "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"eventId\": {\n      \"type\": \"string\",\n      \"description\": \"El ID único del evento de Google Calendar que se va a cancelar.\"\n    }\n  },\n  \"required\": [\n    \"eventId\"\n  ]\n}"
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "eventID"
+              }
+            ]
+          }
         },
         "id": "c055762a-8fe7-4141-a639-df2372f30060",
         "typeVersion": 1.1,
@@ -201,11 +206,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 01f30616",
+    "name": "Version d4994f83",
     "description": "",
-    "autosaved": false
+    "autosaved": true
   },
-  "activeVersionId": "01f30616-58dd-412a-baa2-583263e7aa80",
+  "activeVersionId": "d4994f83-b8d3-46ba-9f8e-fa92f406a035",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -240,8 +245,13 @@
   "nodes": [
     {
       "parameters": {
-        "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"eventId\": {\n      \"type\": \"string\",\n      \"description\": \"El ID único del evento de Google Calendar que se va a cancelar.\"\n    }\n  },\n  \"required\": [\n    \"eventId\"\n  ]\n}"
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "eventID"
+            }
+          ]
+        }
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
@@ -428,6 +438,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-22T11:38:26.365Z",
-  "versionId": "01f30616-58dd-412a-baa2-583263e7aa80"
+  "updatedAt": "2026-01-24T11:12:31.682Z",
+  "versionId": "d4994f83-b8d3-46ba-9f8e-fa92f406a035"
 }
