@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-24T11:12:34.000Z",
-    "createdAt": "2026-01-24T11:12:31.684Z",
-    "versionId": "d4994f83-b8d3-46ba-9f8e-fa92f406a035",
+    "updatedAt": "2026-01-24T12:01:28.000Z",
+    "createdAt": "2026-01-24T12:01:03.664Z",
+    "versionId": "1664f9e8-d02d-4463-8825-a1079f0d9fd6",
     "workflowId": "A9aXDyRXZAy8o0rK",
     "nodes": [
       {
@@ -34,7 +34,7 @@
             "mode": "list",
             "cachedResultName": "alvarezvidalpablo@gmail.com"
           },
-          "eventId": "={{ $json.eventId }}",
+          "eventId": "={{ $json.eventID }}",
           "options": {}
         },
         "type": "n8n-nodes-base.googleCalendar",
@@ -73,7 +73,7 @@
             "mappingMode": "defineBelow",
             "value": {
               "Estado": "Cancelada",
-              "ID Cita": "={{ $json.eventId }}"
+              "ID Cita": "={{ $('When Executed by Another Workflow').item.json.eventID }}"
             },
             "matchingColumns": [
               "ID Cita"
@@ -206,11 +206,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version d4994f83",
+    "name": "Version 1664f9e8",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "d4994f83-b8d3-46ba-9f8e-fa92f406a035",
+  "activeVersionId": "1664f9e8-d02d-4463-8825-a1079f0d9fd6",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -271,7 +271,7 @@
           "mode": "list",
           "cachedResultName": "alvarezvidalpablo@gmail.com"
         },
-        "eventId": "={{ $json.eventId }}",
+        "eventId": "={{ $json.eventID }}",
         "options": {}
       },
       "type": "n8n-nodes-base.googleCalendar",
@@ -310,7 +310,7 @@
           "mappingMode": "defineBelow",
           "value": {
             "Estado": "Cancelada",
-            "ID Cita": "={{ $json.eventId }}"
+            "ID Cita": "={{ $('When Executed by Another Workflow').item.json.eventID }}"
           },
           "matchingColumns": [
             "ID Cita"
@@ -438,6 +438,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-24T11:12:31.682Z",
-  "versionId": "d4994f83-b8d3-46ba-9f8e-fa92f406a035"
+  "updatedAt": "2026-01-24T12:01:25.070Z",
+  "versionId": "1664f9e8-d02d-4463-8825-a1079f0d9fd6"
 }
