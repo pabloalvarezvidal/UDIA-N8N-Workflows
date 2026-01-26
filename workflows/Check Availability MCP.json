@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-23T12:38:47.000Z",
-    "createdAt": "2026-01-23T12:38:44.127Z",
-    "versionId": "d5f47124-61b4-4e4a-ae09-5976dca1cb71",
+    "updatedAt": "2026-01-26T08:51:57.000Z",
+    "createdAt": "2026-01-26T08:51:33.724Z",
+    "versionId": "d885f50c-d04c-4280-8dab-11139d312bb6",
     "workflowId": "2e9xvr2d0ANtxVMD",
     "nodes": [
       {
@@ -28,7 +28,7 @@
         "type": "n8n-nodes-base.executeWorkflowTrigger",
         "position": [
           272,
-          352
+          240
         ]
       },
       {
@@ -47,8 +47,8 @@
         "type": "n8n-nodes-base.googleCalendar",
         "typeVersion": 1.3,
         "position": [
-          464,
-          352
+          192,
+          -240
         ],
         "id": "02466197-b03b-4849-83ef-1f8b491d0e7c",
         "name": "Get many events",
@@ -67,11 +67,122 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          656,
-          352
+          416,
+          -240
         ],
         "id": "9b37c0b2-0c01-4d20-9d44-b6d66e606ecb",
         "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "jsCode": "const date = new Date($json.date + \"T12:00:00\");\nconst dayOfWeek = date.getDay(); // 0 = Domingo, 6 = Sábado\n\n// 1. VERIFICAR DOMINGO\nif (dayOfWeek === 0) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"Ese día cae domingo y estamos cerrados. ¿Qué otro día te vendría bien?\"\n    }\n  }];\n}\n\n// 2. VERIFICAR HORARIO\n// Extraer hora del fromTime (formato \"HH:MM:SS\")\nconst hour = parseInt($json.fromTime.split(\":\")[0]);\n\n// Sábado: solo 10:00-13:30\nif (dayOfWeek === 6) {\n  if (hour < 10 || hour >= 14) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"Los sábados solo atendemos de 10:00 a 13:30. ¿Te viene bien en ese horario?\"\n      }\n    }];\n  }\n}\n\n// Lunes-Viernes: rechazar 14:00-16:00 y 20:00-09:00\nif (dayOfWeek >= 1 && dayOfWeek <= 5) {\n  if (hour >= 14 && hour < 16) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"De 14:00 a 16:00 estamos cerrados. Trabajamos de 09:00 a 13:30 y de 16:00 a 19:30. ¿Qué horario te viene mejor?\"\n      }\n    }];\n  }\n  if (hour >= 20 || hour < 9) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"Ese horario está fuera de nuestro servicio. Trabajamos de 09:00 a 13:30 y de 16:00 a 19:30. ¿Qué horario te viene mejor?\"\n      }\n    }];\n  }\n}\n\n// 3. TODO OK - Continuar con los datos originales\nreturn [{\n  json: {\n    date: $json.date,\n    fromTime: $json.fromTime,\n    toTime: $json.toTime\n  }\n}];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          496,
+          240
+        ],
+        "id": "17833584-a1a9-4ff9-9279-df349ed4381d",
+        "name": "Verificar Domingo"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "condition-domingo",
+                "leftValue": "={{ $json.status }}",
+                "rightValue": "closed",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEquals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          720,
+          240
+        ],
+        "id": "98462fda-8dd5-4bea-bb7d-d8547a84cfeb",
+        "name": "Es Domingo?"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "calendar": {
+            "__rl": true,
+            "value": "alvarezvidalpablo@gmail.com",
+            "mode": "list",
+            "cachedResultName": "alvarezvidalpablo@gmail.com"
+          },
+          "timeMin": "={{ $json.date }}T{{ $json.fromTime }}",
+          "timeMax": "={{ $json.date }}T{{ $json.toTime }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleCalendar",
+        "typeVersion": 1.3,
+        "position": [
+          944,
+          224
+        ],
+        "id": "a4186a7e-889f-4dbe-8607-352b298dc98c",
+        "name": "Get many events1",
+        "alwaysOutputData": true,
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "RSjmCgtcmSyhYKoN",
+            "name": "Google Calendar account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const items = $input.all();\n\n// 1. VERIFICACIÓN ROBUSTA DE HUECO LIBRE\n// Comprobamos si la lista está vacía O si el primer elemento NO tiene propiedad 'start'.\n// Esto cubre el caso donde \"Always Output Data\" envía un item vacío.\nif (items.length === 0 || !items[0].json.start) {\n  return [{\n    json: {\n      status: \"free\",\n      message: \"El horario está libre. Puedes reservar.\"\n    }\n  }];\n}\n\n// 2. SI HAY CITAS (HUECO OCUPADO)\n// Usamos \"optional chaining\" (?.) para evitar errores si falta algún dato raro\nconst busySlots = items.map(item => {\n  const start = item.json.start?.dateTime || item.json.start?.date || \"Hora desconocida\";\n  const end = item.json.end?.dateTime || item.json.end?.date || \"Hora desconocida\";\n  \n  return `Ocupado desde ${start} hasta ${end}`;\n}).join(\". \");\n\n// 3. DEVOLVER RESPUESTA\nreturn [{\n  json: {\n    status: \"busy\",\n    message: \"Ese horario no está disponible. Conflictos: \" + busySlots\n  }\n}];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1168,
+          224
+        ],
+        "id": "833960b5-819d-4e18-b7f5-a18b518a6c5e",
+        "name": "Code in JavaScript1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "533bd177-b54e-4f08-88c6-067fc035b1ef",
+                "name": "mensaje",
+                "value": "={{ $('Verificar Domingo').item.json.message }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          944,
+          400
+        ],
+        "id": "101cdfdd-ee33-41e6-9504-7e5e8c02f691",
+        "name": "Edit Fields"
       }
     ],
     "connections": {
@@ -79,7 +190,7 @@
         "main": [
           [
             {
-              "node": "Get many events",
+              "node": "Verificar Domingo",
               "type": "main",
               "index": 0
             }
@@ -96,20 +207,60 @@
             }
           ]
         ]
+      },
+      "Verificar Domingo": {
+        "main": [
+          [
+            {
+              "node": "Es Domingo?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Es Domingo?": {
+        "main": [
+          [
+            {
+              "node": "Get many events1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many events1": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version d5f47124",
+    "name": "Version d885f50c",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "d5f47124-61b4-4e4a-ae09-5976dca1cb71",
+  "activeVersionId": "d885f50c-d04c-4280-8dab-11139d312bb6",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
         [
           {
-            "node": "Get many events",
+            "node": "Verificar Domingo",
             "type": "main",
             "index": 0
           }
@@ -121,6 +272,46 @@
         [
           {
             "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar Domingo": {
+      "main": [
+        [
+          {
+            "node": "Es Domingo?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Es Domingo?": {
+      "main": [
+        [
+          {
+            "node": "Get many events1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
             "type": "main",
             "index": 0
           }
@@ -158,7 +349,7 @@
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
         272,
-        352
+        240
       ]
     },
     {
@@ -177,8 +368,8 @@
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1.3,
       "position": [
-        464,
-        352
+        192,
+        -240
       ],
       "id": "02466197-b03b-4849-83ef-1f8b491d0e7c",
       "name": "Get many events",
@@ -197,14 +388,138 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        656,
-        352
+        416,
+        -240
       ],
       "id": "9b37c0b2-0c01-4d20-9d44-b6d66e606ecb",
       "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "const date = new Date($json.date + \"T12:00:00\");\nconst dayOfWeek = date.getDay(); // 0 = Domingo, 6 = Sábado\n\n// 1. VERIFICAR DOMINGO\nif (dayOfWeek === 0) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"Ese día cae domingo y estamos cerrados. ¿Qué otro día te vendría bien?\"\n    }\n  }];\n}\n\n// 2. VERIFICAR HORARIO\n// Extraer hora del fromTime (formato \"HH:MM:SS\")\nconst hour = parseInt($json.fromTime.split(\":\")[0]);\n\n// Sábado: solo 10:00-13:30\nif (dayOfWeek === 6) {\n  if (hour < 10 || hour >= 14) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"Los sábados solo atendemos de 10:00 a 13:30. ¿Te viene bien en ese horario?\"\n      }\n    }];\n  }\n}\n\n// Lunes-Viernes: rechazar 14:00-16:00 y 20:00-09:00\nif (dayOfWeek >= 1 && dayOfWeek <= 5) {\n  if (hour >= 14 && hour < 16) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"De 14:00 a 16:00 estamos cerrados. Trabajamos de 09:00 a 13:30 y de 16:00 a 19:30. ¿Qué horario te viene mejor?\"\n      }\n    }];\n  }\n  if (hour >= 20 || hour < 9) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"Ese horario está fuera de nuestro servicio. Trabajamos de 09:00 a 13:30 y de 16:00 a 19:30. ¿Qué horario te viene mejor?\"\n      }\n    }];\n  }\n}\n\n// 3. TODO OK - Continuar con los datos originales\nreturn [{\n  json: {\n    date: $json.date,\n    fromTime: $json.fromTime,\n    toTime: $json.toTime\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        496,
+        240
+      ],
+      "id": "17833584-a1a9-4ff9-9279-df349ed4381d",
+      "name": "Verificar Domingo"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "condition-domingo",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "closed",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        240
+      ],
+      "id": "98462fda-8dd5-4bea-bb7d-d8547a84cfeb",
+      "name": "Es Domingo?"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "alvarezvidalpablo@gmail.com",
+          "mode": "list",
+          "cachedResultName": "alvarezvidalpablo@gmail.com"
+        },
+        "timeMin": "={{ $json.date }}T{{ $json.fromTime }}",
+        "timeMax": "={{ $json.date }}T{{ $json.toTime }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        944,
+        224
+      ],
+      "id": "a4186a7e-889f-4dbe-8607-352b298dc98c",
+      "name": "Get many events1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "RSjmCgtcmSyhYKoN",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// 1. VERIFICACIÓN ROBUSTA DE HUECO LIBRE\n// Comprobamos si la lista está vacía O si el primer elemento NO tiene propiedad 'start'.\n// Esto cubre el caso donde \"Always Output Data\" envía un item vacío.\nif (items.length === 0 || !items[0].json.start) {\n  return [{\n    json: {\n      status: \"free\",\n      message: \"El horario está libre. Puedes reservar.\"\n    }\n  }];\n}\n\n// 2. SI HAY CITAS (HUECO OCUPADO)\n// Usamos \"optional chaining\" (?.) para evitar errores si falta algún dato raro\nconst busySlots = items.map(item => {\n  const start = item.json.start?.dateTime || item.json.start?.date || \"Hora desconocida\";\n  const end = item.json.end?.dateTime || item.json.end?.date || \"Hora desconocida\";\n  \n  return `Ocupado desde ${start} hasta ${end}`;\n}).join(\". \");\n\n// 3. DEVOLVER RESPUESTA\nreturn [{\n  json: {\n    status: \"busy\",\n    message: \"Ese horario no está disponible. Conflictos: \" + busySlots\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        224
+      ],
+      "id": "833960b5-819d-4e18-b7f5-a18b518a6c5e",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "533bd177-b54e-4f08-88c6-067fc035b1ef",
+              "name": "mensaje",
+              "value": "={{ $('Verificar Domingo').item.json.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        944,
+        400
+      ],
+      "id": "101cdfdd-ee33-41e6-9504-7e5e8c02f691",
+      "name": "Edit Fields"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "date": "2026-01-26",
+          "fromTime": "09:53:00",
+          "toTime": "19:30:00"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false,
@@ -224,6 +539,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-23T12:38:44.125Z",
-  "versionId": "d5f47124-61b4-4e4a-ae09-5976dca1cb71"
+  "updatedAt": "2026-01-26T08:55:11.219Z",
+  "versionId": "d885f50c-d04c-4280-8dab-11139d312bb6"
 }
