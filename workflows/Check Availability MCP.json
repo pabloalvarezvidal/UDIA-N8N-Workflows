@@ -506,20 +506,7 @@
       "name": "Edit Fields"
     }
   ],
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "date": "2026-01-26",
-          "fromTime": "09:53:00",
-          "toTime": "19:30:00"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false,
@@ -539,6 +526,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-26T08:55:11.219Z",
+  "updatedAt": "2026-02-22T17:04:53.743Z",
   "versionId": "d885f50c-d04c-4280-8dab-11139d312bb6"
 }
