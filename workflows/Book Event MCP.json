@@ -252,7 +252,7 @@
       "main": [
         [
           {
-            "node": "Crear Cita",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -275,6 +275,17 @@
         [
           {
             "node": "Respuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Crear Cita",
             "type": "main",
             "index": 0
           }
@@ -317,7 +328,7 @@
       "name": "When Executed by Another Workflow",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        272,
+        128,
         352
       ]
     },
@@ -488,6 +499,19 @@
       ],
       "id": "057084b0-f4ed-43f0-838f-4d1633653f46",
       "name": "Respuesta"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        352
+      ],
+      "id": "c74abbb8-d02a-4689-9e99-e679f7262a00",
+      "name": "Edit Fields"
     }
   ],
   "pinData": {},
@@ -510,6 +534,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-23T13:01:02.732Z",
-  "versionId": "f032b527-9c0f-4546-a70c-6140420ce4ce"
+  "updatedAt": "2026-02-23T18:10:09.298Z",
+  "versionId": "ba46d158-27c2-4674-9a76-b12512b367c8"
 }
