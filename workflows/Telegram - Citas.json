@@ -1,0 +1,576 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-02-24T19:29:58.000Z",
+    "createdAt": "2026-02-24T19:29:44.583Z",
+    "versionId": "746bba1a-e8c2-456d-9693-bc3150689cb7",
+    "workflowId": "OvvEoj7IvGUF6T38",
+    "nodes": [
+      {
+        "parameters": {
+          "pollTimes": {
+            "item": [
+              {
+                "mode": "everyMinute"
+              }
+            ]
+          },
+          "documentId": {
+            "__rl": true,
+            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+            "mode": "id"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "21844311",
+            "mode": "id"
+          },
+          "event": "rowAdded",
+          "options": {}
+        },
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000004",
+        "name": "Citas - Fila Añadida",
+        "type": "n8n-nodes-base.googleSheetsTrigger",
+        "typeVersion": 1,
+        "position": [
+          240,
+          208
+        ],
+        "credentials": {
+          "googleSheetsTriggerOAuth2Api": {
+            "id": "Mlk5fMeqcj0xdcS2",
+            "name": "Google Sheets Trigger account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "-1003802173135",
+          "text": "=📅 *Nueva Cita Confirmada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "parse_mode": "Markdown",
+            "message_thread_id": 2
+          }
+        },
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000005",
+        "name": "Telegram - Nueva Cita",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          656,
+          208
+        ],
+        "webhookId": "dff79b92-0fc2-4249-a555-b231d2e2054c",
+        "credentials": {
+          "telegramApi": {
+            "id": "Js2sDWKx7Dmf76Y4",
+            "name": "BOT ROSA MORA"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "pollTimes": {
+            "item": [
+              {
+                "mode": "everyMinute"
+              }
+            ]
+          },
+          "documentId": {
+            "__rl": true,
+            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+            "mode": "id"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "21844311",
+            "mode": "id"
+          },
+          "event": "rowUpdate",
+          "options": {}
+        },
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000006",
+        "name": "Citas - Fila Actualizada",
+        "type": "n8n-nodes-base.googleSheetsTrigger",
+        "typeVersion": 1,
+        "position": [
+          240,
+          512
+        ],
+        "credentials": {
+          "googleSheetsTriggerOAuth2Api": {
+            "id": "Mlk5fMeqcj0xdcS2",
+            "name": "Google Sheets Trigger account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "rule-cancelada",
+                      "leftValue": "={{ $json.Estado }}",
+                      "rightValue": "Cancelada",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Cancelada"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "rule-modificada",
+                      "leftValue": "={{ $json.Estado }}",
+                      "rightValue": "Modificada",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Modificada"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000010",
+        "name": "Switch Estado",
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          464,
+          512
+        ]
+      },
+      {
+        "parameters": {
+          "chatId": "-1003802173135",
+          "text": "=❌ *Cita Cancelada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "parse_mode": "Markdown",
+            "message_thread_id": 4
+          }
+        },
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000008",
+        "name": "Telegram - Cita Cancelada",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          688,
+          400
+        ],
+        "webhookId": "6f4ee98e-69ba-4b41-a97e-b5af7f68cd91",
+        "credentials": {
+          "telegramApi": {
+            "id": "Js2sDWKx7Dmf76Y4",
+            "name": "BOT ROSA MORA"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "-1003802173135",
+          "text": "=✏️ *Cita Modificada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nNueva Fecha: {{ $json['Fecha'] }}\nNueva Hora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "parse_mode": "Markdown",
+            "message_thread_id": 3
+          }
+        },
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000009",
+        "name": "Telegram - Cita Modificada",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          688,
+          624
+        ],
+        "webhookId": "5deea1a0-2e0d-44c9-b793-fed3aa63b4ed",
+        "credentials": {
+          "telegramApi": {
+            "id": "Js2sDWKx7Dmf76Y4",
+            "name": "BOT ROSA MORA"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Citas - Fila Añadida": {
+        "main": [
+          [
+            {
+              "node": "Telegram - Nueva Cita",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Citas - Fila Actualizada": {
+        "main": [
+          [
+            {
+              "node": "Switch Estado",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch Estado": {
+        "main": [
+          [
+            {
+              "node": "Telegram - Cita Cancelada",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Telegram - Cita Modificada",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version 746bba1a",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "746bba1a-e8c2-456d-9693-bc3150689cb7",
+  "connections": {
+    "Citas - Fila Añadida": {
+      "main": [
+        [
+          {
+            "node": "Telegram - Nueva Cita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Citas - Fila Actualizada": {
+      "main": [
+        [
+          {
+            "node": "Switch Estado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Estado": {
+      "main": [
+        [
+          {
+            "node": "Telegram - Cita Cancelada",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram - Cita Modificada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-02-24T19:01:39.263Z",
+  "id": "OvvEoj7IvGUF6T38",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Telegram - Citas",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "21844311",
+          "mode": "id"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000004",
+      "name": "Citas - Fila Añadida",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        208
+      ],
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "Mlk5fMeqcj0xdcS2",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "-1003802173135",
+        "text": "=📅 *Nueva Cita Confirmada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "Markdown",
+          "message_thread_id": 2
+        }
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000005",
+      "name": "Telegram - Nueva Cita",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        656,
+        208
+      ],
+      "webhookId": "dff79b92-0fc2-4249-a555-b231d2e2054c",
+      "credentials": {
+        "telegramApi": {
+          "id": "Js2sDWKx7Dmf76Y4",
+          "name": "BOT ROSA MORA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "21844311",
+          "mode": "id"
+        },
+        "event": "rowUpdate",
+        "options": {}
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000006",
+      "name": "Citas - Fila Actualizada",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        512
+      ],
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "Mlk5fMeqcj0xdcS2",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "rule-cancelada",
+                    "leftValue": "={{ $json.Estado }}",
+                    "rightValue": "Cancelada",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cancelada"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "rule-modificada",
+                    "leftValue": "={{ $json.Estado }}",
+                    "rightValue": "Modificada",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Modificada"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000010",
+      "name": "Switch Estado",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        464,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "-1003802173135",
+        "text": "=❌ *Cita Cancelada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "Markdown",
+          "message_thread_id": 4
+        }
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000008",
+      "name": "Telegram - Cita Cancelada",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        400
+      ],
+      "webhookId": "6f4ee98e-69ba-4b41-a97e-b5af7f68cd91",
+      "credentials": {
+        "telegramApi": {
+          "id": "Js2sDWKx7Dmf76Y4",
+          "name": "BOT ROSA MORA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "-1003802173135",
+        "text": "=✏️ *Cita Modificada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nNueva Fecha: {{ $json['Fecha'] }}\nNueva Hora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "Markdown",
+          "message_thread_id": 3
+        }
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000009",
+      "name": "Telegram - Cita Modificada",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        624
+      ],
+      "webhookId": "5deea1a0-2e0d-44c9-b793-fed3aa63b4ed",
+      "credentials": {
+        "telegramApi": {
+          "id": "Js2sDWKx7Dmf76Y4",
+          "name": "BOT ROSA MORA"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-02-24T19:01:39.272Z",
+      "createdAt": "2026-02-24T19:01:39.272Z",
+      "role": "workflow:owner",
+      "workflowId": "OvvEoj7IvGUF6T38",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": {
+    "node:Citas - Fila Añadida": {
+      "documentId": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+      "sheetId": 21844311,
+      "lastIndexChecked": 31
+    },
+    "node:Citas - Fila Actualizada": {
+      "documentId": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+      "sheetId": 21844311,
+      "lastRevision": 359,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao&revision=359&exportFormat=xlsx"
+    }
+  },
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2026-02-24T19:30:28.239Z",
+  "versionId": "746bba1a-e8c2-456d-9693-bc3150689cb7"
+}
