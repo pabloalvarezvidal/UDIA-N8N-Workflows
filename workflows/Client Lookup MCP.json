@@ -394,7 +394,9 @@
     "availableInMCP": false,
     "timeSavedMode": "fixed",
     "timezone": "Europe/Madrid",
-    "callerPolicy": "workflowsFromSameOwner"
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "5PrcmQWgZy-C8ojFfhpz-",
+    "binaryMode": "separate"
   },
   "shared": [
     {
@@ -408,6 +410,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-23T12:53:58.101Z",
+  "updatedAt": "2026-02-24T19:40:34.598Z",
   "versionId": "64a88929-e12d-4c85-8597-0e526472e19b"
 }
