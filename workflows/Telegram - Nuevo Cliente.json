@@ -1,0 +1,212 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-02-24T19:09:16.000Z",
+    "createdAt": "2026-02-24T19:08:54.696Z",
+    "versionId": "71afb2b8-b84f-46f2-90c2-7b4fb21fe1a0",
+    "workflowId": "NHZRMJRLPuqD7K0s",
+    "nodes": [
+      {
+        "parameters": {
+          "pollTimes": {
+            "item": [
+              {
+                "mode": "everyMinute"
+              }
+            ]
+          },
+          "documentId": {
+            "__rl": true,
+            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+            "mode": "list",
+            "cachedResultName": "Agente de voz Zenit Clinic V2",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Clientes",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=0"
+          },
+          "event": "rowAdded",
+          "options": {}
+        },
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000002",
+        "name": "Clientes - Fila Añadida",
+        "type": "n8n-nodes-base.googleSheetsTrigger",
+        "typeVersion": 1,
+        "position": [
+          240,
+          304
+        ],
+        "credentials": {
+          "googleSheetsTriggerOAuth2Api": {
+            "id": "Mlk5fMeqcj0xdcS2",
+            "name": "Google Sheets Trigger account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "-1003802173135",
+          "text": "=👤 *Nuevo Cliente Registrado*\n\nNombre: {{ $json['Nombre Completo'] }}\nTeléfono: {{ $json['Telefono'] }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "parse_mode": "Markdown",
+            "message_thread_id": 12
+          }
+        },
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000003",
+        "name": "Telegram - Nuevo Cliente",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          464,
+          304
+        ],
+        "webhookId": "ae0617a1-223f-44cf-a64b-6e37eee8d525",
+        "credentials": {
+          "telegramApi": {
+            "id": "Js2sDWKx7Dmf76Y4",
+            "name": "BOT ROSA MORA"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Clientes - Fila Añadida": {
+        "main": [
+          [
+            {
+              "node": "Telegram - Nuevo Cliente",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version 71afb2b8",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "71afb2b8-b84f-46f2-90c2-7b4fb21fe1a0",
+  "connections": {
+    "Clientes - Fila Añadida": {
+      "main": [
+        [
+          {
+            "node": "Telegram - Nuevo Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-02-24T19:00:43.145Z",
+  "id": "NHZRMJRLPuqD7K0s",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Telegram - Nuevo Cliente",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+          "mode": "list",
+          "cachedResultName": "Agente de voz Zenit Clinic V2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000002",
+      "name": "Clientes - Fila Añadida",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        304
+      ],
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "Mlk5fMeqcj0xdcS2",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "-1003802173135",
+        "text": "=👤 *Nuevo Cliente Registrado*\n\nNombre: {{ $json['Nombre Completo'] }}\nTeléfono: {{ $json['Telefono'] }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "Markdown",
+          "message_thread_id": 12
+        }
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef0000000003",
+      "name": "Telegram - Nuevo Cliente",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        304
+      ],
+      "webhookId": "ae0617a1-223f-44cf-a64b-6e37eee8d525",
+      "credentials": {
+        "telegramApi": {
+          "id": "Js2sDWKx7Dmf76Y4",
+          "name": "BOT ROSA MORA"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-02-24T19:00:43.150Z",
+      "createdAt": "2026-02-24T19:00:43.150Z",
+      "role": "workflow:owner",
+      "workflowId": "NHZRMJRLPuqD7K0s",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": {
+    "node:Clientes - Fila Añadida": {
+      "documentId": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
+      "sheetId": 0,
+      "lastIndexChecked": 10
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-02-24T19:09:47.587Z",
+  "versionId": "71afb2b8-b84f-46f2-90c2-7b4fb21fe1a0"
+}
