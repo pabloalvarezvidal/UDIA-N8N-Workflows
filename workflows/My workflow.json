@@ -2,46 +2,72 @@
   "active": false,
   "activeVersion": null,
   "activeVersionId": null,
-  "connections": {},
-  "createdAt": "2025-12-29T23:05:49.260Z",
-  "id": "AkAaY8fWKyGiG5ac",
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-02-24T17:30:10.148Z",
+  "id": "-R4d7KHm4wWxHVO3LZ1Bo",
   "isArchived": false,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "My workflow",
   "nodes": [
     {
-      "parameters": {
-        "public": true,
-        "initialMessages": "Hola, bienvenido a Intelite AI. ¿En que puedo ayudarle hoy?",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.4,
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
       "position": [
         0,
         0
       ],
-      "id": "5ad4bfa5-e6df-4b53-bb12-0392cd24b600",
-      "name": "When chat message received",
-      "webhookId": "952144ae-e9d6-40b9-a8a1-6e21d7b6273e"
+      "id": "b9572ae9-f010-4de2-ba1e-10d980ac8a4f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8598882616:AAG3kFnUQoX5gKsHrDpVbSe8s97bShv9HVE /getUpdates",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "88230626-7bd6-4064-8d7f-48453e16b6bd",
+      "name": "HTTP Request"
     }
   ],
   "pinData": {},
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
   },
   "shared": [
     {
-      "updatedAt": "2025-12-29T23:05:49.274Z",
-      "createdAt": "2025-12-29T23:05:49.274Z",
+      "updatedAt": "2026-02-24T17:30:10.160Z",
+      "createdAt": "2026-02-24T17:30:10.160Z",
       "role": "workflow:owner",
-      "workflowId": "AkAaY8fWKyGiG5ac",
+      "workflowId": "-R4d7KHm4wWxHVO3LZ1Bo",
       "projectId": "ROscBA9yKA7j3TQn"
     }
   ],
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-12-29T23:06:55.985Z",
-  "versionId": "3257c1e9-d4c2-4264-b137-b794eb27fee8"
+  "updatedAt": "2026-02-24T17:41:18.202Z",
+  "versionId": "466f9167-4dbd-4163-8a68-d4661558d331"
 }
