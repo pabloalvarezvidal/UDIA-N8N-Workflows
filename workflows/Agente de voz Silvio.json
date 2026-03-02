@@ -1,0 +1,150 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "buscar_cliente": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "consultar stock": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-02T18:42:48.765Z",
+  "id": "BCE1o7wF8OOcGS2a",
+  "isArchived": false,
+  "meta": null,
+  "name": "Agente de voz Silvio",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "fruteria-silvio"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d7a3ba8b-09d9-43f0-a0a3-11c30bd3275a",
+      "name": "MCP Server Trigger",
+      "webhookId": "201c8f95-37d0-4523-9f66-4a21225d024f"
+    },
+    {
+      "parameters": {
+        "description": "Esta herramienta sirve para identificar al cliente",
+        "workflowId": {
+          "__rl": true,
+          "value": "u0Nq5eHY0LVfgE2e",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/u0Nq5eHY0LVfgE2e",
+          "cachedResultName": "buscar_cliente"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nombre": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Nombre', `Nombre del cliente`, 'string') }}",
+            "Telefono": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Telefono', `Telefono del cliente`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Telefono",
+              "displayName": "Telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -64,
+        176
+      ],
+      "id": "62b2a5bc-7a0f-4091-bf74-53b6de846d58",
+      "name": "buscar_cliente"
+    },
+    {
+      "parameters": {
+        "description": "Esta herramienta sirve para consultar el inventario",
+        "workflowId": {
+          "__rl": true,
+          "value": "0ISlGXY87AHG1zQa",
+          "mode": "list",
+          "cachedResultName": "My Sub-Workflow 1",
+          "cachedResultUrl": "/workflow/0ISlGXY87AHG1zQa"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        208
+      ],
+      "id": "bde28f1a-2054-48f3-adf7-9501c74183b1",
+      "name": "consultar stock"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-03-02T18:42:48.777Z",
+      "createdAt": "2026-03-02T18:42:48.777Z",
+      "role": "workflow:owner",
+      "workflowId": "BCE1o7wF8OOcGS2a",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-03-02T19:18:36.646Z",
+  "versionId": "33eb092a-1cc1-4bd5-b567-1f272c6331b4"
+}
