@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-03T13:18:30.000Z",
-    "createdAt": "2026-03-03T13:18:26.196Z",
-    "versionId": "39fc651c-5b90-4ff9-9fe1-e50e6330255a",
+    "updatedAt": "2026-03-04T12:24:42.000Z",
+    "createdAt": "2026-03-04T12:24:40.223Z",
+    "versionId": "54002663-5439-4f82-b986-608132f0cd77",
     "workflowId": "3HbH05ZdOwpfe5bd",
     "nodes": [
       {
@@ -41,6 +41,14 @@
             "cachedResultName": "Pedidos",
             "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1068940162"
           },
+          "filtersUI": {
+            "values": [
+              {
+                "lookupColumn": "Telefono",
+                "lookupValue": "={{ $json.telefono }}"
+              }
+            ]
+          },
           "options": {}
         },
         "id": "a1b2c3d4-0004-0002-0001-000000000001",
@@ -61,100 +69,15 @@
       },
       {
         "parameters": {
-          "jsCode": "const items = $input.all();\n\nif (items.length === 0 || !items[0].json.ID_Pedido) {\n  return [{ json: { encontrado: 'no' } }];\n}\n\nconst estadosValidos = ['Activo', 'Modificado'];\nconst pedidos = items.filter(i => i.json.ID_Pedido && estadosValidos.includes(i.json.Estado));\n\nif (pedidos.length === 0) {\n  return [{ json: { encontrado: 'no' } }];\n}\n\npedidos.sort((a, b) => new Date(b.json.Fecha_Hora) - new Date(a.json.Fecha_Hora));\n\nconst pedido = pedidos[0].json;\n\nreturn [{\n  json: {\n    encontrado: 'si',\n    id_pedido: pedido.ID_Pedido,\n    fecha: pedido.Fecha_Hora,\n    productos: pedido.Productos,\n    total: pedido.Total_EUR,\n    estado: pedido.Estado\n  }\n}];"
+          "jsCode": "const items = $input.all();\n\nif (items.length === 0 || !items[0].json.ID_Pedido) {\n  return [{ json: { Mensaje: 'No se encontraron pedidos activos para este cliente.' } }];\n}\n\nconst estadosValidos = ['activo', 'modificado'];\nconst pedidos = items.filter(i =>\n  i.json.ID_Pedido && estadosValidos.includes((i.json.Estado || '').toLowerCase())\n);\n\nif (pedidos.length === 0) {\n  return [{ json: { Mensaje: 'No se encontraron pedidos activos para este cliente.' } }];\n}\n\npedidos.sort((a, b) => new Date(b.json.Fecha_Hora) - new Date(a.json.Fecha_Hora));\n\nif (pedidos.length === 1) {\n  const pedido = pedidos[0].json;\n  return [{\n    json: {\n      Mensaje: `Pedido encontrado. ID: ${pedido.ID_Pedido}. Fecha: ${pedido.Fecha_Hora}. Productos: ${pedido.Productos}. Total: ${pedido.Total_EUR}€`,\n      id_pedido: pedido.ID_Pedido,\n      fecha: pedido.Fecha_Hora,\n      productos: pedido.Productos,\n      total: pedido.Total_EUR,\n      estado: pedido.Estado,\n      total_pedidos: 1\n    }\n  }];\n}\n\n// Multiples pedidos activos\nconst lineas = pedidos.map((p, i) => {\n  const ped = p.json;\n  return `Pedido ${i + 1}: ${ped.Productos} - Total: ${ped.Total_EUR}€ [ID: ${ped.ID_Pedido}]`;\n});\n\nreturn [{\n  json: {\n    Mensaje: `El cliente tiene ${pedidos.length} pedidos activos:\\n${lineas.join('\\n')}`,\n    total_pedidos: pedidos.length,\n    pedidos: pedidos.map(p => ({\n      id_pedido: p.json.ID_Pedido,\n      fecha: p.json.Fecha_Hora,\n      productos: p.json.Productos,\n      total: p.json.Total_EUR,\n      estado: p.json.Estado\n    }))\n  }\n}];"
         },
         "id": "a1b2c3d4-0004-0003-0001-000000000001",
         "name": "Filtrar y Ordenar",
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          736,
+          784,
           352
-        ]
-      },
-      {
-        "parameters": {
-          "conditions": {
-            "options": {
-              "version": 3,
-              "leftValue": "",
-              "caseSensitive": false,
-              "typeValidation": "loose"
-            },
-            "conditions": [
-              {
-                "id": "cond-1",
-                "leftValue": "={{ $json.encontrado }}",
-                "rightValue": "si",
-                "operator": {
-                  "type": "string",
-                  "operation": "equal"
-                }
-              }
-            ],
-            "combinator": "and"
-          },
-          "options": {}
-        },
-        "id": "a1b2c3d4-0004-0004-0001-000000000001",
-        "name": "¿Hay Pedido?",
-        "type": "n8n-nodes-base.if",
-        "typeVersion": 2.3,
-        "position": [
-          944,
-          352
-        ]
-      },
-      {
-        "parameters": {
-          "assignments": {
-            "assignments": [
-              {
-                "id": "assign-1",
-                "name": "Mensaje",
-                "value": "=Pedido encontrado. ID: {{ $json.id_pedido }}. Fecha: {{ $json.fecha }}. Productos: {{ $json.productos }}. Total: {{ $json.total }}€",
-                "type": "string"
-              },
-              {
-                "id": "assign-2",
-                "name": "id_pedido",
-                "value": "={{ $json.id_pedido }}",
-                "type": "string"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "id": "a1b2c3d4-0004-0005-0001-000000000001",
-        "name": "Pedido_Encontrado",
-        "type": "n8n-nodes-base.set",
-        "typeVersion": 3.4,
-        "position": [
-          1152,
-          256
-        ]
-      },
-      {
-        "parameters": {
-          "assignments": {
-            "assignments": [
-              {
-                "id": "assign-3",
-                "name": "Mensaje",
-                "value": "No se encontraron pedidos activos para este cliente.",
-                "type": "string"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "id": "a1b2c3d4-0004-0006-0001-000000000001",
-        "name": "Sin_Pedidos_Activos",
-        "type": "n8n-nodes-base.set",
-        "typeVersion": 3.4,
-        "position": [
-          1152,
-          448
         ]
       }
     ],
@@ -180,43 +103,14 @@
             }
           ]
         ]
-      },
-      "Filtrar y Ordenar": {
-        "main": [
-          [
-            {
-              "node": "¿Hay Pedido?",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "¿Hay Pedido?": {
-        "main": [
-          [
-            {
-              "node": "Pedido_Encontrado",
-              "type": "main",
-              "index": 0
-            }
-          ],
-          [
-            {
-              "node": "Sin_Pedidos_Activos",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 39fc651c",
+    "name": "Version 54002663",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "39fc651c-5b90-4ff9-9fe1-e50e6330255a",
+  "activeVersionId": "54002663-5439-4f82-b986-608132f0cd77",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -234,35 +128,6 @@
         [
           {
             "node": "Filtrar y Ordenar",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Filtrar y Ordenar": {
-      "main": [
-        [
-          {
-            "node": "¿Hay Pedido?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "¿Hay Pedido?": {
-      "main": [
-        [
-          {
-            "node": "Pedido_Encontrado",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Sin_Pedidos_Activos",
             "type": "main",
             "index": 0
           }
@@ -311,6 +176,14 @@
           "cachedResultName": "Pedidos",
           "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1068940162"
         },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Telefono",
+              "lookupValue": "={{ $json.telefono }}"
+            }
+          ]
+        },
         "options": {}
       },
       "id": "a1b2c3d4-0004-0002-0001-000000000001",
@@ -331,100 +204,15 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\n\nif (items.length === 0 || !items[0].json.ID_Pedido) {\n  return [{ json: { encontrado: 'no' } }];\n}\n\nconst estadosValidos = ['Activo', 'Modificado'];\nconst pedidos = items.filter(i => i.json.ID_Pedido && estadosValidos.includes(i.json.Estado));\n\nif (pedidos.length === 0) {\n  return [{ json: { encontrado: 'no' } }];\n}\n\npedidos.sort((a, b) => new Date(b.json.Fecha_Hora) - new Date(a.json.Fecha_Hora));\n\nconst pedido = pedidos[0].json;\n\nreturn [{\n  json: {\n    encontrado: 'si',\n    id_pedido: pedido.ID_Pedido,\n    fecha: pedido.Fecha_Hora,\n    productos: pedido.Productos,\n    total: pedido.Total_EUR,\n    estado: pedido.Estado\n  }\n}];"
+        "jsCode": "const items = $input.all();\n\nif (items.length === 0 || !items[0].json.ID_Pedido) {\n  return [{ json: { Mensaje: 'No se encontraron pedidos activos para este cliente.' } }];\n}\n\nconst estadosValidos = ['activo', 'modificado'];\nconst pedidos = items.filter(i =>\n  i.json.ID_Pedido && estadosValidos.includes((i.json.Estado || '').toLowerCase())\n);\n\nif (pedidos.length === 0) {\n  return [{ json: { Mensaje: 'No se encontraron pedidos activos para este cliente.' } }];\n}\n\npedidos.sort((a, b) => new Date(b.json.Fecha_Hora) - new Date(a.json.Fecha_Hora));\n\nif (pedidos.length === 1) {\n  const pedido = pedidos[0].json;\n  return [{\n    json: {\n      Mensaje: `Pedido encontrado. ID: ${pedido.ID_Pedido}. Fecha: ${pedido.Fecha_Hora}. Productos: ${pedido.Productos}. Total: ${pedido.Total_EUR}€`,\n      id_pedido: pedido.ID_Pedido,\n      fecha: pedido.Fecha_Hora,\n      productos: pedido.Productos,\n      total: pedido.Total_EUR,\n      estado: pedido.Estado,\n      total_pedidos: 1\n    }\n  }];\n}\n\n// Multiples pedidos activos\nconst lineas = pedidos.map((p, i) => {\n  const ped = p.json;\n  return `Pedido ${i + 1}: ${ped.Productos} - Total: ${ped.Total_EUR}€ [ID: ${ped.ID_Pedido}]`;\n});\n\nreturn [{\n  json: {\n    Mensaje: `El cliente tiene ${pedidos.length} pedidos activos:\\n${lineas.join('\\n')}`,\n    total_pedidos: pedidos.length,\n    pedidos: pedidos.map(p => ({\n      id_pedido: p.json.ID_Pedido,\n      fecha: p.json.Fecha_Hora,\n      productos: p.json.Productos,\n      total: p.json.Total_EUR,\n      estado: p.json.Estado\n    }))\n  }\n}];"
       },
       "id": "a1b2c3d4-0004-0003-0001-000000000001",
       "name": "Filtrar y Ordenar",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        736,
+        784,
         352
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "version": 3,
-            "leftValue": "",
-            "caseSensitive": false,
-            "typeValidation": "loose"
-          },
-          "conditions": [
-            {
-              "id": "cond-1",
-              "leftValue": "={{ $json.encontrado }}",
-              "rightValue": "si",
-              "operator": {
-                "type": "string",
-                "operation": "equal"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "a1b2c3d4-0004-0004-0001-000000000001",
-      "name": "¿Hay Pedido?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        944,
-        352
-      ]
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "assign-1",
-              "name": "Mensaje",
-              "value": "=Pedido encontrado. ID: {{ $json.id_pedido }}. Fecha: {{ $json.fecha }}. Productos: {{ $json.productos }}. Total: {{ $json.total }}€",
-              "type": "string"
-            },
-            {
-              "id": "assign-2",
-              "name": "id_pedido",
-              "value": "={{ $json.id_pedido }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "a1b2c3d4-0004-0005-0001-000000000001",
-      "name": "Pedido_Encontrado",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1152,
-        256
-      ]
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "assign-3",
-              "name": "Mensaje",
-              "value": "No se encontraron pedidos activos para este cliente.",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "a1b2c3d4-0004-0006-0001-000000000001",
-      "name": "Sin_Pedidos_Activos",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1152,
-        448
       ]
     }
   ],
@@ -448,6 +236,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-03T13:18:26.195Z",
-  "versionId": "39fc651c-5b90-4ff9-9fe1-e50e6330255a"
+  "updatedAt": "2026-03-04T12:24:40.221Z",
+  "versionId": "54002663-5439-4f82-b986-608132f0cd77"
 }
