@@ -1,0 +1,245 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-03-03T13:18:59.000Z",
+    "createdAt": "2026-03-03T13:18:57.771Z",
+    "versionId": "370069d2-a7ce-43a6-9f40-231315ba2eb6",
+    "workflowId": "BxrWIhRw9mJcxQ7n",
+    "nodes": [
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+            "mode": "list",
+            "cachedResultName": "Fruteria Silvio",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1863712503,
+            "mode": "list",
+            "cachedResultName": "Inventario",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1863712503"
+          },
+          "options": {}
+        },
+        "id": "a1b2c3d4-0003-0002-0001-000000000001",
+        "name": "Leer Inventario",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          528,
+          352
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const inventario = $input.all().map(i => i.json).filter(p => p.Nombre);\n\nif (inventario.length === 0) {\n  return [{ json: { Mensaje: 'El inventario está vacío. Añade productos al Google Sheets antes de recibir pedidos.' } }];\n}\n\nconst lineas = inventario.map(p => {\n  const stock = parseFloat(p.Stock_Disponible) || 0;\n  const stockStr = stock <= 0 ? '⚠️ SIN STOCK' : `${stock} ${p.Unidad_Medida}`;\n  return `- ${p.Nombre}: ${parseFloat(p.Precio_Unitario).toFixed(2)}€/${p.Unidad_Medida} | Stock: ${stockStr}`;\n});\n\nconst catalogo = `Catálogo de la frutería (${inventario.length} productos):\\n${lineas.join('\\n')}`;\n\nreturn [{ json: { Mensaje: catalogo } }];"
+        },
+        "id": "a1b2c3d4-0003-0003-0001-000000000001",
+        "name": "Formatear Catalogo",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          784,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "content": "## Get Catalog\nDevuelve TODO el inventario de una vez.\nEl agente lo llama UNA sola vez al inicio\nde la llamada y usa los datos en contexto\npara toda la conversación.\n\n✅ 0 latencia por producto\n✅ El agente conoce precios y stock de todo\n✅ Puede sugerir alternativas sin llamadas extra",
+          "height": 220,
+          "width": 280,
+          "color": 5
+        },
+        "id": "a1b2c3d4-0003-0004-0001-000000000001",
+        "name": "Sticky Note",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -16,
+          80
+        ]
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "id": "a1b2c3d4-0003-0001-0001-000000000001",
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          272,
+          352
+        ]
+      }
+    ],
+    "connections": {
+      "Leer Inventario": {
+        "main": [
+          [
+            {
+              "node": "Formatear Catalogo",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Leer Inventario",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version 370069d2",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "370069d2-a7ce-43a6-9f40-231315ba2eb6",
+  "connections": {
+    "Leer Inventario": {
+      "main": [
+        [
+          {
+            "node": "Formatear Catalogo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Leer Inventario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-03T09:23:26.425Z",
+  "id": "BxrWIhRw9mJcxQ7n",
+  "isArchived": false,
+  "meta": null,
+  "name": "Fruteria - Get Catalog",
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+          "mode": "list",
+          "cachedResultName": "Fruteria Silvio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1863712503,
+          "mode": "list",
+          "cachedResultName": "Inventario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1863712503"
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0003-0002-0001-000000000001",
+      "name": "Leer Inventario",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        352
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const inventario = $input.all().map(i => i.json).filter(p => p.Nombre);\n\nif (inventario.length === 0) {\n  return [{ json: { Mensaje: 'El inventario está vacío. Añade productos al Google Sheets antes de recibir pedidos.' } }];\n}\n\nconst lineas = inventario.map(p => {\n  const stock = parseFloat(p.Stock_Disponible) || 0;\n  const stockStr = stock <= 0 ? '⚠️ SIN STOCK' : `${stock} ${p.Unidad_Medida}`;\n  return `- ${p.Nombre}: ${parseFloat(p.Precio_Unitario).toFixed(2)}€/${p.Unidad_Medida} | Stock: ${stockStr}`;\n});\n\nconst catalogo = `Catálogo de la frutería (${inventario.length} productos):\\n${lineas.join('\\n')}`;\n\nreturn [{ json: { Mensaje: catalogo } }];"
+      },
+      "id": "a1b2c3d4-0003-0003-0001-000000000001",
+      "name": "Formatear Catalogo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        784,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Get Catalog\nDevuelve TODO el inventario de una vez.\nEl agente lo llama UNA sola vez al inicio\nde la llamada y usa los datos en contexto\npara toda la conversación.\n\n✅ 0 latencia por producto\n✅ El agente conoce precios y stock de todo\n✅ Puede sugerir alternativas sin llamadas extra",
+        "height": 220,
+        "width": 280,
+        "color": 5
+      },
+      "id": "a1b2c3d4-0003-0004-0001-000000000001",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "a1b2c3d4-0003-0001-0001-000000000001",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        272,
+        352
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "errorWorkflow": "5PrcmQWgZy-C8ojFfhpz-",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-03-03T09:23:26.442Z",
+      "createdAt": "2026-03-03T09:23:26.442Z",
+      "role": "workflow:owner",
+      "workflowId": "BxrWIhRw9mJcxQ7n",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-03-03T13:18:57.769Z",
+  "versionId": "370069d2-a7ce-43a6-9f40-231315ba2eb6"
+}
