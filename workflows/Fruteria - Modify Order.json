@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-03T13:16:36.000Z",
-    "createdAt": "2026-03-03T13:14:03.868Z",
-    "versionId": "a6192580-a53e-456b-8710-172300e5a8f0",
+    "updatedAt": "2026-03-04T17:28:37.000Z",
+    "createdAt": "2026-03-04T17:28:32.380Z",
+    "versionId": "7cceaf65-632a-40c9-9603-17c9cb724845",
     "workflowId": "D39ebS3BXtUJmE9j",
     "nodes": [
       {
@@ -548,7 +548,8 @@
               "ID_Pedido": "={{ $json.ID_Pedido }}",
               "Fecha": "={{ $json.Fecha_Hora }}",
               "Desglose": "={{ $('Consolidar Mod').item.json.desglose }}",
-              "Total_EUR": "={{ $json['Total_EUR '] }}€"
+              "Total_EUR": "={{ $json['Total_EUR '] }}€",
+              "Estado": "Modificado"
             },
             "matchingColumns": [
               "ID_Pedido"
@@ -620,6 +621,26 @@
                 "display": true,
                 "type": "string",
                 "canBeUsedToMatch": true
+              },
+              {
+                "id": "Estado",
+                "displayName": "Estado",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "ID Drive",
+                "displayName": "ID Drive",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
               }
             ],
             "attemptToConvertTypes": false,
@@ -844,11 +865,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version a6192580",
+    "name": "Version 7cceaf65",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "a6192580-a53e-456b-8710-172300e5a8f0",
+  "activeVersionId": "7cceaf65-632a-40c9-9603-17c9cb724845",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -1549,7 +1570,8 @@
             "ID_Pedido": "={{ $json.ID_Pedido }}",
             "Fecha": "={{ $json.Fecha_Hora }}",
             "Desglose": "={{ $('Consolidar Mod').item.json.desglose }}",
-            "Total_EUR": "={{ $json['Total_EUR '] }}€"
+            "Total_EUR": "={{ $json['Total_EUR '] }}€",
+            "Estado": "Modificado"
           },
           "matchingColumns": [
             "ID_Pedido"
@@ -1621,6 +1643,26 @@
               "display": true,
               "type": "string",
               "canBeUsedToMatch": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID Drive",
+              "displayName": "ID Drive",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
             }
           ],
           "attemptToConvertTypes": false,
@@ -1712,6 +1754,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-03T17:51:25.651Z",
-  "versionId": "a6192580-a53e-456b-8710-172300e5a8f0"
+  "updatedAt": "2026-03-04T17:28:32.378Z",
+  "versionId": "7cceaf65-632a-40c9-9603-17c9cb724845"
 }
