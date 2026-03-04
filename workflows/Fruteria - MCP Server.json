@@ -1,0 +1,881 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-03-04T11:05:53.000Z",
+    "createdAt": "2026-03-04T11:05:51.393Z",
+    "versionId": "53a86e7c-c97d-46ea-9b10-d443de881192",
+    "workflowId": "3Ic9UtYLF2PyTB3X",
+    "nodes": [
+      {
+        "parameters": {
+          "description": "Busca en el sistema si el cliente ya existe usando su número de teléfono. Devuelve el nombre del cliente si está registrado, o indica si es un cliente nuevo. USA SIEMPRE ESTA HERRAMIENTA AL INICIO DE CADA LLAMADA antes de hacer nada más.",
+          "workflowId": {
+            "__rl": true,
+            "value": "acas8CNkEVtOW38f",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/acas8CNkEVtOW38f",
+            "cachedResultName": "Fruteria - Client Lookup"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "telefono": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telefono', `Número de teléfono del cliente`, 'string') }}"
+            },
+            "matchingColumns": [
+              "telefono"
+            ],
+            "schema": [
+              {
+                "id": "telefono",
+                "displayName": "telefono",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "id": "mcp-tool-01",
+        "name": "client_lookup",
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          -400,
+          224
+        ]
+      },
+      {
+        "parameters": {
+          "description": "Registra un nuevo cliente en el sistema. Usa esta herramienta SOLO si client_lookup confirmó que el cliente NO existe. Requiere nombre completo y teléfono.",
+          "workflowId": {
+            "__rl": true,
+            "value": "KBAOah3lBvFdVj6f",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/KBAOah3lBvFdVj6f",
+            "cachedResultName": "Fruteria - New Client"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "telefono": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telefono', `Número de teléfono del cliente`, 'string') }}",
+              "nombre_completo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nombre_completo', `Nombre completo del cliente`, 'string') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "telefono",
+                "displayName": "telefono",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "nombre_completo",
+                "displayName": "nombre_completo",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "id": "mcp-tool-02",
+        "name": "new_client",
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          -272,
+          224
+        ]
+      },
+      {
+        "parameters": {
+          "description": "Obtiene el catálogo COMPLETO de la frutería: todos los productos con precio y stock disponible. LLAMA A ESTA HERRAMIENTA UNA SOLA VEZ al inicio de cada llamada, justo después de identificar al cliente. No requiere ningún parámetro. Usa el catálogo recibido para informar al cliente de precios y disponibilidad durante toda la conversación sin volver a llamarla.",
+          "workflowId": {
+            "__rl": true,
+            "value": "BxrWIhRw9mJcxQ7n",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/BxrWIhRw9mJcxQ7n",
+            "cachedResultName": "Fruteria - Get Catalog"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "id": "mcp-tool-03",
+        "name": "get_catalog",
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          -144,
+          224
+        ]
+      },
+      {
+        "parameters": {
+          "description": "Busca el pedido activo más reciente del cliente por su teléfono. Devuelve el ID del pedido, productos y total. USA SIEMPRE ESTA HERRAMIENTA antes de modificar o cancelar un pedido para obtener el ID.",
+          "workflowId": {
+            "__rl": true,
+            "value": "3HbH05ZdOwpfe5bd",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/3HbH05ZdOwpfe5bd",
+            "cachedResultName": "Fruteria - Lookup Order"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "telefono": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telefono', `Número de teléfono del cliente para buscar su pedido activo`, 'string') }}"
+            },
+            "matchingColumns": [
+              "telefono"
+            ],
+            "schema": [
+              {
+                "id": "telefono",
+                "displayName": "telefono",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "id": "mcp-tool-04",
+        "name": "lookup_order",
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          -16,
+          224
+        ]
+      },
+      {
+        "parameters": {
+          "description": "Crea el pedido definitivo en el sistema. Actualiza el inventario, genera la factura en Sheets y notifica al dueño por Telegram. USA SOLO cuando el cliente haya confirmado expresamente todos los productos y cantidades. FORMATO items_pedido: 'Producto1:Cantidad:Unidad,Producto2:Cantidad:Unidad' Ejemplos: 'Manzanas:2:kg,Melón:1:unidad' o 'Naranjas:1.5:kg,Plátanos:1:kg'",
+          "workflowId": {
+            "__rl": true,
+            "value": "qOKEjubT4AGyNWkL",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/qOKEjubT4AGyNWkL",
+            "cachedResultName": "Fruteria - Create Order"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "telefono": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telefono', `Número de teléfono del cliente`, 'string') }}",
+              "nombre_cliente": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nombre_cliente', `Nombre completo del cliente`, 'string') }}",
+              "items_pedido": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('items_pedido', `Lista de productos en formato Nombre:Cantidad:Unidad separados por coma. Ejemplo: Manzanas:2:kg,Melón:1:unidad`, 'string') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "telefono",
+                "displayName": "telefono",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "nombre_cliente",
+                "displayName": "nombre_cliente",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "items_pedido",
+                "displayName": "items_pedido",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "id": "mcp-tool-05",
+        "name": "create_order",
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          112,
+          224
+        ]
+      },
+      {
+        "parameters": {
+          "description": "Modifica un pedido existente con nuevos productos o cantidades. Restaura el stock antiguo y descuenta el nuevo. Requiere el ID del pedido (obtenido con lookup_order) y la nueva lista COMPLETA de productos (no solo los cambios). FORMATO nuevos_items: igual que items_pedido en create_order.",
+          "workflowId": {
+            "__rl": true,
+            "value": "D39ebS3BXtUJmE9j",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/D39ebS3BXtUJmE9j",
+            "cachedResultName": "Fruteria - Modify Order"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "id_pedido": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('id_pedido', `ID del pedido a modificar en formato PED-YYYYMMDD-HHMMSS`, 'string') }}",
+              "nuevos_items": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nuevos_items', `Nueva lista completa de productos en formato Nombre:Cantidad:Unidad separados por coma`, 'string') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "id_pedido",
+                "displayName": "id_pedido",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "nuevos_items",
+                "displayName": "nuevos_items",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "id": "mcp-tool-06",
+        "name": "modify_order",
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          240,
+          224
+        ]
+      },
+      {
+        "parameters": {
+          "description": "Cancela un pedido activo y restaura el stock automáticamente. Requiere el ID del pedido (obtenido con lookup_order). IMPORTANTE: pide siempre confirmación verbal al cliente antes de llamar a esta herramienta.",
+          "workflowId": {
+            "__rl": true,
+            "value": "mZhLJV3bnHUQ3il3",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/mZhLJV3bnHUQ3il3",
+            "cachedResultName": "Fruteria - Cancel Order"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "id_pedido": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('id_pedido', `ID del pedido a cancelar en formato PED-YYYYMMDD-HHMMSS`, 'string') }}"
+            },
+            "matchingColumns": [
+              "id_pedido"
+            ],
+            "schema": [
+              {
+                "id": "id_pedido",
+                "displayName": "id_pedido",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "id": "mcp-tool-07",
+        "name": "cancel_order",
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          368,
+          224
+        ]
+      },
+      {
+        "parameters": {
+          "path": "fruteria-bot"
+        },
+        "id": "mcp-trigger-01",
+        "name": "n8n_silvio",
+        "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+        "typeVersion": 2,
+        "position": [
+          -96,
+          0
+        ],
+        "alwaysOutputData": true,
+        "webhookId": "05e6f224-946c-4462-8b1c-584e6ccc64c9"
+      }
+    ],
+    "connections": {
+      "client_lookup": {
+        "ai_tool": [
+          [
+            {
+              "node": "n8n_silvio",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "new_client": {
+        "ai_tool": [
+          [
+            {
+              "node": "n8n_silvio",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "get_catalog": {
+        "ai_tool": [
+          [
+            {
+              "node": "n8n_silvio",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "lookup_order": {
+        "ai_tool": [
+          [
+            {
+              "node": "n8n_silvio",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "create_order": {
+        "ai_tool": [
+          [
+            {
+              "node": "n8n_silvio",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "modify_order": {
+        "ai_tool": [
+          [
+            {
+              "node": "n8n_silvio",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "cancel_order": {
+        "ai_tool": [
+          [
+            {
+              "node": "n8n_silvio",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version 53a86e7c",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "53a86e7c-c97d-46ea-9b10-d443de881192",
+  "connections": {
+    "client_lookup": {
+      "ai_tool": [
+        [
+          {
+            "node": "n8n_silvio",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "new_client": {
+      "ai_tool": [
+        [
+          {
+            "node": "n8n_silvio",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_catalog": {
+      "ai_tool": [
+        [
+          {
+            "node": "n8n_silvio",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lookup_order": {
+      "ai_tool": [
+        [
+          {
+            "node": "n8n_silvio",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create_order": {
+      "ai_tool": [
+        [
+          {
+            "node": "n8n_silvio",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "modify_order": {
+      "ai_tool": [
+        [
+          {
+            "node": "n8n_silvio",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cancel_order": {
+      "ai_tool": [
+        [
+          {
+            "node": "n8n_silvio",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-03T09:32:35.047Z",
+  "id": "3Ic9UtYLF2PyTB3X",
+  "isArchived": false,
+  "meta": null,
+  "name": "Fruteria - MCP Server",
+  "nodes": [
+    {
+      "parameters": {
+        "description": "Busca en el sistema si el cliente ya existe usando su número de teléfono. Devuelve el nombre del cliente si está registrado, o indica si es un cliente nuevo. USA SIEMPRE ESTA HERRAMIENTA AL INICIO DE CADA LLAMADA antes de hacer nada más.",
+        "workflowId": {
+          "__rl": true,
+          "value": "acas8CNkEVtOW38f",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/acas8CNkEVtOW38f",
+          "cachedResultName": "Fruteria - Client Lookup"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "telefono": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telefono', `Número de teléfono del cliente`, 'string') }}"
+          },
+          "matchingColumns": [
+            "telefono"
+          ],
+          "schema": [
+            {
+              "id": "telefono",
+              "displayName": "telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "id": "mcp-tool-01",
+      "name": "client_lookup",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -400,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "description": "Registra un nuevo cliente en el sistema. Usa esta herramienta SOLO si client_lookup confirmó que el cliente NO existe. Requiere nombre completo y teléfono.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KBAOah3lBvFdVj6f",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/KBAOah3lBvFdVj6f",
+          "cachedResultName": "Fruteria - New Client"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "telefono": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telefono', `Número de teléfono del cliente`, 'string') }}",
+            "nombre_completo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nombre_completo', `Nombre completo del cliente`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "telefono",
+              "displayName": "telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "nombre_completo",
+              "displayName": "nombre_completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "id": "mcp-tool-02",
+      "name": "new_client",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -272,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "description": "Obtiene el catálogo COMPLETO de la frutería: todos los productos con precio y stock disponible. LLAMA A ESTA HERRAMIENTA UNA SOLA VEZ al inicio de cada llamada, justo después de identificar al cliente. No requiere ningún parámetro. Usa el catálogo recibido para informar al cliente de precios y disponibilidad durante toda la conversación sin volver a llamarla.",
+        "workflowId": {
+          "__rl": true,
+          "value": "BxrWIhRw9mJcxQ7n",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/BxrWIhRw9mJcxQ7n",
+          "cachedResultName": "Fruteria - Get Catalog"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "id": "mcp-tool-03",
+      "name": "get_catalog",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -144,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "description": "Busca el pedido activo más reciente del cliente por su teléfono. Devuelve el ID del pedido, productos y total. USA SIEMPRE ESTA HERRAMIENTA antes de modificar o cancelar un pedido para obtener el ID.",
+        "workflowId": {
+          "__rl": true,
+          "value": "3HbH05ZdOwpfe5bd",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/3HbH05ZdOwpfe5bd",
+          "cachedResultName": "Fruteria - Lookup Order"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "telefono": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telefono', `Número de teléfono del cliente para buscar su pedido activo`, 'string') }}"
+          },
+          "matchingColumns": [
+            "telefono"
+          ],
+          "schema": [
+            {
+              "id": "telefono",
+              "displayName": "telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "id": "mcp-tool-04",
+      "name": "lookup_order",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "description": "Crea el pedido definitivo en el sistema. Actualiza el inventario, genera la factura en Sheets y notifica al dueño por Telegram. USA SOLO cuando el cliente haya confirmado expresamente todos los productos y cantidades. FORMATO items_pedido: 'Producto1:Cantidad:Unidad,Producto2:Cantidad:Unidad' Ejemplos: 'Manzanas:2:kg,Melón:1:unidad' o 'Naranjas:1.5:kg,Plátanos:1:kg'",
+        "workflowId": {
+          "__rl": true,
+          "value": "qOKEjubT4AGyNWkL",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qOKEjubT4AGyNWkL",
+          "cachedResultName": "Fruteria - Create Order"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "telefono": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telefono', `Número de teléfono del cliente`, 'string') }}",
+            "nombre_cliente": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nombre_cliente', `Nombre completo del cliente`, 'string') }}",
+            "items_pedido": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('items_pedido', `Lista de productos en formato Nombre:Cantidad:Unidad separados por coma. Ejemplo: Manzanas:2:kg,Melón:1:unidad`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "telefono",
+              "displayName": "telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "nombre_cliente",
+              "displayName": "nombre_cliente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "items_pedido",
+              "displayName": "items_pedido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "id": "mcp-tool-05",
+      "name": "create_order",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        112,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "description": "Modifica un pedido existente con nuevos productos o cantidades. Restaura el stock antiguo y descuenta el nuevo. Requiere el ID del pedido (obtenido con lookup_order) y la nueva lista COMPLETA de productos (no solo los cambios). FORMATO nuevos_items: igual que items_pedido en create_order.",
+        "workflowId": {
+          "__rl": true,
+          "value": "D39ebS3BXtUJmE9j",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/D39ebS3BXtUJmE9j",
+          "cachedResultName": "Fruteria - Modify Order"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id_pedido": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('id_pedido', `ID del pedido a modificar en formato PED-YYYYMMDD-HHMMSS`, 'string') }}",
+            "nuevos_items": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nuevos_items', `Nueva lista completa de productos en formato Nombre:Cantidad:Unidad separados por coma`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "id_pedido",
+              "displayName": "id_pedido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "nuevos_items",
+              "displayName": "nuevos_items",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "id": "mcp-tool-06",
+      "name": "modify_order",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        240,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "description": "Cancela un pedido activo y restaura el stock automáticamente. Requiere el ID del pedido (obtenido con lookup_order). IMPORTANTE: pide siempre confirmación verbal al cliente antes de llamar a esta herramienta.",
+        "workflowId": {
+          "__rl": true,
+          "value": "mZhLJV3bnHUQ3il3",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/mZhLJV3bnHUQ3il3",
+          "cachedResultName": "Fruteria - Cancel Order"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id_pedido": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('id_pedido', `ID del pedido a cancelar en formato PED-YYYYMMDD-HHMMSS`, 'string') }}"
+          },
+          "matchingColumns": [
+            "id_pedido"
+          ],
+          "schema": [
+            {
+              "id": "id_pedido",
+              "displayName": "id_pedido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "id": "mcp-tool-07",
+      "name": "cancel_order",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        368,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "path": "fruteria-bot"
+      },
+      "id": "mcp-trigger-01",
+      "name": "n8n_silvio",
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        -96,
+        0
+      ],
+      "alwaysOutputData": true,
+      "webhookId": "05e6f224-946c-4462-8b1c-584e6ccc64c9"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "errorWorkflow": "5PrcmQWgZy-C8ojFfhpz-",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-03-03T09:32:35.053Z",
+      "createdAt": "2026-03-03T09:32:35.053Z",
+      "role": "workflow:owner",
+      "workflowId": "3Ic9UtYLF2PyTB3X",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-03-04T11:05:51.391Z",
+  "versionId": "53a86e7c-c97d-46ea-9b10-d443de881192"
+}
