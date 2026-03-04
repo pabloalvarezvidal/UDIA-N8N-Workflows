@@ -1,0 +1,1717 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-03-03T13:16:36.000Z",
+    "createdAt": "2026-03-03T13:14:03.868Z",
+    "versionId": "a6192580-a53e-456b-8710-172300e5a8f0",
+    "workflowId": "D39ebS3BXtUJmE9j",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "id_pedido"
+              },
+              {
+                "name": "nuevos_items"
+              }
+            ]
+          }
+        },
+        "id": "mo-node-01",
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          240,
+          480
+        ]
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+            "mode": "list",
+            "cachedResultName": "Fruteria Silvio",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1068940162,
+            "mode": "list",
+            "cachedResultName": "Pedidos",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1068940162"
+          },
+          "filtersUI": {
+            "values": [
+              {
+                "lookupColumn": "ID_Pedido",
+                "lookupValue": "={{ $json.id_pedido }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "mo-node-02",
+        "name": "Buscar Pedido Original",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          464,
+          480
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+            "mode": "list",
+            "cachedResultName": "Fruteria Silvio",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1863712503,
+            "mode": "list",
+            "cachedResultName": "Inventario",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1863712503"
+          },
+          "options": {}
+        },
+        "id": "mo-node-03",
+        "name": "Leer Inventario",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          688,
+          480
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const trigger = $('When Executed by Another Workflow').first().json;\nconst nuevosItemsStr = trigger.nuevos_items;\nconst pedido = $('Buscar Pedido Original').first().json;\nconst inventario = $input.all().map(i => i.json);\n\nconst estadoValido = pedido.Estado === 'Activo' || pedido.Estado === 'Modificado';\nif (!pedido.ID_Pedido || !estadoValido) {\n  return [{ json: { error: 'si', mensaje: 'Pedido no encontrado o ya no se puede modificar (estado: ' + (pedido.Estado || 'desconocido') + '). Usa lookup_order primero para obtener el ID.' } }];\n}\n\nconst normalize = (s) => (s||'').toLowerCase().trim().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');\n\nconst findProd = (nombre) => inventario.find(p => {\n  const n = normalize(p.Nombre);\n  const q = normalize(nombre);\n  return n === q || n.includes(q) || q.includes(n);\n});\n\nconst itemsOriginales = pedido.Productos.split(';').map(item => {\n  const p = item.split(':');\n  const cantStr = p[1].trim();\n  return { nombre: p[0].trim(), cantidad: parseFloat(cantStr), unidad: cantStr.includes('ud') ? 'unidad' : 'kg' };\n});\n\nconst stockVirtual = {};\nconst itemsRestaurar = [];\nfor (const item of itemsOriginales) {\n  const prod = findProd(item.nombre);\n  if (prod) {\n    const restored = Math.round((parseFloat(prod.Stock_Disponible) + item.cantidad) * 100) / 100;\n    stockVirtual[prod.ID_Producto] = restored;\n    itemsRestaurar.push({ id_producto: prod.ID_Producto, Stock_Disponible: restored });\n  }\n}\n\nconst nuevosItems = nuevosItemsStr.split(',').map(item => {\n  const p = item.trim().split(':');\n  return { nombre: p[0].trim(), cantidad: parseFloat(p[1]), unidad: (p[2]||'kg').trim().toLowerCase() };\n});\n\nlet errores = [], nuevasLineas = [], total = 0;\nfor (const item of nuevosItems) {\n  const prod = findProd(item.nombre);\n  if (!prod) { errores.push(`\"${item.nombre}\" no encontrado en el inventario`); continue; }\n  if (prod.Unidad_Medida === 'unidad' && !Number.isInteger(item.cantidad)) { errores.push(`\"${item.nombre}\" requiere unidades enteras`); continue; }\n  const stockDisp = stockVirtual[prod.ID_Producto] !== undefined ? stockVirtual[prod.ID_Producto] : parseFloat(prod.Stock_Disponible);\n  if (stockDisp < item.cantidad) { errores.push(`Stock insuficiente de \"${item.nombre}\": disponible ${stockDisp} ${prod.Unidad_Medida}`); continue; }\n  const precio = parseFloat(prod.Precio_Unitario);\n  const subtotal = Math.round(item.cantidad * precio * 100) / 100;\n  total += subtotal;\n  nuevasLineas.push({ nombre: prod.Nombre, cantidad: item.cantidad, unidad: prod.Unidad_Medida, precio_unitario: precio, subtotal, id_producto: prod.ID_Producto, stock_nuevo: Math.round((stockDisp - item.cantidad) * 100) / 100 });\n}\n\nif (errores.length > 0) {\n  return [{ json: { error: 'si', mensaje: 'No se pudo modificar: ' + errores.join('. ') } }];\n}\n\nconst productosTexto = nuevasLineas.map(l => `${l.nombre}:${l.cantidad}${l.unidad==='kg'?'kg':'ud'}:${l.subtotal.toFixed(2)}€`).join(';');\nconst desglose = nuevasLineas.map(l => `• ${l.nombre}: ${l.cantidad} ${l.unidad} × ${l.precio_unitario.toFixed(2)}€ = ${l.subtotal.toFixed(2)}€`).join('\\n');\nconst totalR = Math.round(total * 100) / 100;\n\nreturn [{ json: {\n  error: 'no',\n  id_pedido: pedido.ID_Pedido,\n  nombre_cliente: pedido.Nombre_Cliente,\n  telefono: pedido.Telefono,\n  fecha_modificacion: new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' }),\n  items_restaurar: itemsRestaurar,\n  nuevas_lineas: nuevasLineas,\n  productos_texto: productosTexto,\n  desglose,\n  total: totalR\n}}];"
+        },
+        "id": "mo-node-04",
+        "name": "Calcular Modificacion",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          912,
+          480
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "version": 3,
+              "leftValue": "",
+              "caseSensitive": false,
+              "typeValidation": "loose"
+            },
+            "conditions": [
+              {
+                "id": "cond-m1",
+                "leftValue": "={{ $json.error }}",
+                "rightValue": "si",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEquals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "mo-node-05",
+        "name": "¿Error Modificacion?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1136,
+          480
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "em1",
+                "name": "Mensaje",
+                "value": "={{ $json.mensaje }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "mo-node-06",
+        "name": "Error_Modificacion",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1360,
+          576
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "const datos = $('Calcular Modificacion').first().json;\nreturn datos.items_restaurar.map(item => ({ json: item }));"
+        },
+        "id": "mo-node-07",
+        "name": "Expandir Items Restaurar",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1360,
+          384
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "appendOrUpdate",
+          "documentId": {
+            "__rl": true,
+            "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+            "mode": "list",
+            "cachedResultName": "Fruteria Silvio",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1863712503,
+            "mode": "list",
+            "cachedResultName": "Inventario",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1863712503"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "ID_Producto": "={{ $json.id_producto }}",
+              "Stock_Disponible": "={{ $json.Stock_Disponible }}"
+            },
+            "matchingColumns": [
+              "ID_Producto"
+            ],
+            "schema": [
+              {
+                "id": "ID_Producto",
+                "displayName": "ID_Producto",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Nombre",
+                "displayName": "Nombre",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Unidad_Medida",
+                "displayName": "Unidad_Medida",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Precio_Unitario",
+                "displayName": "Precio_Unitario",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Stock_Disponible",
+                "displayName": "Stock_Disponible",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "id": "mo-node-08",
+        "name": "Restaurar Stock Original",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          1584,
+          384
+        ],
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const datos = $('Calcular Modificacion').first().json;\nreturn datos.nuevas_lineas.map(l => ({ json: l }));"
+        },
+        "id": "mo-node-09",
+        "name": "Expandir Nuevas Lineas",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1808,
+          384
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "appendOrUpdate",
+          "documentId": {
+            "__rl": true,
+            "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+            "mode": "list",
+            "cachedResultName": "Fruteria Silvio",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1863712503,
+            "mode": "list",
+            "cachedResultName": "Inventario",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1863712503"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "ID_Producto": "={{ $json.id_producto }}",
+              "Stock_Disponible": "={{ $json.stock_nuevo }}"
+            },
+            "matchingColumns": [
+              "ID_Producto"
+            ],
+            "schema": [
+              {
+                "id": "ID_Producto",
+                "displayName": "ID_Producto",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Nombre",
+                "displayName": "Nombre",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Unidad_Medida",
+                "displayName": "Unidad_Medida",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Precio_Unitario",
+                "displayName": "Precio_Unitario",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Stock_Disponible",
+                "displayName": "Stock_Disponible",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "id": "mo-node-10",
+        "name": "Actualizar Stock Nuevo",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          2032,
+          384
+        ],
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "return [{ json: $('Calcular Modificacion').first().json }];"
+        },
+        "id": "mo-node-11",
+        "name": "Consolidar Mod",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2256,
+          384
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "appendOrUpdate",
+          "documentId": {
+            "__rl": true,
+            "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+            "mode": "list",
+            "cachedResultName": "Fruteria Silvio",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1068940162,
+            "mode": "list",
+            "cachedResultName": "Pedidos",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1068940162"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "ID_Pedido": "={{ $json.id_pedido }}",
+              "Productos": "={{ $json.desglose }}",
+              "Fecha_Hora": "={{ $json.fecha_modificacion }}",
+              "Total_EUR ": "={{ $json.total }}",
+              "Estado": "Modificado"
+            },
+            "matchingColumns": [
+              "ID_Pedido"
+            ],
+            "schema": [
+              {
+                "id": "ID_Pedido",
+                "displayName": "ID_Pedido",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Telefono",
+                "displayName": "Telefono",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Nombre_Cliente",
+                "displayName": "Nombre_Cliente",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Fecha_Hora",
+                "displayName": "Fecha_Hora",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Productos",
+                "displayName": "Productos",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Total_EUR ",
+                "displayName": "Total_EUR ",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Estado",
+                "displayName": "Estado",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "id": "mo-node-12",
+        "name": "Actualizar Pedido",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          2480,
+          384
+        ],
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "appendOrUpdate",
+          "documentId": {
+            "__rl": true,
+            "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+            "mode": "list",
+            "cachedResultName": "Fruteria Silvio",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1395739226,
+            "mode": "list",
+            "cachedResultName": "Facturas",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1395739226"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "ID_Pedido": "={{ $json.ID_Pedido }}",
+              "Fecha": "={{ $json.Fecha_Hora }}",
+              "Desglose": "={{ $('Consolidar Mod').item.json.desglose }}",
+              "Total_EUR": "={{ $json['Total_EUR '] }}€"
+            },
+            "matchingColumns": [
+              "ID_Pedido"
+            ],
+            "schema": [
+              {
+                "id": "ID_Factura",
+                "displayName": "ID_Factura",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "ID_Pedido",
+                "displayName": "ID_Pedido",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Telefono",
+                "displayName": "Telefono",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Nombre_Cliente",
+                "displayName": "Nombre_Cliente",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Fecha",
+                "displayName": "Fecha",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Desglose",
+                "displayName": "Desglose",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Total_EUR",
+                "displayName": "Total_EUR",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "id": "mo-node-13",
+        "name": "Actualizar Factura",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          2704,
+          384
+        ],
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "7186973879",
+          "text": "=✏️ *Pedido Modificado - Frutería*\n\n🆔 *Pedido:* {{ $json.ID_Pedido }}\n👤 *Cliente:* {{ $('Consolidar Mod').item.json.nombre_cliente }}{{ $('Consolidar Mod').item.json.telefono }}\n📅 *Modificado:* {{ $('Actualizar Pedido').item.json.Fecha_Hora }}\n\n📦 *Nuevos Productos:*\n{{ $('Consolidar Mod').item.json.desglose }}\n\n💰 *NUEVO TOTAL:{{ $('Actualizar Pedido').item.json['Total_EUR '] }}€*",
+          "additionalFields": {
+            "appendAttribution": false,
+            "parse_mode": "Markdown"
+          }
+        },
+        "id": "mo-node-14",
+        "name": "Telegram Modificacion",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          2928,
+          384
+        ],
+        "webhookId": "70bda8d3-c3a5-4d38-a86e-f7375747a63e",
+        "credentials": {
+          "telegramApi": {
+            "id": "DOuliL9GdebyzSsq",
+            "name": "Fruteria Silvio"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "rm1",
+                "name": "Mensaje",
+                "value": "=Pedido {{ $('Consolidar Mod').first().json.id_pedido }} modificado correctamente. Nuevo total: {{ $('Consolidar Mod').first().json.total }}€.",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "mo-node-15",
+        "name": "Pedido_Modificado",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          3152,
+          384
+        ]
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Buscar Pedido Original",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Buscar Pedido Original": {
+        "main": [
+          [
+            {
+              "node": "Leer Inventario",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Leer Inventario": {
+        "main": [
+          [
+            {
+              "node": "Calcular Modificacion",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Calcular Modificacion": {
+        "main": [
+          [
+            {
+              "node": "¿Error Modificacion?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "¿Error Modificacion?": {
+        "main": [
+          [
+            {
+              "node": "Expandir Items Restaurar",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Error_Modificacion",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Expandir Items Restaurar": {
+        "main": [
+          [
+            {
+              "node": "Restaurar Stock Original",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Restaurar Stock Original": {
+        "main": [
+          [
+            {
+              "node": "Expandir Nuevas Lineas",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Expandir Nuevas Lineas": {
+        "main": [
+          [
+            {
+              "node": "Actualizar Stock Nuevo",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Actualizar Stock Nuevo": {
+        "main": [
+          [
+            {
+              "node": "Consolidar Mod",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Consolidar Mod": {
+        "main": [
+          [
+            {
+              "node": "Actualizar Pedido",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Actualizar Pedido": {
+        "main": [
+          [
+            {
+              "node": "Actualizar Factura",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Actualizar Factura": {
+        "main": [
+          [
+            {
+              "node": "Telegram Modificacion",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Telegram Modificacion": {
+        "main": [
+          [
+            {
+              "node": "Pedido_Modificado",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version a6192580",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "a6192580-a53e-456b-8710-172300e5a8f0",
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Buscar Pedido Original",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Pedido Original": {
+      "main": [
+        [
+          {
+            "node": "Leer Inventario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer Inventario": {
+      "main": [
+        [
+          {
+            "node": "Calcular Modificacion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calcular Modificacion": {
+      "main": [
+        [
+          {
+            "node": "¿Error Modificacion?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Error Modificacion?": {
+      "main": [
+        [
+          {
+            "node": "Expandir Items Restaurar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error_Modificacion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Expandir Items Restaurar": {
+      "main": [
+        [
+          {
+            "node": "Restaurar Stock Original",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar Stock Original": {
+      "main": [
+        [
+          {
+            "node": "Expandir Nuevas Lineas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Expandir Nuevas Lineas": {
+      "main": [
+        [
+          {
+            "node": "Actualizar Stock Nuevo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualizar Stock Nuevo": {
+      "main": [
+        [
+          {
+            "node": "Consolidar Mod",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidar Mod": {
+      "main": [
+        [
+          {
+            "node": "Actualizar Pedido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualizar Pedido": {
+      "main": [
+        [
+          {
+            "node": "Actualizar Factura",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualizar Factura": {
+      "main": [
+        [
+          {
+            "node": "Telegram Modificacion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Modificacion": {
+      "main": [
+        [
+          {
+            "node": "Pedido_Modificado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-03T09:31:05.834Z",
+  "id": "D39ebS3BXtUJmE9j",
+  "isArchived": false,
+  "meta": null,
+  "name": "Fruteria - Modify Order",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "id_pedido"
+            },
+            {
+              "name": "nuevos_items"
+            }
+          ]
+        }
+      },
+      "id": "mo-node-01",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+          "mode": "list",
+          "cachedResultName": "Fruteria Silvio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1068940162,
+          "mode": "list",
+          "cachedResultName": "Pedidos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1068940162"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "ID_Pedido",
+              "lookupValue": "={{ $json.id_pedido }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "mo-node-02",
+      "name": "Buscar Pedido Original",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        480
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+          "mode": "list",
+          "cachedResultName": "Fruteria Silvio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1863712503,
+          "mode": "list",
+          "cachedResultName": "Inventario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1863712503"
+        },
+        "options": {}
+      },
+      "id": "mo-node-03",
+      "name": "Leer Inventario",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        688,
+        480
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const trigger = $('When Executed by Another Workflow').first().json;\nconst nuevosItemsStr = trigger.nuevos_items;\nconst pedido = $('Buscar Pedido Original').first().json;\nconst inventario = $input.all().map(i => i.json);\n\nconst estadoValido = pedido.Estado === 'Activo' || pedido.Estado === 'Modificado';\nif (!pedido.ID_Pedido || !estadoValido) {\n  return [{ json: { error: 'si', mensaje: 'Pedido no encontrado o ya no se puede modificar (estado: ' + (pedido.Estado || 'desconocido') + '). Usa lookup_order primero para obtener el ID.' } }];\n}\n\nconst normalize = (s) => (s||'').toLowerCase().trim().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');\n\nconst findProd = (nombre) => inventario.find(p => {\n  const n = normalize(p.Nombre);\n  const q = normalize(nombre);\n  return n === q || n.includes(q) || q.includes(n);\n});\n\nconst itemsOriginales = pedido.Productos.split(';').map(item => {\n  const p = item.split(':');\n  const cantStr = p[1].trim();\n  return { nombre: p[0].trim(), cantidad: parseFloat(cantStr), unidad: cantStr.includes('ud') ? 'unidad' : 'kg' };\n});\n\nconst stockVirtual = {};\nconst itemsRestaurar = [];\nfor (const item of itemsOriginales) {\n  const prod = findProd(item.nombre);\n  if (prod) {\n    const restored = Math.round((parseFloat(prod.Stock_Disponible) + item.cantidad) * 100) / 100;\n    stockVirtual[prod.ID_Producto] = restored;\n    itemsRestaurar.push({ id_producto: prod.ID_Producto, Stock_Disponible: restored });\n  }\n}\n\nconst nuevosItems = nuevosItemsStr.split(',').map(item => {\n  const p = item.trim().split(':');\n  return { nombre: p[0].trim(), cantidad: parseFloat(p[1]), unidad: (p[2]||'kg').trim().toLowerCase() };\n});\n\nlet errores = [], nuevasLineas = [], total = 0;\nfor (const item of nuevosItems) {\n  const prod = findProd(item.nombre);\n  if (!prod) { errores.push(`\"${item.nombre}\" no encontrado en el inventario`); continue; }\n  if (prod.Unidad_Medida === 'unidad' && !Number.isInteger(item.cantidad)) { errores.push(`\"${item.nombre}\" requiere unidades enteras`); continue; }\n  const stockDisp = stockVirtual[prod.ID_Producto] !== undefined ? stockVirtual[prod.ID_Producto] : parseFloat(prod.Stock_Disponible);\n  if (stockDisp < item.cantidad) { errores.push(`Stock insuficiente de \"${item.nombre}\": disponible ${stockDisp} ${prod.Unidad_Medida}`); continue; }\n  const precio = parseFloat(prod.Precio_Unitario);\n  const subtotal = Math.round(item.cantidad * precio * 100) / 100;\n  total += subtotal;\n  nuevasLineas.push({ nombre: prod.Nombre, cantidad: item.cantidad, unidad: prod.Unidad_Medida, precio_unitario: precio, subtotal, id_producto: prod.ID_Producto, stock_nuevo: Math.round((stockDisp - item.cantidad) * 100) / 100 });\n}\n\nif (errores.length > 0) {\n  return [{ json: { error: 'si', mensaje: 'No se pudo modificar: ' + errores.join('. ') } }];\n}\n\nconst productosTexto = nuevasLineas.map(l => `${l.nombre}:${l.cantidad}${l.unidad==='kg'?'kg':'ud'}:${l.subtotal.toFixed(2)}€`).join(';');\nconst desglose = nuevasLineas.map(l => `• ${l.nombre}: ${l.cantidad} ${l.unidad} × ${l.precio_unitario.toFixed(2)}€ = ${l.subtotal.toFixed(2)}€`).join('\\n');\nconst totalR = Math.round(total * 100) / 100;\n\nreturn [{ json: {\n  error: 'no',\n  id_pedido: pedido.ID_Pedido,\n  nombre_cliente: pedido.Nombre_Cliente,\n  telefono: pedido.Telefono,\n  fecha_modificacion: new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' }),\n  items_restaurar: itemsRestaurar,\n  nuevas_lineas: nuevasLineas,\n  productos_texto: productosTexto,\n  desglose,\n  total: totalR\n}}];"
+      },
+      "id": "mo-node-04",
+      "name": "Calcular Modificacion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        912,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 3,
+            "leftValue": "",
+            "caseSensitive": false,
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "cond-m1",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "si",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "mo-node-05",
+      "name": "¿Error Modificacion?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1136,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "em1",
+              "name": "Mensaje",
+              "value": "={{ $json.mensaje }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "mo-node-06",
+      "name": "Error_Modificacion",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const datos = $('Calcular Modificacion').first().json;\nreturn datos.items_restaurar.map(item => ({ json: item }));"
+      },
+      "id": "mo-node-07",
+      "name": "Expandir Items Restaurar",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+          "mode": "list",
+          "cachedResultName": "Fruteria Silvio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1863712503,
+          "mode": "list",
+          "cachedResultName": "Inventario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1863712503"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID_Producto": "={{ $json.id_producto }}",
+            "Stock_Disponible": "={{ $json.Stock_Disponible }}"
+          },
+          "matchingColumns": [
+            "ID_Producto"
+          ],
+          "schema": [
+            {
+              "id": "ID_Producto",
+              "displayName": "ID_Producto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Unidad_Medida",
+              "displayName": "Unidad_Medida",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Precio_Unitario",
+              "displayName": "Precio_Unitario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Stock_Disponible",
+              "displayName": "Stock_Disponible",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "mo-node-08",
+      "name": "Restaurar Stock Original",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1584,
+        384
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const datos = $('Calcular Modificacion').first().json;\nreturn datos.nuevas_lineas.map(l => ({ json: l }));"
+      },
+      "id": "mo-node-09",
+      "name": "Expandir Nuevas Lineas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1808,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+          "mode": "list",
+          "cachedResultName": "Fruteria Silvio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1863712503,
+          "mode": "list",
+          "cachedResultName": "Inventario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1863712503"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID_Producto": "={{ $json.id_producto }}",
+            "Stock_Disponible": "={{ $json.stock_nuevo }}"
+          },
+          "matchingColumns": [
+            "ID_Producto"
+          ],
+          "schema": [
+            {
+              "id": "ID_Producto",
+              "displayName": "ID_Producto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Unidad_Medida",
+              "displayName": "Unidad_Medida",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Precio_Unitario",
+              "displayName": "Precio_Unitario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Stock_Disponible",
+              "displayName": "Stock_Disponible",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "mo-node-10",
+      "name": "Actualizar Stock Nuevo",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2032,
+        384
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: $('Calcular Modificacion').first().json }];"
+      },
+      "id": "mo-node-11",
+      "name": "Consolidar Mod",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2256,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+          "mode": "list",
+          "cachedResultName": "Fruteria Silvio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1068940162,
+          "mode": "list",
+          "cachedResultName": "Pedidos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1068940162"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID_Pedido": "={{ $json.id_pedido }}",
+            "Productos": "={{ $json.desglose }}",
+            "Fecha_Hora": "={{ $json.fecha_modificacion }}",
+            "Total_EUR ": "={{ $json.total }}",
+            "Estado": "Modificado"
+          },
+          "matchingColumns": [
+            "ID_Pedido"
+          ],
+          "schema": [
+            {
+              "id": "ID_Pedido",
+              "displayName": "ID_Pedido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefono",
+              "displayName": "Telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Nombre_Cliente",
+              "displayName": "Nombre_Cliente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Fecha_Hora",
+              "displayName": "Fecha_Hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Productos",
+              "displayName": "Productos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total_EUR ",
+              "displayName": "Total_EUR ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "mo-node-12",
+      "name": "Actualizar Pedido",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2480,
+        384
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+          "mode": "list",
+          "cachedResultName": "Fruteria Silvio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1395739226,
+          "mode": "list",
+          "cachedResultName": "Facturas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=1395739226"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID_Pedido": "={{ $json.ID_Pedido }}",
+            "Fecha": "={{ $json.Fecha_Hora }}",
+            "Desglose": "={{ $('Consolidar Mod').item.json.desglose }}",
+            "Total_EUR": "={{ $json['Total_EUR '] }}€"
+          },
+          "matchingColumns": [
+            "ID_Pedido"
+          ],
+          "schema": [
+            {
+              "id": "ID_Factura",
+              "displayName": "ID_Factura",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ID_Pedido",
+              "displayName": "ID_Pedido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Telefono",
+              "displayName": "Telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Nombre_Cliente",
+              "displayName": "Nombre_Cliente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Desglose",
+              "displayName": "Desglose",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total_EUR",
+              "displayName": "Total_EUR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "mo-node-13",
+      "name": "Actualizar Factura",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2704,
+        384
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7186973879",
+        "text": "=✏️ *Pedido Modificado - Frutería*\n\n🆔 *Pedido:* {{ $json.ID_Pedido }}\n👤 *Cliente:* {{ $('Consolidar Mod').item.json.nombre_cliente }}{{ $('Consolidar Mod').item.json.telefono }}\n📅 *Modificado:* {{ $('Actualizar Pedido').item.json.Fecha_Hora }}\n\n📦 *Nuevos Productos:*\n{{ $('Consolidar Mod').item.json.desglose }}\n\n💰 *NUEVO TOTAL:{{ $('Actualizar Pedido').item.json['Total_EUR '] }}€*",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "mo-node-14",
+      "name": "Telegram Modificacion",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2928,
+        384
+      ],
+      "webhookId": "70bda8d3-c3a5-4d38-a86e-f7375747a63e",
+      "credentials": {
+        "telegramApi": {
+          "id": "DOuliL9GdebyzSsq",
+          "name": "Fruteria Silvio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "rm1",
+              "name": "Mensaje",
+              "value": "=Pedido {{ $('Consolidar Mod').first().json.id_pedido }} modificado correctamente. Nuevo total: {{ $('Consolidar Mod').first().json.total }}€.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "mo-node-15",
+      "name": "Pedido_Modificado",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3152,
+        384
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "errorWorkflow": "5PrcmQWgZy-C8ojFfhpz-",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-03-03T09:31:05.840Z",
+      "createdAt": "2026-03-03T09:31:05.840Z",
+      "role": "workflow:owner",
+      "workflowId": "D39ebS3BXtUJmE9j",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-03-03T17:51:25.651Z",
+  "versionId": "a6192580-a53e-456b-8710-172300e5a8f0"
+}
