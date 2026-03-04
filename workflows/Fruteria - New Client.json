@@ -1,0 +1,331 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-03-03T13:19:15.000Z",
+    "createdAt": "2026-03-03T10:25:35.880Z",
+    "versionId": "0f1fb259-3a39-444d-be95-f4e066c1168d",
+    "workflowId": "KBAOah3lBvFdVj6f",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "telefono"
+              },
+              {
+                "name": "nombre_completo"
+              }
+            ]
+          }
+        },
+        "id": "a1b2c3d4-0002-0001-0001-000000000001",
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          272,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+            "mode": "list",
+            "cachedResultName": "Fruteria Silvio",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Clientes",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Telefono": "='{{ $json.telefono }}",
+              "Nombre_Completo": "={{ $json.nombre_completo }}",
+              "Fecha_Registro": "={{ $now.toFormat('yyyy-MM-dd') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Telefono",
+                "displayName": "Telefono",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Nombre_Completo",
+                "displayName": "Nombre_Completo",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Fecha_Registro",
+                "displayName": "Fecha_Registro",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "id": "a1b2c3d4-0002-0002-0001-000000000001",
+        "name": "Añadir Cliente",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          528,
+          352
+        ],
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "7QvCi5UUFUsiQIlm",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "assign-1",
+                "name": "Mensaje",
+                "value": "Cliente registrado correctamente. Ahora puedes proceder con el pedido.",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "a1b2c3d4-0002-0003-0001-000000000001",
+        "name": "Confirmación",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          736,
+          352
+        ]
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Añadir Cliente",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Añadir Cliente": {
+        "main": [
+          [
+            {
+              "node": "Confirmación",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Pablo Álvarez Vidal",
+    "name": "Version 0f1fb259",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "0f1fb259-3a39-444d-be95-f4e066c1168d",
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Añadir Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Añadir Cliente": {
+      "main": [
+        [
+          {
+            "node": "Confirmación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-03T09:22:59.207Z",
+  "id": "KBAOah3lBvFdVj6f",
+  "isArchived": false,
+  "meta": null,
+  "name": "Fruteria - New Client",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "telefono"
+            },
+            {
+              "name": "nombre_completo"
+            }
+          ]
+        }
+      },
+      "id": "a1b2c3d4-0002-0001-0001-000000000001",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug",
+          "mode": "list",
+          "cachedResultName": "Fruteria Silvio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UGFgv7fzjSjl25slP9eY1TedlpSiWB2h_UYNuPoqeug/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Telefono": "='{{ $json.telefono }}",
+            "Nombre_Completo": "={{ $json.nombre_completo }}",
+            "Fecha_Registro": "={{ $now.toFormat('yyyy-MM-dd') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Telefono",
+              "displayName": "Telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nombre_Completo",
+              "displayName": "Nombre_Completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fecha_Registro",
+              "displayName": "Fecha_Registro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0002-0002-0001-000000000001",
+      "name": "Añadir Cliente",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        352
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7QvCi5UUFUsiQIlm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-1",
+              "name": "Mensaje",
+              "value": "Cliente registrado correctamente. Ahora puedes proceder con el pedido.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0002-0003-0001-000000000001",
+      "name": "Confirmación",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        736,
+        352
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "errorWorkflow": "5PrcmQWgZy-C8ojFfhpz-",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-03-03T09:22:59.218Z",
+      "createdAt": "2026-03-03T09:22:59.218Z",
+      "role": "workflow:owner",
+      "workflowId": "KBAOah3lBvFdVj6f",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-03-03T10:26:00.248Z",
+  "versionId": "0f1fb259-3a39-444d-be95-f4e066c1168d"
+}
