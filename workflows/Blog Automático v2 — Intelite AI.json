@@ -1,0 +1,593 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Calcular Slot Temporal": {
+      "main": [
+        [
+          {
+            "node": "Obtener Posts Recientes Sanity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Posts Recientes Sanity": {
+      "main": [
+        [
+          {
+            "node": "Seleccionar Tema Inteligente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seleccionar Tema Inteligente": {
+      "main": [
+        [
+          {
+            "node": "Topic Planner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model Planner": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Topic Planner",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Topic Planner": {
+      "main": [
+        [
+          {
+            "node": "Preparar Prompt del Escritor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Prompt del Escritor": {
+      "main": [
+        [
+          {
+            "node": "AI Writer Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model Escritor": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Writer Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Writer Agent": {
+      "main": [
+        [
+          {
+            "node": "Parsear JSON del Agente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parsear JSON del Agente": {
+      "main": [
+        [
+          {
+            "node": "Quality Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quality Gate": {
+      "main": [
+        [
+          {
+            "node": "IF Calidad OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Calidad OK": {
+      "main": [
+        [
+          {
+            "node": "Buscar Imagen Pexels",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notificar Fallo Calidad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Imagen Pexels": {
+      "main": [
+        [
+          {
+            "node": "Resolver Imagen Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resolver Imagen Fallback": {
+      "main": [
+        [
+          {
+            "node": "Publicar en Blog",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publicar en Blog": {
+      "main": [
+        [
+          {
+            "node": "Verificar Publicacion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Test": {
+      "main": [
+        [
+          {
+            "node": "Calcular Slot Temporal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-07T09:49:06.754Z",
+  "id": "REl7nBWjJfWsnrgO",
+  "isArchived": false,
+  "meta": null,
+  "name": "Blog Automático v2 — Intelite AI",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const BASE_TIMESTAMP = 1741046400000;\nconst MS_PER_SLOT = 6 * 60 * 60 * 1000;\nconst now = Date.now();\n\n// Soporte para override desde webhook de test (?slot=N)\nconst triggerInput = $input.first().json;\nconst slotOverride = triggerInput.query?.slot ?? triggerInput.body?.slot;\nconst slotIndex = slotOverride !== undefined && slotOverride !== ''\n  ? parseInt(slotOverride)\n  : Math.floor((now - BASE_TIMESTAMP) / MS_PER_SLOT);\n\nconst dayOfWeek = new Date(now).getDay();\nreturn [{ json: { slotIndex, dayOfWeek, now } }];"
+      },
+      "id": "v2-slot",
+      "name": "Calcular Slot Temporal",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://za2sus42.api.sanity.io/v2021-06-07/data/query/production",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "*[_type == \"post\"]{title,\"slug\":slug.current,\"category\":categories[0]->title,excerpt,\"angle\":pt::text(body[0..0]),publishedAt}|order(_createdAt desc)[0...30]"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer skIrDrO0ZYf2CTAgCYyMInu89W1XkvBCzAXy2VHfkjzQQkAjCdlanYzQZw3yW1Z17TSZ2DrNdUHlvwnM7VUoMzEhwqGQx7TM0Rne2R2q9sheHmz8BUhTgDnCsTTd4h1YbqDAKxEe0Pm0VqX3fMceQKxDGPJsyxOftDdCZbVXAwMOyd6jUU72"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "v2-sanity",
+      "name": "Obtener Posts Recientes Sanity",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        688,
+        400
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "jsCode": "const slotData = $('Calcular Slot Temporal').first().json;\nconst slotIndex = slotData.slotIndex;\nconst dayOfWeek = slotData.dayOfWeek;\nconst sanityResult = $input.first().json.result || [];\n\nconst SECTORS = [\n  'inmobiliarias y agencias inmobiliarias',\n  'clinicas medicas y dentales',\n  'restaurantes y hosteleria',\n  'talleres mecanicos',\n  'concesionarios de automoviles',\n  'despachos de abogados',\n  'academias y centros de formacion',\n  'empresas de logistica y transporte',\n  'aseguradoras y corredurias de seguros',\n  'comercio retail y tiendas',\n  'clinicas veterinarias',\n  'centros de fisioterapia y rehabilitacion',\n  'asesorias y gestorias',\n  'agencias de marketing digital',\n  'empresas de construccion y reformas',\n  'centros de estetica y peluquerias',\n  'consultorios psicologicos',\n  'promotoras inmobiliarias',\n  'empresas de seguridad y vigilancia',\n  'farmacias y parafarmacias',\n  'hoteles y apartamentos turisticos',\n  'agencias de viajes',\n  'gimnasios y centros deportivos',\n  'clinicas de fertilidad y medicina estetica',\n  'instaladores de energia solar',\n  'empresas de limpieza profesional',\n  'distribuidores mayoristas',\n  'estudios de arquitectura e ingenieria',\n  'empresas de reclutamiento y RRHH',\n  'startups tecnologicas espanolas'\n];\n\nconst HOW_TO_TOPICS = [\n  { topic: 'como implementar un chatbot en WhatsApp Business', tool: 'n8n + OpenAI' },\n  { topic: 'como automatizar respuestas a emails de clientes', tool: 'n8n + Gmail' },\n  { topic: 'como conectar tu CRM con WhatsApp y email', tool: 'n8n + HubSpot' },\n  { topic: 'como crear un agente de voz que gestione citas', tool: 'ElevenLabs + n8n' },\n  { topic: 'como automatizar informes semanales con IA', tool: 'n8n + GPT-4' },\n  { topic: 'como integrar Holded con cualquier herramienta', tool: 'n8n' },\n  { topic: 'como usar IA para clasificar leads automaticamente', tool: 'n8n + OpenAI' },\n  { topic: 'como montar un pipeline de ventas automatizado', tool: 'n8n + CRM' },\n  { topic: 'guia de n8n para pymes primeros pasos', tool: 'n8n' },\n  { topic: 'como automatizar facturas y albaranes', tool: 'n8n + Holded' },\n  { topic: 'como crear un sistema de seguimiento de pedidos', tool: 'n8n + WhatsApp' },\n  { topic: 'como conectar Calendly con tu CRM automaticamente', tool: 'n8n' },\n  { topic: 'como implementar un chatbot multiidioma para turismo', tool: 'n8n + OpenAI' },\n  { topic: 'como medir el ROI real de la automatizacion', tool: 'metodologia' },\n  { topic: 'como hacer scraping legal para inteligencia de mercado', tool: 'n8n + Apify' }\n];\n\nconst NEWS_TOPICS = [\n  'GPT-4o y modelos de voz en tiempo real que cambia para las pymes',\n  'La normativa europea de IA AI Act y como afecta a tu empresa en Espana',\n  'Agentes autonomos de IA que son y cuando estaran listos para pymes',\n  'Modelos pequenos SLM alternativas a GPT para pymes con presupuesto',\n  'Automatizacion con IA vs RPA clasico cual elegir en 2025',\n  'IA generativa en atencion al cliente estado actual en el mercado espanol',\n  'El impacto de los voice bots en la hosteleria espanola',\n  'Como estan adoptando la IA las pymes valencianas datos y tendencias',\n  'OpenAI Anthropic Google que modelo es mejor para automatizacion de negocio',\n  'El futuro del trabajo en Espana que tareas automatizara la IA antes de 2027'\n];\n\nconst ROI_TOPICS = [\n  { sector: 'clinicas medicas', metric: 'coste por cita no presentada vs chatbot de recordatorios' },\n  { sector: 'restaurantes', metric: 'ROI de automatizar reservas vs recepcionista nocturno' },\n  { sector: 'despachos de abogados', metric: 'horas facturables recuperadas con automatizacion documental' },\n  { sector: 'talleres mecanicos', metric: 'ingresos perdidos por llamadas no atendidas' },\n  { sector: 'academias', metric: 'coste de gestion de matriculas manual vs automatizado' },\n  { sector: 'retail', metric: 'impacto de respuesta 24/7 en conversion de ecommerce' },\n  { sector: 'logistica', metric: 'reduccion de incidencias con seguimiento automatico' },\n  { sector: 'inmobiliarias', metric: 'coste de cualificacion de leads sin IA' }\n];\n\nconst COMPARATIVE_TOPICS = [\n  'n8n vs Zapier vs Make cual elegir para una pyme espanola',\n  'Chatbot de reglas vs chatbot con IA diferencias reales de coste y calidad',\n  'Agente de voz vs formulario web cual convierte mas en el sector sanitario',\n  'HubSpot vs Salesforce vs Holded CRM para pymes con automatizacion',\n  'GPT-4.1 vs Claude vs Gemini para redaccion comercial en espanol',\n  'WhatsApp Business API vs chatbot web pros y contras para pymes'\n];\n\nconst CATEGORY_BY_TYPE = {\n  SECTOR_USECASE:  ['Casos de Uso', 'Automatización', 'Chatbots', 'Agentes de Voz', 'Integraciones'],\n  HOW_TO:          ['Automatización', 'Integraciones', 'Chatbots'],\n  AI_NEWS_APPLIED: ['Noticias IA', 'Automatización'],\n  ROI_BUSINESS:    ['Casos de Uso', 'Automatización'],\n  COMPARATIVE:     ['Integraciones', 'Automatización', 'Noticias IA']\n};\n\nconst HOOK_DESCRIPTIONS = {\n  A: 'Pregunta directa al problema real del lector',\n  B: 'Dato o estadistica especifica del sector en Espana',\n  C: 'Escenario concreto y vivido (narrativo)',\n  D: 'Comparativa antes/despues sin IA vs con IA',\n  E: 'Objecion tipica del sector desmontada',\n  F: 'Coste real de no automatizar, calculado para el sector',\n  G: 'Historia breve de empresa anonimizada en ciudad valenciana',\n  H: 'Tendencia del mercado + aplicacion practica al sector en Espana'\n};\n\nconst recentPosts = sanityResult.slice(0, 30);\nconst sectorCount = {};\nconst categoryCount = {};\nfor (const post of recentPosts) {\n  if (post.sector) sectorCount[post.sector] = (sectorCount[post.sector] || 0) + 1;\n  if (post.category) categoryCount[post.category] = (categoryCount[post.category] || 0) + 1;\n}\n\nconst typeKeys = [\n  'SECTOR_USECASE','SECTOR_USECASE','SECTOR_USECASE','SECTOR_USECASE',\n  'SECTOR_USECASE','SECTOR_USECASE','SECTOR_USECASE','SECTOR_USECASE',\n  'HOW_TO','HOW_TO','HOW_TO','HOW_TO','HOW_TO',\n  'AI_NEWS_APPLIED','AI_NEWS_APPLIED','AI_NEWS_APPLIED','AI_NEWS_APPLIED',\n  'ROI_BUSINESS','ROI_BUSINESS',\n  'COMPARATIVE'\n];\n\nlet contentType = typeKeys[slotIndex % typeKeys.length];\nif ((dayOfWeek === 1 || dayOfWeek === 5) && slotIndex % 3 === 0) {\n  contentType = 'AI_NEWS_APPLIED';\n}\n\nlet topicConfig = {};\nif (contentType === 'SECTOR_USECASE') {\n  const EXCLUSION_WINDOW = 8;\n  const recentSectors = recentPosts.slice(0, EXCLUSION_WINDOW).map(p => p.sector).filter(Boolean);\n  const available = SECTORS.filter(s => !recentSectors.includes(s));\n  const pool = available.length > 0 ? available : SECTORS;\n  const sorted = pool.slice().sort((a, b) => (sectorCount[a] || 0) - (sectorCount[b] || 0));\n  const candidates = sorted.slice(0, Math.ceil(sorted.length / 2));\n  topicConfig = { sector: candidates[slotIndex % candidates.length] };\n} else if (contentType === 'HOW_TO') {\n  topicConfig = HOW_TO_TOPICS[slotIndex % HOW_TO_TOPICS.length];\n} else if (contentType === 'AI_NEWS_APPLIED') {\n  topicConfig = { topic: NEWS_TOPICS[slotIndex % NEWS_TOPICS.length] };\n} else if (contentType === 'ROI_BUSINESS') {\n  topicConfig = ROI_TOPICS[slotIndex % ROI_TOPICS.length];\n} else if (contentType === 'COMPARATIVE') {\n  topicConfig = { topic: COMPARATIVE_TOPICS[slotIndex % COMPARATIVE_TOPICS.length] };\n}\n\nconst eligible = (CATEGORY_BY_TYPE[contentType] || ['Automatización']).slice()\n  .sort((a, b) => (categoryCount[a] || 0) - (categoryCount[b] || 0));\nlet category = eligible[slotIndex % eligible.length];\n\nif (contentType === 'SECTOR_USECASE' && topicConfig.sector) {\n  const recentPairs = new Set(recentPosts.slice(0, 20).map(p => p.sector + '||' + p.category));\n  if (recentPairs.has(topicConfig.sector + '||' + category)) {\n    const altCats = eligible.filter(c => !recentPairs.has(topicConfig.sector + '||' + c));\n    if (altCats.length > 0) category = altCats[0];\n  }\n}\n\nconst AUTHORS = ['Pablo Álvarez', 'Marc Balaguer', 'Pau Balaguer'];\nconst author = AUTHORS[slotIndex % AUTHORS.length];\n\nconst HOOKS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];\nconst hook = HOOKS[(slotIndex + 3) % HOOKS.length];\nconst hookDesc = HOOK_DESCRIPTIONS[hook];\n\nconst recentContext = recentPosts.slice(0, 15).map(p => {\n  let line = '[' + (p.category || '?') + '] ' + (p.title || '?');\n  if (p.excerpt) line += ' — ' + p.excerpt.substring(0, 80);\n  if (p.angle) line += ' | Angulo: ' + String(p.angle).substring(0, 100);\n  return line;\n}).join('\\n');\n\nlet topicDescription = '';\nif (contentType === 'SECTOR_USECASE') {\n  topicDescription = 'Sector objetivo: ' + topicConfig.sector;\n} else if (contentType === 'HOW_TO') {\n  topicDescription = 'Tutorial: \"' + topicConfig.topic + '\" con herramienta: ' + topicConfig.tool;\n} else if (contentType === 'AI_NEWS_APPLIED') {\n  topicDescription = 'Tendencia/noticia: ' + topicConfig.topic;\n} else if (contentType === 'ROI_BUSINESS') {\n  topicDescription = 'Analisis ROI — Sector: ' + topicConfig.sector + ' | Metrica: ' + topicConfig.metric;\n} else if (contentType === 'COMPARATIVE') {\n  topicDescription = 'Comparativa: ' + topicConfig.topic;\n}\n\nconst plannerPrompt = 'Eres un estratega de contenido senior para el blog de Intelite AI (https://inteliteai.com), empresa de automatizacion con IA para pymes espanolas en San Juan de Alicante.\\n\\nASIGNACION PARA ESTE POST:\\n- Tipo de contenido: ' + contentType + '\\n- ' + topicDescription + '\\n- Categoria del blog: ' + category + '\\n- Hook de apertura a usar: Tipo ' + hook + ' — ' + hookDesc + '\\n- Autor: ' + author + '\\n\\nPOSTS RECIENTES (NO repetir estos angulos ni argumentos):\\n' + (recentContext || 'Ningun post publicado aun.') + '\\n\\nGenera un BRIEF estructurado de 150-180 palabras con exactamente estos 8 puntos numerados:\\n1. ANGULO: El angulo diferenciador vs posts anteriores (1-2 frases)\\n2. PRIMERA FRASE: La primera frase exacta del post (el hook aplicado)\\n3. ARGUMENTOS: 3-4 argumentos principales unicos para este post\\n4. DATO: Un dato o estadistica especifica a incluir (aproximada pero creible)\\n5. FORMATO: Tipo de estructura (guia paso a paso / caso narrativo / comparativa / analisis ROI / checklist / tutorial)\\n6. ELEMENTO VISUAL: Un elemento concreto (tabla / checklist / timeline / comparativa dos columnas)\\n7. CTA: Call-to-action especifico y natural para este tipo de contenido\\n8. KEYWORD_PRINCIPAL: La keyword SEO en 3-5 palabras (en espanol, sin tildes, como en Google)\\n\\nDevuelve UNICAMENTE JSON valido con dos campos: \"mainKeyword\" (string) y \"brief\" (string con los 8 puntos).';\n\nreturn [{ json: { slotIndex, contentType, topicConfig, category, author, hook, hookDescription: hookDesc, recentContext, plannerPrompt, topicDescription } }];"
+      },
+      "id": "v2-selector",
+      "name": "Seleccionar Tema Inteligente",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        912,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "mode": "id",
+          "value": "gpt-4.1-mini"
+        },
+        "responsesApiEnabled": false,
+        "options": {}
+      },
+      "id": "v2-planner-model",
+      "name": "OpenAI Chat Model Planner",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1208,
+        624
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.plannerPrompt }}",
+        "options": {
+          "systemMessage": "Eres un estratega de contenido para blogs de IA en Espana. Tu unica tarea es analizar el brief y devolver UNICAMENTE JSON valido con exactamente dos campos: \"mainKeyword\" (string, la keyword SEO principal en 3-5 palabras en espanol sin tildes) y \"brief\" (string, el brief de contenido con los 8 puntos numerados). Sin texto extra, sin bloques de codigo, solo el JSON."
+        }
+      },
+      "id": "v2-planner",
+      "name": "Topic Planner",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1136,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const plannerOutput = $input.first().json.output || '';\nconst selectorData = $('Seleccionar Tema Inteligente').first().json;\n\nlet mainKeyword = '';\nlet brief = '';\n\nconst jsonMatch = plannerOutput.match(/\\{[\\s\\S]*\\}/);\nif (jsonMatch) {\n  try {\n    const parsed = JSON.parse(jsonMatch[0]);\n    mainKeyword = parsed.mainKeyword || '';\n    brief = parsed.brief || plannerOutput;\n  } catch (e) {\n    brief = plannerOutput;\n  }\n} else {\n  brief = plannerOutput;\n}\n\nconst today = new Date().toISOString().substring(0, 10);\nconst writerPrompt = 'BRIEF DE CONTENIDO (sigue estas instrucciones al pie de la letra):\\n' + brief + '\\n\\nPARAMETROS FIJOS (NO cambies estos valores en el JSON de salida):\\n- Autor: ' + selectorData.author + '\\n- Categoria: ' + selectorData.category + '\\n- Fecha de publicacion: ' + today + '\\n- Tipo de post: ' + selectorData.contentType + '\\n\\nCONTEXTO DE SATURACION (angulos ya cubiertos — NO repitas estas aperturas ni argumentos):\\n' + (selectorData.recentContext || 'Ningun post publicado aun.') + '\\n\\nDevuelve unicamente el JSON valido del post completo.';\n\nreturn [{ json: { ...selectorData, mainKeyword, brief, writerPrompt } }];"
+      },
+      "id": "v2-prep-prompt",
+      "name": "Preparar Prompt del Escritor",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1488,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "mode": "id",
+          "value": "gpt-4.1"
+        },
+        "responsesApiEnabled": false,
+        "options": {}
+      },
+      "id": "v2-writer-model",
+      "name": "OpenAI Chat Model Escritor",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1784,
+        624
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "lF7UohlhOobJXkZr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.writerPrompt }}",
+        "options": {
+          "systemMessage": "Eres un redactor SEO senior especializado en IA y automatizacion para pymes espanolas. Escribes para el blog de Intelite AI (https://inteliteai.com), empresa en San Juan de Alicante (Alicante, Espana).\n\nSERVICIOS DE INTELITE AI:\n- Automatizacion con IA: workflows n8n, eliminacion de tareas repetitivas\n- Chatbots IA: asistentes virtuales multicanal 24/7\n- Agentes de Voz: telefonia autonoma con voz natural\n- Integraciones: CRMs, ERPs, calendarios, APIs personalizadas\n\nREGLA CRITICA DE TITULOS:\nEl keyword SEO debe aparecer en las primeras 4-5 palabras del titulo H1. El gancho narrativo va en el primer parrafo o en un subtitulo H2, no en el H1.\nCORRECTO: \"IA para clinicas dentales: como reducir citas perdidas en Alicante\"\nINCORRECTO: \"Como una clinica dental de Alicante redujo sus citas perdidas con IA\"\n\nPRINCIPIOS FUNDAMENTALES:\n1. Cada post debe sonar como escrito por una persona distinta con perspectiva unica.\n2. PROHIBIDO empezar con: \"Descubre como\", \"En el mundo actual\", \"La inteligencia artificial esta transformando\", \"En un entorno cada vez mas competitivo\", \"En la era digital\", o cualquier apertura generica similar.\n3. Las metricas son ORIENTATIVAS. Contextualiza con el sector, parafraseales o usa cifras alternativas. NUNCA copies el mismo bloque de metricas en todos los posts.\n4. Tono adaptado: despachos/seguros = formal y preciso; restaurantes/retail = cercano y practico; logistica/talleres = tecnico-operativo; clinicas/academias = empatico.\n5. El excerpt NUNCA empieza con \"Descubre como\". Usa cifras, preguntas directas o beneficios especificos.\n\nHOOKS DE APERTURA (usa el tipo indicado en el BRIEF):\nA) Pregunta directa al problema real del lector\nB) Dato o estadistica especifica del sector en Espana\nC) Escenario concreto y vivido (ej: \"Son las 23:00. Un cliente llama. Nadie coge.\")\nD) Comparativa antes/despues sin IA vs con IA\nE) Objecion tipica del sector desmontada\nF) Coste real de no automatizar, calculado para ese sector\nG) Historia breve de empresa anonimizada en ciudad valenciana\nH) Tendencia del mercado + aplicacion practica al sector en Espana\n\nANGULO SEGUN TIPO DE CONTENIDO:\n- SECTOR_USECASE: problema especifico del sector + solucion IA de Intelite + caso real ficticio\n- HOW_TO: tutorial practico con pasos numerados, herramientas especificas, ejemplos de configuracion\n- AI_NEWS_APPLIED: tendencia real + como implementarla en pymes espanolas YA, con pasos concretos\n- ROI_BUSINESS: calculo detallado, cifras reales, comparativa coste-beneficio, tabla de ROI especifica\n- COMPARATIVE: criterios claros, tabla comparativa, recomendacion final segun tipo de empresa\n\nANGULO SEGUN CATEGORIA:\n- Automatizacion: tiempo ahorrado, errores eliminados, procesos especificos del sector\n- Agentes de Voz: llamadas perdidas, coste de personal nocturno/festivo, disponibilidad real\n- Chatbots: experiencia del cliente, respuesta inmediata, volumen de consultas repetitivas\n- Integraciones: silos de datos, sistemas existentes, conectividad entre herramientas\n- Casos de Uso: narrativa con empresa ficticia del sector, problema real, solucion, resultado medible\n- Noticias IA: tendencia actual del sector + como aplica en pymes espanolas YA\n\nCONCERNS SECTORIALES (menciona cuando corresponda):\n- Clinicas, seguros, inmobiliarias: RGPD, proteccion de datos del cliente\n- Despachos de abogados: secreto profesional, compliance, auditoria de accesos\n- Talleres/concesionarios: integracion con DMS o software de taller\n- Logistica: integracion con ERPs, tracking en tiempo real, rutas nocturnas\n- Academias: LOPD en menores, comunicacion con padres, gestion de matriculas\n\nESTRUCTURA FLEXIBLE:\n- Minimo 4 secciones H2. El formato puede variar: guia practica, comparativa, lista de errores, checklist, caso narrativo, analisis ROI, tutorial paso a paso\n- Una seccion de Preguntas Frecuentes con 3 preguntas H3 y respuestas que no repitan lo ya dicho\n- Un elemento de datos (elige segun contexto): TABLA, LISTA, COMPARATIVA dos columnas, TIMELINE, o CHECKLIST\n- CTA final natural y especifico para el sector, mencionando Intelite AI\n\nREGLAS SEO:\n- Keyword principal en: titulo (primeras 4-5 palabras), primer parrafo, 2+ H2s, excerpt\n- Menciona Alicante, Comunidad Valenciana o ciudades cercanas (Benidorm, Elche, Torrevieja, San Juan de Alicante) minimo 3 veces\n- Menciona pymes espanolas o empresas en Espana minimo 3 veces\n- Links internos (minimo 3): [automatizacion con IA](/automatizacion), [chatbots](/chatbots), [agentes de voz](/agentes-voz), [integraciones](/integraciones), [contactar](/contactar), [calcular ROI](/herramientas)\n- Minimo 1000 palabras\n\nSCHEMA.ORG (OBLIGATORIO al final del markdownContent, despues del CTA):\n<!-- SCHEMA_ORG{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":\"Article\",\"headline\":\"TITULO\",\"author\":{\"@type\":\"Person\",\"name\":\"AUTOR\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Intelite AI\",\"url\":\"https://inteliteai.com\"},\"datePublished\":\"FECHA_ISO\",\"description\":\"EXCERPT\"},{\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"TEXTO_EXACTO_H3_1\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"RESPUESTA_1\"}},{\"@type\":\"Question\",\"name\":\"TEXTO_EXACTO_H3_2\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"RESPUESTA_2\"}},{\"@type\":\"Question\",\"name\":\"TEXTO_EXACTO_H3_3\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"RESPUESTA_3\"}}]}]}-->\nLos \"name\" de las preguntas DEBEN ser EXACTAMENTE iguales al texto de los H3 de la seccion FAQ.\n\nDevuelve UNICAMENTE JSON valido sin texto extra ni bloques markdown:\n{\n  \"title\": \"Keyword al inicio: descripcion especifica con ubicacion (50-65 chars)\",\n  \"slug\": \"keyword-kebab-sin-tildes-YYYYMMDD\",\n  \"excerpt\": \"150-160 chars — NO empieces con Descubre como. Usa cifra, pregunta o beneficio\",\n  \"markdownContent\": \"Markdown completo minimo 1000 palabras con bloque SCHEMA_ORG al final\",\n  \"category\": \"categoria exacta del brief\",\n  \"readTime\": \"X min\",\n  \"author\": \"autor exacto del brief\",\n  \"coverImageKeywords\": \"escena fotografica especifica en ingles, 4-6 palabras descriptivas\",\n  \"angle\": \"descripcion en 1 linea del angulo narrativo usado en este post\"\n}"
+        }
+      },
+      "id": "v2-writer",
+      "name": "AI Writer Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1712,
+        400
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 10000
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.output || '';\nconst promptData = $('Preparar Prompt del Escritor').first().json;\n\nconst jsonMatch = raw.match(/\\{[\\s\\S]*\\}/);\nif (!jsonMatch) throw new Error('No JSON encontrado en la respuesta del writer. Inicio: ' + raw.substring(0, 300));\n\nlet post;\ntry {\n  post = JSON.parse(jsonMatch[0]);\n} catch (e) {\n  throw new Error('JSON invalido del writer: ' + e.message + ' | Raw: ' + raw.substring(0, 200));\n}\n\nconst required = ['title', 'slug', 'excerpt', 'markdownContent', 'category'];\nfor (const f of required) {\n  if (!post[f]) throw new Error('Campo faltante en JSON del writer: ' + f);\n}\n\nconst validCategories = ['Automatización', 'Agentes de Voz', 'Chatbots', 'Integraciones', 'Casos de Uso', 'Noticias IA'];\nif (!validCategories.includes(post.category)) {\n  throw new Error('Categoria invalida: ' + post.category + '. Validas: ' + validCategories.join(', '));\n}\n\nlet schemaOrg = null;\nconst schemaMatch = post.markdownContent.match(/<!--\\s*SCHEMA_ORG([\\s\\S]*?)-->/);\nif (schemaMatch) {\n  try {\n    schemaOrg = JSON.parse(schemaMatch[1].trim());\n    const h3Regex = /^###\\s+(.+)$/gm;\n    const h3Matches = [...post.markdownContent.matchAll(h3Regex)].map(m => m[1].trim());\n    if (schemaOrg['@graph'] && h3Matches.length > 0) {\n      const faqNode = schemaOrg['@graph'].find(n => n['@type'] === 'FAQPage');\n      if (faqNode && faqNode.mainEntity) {\n        faqNode.mainEntity = faqNode.mainEntity.map((q, i) => ({ ...q, name: h3Matches[i] || q.name }));\n      }\n    }\n  } catch (e) {\n    console.warn('Schema.org malformado: ' + e.message);\n  }\n}\n\npost.coverImageKeywords = post.coverImageKeywords || 'professional business technology office Spain';\npost.angle = post.angle || '';\npost.mainKeyword = promptData.mainKeyword || '';\n\nreturn [{ json: { ...post, schemaOrg } }];"
+      },
+      "id": "v2-parse",
+      "name": "Parsear JSON del Agente",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2064,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const post = $input.first().json;\nconst mainKeyword = post.mainKeyword || '';\nconst hardIssues = [];\nconst softWarnings = [];\n\nconst VALID_CATEGORIES = ['Automatización', 'Agentes de Voz', 'Chatbots', 'Integraciones', 'Casos de Uso', 'Noticias IA'];\n\nconst requiredFields = ['title', 'slug', 'excerpt', 'markdownContent', 'category', 'author'];\nfor (const f of requiredFields) {\n  if (!post[f] || String(post[f]).trim().length === 0) hardIssues.push('MISSING_FIELD: ' + f);\n}\n\nif (!VALID_CATEGORIES.includes(post.category)) hardIssues.push('INVALID_CATEGORY: ' + post.category);\n\nconst wordCount = (post.markdownContent || '').split(/\\s+/).filter(w => w.length > 0).length;\nif (wordCount < 900) hardIssues.push('WORD_COUNT_LOW: ' + wordCount + ' palabras (minimo 900)');\n\nconst forbiddenOpeners = ['descubre como', 'en el mundo actual', 'la inteligencia artificial esta transformando', 'en un entorno cada vez mas', 'en la era digital'];\nconst openingText = (post.markdownContent || '').substring(0, 400).toLowerCase();\nfor (const phrase of forbiddenOpeners) {\n  if (openingText.includes(phrase)) hardIssues.push('FORBIDDEN_OPENER: \"' + phrase + '\"');\n}\n\nconst h2Count = (post.markdownContent || '').match(/^## /gm)?.length || 0;\nif (h2Count < 3) hardIssues.push('TOO_FEW_H2: solo ' + h2Count + ' secciones (minimo 3)');\n\nconst titleLen = (post.title || '').length;\nif (titleLen < 30) softWarnings.push('TITLE_SHORT: ' + titleLen + ' chars');\nif (titleLen > 80) softWarnings.push('TITLE_LONG: ' + titleLen + ' chars');\n\nconst excerptLen = (post.excerpt || '').length;\nif (excerptLen < 100) softWarnings.push('EXCERPT_SHORT: ' + excerptLen + ' chars');\nif (excerptLen > 200) softWarnings.push('EXCERPT_LONG: ' + excerptLen + ' chars');\n\nconst excerptLower = (post.excerpt || '').toLowerCase();\nif (excerptLower.startsWith('descubre como') || excerptLower.startsWith('descubre c')) {\n  softWarnings.push('EXCERPT_FORBIDDEN_OPENER');\n}\n\nif (!(post.markdownContent || '').includes('](/')) softWarnings.push('NO_INTERNAL_LINKS');\n\nif (mainKeyword) {\n  const firstWords = (post.title || '').split(' ').slice(0, 6).join(' ').toLowerCase();\n  if (!firstWords.includes(mainKeyword.toLowerCase())) {\n    softWarnings.push('KEYWORD_NOT_IN_TITLE_START: \"' + mainKeyword + '\" no en primeras 6 palabras');\n  }\n}\n\nif (!post.schemaOrg) softWarnings.push('SCHEMA_ORG_MISSING: no se encontro bloque Schema.org en el markdown');\n\nif (softWarnings.length > 0) console.log('[QUALITY WARNINGS] ' + (post.slug || '?') + ': ' + softWarnings.join(' | '));\n\nconst qualityPassed = hardIssues.length === 0 ? 'yes' : 'no';\nreturn [{ json: { ...post, qualityPassed, qualityIssues: hardIssues, softWarnings, wordCount } }];"
+      },
+      "id": "v2-quality",
+      "name": "Quality Gate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2288,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-quality",
+              "leftValue": "={{ $json.qualityPassed }}",
+              "rightValue": "yes",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "v2-if",
+      "name": "IF Calidad OK",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2512,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const post = $input.first().json;\nconsole.warn('[QUALITY GATE FAIL] Post omitido: \"' + (post.title || 'sin titulo') + '\"');\nconsole.warn('[ISSUES] ' + JSON.stringify(post.qualityIssues));\nreturn [{ json: { skipped: true, reason: 'quality_gate_failed', issues: post.qualityIssues, title: post.title, slug: post.slug } }];"
+      },
+      "id": "v2-notify-fail",
+      "name": "Notificar Fallo Calidad",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2736,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.pexels.com/v1/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.coverImageKeywords }}"
+            },
+            {
+              "name": "per_page",
+              "value": "3"
+            },
+            {
+              "name": "orientation",
+              "value": "landscape"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "i1Xqa2gvCigSQzkHGF9AdTZeXNtrt90Hmude3Zh6v4bueOGTTQV85TRi"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "v2-pexels",
+      "name": "Buscar Imagen Pexels",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2736,
+        304
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const pexelsResponse = $input.first().json;\nconst postData = $('Parsear JSON del Agente').first().json;\n\nconst FALLBACK_IMAGES = {\n  'Automatización': 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop',\n  'Chatbots': 'https://images.unsplash.com/photo-1587560699334-cc4ff634909a?w=1200&auto=format&fit=crop',\n  'Agentes de Voz': 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&auto=format&fit=crop',\n  'Integraciones': 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop',\n  'Casos de Uso': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop',\n  'Noticias IA': 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&auto=format&fit=crop'\n};\n\nconst photos = pexelsResponse.photos || [];\nconst isPlaceholder = photos.length === 0 || !photos[0]?.src?.large2x;\nlet coverImageUrl;\n\nif (!isPlaceholder) {\n  coverImageUrl = photos[0].src.large2x;\n} else {\n  const category = postData.category || 'Automatización';\n  coverImageUrl = FALLBACK_IMAGES[category] || FALLBACK_IMAGES['Automatización'];\n  console.warn('[IMAGEN PLACEHOLDER] \"' + postData.title + '\" — categoria: ' + category);\n}\n\nreturn [{ json: { ...postData, coverImageUrl, _imagePlaceholder: isPlaceholder } }];"
+      },
+      "id": "v2-fallback",
+      "name": "Resolver Imagen Fallback",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2960,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://inteliteai.com/api/blog/publish",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-secret",
+              "value": "596e61ed47283f1b51b6569cd7d3de28f502c8877098acde3f9a3f3e6871e722"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $json.title }}"
+            },
+            {
+              "name": "slug",
+              "value": "={{ $json.slug }}"
+            },
+            {
+              "name": "excerpt",
+              "value": "={{ $json.excerpt }}"
+            },
+            {
+              "name": "markdownContent",
+              "value": "={{ $json.markdownContent }}"
+            },
+            {
+              "name": "category",
+              "value": "={{ $json.category }}"
+            },
+            {
+              "name": "readTime",
+              "value": "={{ $json.readTime }}"
+            },
+            {
+              "name": "author",
+              "value": "={{ $json.author }}"
+            },
+            {
+              "name": "coverImageUrl",
+              "value": "={{ $json.coverImageUrl }}"
+            },
+            {
+              "name": "angle",
+              "value": "={{ $json.angle }}"
+            },
+            {
+              "name": "schemaOrg",
+              "value": "={{ $json.schemaOrg ? JSON.stringify($json.schemaOrg) : '' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "v2-publish",
+      "name": "Publicar en Blog",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3184,
+        304
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\nconst postData = $('Resolver Imagen Fallback').first().json;\nconst writerData = $('AI Writer Agent').first().json;\n\nif (response.error) {\n  throw new Error('Blog publish network error: ' + JSON.stringify(response.error).substring(0, 300));\n}\n\nconst status = response.statusCode || response.status || 200;\nconst responseBody = response.body || response;\n\nif (status >= 200 && status < 300) {\n  const usage = writerData.usage || {};\n  console.log('[SUCCESS] Publicado: \"' + postData.title + '\" (' + postData.slug + ')');\n  console.log('[TOKENS] input: ' + (usage.input_tokens || '?') + ', output: ' + (usage.output_tokens || '?') + ', total: ' + (usage.total_tokens || '?'));\n  console.log('[IMAGE_PLACEHOLDER] ' + (postData._imagePlaceholder ? 'SI — reemplazar antes de indexacion' : 'No'));\n  return [{ json: { success: true, status, slug: postData.slug, title: postData.title } }];\n}\n\nthrow new Error('Blog publish failed ' + status + ': ' + JSON.stringify(responseBody).substring(0, 400));"
+      },
+      "id": "v2-verify",
+      "name": "Verificar Publicacion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3408,
+        304
+      ]
+    },
+    {
+      "id": "v2-webhook-test",
+      "name": "Webhook Test",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        400
+      ],
+      "parameters": {
+        "path": "blog-v2-test",
+        "httpMethod": "GET",
+        "responseMode": "onReceived",
+        "responseData": "firstEntryJson"
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-03-07T09:49:06.767Z",
+      "createdAt": "2026-03-07T09:49:06.767Z",
+      "role": "workflow:owner",
+      "workflowId": "REl7nBWjJfWsnrgO",
+      "projectId": "ROscBA9yKA7j3TQn"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-03-07T10:13:41.472Z",
+  "versionId": "a0139c5f-9afb-4393-a75d-ec9968b2cdfb"
+}
