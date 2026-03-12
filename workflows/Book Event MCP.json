@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-02-26T17:02:01.000Z",
-    "createdAt": "2026-02-26T17:02:00.211Z",
-    "versionId": "6670394e-4b9b-4c36-b7b5-e201dc04dcd7",
+    "updatedAt": "2026-03-12T14:12:45.000Z",
+    "createdAt": "2026-03-12T14:12:25.411Z",
+    "versionId": "02651f82-6be0-4bd7-a18d-61e5515b8740",
     "workflowId": "U3T3hBNLvK1rayDt",
     "nodes": [
       {
@@ -24,6 +24,9 @@
               },
               {
                 "name": "servicio"
+              },
+              {
+                "name": "profesional"
               }
             ]
           }
@@ -48,8 +51,8 @@
           "start": "={{ $json.fecha }}T{{ $json.hora }}",
           "end": "={{ DateTime.fromISO($json.fecha + 'T' + $json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
           "additionalFields": {
-            "description": "=SERVICIO:{{ $json.servicio }}\nHORA: {{ $json.hora }}\nCLIENTE: {{ $json.nombre_completo }}\nTELEFONO: {{ $json.telefono }}",
-            "summary": "={{ $json.servicio }} | {{ $json.nombre_completo }}"
+            "description": "=PROFESIONAL: {{ $json.profesional }}\nSERVICIO: {{ $json.servicio }}\nHORA: {{ $json.hora }}\nCLIENTE: {{ $json.nombre_completo }}\nTELEFONO: {{ $json.telefono }}",
+            "summary": "={{ '[' + $json.profesional + '] ' + $json.servicio + ' | ' + $json.nombre_completo }}"
           }
         },
         "type": "n8n-nodes-base.googleCalendar",
@@ -74,7 +77,7 @@
             "__rl": true,
             "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
             "mode": "list",
-            "cachedResultName": "Agente de voz Zenit Clinic V2",
+            "cachedResultName": "Clínica Estética Rosa Mora",
             "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
           },
           "sheetName": {
@@ -93,6 +96,7 @@
               "Fecha": "={{ $('When Executed by Another Workflow').item.json.fecha }}",
               "Hora": "={{ $('When Executed by Another Workflow').item.json.hora }}",
               "Servicio": "={{ $('When Executed by Another Workflow').item.json.servicio }}",
+              "Profesional": "={{ $('When Executed by Another Workflow').item.json.profesional }}",
               "Telefono": "='{{ $('When Executed by Another Workflow').item.json.telefono }}"
             },
             "matchingColumns": [],
@@ -136,6 +140,15 @@
               {
                 "id": "Estado",
                 "displayName": "Estado",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Profesional",
+                "displayName": "Profesional",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
@@ -247,11 +260,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 6670394e",
+    "name": "Version 02651f82",
     "description": "",
-    "autosaved": false
+    "autosaved": true
   },
-  "activeVersionId": "6670394e-4b9b-4c36-b7b5-e201dc04dcd7",
+  "activeVersionId": "02651f82-6be0-4bd7-a18d-61e5515b8740",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -318,6 +331,9 @@
             },
             {
               "name": "servicio"
+            },
+            {
+              "name": "profesional"
             }
           ]
         }
@@ -342,8 +358,8 @@
         "start": "={{ $json.fecha }}T{{ $json.hora }}",
         "end": "={{ DateTime.fromISO($json.fecha + 'T' + $json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
         "additionalFields": {
-          "description": "=SERVICIO:{{ $json.servicio }}\nHORA: {{ $json.hora }}\nCLIENTE: {{ $json.nombre_completo }}\nTELEFONO: {{ $json.telefono }}",
-          "summary": "={{ $json.servicio }} | {{ $json.nombre_completo }}"
+          "description": "=PROFESIONAL: {{ $json.profesional }}\nSERVICIO: {{ $json.servicio }}\nHORA: {{ $json.hora }}\nCLIENTE: {{ $json.nombre_completo }}\nTELEFONO: {{ $json.telefono }}",
+          "summary": "={{ '[' + $json.profesional + '] ' + $json.servicio + ' | ' + $json.nombre_completo }}"
         }
       },
       "type": "n8n-nodes-base.googleCalendar",
@@ -368,7 +384,7 @@
           "__rl": true,
           "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
           "mode": "list",
-          "cachedResultName": "Agente de voz Zenit Clinic V2",
+          "cachedResultName": "Clínica Estética Rosa Mora",
           "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
         },
         "sheetName": {
@@ -387,6 +403,7 @@
             "Fecha": "={{ $('When Executed by Another Workflow').item.json.fecha }}",
             "Hora": "={{ $('When Executed by Another Workflow').item.json.hora }}",
             "Servicio": "={{ $('When Executed by Another Workflow').item.json.servicio }}",
+            "Profesional": "={{ $('When Executed by Another Workflow').item.json.profesional }}",
             "Telefono": "='{{ $('When Executed by Another Workflow').item.json.telefono }}"
           },
           "matchingColumns": [],
@@ -430,6 +447,15 @@
             {
               "id": "Estado",
               "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Profesional",
+              "displayName": "Profesional",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -522,6 +548,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-03T08:47:34.651Z",
-  "versionId": "6670394e-4b9b-4c36-b7b5-e201dc04dcd7"
+  "updatedAt": "2026-03-12T16:27:41.133Z",
+  "versionId": "02651f82-6be0-4bd7-a18d-61e5515b8740"
 }
