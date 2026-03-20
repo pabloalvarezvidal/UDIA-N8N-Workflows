@@ -400,17 +400,7 @@
       "name": "Mensaje Cerrado"
     }
   ],
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "date": "2026-03-12",
-          "fromTime": "17:00:00",
-          "servicio": "Plexr"
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false,
@@ -432,6 +422,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-12T17:32:14.629Z",
+  "updatedAt": "2026-03-20T11:29:25.843Z",
   "versionId": "f272fe95-7fdf-4156-96c2-1adf877e88cb"
 }
