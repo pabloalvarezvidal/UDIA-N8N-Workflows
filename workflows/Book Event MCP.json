@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-12T14:12:45.000Z",
-    "createdAt": "2026-03-12T14:12:25.411Z",
-    "versionId": "02651f82-6be0-4bd7-a18d-61e5515b8740",
+    "updatedAt": "2026-03-20T11:35:25.000Z",
+    "createdAt": "2026-03-20T11:35:13.922Z",
+    "versionId": "db32df30-2583-4fb4-a3d3-77506e636a42",
     "workflowId": "U3T3hBNLvK1rayDt",
     "nodes": [
       {
@@ -94,10 +94,11 @@
               "ID Cita": "={{ $json.id }}",
               "Nombre Completo": "={{ $('When Executed by Another Workflow').item.json.nombre_completo }}",
               "Fecha": "={{ $('When Executed by Another Workflow').item.json.fecha }}",
-              "Hora": "={{ $('When Executed by Another Workflow').item.json.hora }}",
               "Servicio": "={{ $('When Executed by Another Workflow').item.json.servicio }}",
               "Profesional": "={{ $('When Executed by Another Workflow').item.json.profesional }}",
-              "Telefono": "='{{ $('When Executed by Another Workflow').item.json.telefono }}"
+              "Telefono": "='{{ $('When Executed by Another Workflow').item.json.telefono }}",
+              "Hora Inicio": "={{ $json.start.dateTime.substring(11, 19) }}",
+              "Hora Fin": "={{ $json.end.dateTime.substring(11, 19) }}"
             },
             "matchingColumns": [],
             "schema": [
@@ -120,13 +121,24 @@
                 "canBeUsedToMatch": true
               },
               {
-                "id": "Hora",
-                "displayName": "Hora",
+                "id": "Hora Inicio",
+                "displayName": "Hora Inicio",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
                 "type": "string",
-                "canBeUsedToMatch": true
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Hora Fin",
+                "displayName": "Hora Fin",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
               },
               {
                 "id": "Servicio",
@@ -260,11 +272,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 02651f82",
+    "name": "Version db32df30",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "02651f82-6be0-4bd7-a18d-61e5515b8740",
+  "activeVersionId": "db32df30-2583-4fb4-a3d3-77506e636a42",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -404,8 +416,8 @@
             "Servicio": "={{ $('When Executed by Another Workflow').item.json.servicio }}",
             "Profesional": "={{ $('When Executed by Another Workflow').item.json.profesional }}",
             "Telefono": "='{{ $('When Executed by Another Workflow').item.json.telefono }}",
-            "Hora Inicio": "={{ $json.start.dateTime }}",
-            "Hora Fin": "={{ $json.end.dateTime }}"
+            "Hora Inicio": "={{ $json.start.dateTime.substring(11, 19) }}",
+            "Hora Fin": "={{ $json.end.dateTime.substring(11, 19) }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -538,23 +550,7 @@
       "name": "Respuesta"
     }
   ],
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "nombre_completo": "Pablo",
-          "fecha": "2026-03-25",
-          "hora": "17:00:00",
-          "telefono": "+34669267757",
-          "servicio": "Eliminación de Verrugas",
-          "profesional": "Rosi"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false,
@@ -576,6 +572,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-20T11:33:33.253Z",
-  "versionId": "8d612b8e-6736-4c36-968d-bb1e9a575779"
+  "updatedAt": "2026-03-20T11:51:05.888Z",
+  "versionId": "db32df30-2583-4fb4-a3d3-77506e636a42"
 }
