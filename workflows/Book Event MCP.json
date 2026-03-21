@@ -1,22 +1,11 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-21T11:12:09.000Z",
-    "createdAt": "2026-03-21T11:12:07.875Z",
-    "versionId": "6a11e569-3714-4852-989d-4550c5eb91cd",
+    "updatedAt": "2026-03-21T12:44:32.000Z",
+    "createdAt": "2026-03-21T12:44:27.147Z",
+    "versionId": "804b3c3d-0332-415e-9e9d-a42039f96af6",
     "workflowId": "U3T3hBNLvK1rayDt",
     "nodes": [
-      {
-        "parameters": {},
-        "id": "c055762a-8fe7-4141-a639-df2372f30060",
-        "name": "When Executed by Another Workflow",
-        "position": [
-          128,
-          544
-        ],
-        "type": "n8n-nodes-base.executeWorkflowTrigger",
-        "typeVersion": 1
-      },
       {
         "parameters": {
           "calendar": {
@@ -28,15 +17,15 @@
           "start": "={{ $json.fecha }}T{{ $json.hora }}",
           "end": "={{ DateTime.fromISO($json.fecha + 'T' + $json.hora).plus({ minutes: $json.categoria == 'plexr' ? 60 : 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
           "additionalFields": {
-            "description": "=PROFESIONAL: {{ $json.profesional }}\\nSERVICIO: {{ $json.servicio }}\\nHORA: {{ $json.hora }}\\nCLIENTE: {{ $json.nombre_completo }}\\nTELEFONO: {{ $json.telefono }}",
+            "description": "=={{ `PROFESIONAL: ${$json.profesional}\\nSERVICIO: ${$json.servicio}\\nHORA: ${$json.hora}\\nCLIENTE: ${$json.nombre_completo}\\nTELEFONO: ${$json.telefono}` }}\n",
             "summary": "={{ '[' + $json.profesional + '] ' + $json.servicio + ' | ' + $json.nombre_completo }}"
           }
         },
         "id": "2791174f-d3b9-4156-b1cb-2ff0bd478254",
         "name": "Crear Cita",
         "position": [
-          352,
-          544
+          256,
+          464
         ],
         "type": "n8n-nodes-base.googleCalendar",
         "typeVersion": 1,
@@ -65,107 +54,8 @@
             "value": 21844311
           },
           "columns": {
-            "attemptToConvertTypes": false,
-            "convertFieldsToString": false,
             "mappingMode": "defineBelow",
-            "matchingColumns": [],
-            "schema": [
-              {
-                "canBeUsedToMatch": true,
-                "defaultMatch": false,
-                "display": true,
-                "displayName": "Nombre Completo",
-                "id": "Nombre Completo",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "canBeUsedToMatch": true,
-                "defaultMatch": false,
-                "display": true,
-                "displayName": "Fecha",
-                "id": "Fecha",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "canBeUsedToMatch": true,
-                "defaultMatch": false,
-                "display": true,
-                "displayName": "Hora Inicio",
-                "id": "Hora Inicio",
-                "removed": false,
-                "required": false,
-                "type": "string"
-              },
-              {
-                "canBeUsedToMatch": true,
-                "defaultMatch": false,
-                "display": true,
-                "displayName": "Hora Fin",
-                "id": "Hora Fin",
-                "removed": false,
-                "required": false,
-                "type": "string"
-              },
-              {
-                "canBeUsedToMatch": true,
-                "defaultMatch": false,
-                "display": true,
-                "displayName": "Servicio",
-                "id": "Servicio",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "canBeUsedToMatch": true,
-                "defaultMatch": false,
-                "display": true,
-                "displayName": "Estado",
-                "id": "Estado",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "canBeUsedToMatch": true,
-                "defaultMatch": false,
-                "display": true,
-                "displayName": "Profesional",
-                "id": "Profesional",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "canBeUsedToMatch": true,
-                "defaultMatch": false,
-                "display": true,
-                "displayName": "Telefono",
-                "id": "Telefono",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "canBeUsedToMatch": true,
-                "defaultMatch": false,
-                "display": true,
-                "displayName": "ID Cita",
-                "id": "ID Cita",
-                "removed": false,
-                "required": false,
-                "type": "string"
-              },
-              {
-                "canBeUsedToMatch": true,
-                "defaultMatch": false,
-                "display": true,
-                "displayName": "Categoria",
-                "id": "Categoria",
-                "required": false,
-                "type": "string"
-              }
-            ],
             "value": {
-              "Categoria": "={{ $('When Executed by Another Workflow').item.json.categoria }}",
               "Estado": "Confirmada",
               "Fecha": "={{ $('When Executed by Another Workflow').item.json.fecha }}",
               "Hora Fin": "={{ $json.end.dateTime.substring(11, 19) }}",
@@ -174,16 +64,116 @@
               "Nombre Completo": "={{ $('When Executed by Another Workflow').item.json.nombre_completo }}",
               "Profesional": "={{ $('When Executed by Another Workflow').item.json.profesional }}",
               "Servicio": "={{ $('When Executed by Another Workflow').item.json.servicio }}",
-              "Telefono": "'={{ $('When Executed by Another Workflow').item.json.telefono }}"
-            }
+              "Telefono": "='{{ $('When Executed by Another Workflow').item.json.telefono }}",
+              "Categoria": "={{ $('When Executed by Another Workflow').item.json.categoria }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Nombre Completo",
+                "displayName": "Nombre Completo",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Fecha",
+                "displayName": "Fecha",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Hora Inicio",
+                "displayName": "Hora Inicio",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Hora Fin",
+                "displayName": "Hora Fin",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Servicio",
+                "displayName": "Servicio",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Estado",
+                "displayName": "Estado",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Profesional",
+                "displayName": "Profesional",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Telefono",
+                "displayName": "Telefono",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "ID Cita",
+                "displayName": "ID Cita",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Categoria",
+                "displayName": "Categoria",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
           },
           "options": {}
         },
         "id": "fd34a97e-24b1-46d9-94aa-6e206b84a2f4",
         "name": "Cita Confirmada",
         "position": [
-          576,
-          544
+          480,
+          464
         ],
         "type": "n8n-nodes-base.googleSheets",
         "typeVersion": 4,
@@ -201,8 +191,8 @@
         "id": "057084b0-f4ed-43f0-838f-4d1633653f46",
         "name": "Respuesta",
         "position": [
-          800,
-          544
+          704,
+          464
         ],
         "type": "n8n-nodes-base.set",
         "typeVersion": 3
@@ -210,7 +200,12 @@
       {
         "parameters": {
           "conditions": {
-            "combinator": "and",
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
             "conditions": [
               {
                 "id": "c1",
@@ -222,20 +217,15 @@
                 "rightValue": "dra_rosa_asistida"
               }
             ],
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 2
-            }
+            "combinator": "and"
           },
           "options": {}
         },
         "id": "if-bloqueos",
         "name": "IF Dra Rosa Asistida",
         "position": [
-          1024,
-          544
+          928,
+          464
         ],
         "type": "n8n-nodes-base.if",
         "typeVersion": 2
@@ -243,32 +233,41 @@
       {
         "parameters": {
           "conditions": {
-            "combinator": "and",
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
             "conditions": [
               {
-                "id": "c2",
+                "id": "c2a",
                 "leftValue": "={{ $('When Executed by Another Workflow').item.json.categoria }}",
                 "operator": {
                   "operation": "equals",
                   "type": "string"
                 },
                 "rightValue": "plexr"
+              },
+              {
+                "id": "c2b",
+                "leftValue": "={{ $('When Executed by Another Workflow').item.json.servicio.toLowerCase() }}",
+                "operator": {
+                  "operation": "contains",
+                  "type": "string"
+                },
+                "rightValue": "plexr"
               }
             ],
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 2
-            }
+            "combinator": "or"
           },
           "options": {}
         },
         "id": "if-plexr",
         "name": "IF Plexr",
         "position": [
-          1248,
-          736
+          1152,
+          656
         ],
         "type": "n8n-nodes-base.if",
         "typeVersion": 2
@@ -277,22 +276,21 @@
         "parameters": {
           "calendar": {
             "__rl": true,
-            "cachedResultName": "alvarezvidalpablo@gmail.com",
-            "mode": "list",
-            "value": "alvarezvidalpablo@gmail.com"
+            "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com",
+            "mode": "id"
           },
           "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
           "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
           "additionalFields": {
             "description": "=PROFESIONAL: Noa\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-            "summary": "= [BLOQUEO - Noa] {{ $('When Executed by Another Workflow').item.json.servicio }} | {{ $('When Executed by Another Workflow').item.json.nombre_completo }}"
+            "summary": "=={{ `PROFESIONAL: Noa\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
           }
         },
         "id": "block-Noa",
         "name": "Bloquear Noa",
         "position": [
-          1248,
-          352
+          1152,
+          272
         ],
         "type": "n8n-nodes-base.googleCalendar",
         "typeVersion": 1,
@@ -307,22 +305,21 @@
         "parameters": {
           "calendar": {
             "__rl": true,
-            "cachedResultName": "alvarezvidalpablo@gmail.com",
-            "mode": "list",
-            "value": "alvarezvidalpablo@gmail.com"
+            "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com",
+            "mode": "id"
           },
           "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
           "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
           "additionalFields": {
             "description": "=PROFESIONAL: Rosi\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-            "summary": "= [BLOQUEO - Rosi] {{ $('When Executed by Another Workflow').item.json.servicio }} | {{ $('When Executed by Another Workflow').item.json.nombre_completo }}"
+            "summary": "=={{ `PROFESIONAL: Rosi\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
           }
         },
         "id": "block-Rosi",
         "name": "Bloquear Rosi",
         "position": [
-          1248,
-          544
+          1152,
+          464
         ],
         "type": "n8n-nodes-base.googleCalendar",
         "typeVersion": 1,
@@ -337,22 +334,21 @@
         "parameters": {
           "calendar": {
             "__rl": true,
-            "cachedResultName": "alvarezvidalpablo@gmail.com",
-            "mode": "list",
-            "value": "alvarezvidalpablo@gmail.com"
+            "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com",
+            "mode": "id"
           },
           "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
           "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 60 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
           "additionalFields": {
             "description": "=PROFESIONAL: Dra. Rosa\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-            "summary": "= [BLOQUEO - Dra. Rosa] {{ $('When Executed by Another Workflow').item.json.servicio }} | {{ $('When Executed by Another Workflow').item.json.nombre_completo }}"
+            "summary": "=={{ `PROFESIONAL: Dra. Rosa\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
           }
         },
         "id": "block-Dra-Rosa",
         "name": "Bloquear Dra. Rosa",
         "position": [
-          1472,
-          640
+          1376,
+          576
         ],
         "type": "n8n-nodes-base.googleCalendar",
         "typeVersion": 1,
@@ -362,6 +358,43 @@
             "name": "Google Calendar account"
           }
         }
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "nombre_completo"
+              },
+              {
+                "name": "fecha"
+              },
+              {
+                "name": "hora"
+              },
+              {
+                "name": "telefono"
+              },
+              {
+                "name": "servicio"
+              },
+              {
+                "name": "profesional"
+              },
+              {
+                "name": "categoria"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          32,
+          464
+        ],
+        "id": "ac2555b3-6a67-488b-9a8c-34407fe939f7",
+        "name": "When Executed by Another Workflow"
       }
     ],
     "connections": {
@@ -436,20 +469,20 @@
         "main": [
           [
             {
-              "index": 0,
               "node": "Crear Cita",
-              "type": "main"
+              "type": "main",
+              "index": 0
             }
           ]
         ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 6a11e569",
+    "name": "Version 804b3c3d",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "6a11e569-3714-4852-989d-4550c5eb91cd",
+  "activeVersionId": "804b3c3d-0332-415e-9e9d-a42039f96af6",
   "connections": {
     "Cita Confirmada": {
       "main": [
@@ -522,9 +555,9 @@
       "main": [
         [
           {
-            "index": 0,
             "node": "Crear Cita",
-            "type": "main"
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -539,17 +572,6 @@
   "name": "Book Event MCP",
   "nodes": [
     {
-      "parameters": {},
-      "id": "c055762a-8fe7-4141-a639-df2372f30060",
-      "name": "When Executed by Another Workflow",
-      "position": [
-        128,
-        544
-      ],
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "typeVersion": 1
-    },
-    {
       "parameters": {
         "calendar": {
           "__rl": true,
@@ -560,15 +582,15 @@
         "start": "={{ $json.fecha }}T{{ $json.hora }}",
         "end": "={{ DateTime.fromISO($json.fecha + 'T' + $json.hora).plus({ minutes: $json.categoria == 'plexr' ? 60 : 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
         "additionalFields": {
-          "description": "=PROFESIONAL: {{ $json.profesional }}\\nSERVICIO: {{ $json.servicio }}\\nHORA: {{ $json.hora }}\\nCLIENTE: {{ $json.nombre_completo }}\\nTELEFONO: {{ $json.telefono }}",
+          "description": "=={{ `PROFESIONAL: ${$json.profesional}\\nSERVICIO: ${$json.servicio}\\nHORA: ${$json.hora}\\nCLIENTE: ${$json.nombre_completo}\\nTELEFONO: ${$json.telefono}` }}\n",
           "summary": "={{ '[' + $json.profesional + '] ' + $json.servicio + ' | ' + $json.nombre_completo }}"
         }
       },
       "id": "2791174f-d3b9-4156-b1cb-2ff0bd478254",
       "name": "Crear Cita",
       "position": [
-        352,
-        544
+        256,
+        464
       ],
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1,
@@ -607,7 +629,8 @@
             "Nombre Completo": "={{ $('When Executed by Another Workflow').item.json.nombre_completo }}",
             "Profesional": "={{ $('When Executed by Another Workflow').item.json.profesional }}",
             "Servicio": "={{ $('When Executed by Another Workflow').item.json.servicio }}",
-            "Telefono": "='{{ $('When Executed by Another Workflow').item.json.telefono }}"
+            "Telefono": "='{{ $('When Executed by Another Workflow').item.json.telefono }}",
+            "Categoria": "={{ $('When Executed by Another Workflow').item.json.categoria }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -694,6 +717,16 @@
               "type": "string",
               "canBeUsedToMatch": true,
               "removed": false
+            },
+            {
+              "id": "Categoria",
+              "displayName": "Categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -704,8 +737,8 @@
       "id": "fd34a97e-24b1-46d9-94aa-6e206b84a2f4",
       "name": "Cita Confirmada",
       "position": [
-        576,
-        544
+        480,
+        464
       ],
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4,
@@ -723,8 +756,8 @@
       "id": "057084b0-f4ed-43f0-838f-4d1633653f46",
       "name": "Respuesta",
       "position": [
-        800,
-        544
+        704,
+        464
       ],
       "type": "n8n-nodes-base.set",
       "typeVersion": 3
@@ -756,8 +789,8 @@
       "id": "if-bloqueos",
       "name": "IF Dra Rosa Asistida",
       "position": [
-        1024,
-        544
+        928,
+        464
       ],
       "type": "n8n-nodes-base.if",
       "typeVersion": 2
@@ -773,24 +806,33 @@
           },
           "conditions": [
             {
-              "id": "c2",
-              "leftValue": "={{ $('When Executed by Another Workflow').item.json.servicio }}",
+              "id": "c2a",
+              "leftValue": "={{ $('When Executed by Another Workflow').item.json.categoria }}",
               "operator": {
                 "operation": "equals",
                 "type": "string"
               },
               "rightValue": "plexr"
+            },
+            {
+              "id": "c2b",
+              "leftValue": "={{ $('When Executed by Another Workflow').item.json.servicio.toLowerCase() }}",
+              "operator": {
+                "operation": "contains",
+                "type": "string"
+              },
+              "rightValue": "plexr"
             }
           ],
-          "combinator": "and"
+          "combinator": "or"
         },
         "options": {}
       },
       "id": "if-plexr",
       "name": "IF Plexr",
       "position": [
-        1248,
-        736
+        1152,
+        656
       ],
       "type": "n8n-nodes-base.if",
       "typeVersion": 2
@@ -799,22 +841,21 @@
       "parameters": {
         "calendar": {
           "__rl": true,
-          "cachedResultName": "alvarezvidalpablo@gmail.com",
-          "mode": "list",
-          "value": "alvarezvidalpablo@gmail.com"
+          "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com",
+          "mode": "id"
         },
         "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
         "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
         "additionalFields": {
           "description": "=PROFESIONAL: Noa\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-          "summary": "= [BLOQUEO - Noa] {{ $('When Executed by Another Workflow').item.json.servicio }} | {{ $('When Executed by Another Workflow').item.json.nombre_completo }}"
+          "summary": "=={{ `PROFESIONAL: Noa\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
         }
       },
       "id": "block-Noa",
       "name": "Bloquear Noa",
       "position": [
-        1248,
-        352
+        1152,
+        272
       ],
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1,
@@ -829,22 +870,21 @@
       "parameters": {
         "calendar": {
           "__rl": true,
-          "cachedResultName": "alvarezvidalpablo@gmail.com",
-          "mode": "list",
-          "value": "alvarezvidalpablo@gmail.com"
+          "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com",
+          "mode": "id"
         },
         "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
         "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
         "additionalFields": {
           "description": "=PROFESIONAL: Rosi\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-          "summary": "= [BLOQUEO - Rosi] {{ $('When Executed by Another Workflow').item.json.servicio }} | {{ $('When Executed by Another Workflow').item.json.nombre_completo }}"
+          "summary": "=={{ `PROFESIONAL: Rosi\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
         }
       },
       "id": "block-Rosi",
       "name": "Bloquear Rosi",
       "position": [
-        1248,
-        544
+        1152,
+        464
       ],
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1,
@@ -859,22 +899,21 @@
       "parameters": {
         "calendar": {
           "__rl": true,
-          "cachedResultName": "alvarezvidalpablo@gmail.com",
-          "mode": "list",
-          "value": "alvarezvidalpablo@gmail.com"
+          "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com",
+          "mode": "id"
         },
         "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
         "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 60 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
         "additionalFields": {
           "description": "=PROFESIONAL: Dra. Rosa\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-          "summary": "= [BLOQUEO - Dra. Rosa] {{ $('When Executed by Another Workflow').item.json.servicio }} | {{ $('When Executed by Another Workflow').item.json.nombre_completo }}"
+          "summary": "=={{ `PROFESIONAL: Dra. Rosa\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
         }
       },
       "id": "block-Dra-Rosa",
       "name": "Bloquear Dra. Rosa",
       "position": [
-        1472,
-        640
+        1376,
+        576
       ],
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1,
@@ -884,22 +923,46 @@
           "name": "Google Calendar account"
         }
       }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "nombre_completo"
+            },
+            {
+              "name": "fecha"
+            },
+            {
+              "name": "hora"
+            },
+            {
+              "name": "telefono"
+            },
+            {
+              "name": "servicio"
+            },
+            {
+              "name": "profesional"
+            },
+            {
+              "name": "categoria"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        32,
+        464
+      ],
+      "id": "ac2555b3-6a67-488b-9a8c-34407fe939f7",
+      "name": "When Executed by Another Workflow"
     }
   ],
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "nombre_completo": "Pau Balavera",
-          "fecha": "2026-03-26",
-          "hora": "17:00:00",
-          "telefono": "+34628284083",
-          "servicio": "Plexr",
-          "profesional": "Rosi"
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false,
@@ -921,6 +984,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-21T11:28:01.641Z",
-  "versionId": "d5662f0f-a3bb-42bb-8968-83c7b8b983bb"
+  "updatedAt": "2026-03-21T12:49:22.798Z",
+  "versionId": "804b3c3d-0332-415e-9e9d-a42039f96af6"
 }
