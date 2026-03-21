@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-21T10:56:17.202Z",
-    "createdAt": "2026-03-21T10:56:17.202Z",
-    "versionId": "4636c980-b3b5-4361-94ea-f3f0fc8ba401",
+    "updatedAt": "2026-03-21T13:19:20.000Z",
+    "createdAt": "2026-03-21T13:19:11.213Z",
+    "versionId": "24592c3e-52e5-4803-a4bb-485cf7939e11",
     "workflowId": "2e9xvr2d0ANtxVMD",
     "nodes": [
       {
@@ -33,7 +33,7 @@
       },
       {
         "parameters": {
-          "jsCode": "const dateString = $json.date || \"\";\nconst date = new Date(dateString + \"T12:00:00\");\nconst dayOfWeek = date.getDay(); // 0=Dom, 1=Lun, 2=Mar, 3=Mié, 4=Jue, 5=Vie, 6=Sáb\n\n// 1. SEGURIDAD: CONTROL DE FECHA INVÁLIDA\nif (isNaN(dayOfWeek)) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"Ha habido un problema entendiendo la fecha de tu cita. ¿Podrías indicarme el día de nuevo?\"\n    }\n  }];\n}\n\n// 2. FINES DE SEMANA (CERRADO PARA TODOS)\nif (dayOfWeek === 0 || dayOfWeek === 6) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"La clínica está cerrada los fines de semana. Atendemos de lunes a viernes. ¿Qué día te viene bien?\"\n    }\n  }];\n}\n\n// 3. NORMALIZAR SERVICIO Y TIEMPOS\nconst servicio = ($json.servicio || \"\").toString().toLowerCase().normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g, \"\").trim();\n\nconst esPlexr = servicio.includes(\"plexr\") || servicio.includes(\"plexer\") || servicio.includes(\"periorbital\") || servicio.includes(\"perioral\") || servicio.includes(\"fibromas\") || servicio.includes(\"xantelasmas\");\nconst duracionMin = esPlexr ? 60 : 30;\n\nconst fromTimeStr = $json.fromTime || \"00:00\";\nconst [fh, fm] = fromTimeStr.split(\":\").map(Number);\nconst fromTotal = (fh || 0) * 60 + (fm || 0);\nconst toTotal = fromTotal + duracionMin;\n\nconst toHH = String(Math.floor(toTotal / 60)).padStart(2, \"0\");\nconst toMM = String(toTotal % 60).padStart(2, \"0\");\nconst toTime = `${toHH}:${toMM}:00`;\n\n// RUTA A: PLEXR\nif (esPlexr) {\n  if (dayOfWeek !== 2 && dayOfWeek !== 4) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"El Plexr solo puede realizarse los martes o jueves de 17:00 a 20:00, ya que requiere la presencia de la Dra. Rosa. ¿Te viene bien alguno de esos días?\"\n      }\n    }];\n  }\n  if (fromTotal < 1020 || toTotal > 1200) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"El Plexr está disponible de 17:00 a 20:00 los martes y jueves con la Dra. Rosa. La sesión de 60 min debe finalizar antes de las 20:00.\"\n      }\n    }];\n  }\n  return [{ json: { status: \"open\", categoria: \"plexr\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\n// RUTA B1: DRA. ROSA SOLO (no requiere asistencias continuas, NO bloquea a Noa/Rosi)\nconst keywordsDraRosaSolo = [\n  \"esclerosis\", \"varice\", \"microespuma\", \"valoracion\", \"endolifting\", \"lipolaser\", \"manos\"\n];\nconst esDraRosaSolo = keywordsDraRosaSolo.some(k => servicio.includes(k));\n\n// RUTA B2: DRA. ROSA ASISTIDA (bloquea a los 3)\nconst keywordsDraRosaAsistida = [\n  \"botox\", \"neuromodulador\", \"bruxismo\", \"hilos\", \"mesoterapia\", \"relleno\", \"labio\", \n  \"nariz\", \"ojera\", \"pomulo\", \"acido hialuronico\", \"skin booster\", \"inductor\", \n  \"colageno\", \"bioestimulacion\", \"carboxiterapia\", \"agresivo\"\n];\nconst esDraRosaAsistida = keywordsDraRosaAsistida.some(k => servicio.includes(k));\n\nif (esDraRosaSolo || esDraRosaAsistida) {\n  if (dayOfWeek !== 2 && dayOfWeek !== 4) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"Los tratamientos médicos de la Dra. Rosa solo están disponibles los martes y jueves de 17:00 a 20:00.\"\n      }\n    }];\n  }\n  if (fromTotal < 1020 || toTotal > 1200) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"La Dra. Rosa atiende de 17:00 a 20:00 los martes y jueves.\"\n      }\n    }];\n  }\n  const categoriaAsignada = esDraRosaAsistida ? \"dra_rosa_asistida\" : \"dra_rosa_solo\";\n  return [{ json: { status: \"open\", categoria: categoriaAsignada, date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\n// RUTA C: HORARIO GENERAL (Maderoterapia y Resto para Noa / Rosi)\nif (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {\n  if (fromTotal < 960 || toTotal > 1200) { \n    return [{ json: { status: \"closed\", message: \"Los lunes, miércoles y viernes atendemos de 16:00 a 20:00.\" } }];\n  }\n} else if (dayOfWeek === 2 || dayOfWeek === 4) {\n  if (fromTotal < 720 || toTotal > 1200) { \n    return [{ json: { status: \"closed\", message: \"Los martes y jueves atendemos de 12:00 a 20:00.\" } }];\n  }\n}\n\nif (servicio.includes(\"maderoterapia facial\")) {\n  return [{ json: { status: \"open\", categoria: \"rosi_only\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\nreturn [{ json: { status: \"open\", categoria: \"rosi_noa\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];"
+          "jsCode": "const dateString = $json.date || \"\";\nconst date = new Date(dateString + \"T12:00:00\");\nconst dayOfWeek = date.getDay(); // 0=Dom, 1=Lun, 2=Mar, 3=Mié, 4=Jue, 5=Vie, 6=Sáb\n\n// 1. SEGURIDAD: CONTROL DE FECHA INVÁLIDA\nif (isNaN(dayOfWeek)) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"Ha habido un problema entendiendo la fecha de tu cita. ¿Podrías indicarme el día de nuevo?\"\n    }\n  }];\n}\n\n// 1.5 SEGURIDAD: CONTROL DE FECHA PASADA\n// Obtenemos la fecha de hoy en formato YYYY-MM-DD usando la zona horaria de España\nconst todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Madrid' }).format(new Date());\nif (dateString < todayStr) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"Esa fecha no está disponible, se trata de una fecha pasada. ¿Qué día prefieres?\"\n    }\n  }];\n}\n\n// 2. FINES DE SEMANA (CERRADO PARA TODOS)\nif (dayOfWeek === 0 || dayOfWeek === 6) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"La clínica está cerrada los fines de semana. Atendemos de lunes a viernes. ¿Qué día te viene bien?\"\n    }\n  }];\n}\n\n// 3. NORMALIZAR SERVICIO Y TIEMPOS\nconst servicio = ($json.servicio || \"\").toString().toLowerCase().normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g, \"\").trim();\n\nconst esPlexr = servicio.includes(\"plexr\") || servicio.includes(\"plexer\") || servicio.includes(\"periorbital\") || servicio.includes(\"perioral\") || servicio.includes(\"fibromas\") || servicio.includes(\"xantelasmas\");\nconst duracionMin = esPlexr ? 60 : 30;\n\nconst fromTimeStr = $json.fromTime || \"00:00\";\nconst [fh, fm] = fromTimeStr.split(\":\").map(Number);\nconst fromTotal = (fh || 0) * 60 + (fm || 0);\nconst toTotal = fromTotal + duracionMin;\n\nconst toHH = String(Math.floor(toTotal / 60)).padStart(2, \"0\");\nconst toMM = String(toTotal % 60).padStart(2, \"0\");\nconst toTime = `${toHH}:${toMM}:00`;\n\n// RUTA A: PLEXR\nif (esPlexr) {\n  if (dayOfWeek !== 2 && dayOfWeek !== 4) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"El Plexr solo puede realizarse los martes o jueves de 17:00 a 20:00, ya que requiere la presencia de la Dra. Rosa. ¿Te viene bien alguno de esos días?\"\n      }\n    }];\n  }\n  if (fromTotal < 1020 || toTotal > 1200) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"El Plexr está disponible de 17:00 a 20:00 los martes y jueves con la Dra. Rosa. La sesión de 60 min debe finalizar antes de las 20:00.\"\n      }\n    }];\n  }\n  return [{ json: { status: \"open\", categoria: \"plexr\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\n// RUTA B1: DRA. ROSA SOLO (no requiere asistencias continuas, NO bloquea a Noa/Rosi)\nconst keywordsDraRosaSolo = [\n  \"esclerosis\", \"varice\", \"microespuma\", \"valoracion\", \"endolifting\", \"lipolaser\", \"manos\"\n];\nconst esDraRosaSolo = keywordsDraRosaSolo.some(k => servicio.includes(k));\n\n// RUTA B2: DRA. ROSA ASISTIDA (bloquea a los 3)\nconst keywordsDraRosaAsistida = [\n  \"botox\", \"neuromodulador\", \"bruxismo\", \"hilos\", \"mesoterapia\", \"relleno\", \"labio\", \n  \"nariz\", \"ojera\", \"pomulo\", \"acido hialuronico\", \"skin booster\", \"inductor\", \n  \"colageno\", \"bioestimulacion\", \"carboxiterapia\", \"agresivo\"\n];\nconst esDraRosaAsistida = keywordsDraRosaAsistida.some(k => servicio.includes(k));\n\nif (esDraRosaSolo || esDraRosaAsistida) {\n  if (dayOfWeek !== 2 && dayOfWeek !== 4) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"Los tratamientos médicos de la Dra. Rosa solo están disponibles los martes y jueves de 17:00 a 20:00.\"\n      }\n    }];\n  }\n  if (fromTotal < 1020 || toTotal > 1200) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"La Dra. Rosa atiende de 17:00 a 20:00 los martes y jueves.\"\n      }\n    }];\n  }\n  const categoriaAsignada = esDraRosaAsistida ? \"dra_rosa_asistida\" : \"dra_rosa_solo\";\n  return [{ json: { status: \"open\", categoria: categoriaAsignada, date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\n// RUTA C: HORARIO GENERAL (Maderoterapia y Resto para Noa / Rosi)\nif (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {\n  if (fromTotal < 960 || toTotal > 1200) { \n    return [{ json: { status: \"closed\", message: \"Los lunes, miércoles y viernes atendemos de 16:00 a 20:00.\" } }];\n  }\n} else if (dayOfWeek === 2 || dayOfWeek === 4) {\n  if (fromTotal < 720 || toTotal > 1200) { \n    return [{ json: { status: \"closed\", message: \"Los martes y jueves atendemos de 12:00 a 20:00.\" } }];\n  }\n}\n\nif (servicio.includes(\"maderoterapia facial\")) {\n  return [{ json: { status: \"open\", categoria: \"rosi_only\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\nreturn [{ json: { status: \"open\", categoria: \"rosi_noa\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -108,7 +108,7 @@
       },
       {
         "parameters": {
-          "jsCode": "const items = $input.all();\nconst categoria = $('Clasificar y Validar').item.json.categoria;\n\nconst profesionalesOcupados = items\n  .filter(item => item.json.start)\n  .map(item => {\n    const desc = item.json.description || item.json.summary || \"\";\n    const match = desc.match(/PROFESIONAL:\\s*(.+)/i);\n    return match ? match[1].trim() : \"desconocido\";\n  });\n\nconst rosiOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes(\"rosi\"));\nconst noaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes(\"noa\"));\nconst draRosaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes(\"dra. rosa\") || p.toLowerCase().includes(\"dra rosa\"));\n\nif (categoria === \"dra_rosa_solo\") {\n  if (draRosaOcupada) return [{ json: { status: \"busy\", message: \"La Dra. Rosa ya tiene una cita en ese horario.\" } }];\n  return [{ json: { status: \"free\", profesional_asignada: \"Dra. Rosa\", categoria: \"dra_rosa_solo\", message: \"Horario disponible.\" } }];\n}\n\nif (categoria === \"dra_rosa_asistida\") {\n  if (draRosaOcupada || noaOcupada || rosiOcupada) {\n    return [{ json: { status: \"busy\", message: \"No hay disponibilidad suficiente en cabina para la Dra. Rosa en ese horario.\" } }];\n  }\n  return [{ json: { status: \"free\", profesional_asignada: \"Dra. Rosa\", categoria: \"dra_rosa_asistida\", message: \"Horario disponible.\" } }];\n}\n\nif (categoria === \"rosi_only\") {\n  if (rosiOcupada) return [{ json: { status: \"busy\", message: \"Rosi ya tiene una cita en ese horario.\" } }];\n  return [{ json: { status: \"free\", profesional_asignada: \"Rosi\", categoria: \"rosi_only\", message: \"Horario disponible.\" } }];\n}\n\nif (categoria === \"rosi_noa\") {\n  if (!rosiOcupada) return [{ json: { status: \"free\", profesional_asignada: \"Rosi\", categoria: \"rosi_noa\", message: \"Horario disponible.\" } }];\n  if (!noaOcupada) return [{ json: { status: \"free\", profesional_asignada: \"Noa\", categoria: \"rosi_noa\", message: \"Horario disponible.\" } }];\n  return [{ json: { status: \"busy\", message: \"Tanto Rosi como Noa tienen citas en ese horario.\" } }];\n}\n\nif (categoria === \"plexr\") {\n  if (draRosaOcupada || (rosiOcupada && noaOcupada)) {\n    return [{ json: { status: \"busy\", message: \"No hay disponibilidad para Plexr en ese horario (se requiere Dra Rosa y una asistente).\" } }];\n  }\n  const asistente = !rosiOcupada ? \"Rosi\" : \"Noa\";\n  return [{ json: { status: \"free\", profesional_asignada: asistente, categoria: \"plexr\", message: \"Horario disponible para Plexr.\" } }];\n}\n\nreturn [{ json: { status: \"free\", profesional_asignada: \"Rosi\", categoria: categoria || \"rosi_noa\", message: \"Horario disponible.\" } }];"
+          "jsCode": "const allItems = $input.all();\nconst categoria = $('Clasificar y Validar').item.json.categoria;\n\nlet bloqueoItems = [];\ntry { bloqueoItems = $('Consultar Bloqueos').all(); } catch(e) { bloqueoItems = []; }\n\nconst todosLosEventos = [...allItems, ...bloqueoItems].filter(item => item.json.start);\n\nconst profesionalesOcupados = todosLosEventos.map(item => {\n  const desc = item.json.description || item.json.summary || '';\n  const match = desc.match(/PROFESIONAL:\\s*(.+)/i);\n  return match ? match[1].trim() : 'desconocido';\n});\n\nconst rosiOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('rosi'));\nconst noaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('noa'));\nconst draRosaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('dra. rosa') || p.toLowerCase().includes('dra rosa'));\n\nif (categoria === 'dra_rosa_solo') {\n  if (draRosaOcupada) return [{ json: { status: 'busy', message: 'La Dra. Rosa ya tiene una cita en ese horario.' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'dra_rosa_solo', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'dra_rosa_asistida') {\n  if (draRosaOcupada || noaOcupada || rosiOcupada) {\n    return [{ json: { status: 'busy', message: 'No hay disponibilidad suficiente en cabina para la Dra. Rosa en ese horario.' } }];\n  }\n  return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'rosi_only') {\n  if (rosiOcupada) return [{ json: { status: 'busy', message: 'Rosi ya tiene una cita en ese horario.' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_only', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'rosi_noa') {\n  if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  return [{ json: { status: 'busy', message: 'Tanto Rosi como Noa tienen citas en ese horario.' } }];\n}\n\nif (categoria === 'plexr') {\n  if (draRosaOcupada || (rosiOcupada && noaOcupada)) {\n    return [{ json: { status: 'busy', message: 'No hay disponibilidad para Plexr en ese horario (se requiere Dra Rosa y una asistente).' } }];\n  }\n  const asistente = !rosiOcupada ? 'Rosi' : 'Noa';\n  return [{ json: { status: 'free', profesional_asignada: asistente, categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n}\n\nreturn [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: categoria || 'rosi_noa', message: 'Horario disponible.' } }];"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -141,6 +141,35 @@
         ],
         "id": "101cdfdd-ee33-41e6-9504-7e5e8c02f691",
         "name": "Mensaje Cerrado"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "calendar": {
+            "__rl": true,
+            "cachedResultName": "Rosa Mora - Bloqueos",
+            "mode": "id",
+            "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com"
+          },
+          "timeMin": "={{ $('Clasificar y Validar').item.json.date }}T{{ $('Clasificar y Validar').item.json.fromTime }}",
+          "timeMax": "={{ $('Clasificar y Validar').item.json.date }}T{{ $('Clasificar y Validar').item.json.toTime }}",
+          "options": {}
+        },
+        "id": "consultar-bloqueos",
+        "name": "Consultar Bloqueos",
+        "type": "n8n-nodes-base.googleCalendar",
+        "typeVersion": 1.3,
+        "position": [
+          944,
+          48
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "RSjmCgtcmSyhYKoN",
+            "name": "Google Calendar account"
+          }
+        }
       }
     ],
     "connections": {
@@ -173,6 +202,11 @@
               "node": "Consultar Calendario",
               "type": "main",
               "index": 0
+            },
+            {
+              "node": "Consultar Bloqueos",
+              "type": "main",
+              "index": 0
             }
           ],
           [
@@ -194,14 +228,25 @@
             }
           ]
         ]
+      },
+      "Consultar Bloqueos": {
+        "main": [
+          [
+            {
+              "node": "Evaluar Disponibilidad",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": null,
-    "description": null,
-    "autosaved": false
+    "name": "Version 24592c3e",
+    "description": "",
+    "autosaved": true
   },
-  "activeVersionId": "4636c980-b3b5-4361-94ea-f3f0fc8ba401",
+  "activeVersionId": "24592c3e-52e5-4803-a4bb-485cf7939e11",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -232,6 +277,11 @@
             "node": "Consultar Calendario",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Consultar Bloqueos",
+            "type": "main",
+            "index": 0
           }
         ],
         [
@@ -244,6 +294,17 @@
       ]
     },
     "Consultar Calendario": {
+      "main": [
+        [
+          {
+            "node": "Evaluar Disponibilidad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consultar Bloqueos": {
       "main": [
         [
           {
@@ -290,7 +351,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const dateString = $json.date || \"\";\nconst date = new Date(dateString + \"T12:00:00\");\nconst dayOfWeek = date.getDay(); // 0=Dom, 1=Lun, 2=Mar, 3=Mié, 4=Jue, 5=Vie, 6=Sáb\n\n// 1. SEGURIDAD: CONTROL DE FECHA INVÁLIDA\nif (isNaN(dayOfWeek)) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"Ha habido un problema entendiendo la fecha de tu cita. ¿Podrías indicarme el día de nuevo?\"\n    }\n  }];\n}\n\n// 2. FINES DE SEMANA (CERRADO PARA TODOS)\nif (dayOfWeek === 0 || dayOfWeek === 6) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"La clínica está cerrada los fines de semana. Atendemos de lunes a viernes. ¿Qué día te viene bien?\"\n    }\n  }];\n}\n\n// 3. NORMALIZAR SERVICIO Y TIEMPOS\nconst servicio = ($json.servicio || \"\").toString().toLowerCase().normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g, \"\").trim();\n\nconst esPlexr = servicio.includes(\"plexr\") || servicio.includes(\"plexer\") || servicio.includes(\"periorbital\") || servicio.includes(\"perioral\") || servicio.includes(\"fibromas\") || servicio.includes(\"xantelasmas\");\nconst duracionMin = esPlexr ? 60 : 30;\n\nconst fromTimeStr = $json.fromTime || \"00:00\";\nconst [fh, fm] = fromTimeStr.split(\":\").map(Number);\nconst fromTotal = (fh || 0) * 60 + (fm || 0);\nconst toTotal = fromTotal + duracionMin;\n\nconst toHH = String(Math.floor(toTotal / 60)).padStart(2, \"0\");\nconst toMM = String(toTotal % 60).padStart(2, \"0\");\nconst toTime = `${toHH}:${toMM}:00`;\n\n// RUTA A: PLEXR\nif (esPlexr) {\n  if (dayOfWeek !== 2 && dayOfWeek !== 4) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"El Plexr solo puede realizarse los martes o jueves de 17:00 a 20:00, ya que requiere la presencia de la Dra. Rosa. ¿Te viene bien alguno de esos días?\"\n      }\n    }];\n  }\n  if (fromTotal < 1020 || toTotal > 1200) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"El Plexr está disponible de 17:00 a 20:00 los martes y jueves con la Dra. Rosa. La sesión de 60 min debe finalizar antes de las 20:00.\"\n      }\n    }];\n  }\n  return [{ json: { status: \"open\", categoria: \"plexr\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\n// RUTA B1: DRA. ROSA SOLO (no requiere asistencias continuas, NO bloquea a Noa/Rosi)\nconst keywordsDraRosaSolo = [\n  \"esclerosis\", \"varice\", \"microespuma\", \"valoracion\", \"endolifting\", \"lipolaser\", \"manos\"\n];\nconst esDraRosaSolo = keywordsDraRosaSolo.some(k => servicio.includes(k));\n\n// RUTA B2: DRA. ROSA ASISTIDA (bloquea a los 3)\nconst keywordsDraRosaAsistida = [\n  \"botox\", \"neuromodulador\", \"bruxismo\", \"hilos\", \"mesoterapia\", \"relleno\", \"labio\", \n  \"nariz\", \"ojera\", \"pomulo\", \"acido hialuronico\", \"skin booster\", \"inductor\", \n  \"colageno\", \"bioestimulacion\", \"carboxiterapia\", \"agresivo\"\n];\nconst esDraRosaAsistida = keywordsDraRosaAsistida.some(k => servicio.includes(k));\n\nif (esDraRosaSolo || esDraRosaAsistida) {\n  if (dayOfWeek !== 2 && dayOfWeek !== 4) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"Los tratamientos médicos de la Dra. Rosa solo están disponibles los martes y jueves de 17:00 a 20:00.\"\n      }\n    }];\n  }\n  if (fromTotal < 1020 || toTotal > 1200) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"La Dra. Rosa atiende de 17:00 a 20:00 los martes y jueves.\"\n      }\n    }];\n  }\n  const categoriaAsignada = esDraRosaAsistida ? \"dra_rosa_asistida\" : \"dra_rosa_solo\";\n  return [{ json: { status: \"open\", categoria: categoriaAsignada, date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\n// RUTA C: HORARIO GENERAL (Maderoterapia y Resto para Noa / Rosi)\nif (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {\n  if (fromTotal < 960 || toTotal > 1200) { \n    return [{ json: { status: \"closed\", message: \"Los lunes, miércoles y viernes atendemos de 16:00 a 20:00.\" } }];\n  }\n} else if (dayOfWeek === 2 || dayOfWeek === 4) {\n  if (fromTotal < 720 || toTotal > 1200) { \n    return [{ json: { status: \"closed\", message: \"Los martes y jueves atendemos de 12:00 a 20:00.\" } }];\n  }\n}\n\nif (servicio.includes(\"maderoterapia facial\")) {\n  return [{ json: { status: \"open\", categoria: \"rosi_only\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\nreturn [{ json: { status: \"open\", categoria: \"rosi_noa\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];"
+        "jsCode": "const dateString = $json.date || \"\";\nconst date = new Date(dateString + \"T12:00:00\");\nconst dayOfWeek = date.getDay(); // 0=Dom, 1=Lun, 2=Mar, 3=Mié, 4=Jue, 5=Vie, 6=Sáb\n\n// 1. SEGURIDAD: CONTROL DE FECHA INVÁLIDA\nif (isNaN(dayOfWeek)) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"Ha habido un problema entendiendo la fecha de tu cita. ¿Podrías indicarme el día de nuevo?\"\n    }\n  }];\n}\n\n// 1.5 SEGURIDAD: CONTROL DE FECHA PASADA\n// Obtenemos la fecha de hoy en formato YYYY-MM-DD usando la zona horaria de España\nconst todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Madrid' }).format(new Date());\nif (dateString < todayStr) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"Esa fecha no está disponible, se trata de una fecha pasada. ¿Qué día prefieres?\"\n    }\n  }];\n}\n\n// 2. FINES DE SEMANA (CERRADO PARA TODOS)\nif (dayOfWeek === 0 || dayOfWeek === 6) {\n  return [{\n    json: {\n      status: \"closed\",\n      message: \"La clínica está cerrada los fines de semana. Atendemos de lunes a viernes. ¿Qué día te viene bien?\"\n    }\n  }];\n}\n\n// 3. NORMALIZAR SERVICIO Y TIEMPOS\nconst servicio = ($json.servicio || \"\").toString().toLowerCase().normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g, \"\").trim();\n\nconst esPlexr = servicio.includes(\"plexr\") || servicio.includes(\"plexer\") || servicio.includes(\"periorbital\") || servicio.includes(\"perioral\") || servicio.includes(\"fibromas\") || servicio.includes(\"xantelasmas\");\nconst duracionMin = esPlexr ? 60 : 30;\n\nconst fromTimeStr = $json.fromTime || \"00:00\";\nconst [fh, fm] = fromTimeStr.split(\":\").map(Number);\nconst fromTotal = (fh || 0) * 60 + (fm || 0);\nconst toTotal = fromTotal + duracionMin;\n\nconst toHH = String(Math.floor(toTotal / 60)).padStart(2, \"0\");\nconst toMM = String(toTotal % 60).padStart(2, \"0\");\nconst toTime = `${toHH}:${toMM}:00`;\n\n// RUTA A: PLEXR\nif (esPlexr) {\n  if (dayOfWeek !== 2 && dayOfWeek !== 4) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"El Plexr solo puede realizarse los martes o jueves de 17:00 a 20:00, ya que requiere la presencia de la Dra. Rosa. ¿Te viene bien alguno de esos días?\"\n      }\n    }];\n  }\n  if (fromTotal < 1020 || toTotal > 1200) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"El Plexr está disponible de 17:00 a 20:00 los martes y jueves con la Dra. Rosa. La sesión de 60 min debe finalizar antes de las 20:00.\"\n      }\n    }];\n  }\n  return [{ json: { status: \"open\", categoria: \"plexr\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\n// RUTA B1: DRA. ROSA SOLO (no requiere asistencias continuas, NO bloquea a Noa/Rosi)\nconst keywordsDraRosaSolo = [\n  \"esclerosis\", \"varice\", \"microespuma\", \"valoracion\", \"endolifting\", \"lipolaser\", \"manos\"\n];\nconst esDraRosaSolo = keywordsDraRosaSolo.some(k => servicio.includes(k));\n\n// RUTA B2: DRA. ROSA ASISTIDA (bloquea a los 3)\nconst keywordsDraRosaAsistida = [\n  \"botox\", \"neuromodulador\", \"bruxismo\", \"hilos\", \"mesoterapia\", \"relleno\", \"labio\", \n  \"nariz\", \"ojera\", \"pomulo\", \"acido hialuronico\", \"skin booster\", \"inductor\", \n  \"colageno\", \"bioestimulacion\", \"carboxiterapia\", \"agresivo\"\n];\nconst esDraRosaAsistida = keywordsDraRosaAsistida.some(k => servicio.includes(k));\n\nif (esDraRosaSolo || esDraRosaAsistida) {\n  if (dayOfWeek !== 2 && dayOfWeek !== 4) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"Los tratamientos médicos de la Dra. Rosa solo están disponibles los martes y jueves de 17:00 a 20:00.\"\n      }\n    }];\n  }\n  if (fromTotal < 1020 || toTotal > 1200) {\n    return [{\n      json: {\n        status: \"closed\",\n        message: \"La Dra. Rosa atiende de 17:00 a 20:00 los martes y jueves.\"\n      }\n    }];\n  }\n  const categoriaAsignada = esDraRosaAsistida ? \"dra_rosa_asistida\" : \"dra_rosa_solo\";\n  return [{ json: { status: \"open\", categoria: categoriaAsignada, date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\n// RUTA C: HORARIO GENERAL (Maderoterapia y Resto para Noa / Rosi)\nif (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {\n  if (fromTotal < 960 || toTotal > 1200) { \n    return [{ json: { status: \"closed\", message: \"Los lunes, miércoles y viernes atendemos de 16:00 a 20:00.\" } }];\n  }\n} else if (dayOfWeek === 2 || dayOfWeek === 4) {\n  if (fromTotal < 720 || toTotal > 1200) { \n    return [{ json: { status: \"closed\", message: \"Los martes y jueves atendemos de 12:00 a 20:00.\" } }];\n  }\n}\n\nif (servicio.includes(\"maderoterapia facial\")) {\n  return [{ json: { status: \"open\", categoria: \"rosi_only\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n}\n\nreturn [{ json: { status: \"open\", categoria: \"rosi_noa\", date: $json.date, fromTime: fromTimeStr, toTime: toTime } }];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -365,7 +426,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\nconst categoria = $('Clasificar y Validar').item.json.categoria;\n\nconst profesionalesOcupados = items\n  .filter(item => item.json.start)\n  .map(item => {\n    const desc = item.json.description || item.json.summary || \"\";\n    const match = desc.match(/PROFESIONAL:\\s*(.+)/i);\n    return match ? match[1].trim() : \"desconocido\";\n  });\n\nconst rosiOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes(\"rosi\"));\nconst noaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes(\"noa\"));\nconst draRosaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes(\"dra. rosa\") || p.toLowerCase().includes(\"dra rosa\"));\n\nif (categoria === \"dra_rosa_solo\") {\n  if (draRosaOcupada) return [{ json: { status: \"busy\", message: \"La Dra. Rosa ya tiene una cita en ese horario.\" } }];\n  return [{ json: { status: \"free\", profesional_asignada: \"Dra. Rosa\", categoria: \"dra_rosa_solo\", message: \"Horario disponible.\" } }];\n}\n\nif (categoria === \"dra_rosa_asistida\") {\n  if (draRosaOcupada || noaOcupada || rosiOcupada) {\n    return [{ json: { status: \"busy\", message: \"No hay disponibilidad suficiente en cabina para la Dra. Rosa en ese horario.\" } }];\n  }\n  return [{ json: { status: \"free\", profesional_asignada: \"Dra. Rosa\", categoria: \"dra_rosa_asistida\", message: \"Horario disponible.\" } }];\n}\n\nif (categoria === \"rosi_only\") {\n  if (rosiOcupada) return [{ json: { status: \"busy\", message: \"Rosi ya tiene una cita en ese horario.\" } }];\n  return [{ json: { status: \"free\", profesional_asignada: \"Rosi\", categoria: \"rosi_only\", message: \"Horario disponible.\" } }];\n}\n\nif (categoria === \"rosi_noa\") {\n  if (!rosiOcupada) return [{ json: { status: \"free\", profesional_asignada: \"Rosi\", categoria: \"rosi_noa\", message: \"Horario disponible.\" } }];\n  if (!noaOcupada) return [{ json: { status: \"free\", profesional_asignada: \"Noa\", categoria: \"rosi_noa\", message: \"Horario disponible.\" } }];\n  return [{ json: { status: \"busy\", message: \"Tanto Rosi como Noa tienen citas en ese horario.\" } }];\n}\n\nif (categoria === \"plexr\") {\n  if (draRosaOcupada || (rosiOcupada && noaOcupada)) {\n    return [{ json: { status: \"busy\", message: \"No hay disponibilidad para Plexr en ese horario (se requiere Dra Rosa y una asistente).\" } }];\n  }\n  const asistente = !rosiOcupada ? \"Rosi\" : \"Noa\";\n  return [{ json: { status: \"free\", profesional_asignada: asistente, categoria: \"plexr\", message: \"Horario disponible para Plexr.\" } }];\n}\n\nreturn [{ json: { status: \"free\", profesional_asignada: \"Rosi\", categoria: categoria || \"rosi_noa\", message: \"Horario disponible.\" } }];"
+        "jsCode": "const allItems = $input.all();\nconst categoria = $('Clasificar y Validar').item.json.categoria;\n\nlet bloqueoItems = [];\ntry { bloqueoItems = $('Consultar Bloqueos').all(); } catch(e) { bloqueoItems = []; }\n\nconst todosLosEventos = [...allItems, ...bloqueoItems].filter(item => item.json.start);\n\nconst profesionalesOcupados = todosLosEventos.map(item => {\n  const desc = item.json.description || item.json.summary || '';\n  const match = desc.match(/PROFESIONAL:\\s*(.+)/i);\n  return match ? match[1].trim() : 'desconocido';\n});\n\nconst rosiOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('rosi'));\nconst noaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('noa'));\nconst draRosaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('dra. rosa') || p.toLowerCase().includes('dra rosa'));\n\nif (categoria === 'dra_rosa_solo') {\n  if (draRosaOcupada) return [{ json: { status: 'busy', message: 'La Dra. Rosa ya tiene una cita en ese horario.' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'dra_rosa_solo', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'dra_rosa_asistida') {\n  if (draRosaOcupada || noaOcupada || rosiOcupada) {\n    return [{ json: { status: 'busy', message: 'No hay disponibilidad suficiente en cabina para la Dra. Rosa en ese horario.' } }];\n  }\n  return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'rosi_only') {\n  if (rosiOcupada) return [{ json: { status: 'busy', message: 'Rosi ya tiene una cita en ese horario.' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_only', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'rosi_noa') {\n  if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  return [{ json: { status: 'busy', message: 'Tanto Rosi como Noa tienen citas en ese horario.' } }];\n}\n\nif (categoria === 'plexr') {\n  if (draRosaOcupada || (rosiOcupada && noaOcupada)) {\n    return [{ json: { status: 'busy', message: 'No hay disponibilidad para Plexr en ese horario (se requiere Dra Rosa y una asistente).' } }];\n  }\n  const asistente = !rosiOcupada ? 'Rosi' : 'Noa';\n  return [{ json: { status: 'free', profesional_asignada: asistente, categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n}\n\nreturn [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: categoria || 'rosi_noa', message: 'Horario disponible.' } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -398,19 +459,38 @@
       ],
       "id": "101cdfdd-ee33-41e6-9504-7e5e8c02f691",
       "name": "Mensaje Cerrado"
-    }
-  ],
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "date": "2026-03-26",
-          "fromTime": "17:00:00",
-          "servicio": "Plexr"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "cachedResultName": "Rosa Mora - Bloqueos",
+          "mode": "id",
+          "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com"
+        },
+        "timeMin": "={{ $('Clasificar y Validar').item.json.date }}T{{ $('Clasificar y Validar').item.json.fromTime }}",
+        "timeMax": "={{ $('Clasificar y Validar').item.json.date }}T{{ $('Clasificar y Validar').item.json.toTime }}",
+        "options": {}
+      },
+      "id": "consultar-bloqueos",
+      "name": "Consultar Bloqueos",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        944,
+        48
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "RSjmCgtcmSyhYKoN",
+          "name": "Google Calendar account"
         }
       }
-    ]
-  },
+    }
+  ],
+  "pinData": {},
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false,
@@ -432,6 +512,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-21T11:18:03.414Z",
-  "versionId": "4636c980-b3b5-4361-94ea-f3f0fc8ba401"
+  "updatedAt": "2026-03-21T13:31:02.331Z",
+  "versionId": "24592c3e-52e5-4803-a4bb-485cf7939e11"
 }
