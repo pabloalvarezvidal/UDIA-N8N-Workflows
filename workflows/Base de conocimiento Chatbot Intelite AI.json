@@ -3,46 +3,13 @@
   "activeVersion": null,
   "activeVersionId": null,
   "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Code - Definir Conocimiento",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code - Definir Conocimiento": {
-      "main": [
-        [
-          {
-            "node": "Postgres PGVector Store",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Default Data Loader": {
       "ai_document": [
         [
           {
+            "index": 0,
             "node": "Postgres PGVector Store",
-            "type": "ai_document",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Recursive Character Text Splitter": {
-      "ai_textSplitter": [
-        [
-          {
-            "node": "Default Data Loader",
-            "type": "ai_textSplitter",
-            "index": 0
+            "type": "ai_document"
           }
         ]
       ]
@@ -51,9 +18,53 @@
       "ai_embedding": [
         [
           {
+            "index": 0,
             "node": "Postgres PGVector Store",
-            "type": "ai_embedding",
-            "index": 0
+            "type": "ai_embedding"
+          }
+        ]
+      ]
+    },
+    "Extraer Texto Web": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Postgres PGVector Store",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Extraer Texto Web",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "index": 0,
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter"
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "HTTP Request",
+            "type": "main"
           }
         ]
       ]
@@ -68,102 +79,127 @@
   "name": "Base de conocimiento Chatbot Intelite AI",
   "nodes": [
     {
+      "id": "6b49779a-9640-482a-bc95-c43bc5357879",
+      "name": "When clicking ‘Execute workflow’",
       "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
       "position": [
         0,
-        0
+        200
       ],
-      "id": "6b49779a-9640-482a-bc95-c43bc5357879",
-      "name": "When clicking ‘Execute workflow’"
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1
     },
     {
+      "id": "node-http",
+      "name": "HTTP Request",
       "parameters": {
-        "jsCode": "return [\n  // CHUNK 1: Resumen General\n  {\n    json: {\n      text: \"Intelite AI es una empresa especializada en soluciones de Inteligencia Artificial que diseña Chatbots Inteligentes, Agentes de Voz y Automatizaciones a medida para empresas. Todas las soluciones se conectan directamente a los sistemas internos del cliente.\"\n    }\n  },\n  // CHUNK 2: Chatbots\n  {\n    json: {\n      text: \"Los Chatbots Inteligentes de Intelite AI son multicanal (Web, WhatsApp, Telegram e Instagram) y ofrecen gestión autónoma de citas comprobando disponibilidad en tiempo real. Además, resuelven dudas de atención al cliente basándose estrictamente en la documentación propia de la empresa.\"\n    }\n  },\n  // CHUNK 3: Agentes de Voz\n  {\n    json: {\n      text: \"Los Agentes de Voz de Intelite AI mantienen conversaciones telefónicas naturales y fluidas. Tienen las mismas capacidades que los chatbots (agendar, informar, filtrar clientes) pero operan vía llamada telefónica. Son ideales para atención al cliente, confirmación de citas, encuestas, etc.\"\n    }\n  },\n  // CHUNK 4: Automatizaciones\n  {\n    json: {\n      text: \"Intelite AI desarrolla automatizaciones a medida analizando los problemas productivos específicos de cada cliente para eliminar tareas repetitivas y manuales. Ejemplos de estas soluciones incluyen la generación automática de facturas, sincronización de CRMs, notificaciones inteligentes y reportes de datos automatizados.\"\n    }\n  },\n  // CHUNK 5: Precios y Modelo de Negocio\n  {\n    json: {\n      text: \"En cuanto a precios, Intelite AI no vende paquetes cerrados genéricos, sino que valora cada caso para ofrecer un presupuesto personalizado. El modelo de costes consta de un pago único por instalación más una mensualidad de mantenimiento para asegurar la evolución de la IA.\"\n    }\n  },\n  // CHUNK 6: Horarios y Soporte Humano\n  {\n    json: {\n      text: \"El equipo humano de soporte de Intelite AI atiende en horario de Lunes a Viernes de 09:00 a 14:00 y de 16:00 a 20:00 (hora española).\"\n    }\n  }\n];"
+        "options": {},
+        "url": "https://inteliteai.com"
       },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
       "position": [
-        224,
-        0
+        200,
+        200
       ],
-      "id": "6fe2710e-c643-4910-9e88-b41a4172b42d",
-      "name": "Code - Definir Conocimiento"
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1
     },
     {
+      "id": "node-html",
+      "name": "Extraer Texto Web",
       "parameters": {
-        "mode": "insert",
-        "tableName": "chatweb_vectors",
+        "extractionValues": {
+          "values": [
+            {
+              "cssSelector": "body",
+              "key": "text",
+              "returnValue": "text"
+            }
+          ]
+        },
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
-      "typeVersion": 1.3,
       "position": [
-        480,
-        0
+        400,
+        200
       ],
-      "id": "f3ebd602-a16f-4034-a86a-b3f4df7ccbc2",
-      "name": "Postgres PGVector Store",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1
+    },
+    {
       "credentials": {
         "postgres": {
           "id": "g6bIsRgyIRSoqVzD",
           "name": "Postgres account 2"
         }
-      }
+      },
+      "id": "f3ebd602-a16f-4034-a86a-b3f4df7ccbc2",
+      "name": "Postgres PGVector Store",
+      "parameters": {
+        "mode": "insert",
+        "options": {},
+        "tableName": "chatweb_vectors"
+      },
+      "position": [
+        600,
+        200
+      ],
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "typeVersion": 1.3
     },
     {
-      "parameters": {
-        "textSplittingMode": "custom",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
-      "typeVersion": 1.1,
-      "position": [
-        576,
-        224
-      ],
       "id": "5f13d4c4-e9ca-49c4-9f44-2b0f916f24d9",
-      "name": "Default Data Loader"
+      "name": "Default Data Loader",
+      "parameters": {
+        "options": {},
+        "textSplittingMode": "custom"
+      },
+      "position": [
+        600,
+        400
+      ],
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1
     },
     {
-      "parameters": {
-        "chunkSize": 500,
-        "chunkOverlap": 50,
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
-      "typeVersion": 1,
-      "position": [
-        656,
-        432
-      ],
       "id": "62f5f06d-8b4d-40e5-8f4c-17031ad17ac3",
-      "name": "Recursive Character Text Splitter"
-    },
-    {
+      "name": "Recursive Character Text Splitter",
       "parameters": {
+        "chunkOverlap": 50,
+        "chunkSize": 500,
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
-      "typeVersion": 1.2,
       "position": [
-        368,
-        224
+        600,
+        600
       ],
-      "id": "c11c2351-2b05-4283-8472-7dc2555b3fcf",
-      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1
+    },
+    {
       "credentials": {
         "openAiApi": {
           "id": "lF7UohlhOobJXkZr",
           "name": "OpenAi account"
         }
-      }
+      },
+      "id": "c11c2351-2b05-4283-8472-7dc2555b3fcf",
+      "name": "Embeddings OpenAI",
+      "parameters": {
+        "options": {}
+      },
+      "position": [
+        400,
+        400
+      ],
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2
     }
   ],
   "pinData": {},
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
   },
   "shared": [
     {
@@ -177,6 +213,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-12-15T11:28:51.834Z",
-  "versionId": "509ba24c-081d-4277-8795-ea67433c25c0"
+  "updatedAt": "2026-03-21T16:16:30.632Z",
+  "versionId": "ef24f2e5-dcf1-4293-9f49-0e8123479426"
 }
