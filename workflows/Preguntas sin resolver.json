@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-12-15T12:50:18.791Z",
-    "createdAt": "2025-12-15T12:50:18.791Z",
-    "versionId": "a21cf599-6f08-455f-9715-b0680de13415",
+    "updatedAt": "2026-03-21T15:45:06.834Z",
+    "createdAt": "2026-03-21T15:45:06.834Z",
+    "versionId": "8fc74b8b-2aad-4b31-a297-34cec3fe4ca2",
     "workflowId": "N23XRp0TPEoFPfIf",
     "nodes": [
       {
@@ -21,16 +21,16 @@
       },
       {
         "parameters": {
-          "chatId": "7186973879",
-          "text": "=Falta Entrenamiento | Pregunta: {{ $json.chatInput }}",
           "additionalFields": {
             "appendAttribution": false
-          }
+          },
+          "chatId": "7186973879",
+          "text": "=Falta Entrenamiento | {{ $('When Executed by Another Workflow').item.json.mensaje_reporte }}"
         },
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          256,
+          288,
           336
         ],
         "id": "260b5c89-f7b8-4e6c-b580-165afd81693a",
@@ -39,63 +39,63 @@
         "credentials": {
           "telegramApi": {
             "id": "GyCkN7M0nmQB9BTK",
-            "name": "Telegram account"
+            "name": "ChatBot Intelite"
           }
         }
       },
       {
         "parameters": {
-          "operation": "append",
-          "documentId": {
-            "__rl": true,
-            "value": "1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE",
-            "mode": "list",
-            "cachedResultName": "Preguntas sin respuesta",
-            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit?usp=drivesdk"
-          },
-          "sheetName": {
-            "__rl": true,
-            "value": "gid=0",
-            "mode": "list",
-            "cachedResultName": "Hoja 1",
-            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit#gid=0"
-          },
           "columns": {
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false,
             "mappingMode": "defineBelow",
-            "value": {
-              "Pregunta": "={{ $('When Executed by Another Workflow').item.json.chatInput }}"
-            },
             "matchingColumns": [],
             "schema": [
               {
-                "id": "Pregunta",
-                "displayName": "Pregunta",
-                "required": false,
+                "canBeUsedToMatch": true,
                 "defaultMatch": false,
                 "display": true,
-                "type": "string",
-                "canBeUsedToMatch": true
+                "displayName": "Pregunta",
+                "id": "Pregunta",
+                "required": false,
+                "type": "string"
               },
               {
-                "id": "Respuesta",
-                "displayName": "Respuesta",
-                "required": false,
+                "canBeUsedToMatch": true,
                 "defaultMatch": false,
                 "display": true,
-                "type": "string",
-                "canBeUsedToMatch": true,
-                "removed": true
+                "displayName": "Respuesta",
+                "id": "Respuesta",
+                "removed": true,
+                "required": false,
+                "type": "string"
               }
             ],
-            "attemptToConvertTypes": false,
-            "convertFieldsToString": false
+            "value": {
+              "Pregunta": "={{ $('When Executed by Another Workflow').item.json.mensaje_reporte }}"
+            }
           },
-          "options": {}
+          "documentId": {
+            "__rl": true,
+            "cachedResultName": "Preguntas sin respuesta",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit?usp=drivesdk",
+            "mode": "list",
+            "value": "1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE"
+          },
+          "operation": "append",
+          "options": {},
+          "sheetName": {
+            "__rl": true,
+            "cachedResultName": "Hoja 1",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit#gid=0",
+            "mode": "list",
+            "value": "gid=0"
+          }
         },
         "type": "n8n-nodes-base.googleSheets",
         "typeVersion": 4.7,
         "position": [
-          464,
+          512,
           336
         ],
         "id": "1dc0e520-0c67-435a-a137-e413297258ea",
@@ -142,7 +142,7 @@
     "description": null,
     "autosaved": false
   },
-  "activeVersionId": "a21cf599-6f08-455f-9715-b0680de13415",
+  "activeVersionId": "8fc74b8b-2aad-4b31-a297-34cec3fe4ca2",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -170,28 +170,6 @@
       "main": [
         []
       ]
-    },
-    "Google Sheets Trigger": {
-      "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s) in sheet in Google Sheets": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "createdAt": "2025-12-15T12:21:25.621Z",
@@ -217,16 +195,16 @@
     },
     {
       "parameters": {
-        "chatId": "7186973879",
-        "text": "=Falta Entrenamiento | Pregunta: {{ $json.chatInput }}",
         "additionalFields": {
           "appendAttribution": false
-        }
+        },
+        "chatId": "7186973879",
+        "text": "=Falta Entrenamiento | {{ $('When Executed by Another Workflow').item.json.mensaje_reporte }}"
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        256,
+        288,
         336
       ],
       "id": "260b5c89-f7b8-4e6c-b580-165afd81693a",
@@ -235,63 +213,63 @@
       "credentials": {
         "telegramApi": {
           "id": "GyCkN7M0nmQB9BTK",
-          "name": "Telegram account"
+          "name": "ChatBot Intelite"
         }
       }
     },
     {
       "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE",
-          "mode": "list",
-          "cachedResultName": "Preguntas sin respuesta",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Hoja 1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit#gid=0"
-        },
         "columns": {
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false,
           "mappingMode": "defineBelow",
-          "value": {
-            "Pregunta": "={{ $('When Executed by Another Workflow').item.json.chatInput }}"
-          },
           "matchingColumns": [],
           "schema": [
             {
-              "id": "Pregunta",
-              "displayName": "Pregunta",
-              "required": false,
+              "canBeUsedToMatch": true,
               "defaultMatch": false,
               "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
+              "displayName": "Pregunta",
+              "id": "Pregunta",
+              "required": false,
+              "type": "string"
             },
             {
-              "id": "Respuesta",
-              "displayName": "Respuesta",
-              "required": false,
+              "canBeUsedToMatch": true,
               "defaultMatch": false,
               "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
+              "displayName": "Respuesta",
+              "id": "Respuesta",
+              "removed": true,
+              "required": false,
+              "type": "string"
             }
           ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
+          "value": {
+            "Pregunta": "={{ $('When Executed by Another Workflow').item.json.mensaje_reporte }}"
+          }
         },
-        "options": {}
+        "documentId": {
+          "__rl": true,
+          "cachedResultName": "Preguntas sin respuesta",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit?usp=drivesdk",
+          "mode": "list",
+          "value": "1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE"
+        },
+        "operation": "append",
+        "options": {},
+        "sheetName": {
+          "__rl": true,
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YqxiEloaK6JssXlTmrPChfw16m-P2k-WAOB9LxiU4zE/edit#gid=0",
+          "mode": "list",
+          "value": "gid=0"
+        }
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        464,
+        512,
         336
       ],
       "id": "1dc0e520-0c67-435a-a137-e413297258ea",
@@ -302,105 +280,14 @@
           "name": "Google Sheets account"
         }
       }
-    },
-    {
-      "parameters": {
-        "pollTimes": {
-          "item": [
-            {
-              "mode": "everyMinute"
-            }
-          ]
-        },
-        "documentId": {
-          "__rl": true,
-          "mode": "list",
-          "value": ""
-        },
-        "sheetName": {
-          "__rl": true,
-          "mode": "list",
-          "value": ""
-        },
-        "event": "rowAdded",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheetsTrigger",
-      "typeVersion": 1,
-      "position": [
-        0,
-        8.5
-      ],
-      "id": "48b26038-121f-40a7-9f11-63b7555b9404",
-      "name": "Google Sheets Trigger",
-      "credentials": {
-        "googleSheetsTriggerOAuth2Api": {
-          "id": "Mlk5fMeqcj0xdcS2",
-          "name": "Google Sheets Trigger account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 3.1,
-      "position": [
-        256,
-        -80
-      ],
-      "id": "5bc18169-566e-49ec-90d0-41bb6d090996",
-      "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "mode": "list",
-          "value": ""
-        },
-        "sheetName": {
-          "__rl": true,
-          "mode": "list",
-          "value": ""
-        }
-      },
-      "type": "n8n-nodes-base.googleSheetsTool",
-      "typeVersion": 4.7,
-      "position": [
-        512,
-        112
-      ],
-      "id": "367bf250-4efe-4eee-8523-10a9144b4a94",
-      "name": "Get row(s) in sheet in Google Sheets",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "7QvCi5UUFUsiQIlm",
-          "name": "Google Sheets account"
-        }
-      }
     }
   ],
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "sessionId": "111fa8dd58d1466bb0a3c1c0e8205c96",
-          "action": "sendMessage",
-          "chatInput": "actualmente trabajais con n8n?",
-          "input": "actualmente trabajais con n8n?",
-          "toolCallId": "call_848W4YKfjMJ91RXyM9POmenF",
-          "type": "actualmente trabajais con n8n?"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
   },
   "shared": [
     {
@@ -414,6 +301,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-31T10:15:06.672Z",
-  "versionId": "562ff3d7-9d90-49ed-940d-1c14c96ec925"
+  "updatedAt": "2026-03-21T15:45:06.833Z",
+  "versionId": "8fc74b8b-2aad-4b31-a297-34cec3fe4ca2"
 }
