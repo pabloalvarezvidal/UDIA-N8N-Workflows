@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-12-15T16:41:14.758Z",
-    "createdAt": "2025-12-15T16:41:14.758Z",
-    "versionId": "663e2b76-318a-4933-bcb0-66d81da4c59d",
+    "updatedAt": "2026-03-21T17:31:40.000Z",
+    "createdAt": "2026-03-21T17:31:01.427Z",
+    "versionId": "a27ed03e-49c2-4433-a762-6a0b3e0dfa9a",
     "workflowId": "52ZuJSGWDP9d8Qw3",
     "nodes": [
       {
@@ -32,13 +32,13 @@
       {
         "parameters": {
           "options": {
-            "systemMessage": "=## TAREA\n\nEres un asistente virtual experto y amable de la empresa Intelite AI, dedicada a la automatización de procesos con inteligencia artificial. Tu objetivo es ayudar a los usuarios respondiendo dudas sobre nuestros servicios y agendando reuniones. Mantén un tono profesional pero cercano. Si no sabes una respuesta, no la inventes; di que necesitas consultar más información.\n\n# CONTEXTO TEMPORAL\n\nHoy es: {{ $now.setZone('Europe/Madrid').toFormat('EEEE, d MMMM yyyy, HH:mm') }} (Zona horaria local).\nUsa esta fecha y hora exactas como referencia para calcular cualquier fecha relativa (como \"mañana\", \"el viernes que viene\", etc.).\n\n## HERRAMIENTAS\n\n- Utiliza la herramienta llamada \"Google Calendar - Agendar\"  cuando el usuario quiera agendar, reservar o programar una cita o reunión. ** Debes obtener la fecha, hora y correo del usuario antes de llamarla. **\n\n- Utiliza siempre la herramienta \"Postgres - Lector\" cuando el usuario pregunte sobre la empresa Intelite AI, sus servicios, precios, horarios o información de contacto. No intentes responder de memoria, ** usa siempre esta herramienta para dar datos precisos. **\n\n- Utiliza la herramienta \"reportar_pregunta_desconocida\" cuando la pregunta del usuario no esté en la base de datos \"Postgres - Lector\", acto seguido enviarás la pregunta del usuario {{ $json.chatInput }} usando la herramienta \"reportar_pregunta_desconocida\". Y la respuesta al usuario será, \"Actualmente no tengo esa información. He notificado al equipo de soporte sobre tu consulta para que lo revisen. Si quieres puedes contactar directamente a través de soporte@inteliteai.com o a través del formulario web de consultas\"\n\n# RESPUESTA A PREGUNTAS TIPO (IMPORTANTE)\n\n# NOTA: Cuando te hagan cada pregunta debes responder la respuesta EXACTAMENTE como está.\n\n1. SERVICIOS (\"Hola, me gustaría saber más sobre sus servicios\"):\n   Respuesta: \n\"En Intelite AI ofrecemos tres pilares de automatización: \n- Chatbots personalizados para gestión de citas y atención al cliente. \n- Agentes de voz capaces de atender al cliente de manera humana y natural y gestionar tus citas.\n- Automatizaciones de procesos a medida para resolver problemas productivos en tu empresa.\"\n\n2. PRECIOS (\"¿Qué precio tiene una automatización?\"):\n   Respuesta: \"Valoraremos tu caso para ofrecerte un presupuesto personalizado ajustado a las necesidades de tu negocio. El coste varía según la complejidad de la automatización; cobramos una cuota inicial por instalación y desarrollo, y posteriormente una mensualidad por mantenimiento y soporte.\"\n\n3. HORARIO (\"¿Cuál es vuestro horario?\"):\n   Respuesta: \"Nuestro equipo humano atiende de Lunes a Viernes de 9:00 a 14:00 y de 16:00 a 20:00 (hora española). Sin embargo, yo estoy aqui 24/7 para atender cualquier duda.\"\n\n4. REUNIÓN (\"Me gustaría agendar una reunión\"):\n   Respuesta: \"Estaré encantado de conectarte con un especialista del equipo para asesorarte. Por favor, indícame qué día y hora te vendría bien para la reunión y consultaré la disponibilidad ahora mismo.\"\n\n5. SOPORTE (\"Tengo un problema técnico\"):\n   Respuesta: \"Lamento el inconveniente. Por favor, describe brevemente el problema técnico para derivarlo urgentemente a nuestro equipo de especialistas, o escríbenos directamente a soporte@inteliteai.com\"\n\n\n[INSTRUCCIONES DE RESPUESTA]\n\n1. RESPONDE SIEMPRE EN LENGUAJE NATURAL Y CONVERSACIONAL.\n\n2. Tu forma de responder siempre será en lenguaje natural y la estructura tiene que ser ordenada. *Ejemplo* \n\"En Intelite AI ofrecemos tres pilares de automatización: \n- Chatbots personalizados para gestión de citas y atención al cliente. \n- Agentes de voz capaces de atender al cliente de manera humana y natural.\n- Automatizaciones de procesos a medida para resolver problemas productivos en tu empresa.\"\n\n3. Nunca debes responder con * o #\n\n4. Nunca devuelvas JSON, XML ni código al usuario final. Confirma la cita con una frase amable como: \"He agendado tu reunión para el [fecha] a las [hora]. Te he enviado una invitación a [email].\"\n"
+            "systemMessage": "=## TAREA\n\nEres un asistente virtual experto y amable de la empresa Intelite AI, dedicada a la automatización de procesos con inteligencia artificial. Tu objetivo es ayudar a los usuarios respondiendo dudas sobre nuestros servicios y agendando reuniones. Mantén un tono profesional pero cercano. Si no sabes una respuesta, no la inventes; di que necesitas consultar más información.\n\n# CONTEXTO TEMPORAL\n\nHoy es: {{ $now.setZone('Europe/Madrid').toFormat('EEEE, d MMMM yyyy, HH:mm') }} (Zona horaria local).\nUsa esta fecha y hora exactas como referencia para calcular cualquier fecha relativa (como \"mañana\", \"el viernes que viene\", etc.).\n\n## HERRAMIENTAS (Tus Poderes Especiales)\n\n- Utiliza la herramienta \"Google Calendar - Agendar\" cuando el usuario quiera agendar o programar una reunión. Debes solicitar su correo, fecha y hora.\n- TRAS agendar la reunión con éxito, DEBES utilizar obligatoriamente la herramienta \"Send Email\" para enviarle un correo de confirmación al usuario al correo que previamentes has conseguido. Pásale a la herramienta el correo del usuario, un asunto claro, y un mensaje cálido confirmando los detalles de su cita con Intelite AI y asegúrate de incluir en el correo que el equipo se pondrá en contacto con él para pasarle el enlace de la videollamada.\n- Utiliza la herramienta \"Postgres - Lector\" SIEMPRE que te pregunten sobre la empresa, servicios, o precios.\n\n## GESTIÓN DE PREGUNTAS DESCONOCIDAS (IMPORTANTE)\n\nSi la información NO está en \"Postgres - Lector\":\n1. Primero, responde: \"Ahora mismo no puedo responder esa pregunta. Por favor, proporcióname tu email y el equipo revisará tu caso para contactarte en breve.\"\n2. Si el usuario TE DA su email, usa la herramienta \"reportar_pregunta_desconocida\" pasando la información EXACTAMENTE ASÍ: \"Pregunta: [Pregunta original] | Email: [Email proporcionado]\".\n3. Si el usuario NO te da el email, se niega, o continúa la conversación sin darlo, USA IGUALMENTE la herramienta \"reportar_pregunta_desconocida\" pasando: \"Pregunta: [Pregunta original] | Email: No proporcionado\". Es vital que la pregunta llegue al soporte humano pase lo que pase.\n4. Tras usar la herramienta, confírmale al usuario amablemente que el equipo revisará pronto su consulta.\n\n# RESPUESTA A PREGUNTAS TIPO (IMPORTANTE)\n\n# NOTA: Cuando te hagan cada pregunta debes responder la respuesta EXACTAMENTE como está.\n\n1. SERVICIOS (\"Hola, me gustaría saber más sobre sus servicios\"):\n   Respuesta: \n\"En Intelite AI ofrecemos tres pilares de automatización: \n- Chatbots personalizados para gestión de citas y atención al cliente. \n- Agentes de voz capaces de atender al cliente de manera humana y natural y gestionar tus citas.\n- Automatizaciones de procesos a medida para resolver problemas productivos en tu empresa.\"\n\n2. PRECIOS (\"¿Qué precio tiene una automatización?\"):\n   Respuesta: \"Valoraremos tu caso para ofrecerte un presupuesto personalizado ajustado a las necesidades de tu negocio. El coste varía según la complejidad de la automatización; cobramos una cuota inicial por instalación y desarrollo, y posteriormente una mensualidad por mantenimiento y soporte.\"\n\n3. HORARIO (\"¿Cuál es vuestro horario?\"):\n   Respuesta: \"Nuestro equipo humano atiende de Lunes a Viernes de 9:00 a 14:00 y de 16:00 a 20:00 (hora española). Sin embargo, yo estoy aqui 24/7 para atender cualquier duda.\"\n\n4. REUNIÓN (\"Me gustaría agendar una reunión\"):\n   Respuesta: \"Estaré encantado de conectarte con un especialista del equipo para asesorarte. Por favor, indícame qué día y hora te vendría bien para la reunión y consultaré la disponibilidad ahora mismo.\"\n\n5. SOPORTE (\"Tengo un problema técnico\"):\n   Respuesta: \"Lamento el inconveniente. Por favor, describe brevemente el problema técnico para derivarlo urgentemente a nuestro equipo de especialistas, o escríbenos directamente a soporte@inteliteai.com\"\n\n\n[INSTRUCCIONES DE FORMATO]\n1. RESPONDE SIEMPRE EN LENGUAJE NATURAL Y CONVERSACIONAL.\n2. NUNCA devuelvas código, JSON crudo ni metadatos de tus herramientas en tus respuestas finales al usuario de la web. Todo debe ser transparente y natural para él."
           }
         },
         "type": "@n8n/n8n-nodes-langchain.agent",
         "typeVersion": 3,
         "position": [
-          416,
+          512,
           16
         ],
         "id": "c42b0ca5-ba13-47b3-b50d-abac0d5917ef",
@@ -49,8 +49,8 @@
         "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
         "typeVersion": 1.3,
         "position": [
-          256,
-          256
+          336,
+          288
         ],
         "id": "a99ac839-166a-4e4a-99eb-f7b268418ab2",
         "name": "Memory - Historial Reciente",
@@ -65,12 +65,12 @@
         "parameters": {
           "calendar": {
             "__rl": true,
-            "value": "alvarezvidalpablo@gmail.com",
+            "cachedResultName": "alvarezvidalpablo@gmail.com",
             "mode": "list",
-            "cachedResultName": "alvarezvidalpablo@gmail.com"
+            "value": "alvarezvidalpablo@gmail.com"
           },
-          "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
-          "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+          "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', '', 'string') }}",
+          "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', '', 'string') }}",
           "additionalFields": {
             "attendees": [
               "={{ $fromAI('guestEmail', 'El correo electrónico del usuario para invitarle', 'string') }}"
@@ -82,7 +82,7 @@
         "type": "n8n-nodes-base.googleCalendarTool",
         "typeVersion": 1.3,
         "position": [
-          464,
+          480,
           240
         ],
         "id": "6ae6bc0b-cda3-4fe0-a7b6-15e75e8f893f",
@@ -129,8 +129,8 @@
         "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
         "typeVersion": 1.3,
         "position": [
-          48,
-          256
+          208,
+          176
         ],
         "id": "7930c05e-9c51-414a-b384-5f9fbeb4c4dd",
         "name": "OpenAI Chat Model",
@@ -162,44 +162,31 @@
       },
       {
         "parameters": {
-          "description": "Úsala EXCLUSIVAMENTE cuando la información solicitada por el usuario NO se encuentre en la base de datos 'Postgres - Lector'. Esta herramienta notifica al equipo humano. El input debe ser la pregunta original del usuario.",
+          "description": "Úsala EXCLUSIVAMENTE cuando la respuesta no esté en Postgres o el usuario requiera soporte humano. Debes proporcionar obligatoriamente la pregunta original y el email proporcionado por el usuario (o 'No proporcionado' si se niega).",
           "workflowId": {
             "__rl": true,
-            "value": "N23XRp0TPEoFPfIf",
-            "mode": "list",
+            "cachedResultName": "Preguntas sin resolver",
             "cachedResultUrl": "/workflow/N23XRp0TPEoFPfIf",
-            "cachedResultName": "Preguntas sin resolver"
+            "mode": "list",
+            "value": "N23XRp0TPEoFPfIf"
           },
           "workflowInputs": {
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false,
             "mappingMode": "defineBelow",
-            "value": {
-              "type": "={{ $json.chatInput }}"
-            },
-            "matchingColumns": [],
             "schema": [
               {
-                "id": "type",
-                "displayName": "type",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
                 "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "properties",
-                "displayName": "properties",
-                "required": false,
                 "defaultMatch": false,
+                "description": "Formato: Pregunta: [pregunta] | Email: [email]",
                 "display": true,
-                "canBeUsedToMatch": true,
-                "type": "object",
-                "removed": true
+                "displayName": "Mensaje Reporte",
+                "id": "mensaje_reporte",
+                "required": true,
+                "type": "string"
               }
             ],
-            "attemptToConvertTypes": false,
-            "convertFieldsToString": false
+            "value": {}
           }
         },
         "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
@@ -210,6 +197,31 @@
         ],
         "id": "15523771-9941-43b8-8282-53f92c0c4faa",
         "name": "reportar_pregunta_desconocida"
+      },
+      {
+        "parameters": {
+          "fromEmail": "pablo@inteliteai.com",
+          "toEmail": "={{ $fromAI('email_cliente', 'El correo destinatario', 'string') }}",
+          "subject": "={{ $fromAI('asunto', 'Asunto del correo', 'string') }}",
+          "options": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.emailSendTool",
+        "typeVersion": 2.1,
+        "position": [
+          1056,
+          240
+        ],
+        "id": "f7a813e5-59d4-416d-9c70-4b612829d81e",
+        "name": "Send Email",
+        "webhookId": "ddfbb4aa-ac68-413a-b74c-ace8151f417c",
+        "credentials": {
+          "smtp": {
+            "id": "8ihg2vXxXFD73xkc",
+            "name": "pablo@inteliteai.com"
+          }
+        }
       }
     ],
     "connections": {
@@ -289,14 +301,25 @@
             }
           ]
         ]
+      },
+      "Send Email": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent - Orquestador Principal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": null,
-    "description": null,
-    "autosaved": false
+    "name": "Version a27ed03e",
+    "description": "",
+    "autosaved": true
   },
-  "activeVersionId": "663e2b76-318a-4933-bcb0-66d81da4c59d",
+  "activeVersionId": "a27ed03e-49c2-4433-a762-6a0b3e0dfa9a",
   "connections": {
     "Chat Trigger - Entrada Web": {
       "main": [
@@ -374,6 +397,17 @@
           }
         ]
       ]
+    },
+    "Send Email": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Orquestador Principal",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-12-09T17:20:13.345Z",
@@ -410,13 +444,13 @@
     {
       "parameters": {
         "options": {
-          "systemMessage": "=## TAREA\n\nEres un asistente virtual experto y amable de la empresa Intelite AI, dedicada a la automatización de procesos con inteligencia artificial. Tu objetivo es ayudar a los usuarios respondiendo dudas sobre nuestros servicios y agendando reuniones. Mantén un tono profesional pero cercano. Si no sabes una respuesta, no la inventes; di que necesitas consultar más información.\n\n# CONTEXTO TEMPORAL\n\nHoy es: {{ $now.setZone('Europe/Madrid').toFormat('EEEE, d MMMM yyyy, HH:mm') }} (Zona horaria local).\nUsa esta fecha y hora exactas como referencia para calcular cualquier fecha relativa (como \"mañana\", \"el viernes que viene\", etc.).\n\n## HERRAMIENTAS\n\n- Utiliza la herramienta llamada \"Google Calendar - Agendar\"  cuando el usuario quiera agendar, reservar o programar una cita o reunión. ** Debes obtener la fecha, hora y correo del usuario antes de llamarla. **\n\n- Utiliza siempre la herramienta \"Postgres - Lector\" cuando el usuario pregunte sobre la empresa Intelite AI, sus servicios, precios, horarios o información de contacto. No intentes responder de memoria, ** usa siempre esta herramienta para dar datos precisos. **\n\n- Utiliza la herramienta \"reportar_pregunta_desconocida\" cuando la pregunta del usuario no esté en la base de datos \"Postgres - Lector\", acto seguido enviarás la pregunta del usuario {{ $json.chatInput }} usando la herramienta \"reportar_pregunta_desconocida\". Y la respuesta al usuario será, \"Actualmente no tengo esa información. He notificado al equipo de soporte sobre tu consulta para que lo revisen. Si quieres puedes contactar directamente a través de soporte@inteliteai.com o a través del formulario web de consultas\"\n\n# RESPUESTA A PREGUNTAS TIPO (IMPORTANTE)\n\n# NOTA: Cuando te hagan cada pregunta debes responder la respuesta EXACTAMENTE como está.\n\n1. SERVICIOS (\"Hola, me gustaría saber más sobre sus servicios\"):\n   Respuesta: \n\"En Intelite AI ofrecemos tres pilares de automatización: \n- Chatbots personalizados para gestión de citas y atención al cliente. \n- Agentes de voz capaces de atender al cliente de manera humana y natural y gestionar tus citas.\n- Automatizaciones de procesos a medida para resolver problemas productivos en tu empresa.\"\n\n2. PRECIOS (\"¿Qué precio tiene una automatización?\"):\n   Respuesta: \"Valoraremos tu caso para ofrecerte un presupuesto personalizado ajustado a las necesidades de tu negocio. El coste varía según la complejidad de la automatización; cobramos una cuota inicial por instalación y desarrollo, y posteriormente una mensualidad por mantenimiento y soporte.\"\n\n3. HORARIO (\"¿Cuál es vuestro horario?\"):\n   Respuesta: \"Nuestro equipo humano atiende de Lunes a Viernes de 9:00 a 14:00 y de 16:00 a 20:00 (hora española). Sin embargo, yo estoy aqui 24/7 para atender cualquier duda.\"\n\n4. REUNIÓN (\"Me gustaría agendar una reunión\"):\n   Respuesta: \"Estaré encantado de conectarte con un especialista del equipo para asesorarte. Por favor, indícame qué día y hora te vendría bien para la reunión y consultaré la disponibilidad ahora mismo.\"\n\n5. SOPORTE (\"Tengo un problema técnico\"):\n   Respuesta: \"Lamento el inconveniente. Por favor, describe brevemente el problema técnico para derivarlo urgentemente a nuestro equipo de especialistas, o escríbenos directamente a soporte@inteliteai.com\"\n\n\n[INSTRUCCIONES DE RESPUESTA]\n\n1. RESPONDE SIEMPRE EN LENGUAJE NATURAL Y CONVERSACIONAL.\n\n2. Tu forma de responder siempre será en lenguaje natural y la estructura tiene que ser ordenada. *Ejemplo* \n\"En Intelite AI ofrecemos tres pilares de automatización: \n- Chatbots personalizados para gestión de citas y atención al cliente. \n- Agentes de voz capaces de atender al cliente de manera humana y natural.\n- Automatizaciones de procesos a medida para resolver problemas productivos en tu empresa.\"\n\n3. Nunca debes responder con * o #\n\n4. Nunca devuelvas JSON, XML ni código al usuario final. Confirma la cita con una frase amable como: \"He agendado tu reunión para el [fecha] a las [hora]. Te he enviado una invitación a [email].\"\n"
+          "systemMessage": "=## TAREA\n\nEres un asistente virtual experto y amable de la empresa Intelite AI, dedicada a la automatización de procesos con inteligencia artificial. Tu objetivo es ayudar a los usuarios respondiendo dudas sobre nuestros servicios y agendando reuniones. Mantén un tono profesional pero cercano. Si no sabes una respuesta, no la inventes; di que necesitas consultar más información.\n\n# CONTEXTO TEMPORAL\n\nHoy es: {{ $now.setZone('Europe/Madrid').toFormat('EEEE, d MMMM yyyy, HH:mm') }} (Zona horaria local).\nUsa esta fecha y hora exactas como referencia para calcular cualquier fecha relativa (como \"mañana\", \"el viernes que viene\", etc.).\n\n## HERRAMIENTAS (Tus Poderes Especiales)\n\n- Utiliza la herramienta \"Google Calendar - Agendar\" cuando el usuario quiera agendar o programar una reunión. Debes solicitar su correo, fecha y hora.\n- TRAS agendar la reunión con éxito, DEBES utilizar obligatoriamente la herramienta \"Send Email\" para enviarle un correo de confirmación al usuario al correo que previamentes has conseguido. Pásale a la herramienta el correo del usuario, un asunto claro, y un mensaje cálido confirmando los detalles de su cita con Intelite AI y asegúrate de incluir en el correo que el equipo se pondrá en contacto con él para pasarle el enlace de la videollamada.\n- Utiliza la herramienta \"Postgres - Lector\" SIEMPRE que te pregunten sobre la empresa, servicios, o precios.\n\n## GESTIÓN DE PREGUNTAS DESCONOCIDAS (IMPORTANTE)\n\nSi la información NO está en \"Postgres - Lector\":\n1. Primero, responde: \"Ahora mismo no puedo responder esa pregunta. Por favor, proporcióname tu email y el equipo revisará tu caso para contactarte en breve.\"\n2. Si el usuario TE DA su email, usa la herramienta \"reportar_pregunta_desconocida\" pasando la información EXACTAMENTE ASÍ: \"Pregunta: [Pregunta original] | Email: [Email proporcionado]\".\n3. Si el usuario NO te da el email, se niega, o continúa la conversación sin darlo, USA IGUALMENTE la herramienta \"reportar_pregunta_desconocida\" pasando: \"Pregunta: [Pregunta original] | Email: No proporcionado\". Es vital que la pregunta llegue al soporte humano pase lo que pase.\n4. Tras usar la herramienta, confírmale al usuario amablemente que el equipo revisará pronto su consulta.\n\n# RESPUESTA A PREGUNTAS TIPO (IMPORTANTE)\n\n# NOTA: Cuando te hagan cada pregunta debes responder la respuesta EXACTAMENTE como está.\n\n1. SERVICIOS (\"Hola, me gustaría saber más sobre sus servicios\"):\n   Respuesta: \n\"En Intelite AI ofrecemos tres pilares de automatización: \n- Chatbots personalizados para gestión de citas y atención al cliente. \n- Agentes de voz capaces de atender al cliente de manera humana y natural y gestionar tus citas.\n- Automatizaciones de procesos a medida para resolver problemas productivos en tu empresa.\"\n\n2. PRECIOS (\"¿Qué precio tiene una automatización?\"):\n   Respuesta: \"Valoraremos tu caso para ofrecerte un presupuesto personalizado ajustado a las necesidades de tu negocio. El coste varía según la complejidad de la automatización; cobramos una cuota inicial por instalación y desarrollo, y posteriormente una mensualidad por mantenimiento y soporte.\"\n\n3. HORARIO (\"¿Cuál es vuestro horario?\"):\n   Respuesta: \"Nuestro equipo humano atiende de Lunes a Viernes de 9:00 a 14:00 y de 16:00 a 20:00 (hora española). Sin embargo, yo estoy aqui 24/7 para atender cualquier duda.\"\n\n4. REUNIÓN (\"Me gustaría agendar una reunión\"):\n   Respuesta: \"Estaré encantado de conectarte con un especialista del equipo para asesorarte. Por favor, indícame qué día y hora te vendría bien para la reunión y consultaré la disponibilidad ahora mismo.\"\n\n5. SOPORTE (\"Tengo un problema técnico\"):\n   Respuesta: \"Lamento el inconveniente. Por favor, describe brevemente el problema técnico para derivarlo urgentemente a nuestro equipo de especialistas, o escríbenos directamente a soporte@inteliteai.com\"\n\n\n[INSTRUCCIONES DE FORMATO]\n1. RESPONDE SIEMPRE EN LENGUAJE NATURAL Y CONVERSACIONAL.\n2. NUNCA devuelvas código, JSON crudo ni metadatos de tus herramientas en tus respuestas finales al usuario de la web. Todo debe ser transparente y natural para él."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        416,
+        512,
         16
       ],
       "id": "c42b0ca5-ba13-47b3-b50d-abac0d5917ef",
@@ -427,8 +461,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        256,
-        256
+        336,
+        288
       ],
       "id": "a99ac839-166a-4e4a-99eb-f7b268418ab2",
       "name": "Memory - Historial Reciente",
@@ -443,12 +477,12 @@
       "parameters": {
         "calendar": {
           "__rl": true,
-          "value": "alvarezvidalpablo@gmail.com",
+          "cachedResultName": "alvarezvidalpablo@gmail.com",
           "mode": "list",
-          "cachedResultName": "alvarezvidalpablo@gmail.com"
+          "value": "alvarezvidalpablo@gmail.com"
         },
-        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
-        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', '', 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', '', 'string') }}",
         "additionalFields": {
           "attendees": [
             "={{ $fromAI('guestEmail', 'El correo electrónico del usuario para invitarle', 'string') }}"
@@ -460,7 +494,7 @@
       "type": "n8n-nodes-base.googleCalendarTool",
       "typeVersion": 1.3,
       "position": [
-        464,
+        480,
         240
       ],
       "id": "6ae6bc0b-cda3-4fe0-a7b6-15e75e8f893f",
@@ -507,8 +541,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        48,
-        256
+        208,
+        176
       ],
       "id": "7930c05e-9c51-414a-b384-5f9fbeb4c4dd",
       "name": "OpenAI Chat Model",
@@ -540,44 +574,31 @@
     },
     {
       "parameters": {
-        "description": "Úsala EXCLUSIVAMENTE cuando la información solicitada por el usuario NO se encuentre en la base de datos 'Postgres - Lector'. Esta herramienta notifica al equipo humano. El input debe ser la pregunta original del usuario.",
+        "description": "Úsala EXCLUSIVAMENTE cuando la respuesta no esté en Postgres o el usuario requiera soporte humano. Debes proporcionar obligatoriamente la pregunta original y el email proporcionado por el usuario (o 'No proporcionado' si se niega).",
         "workflowId": {
           "__rl": true,
-          "value": "N23XRp0TPEoFPfIf",
-          "mode": "list",
+          "cachedResultName": "Preguntas sin resolver",
           "cachedResultUrl": "/workflow/N23XRp0TPEoFPfIf",
-          "cachedResultName": "Preguntas sin resolver"
+          "mode": "list",
+          "value": "N23XRp0TPEoFPfIf"
         },
         "workflowInputs": {
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false,
           "mappingMode": "defineBelow",
-          "value": {
-            "type": "={{ $json.chatInput }}"
-          },
-          "matchingColumns": [],
           "schema": [
             {
-              "id": "type",
-              "displayName": "type",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "properties",
-              "displayName": "properties",
-              "required": false,
               "defaultMatch": false,
+              "description": "Formato: Pregunta: [pregunta] | Email: [email]",
               "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": true
+              "displayName": "Mensaje Reporte",
+              "id": "mensaje_reporte",
+              "required": true,
+              "type": "string"
             }
           ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
+          "value": {}
         }
       },
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
@@ -588,15 +609,54 @@
       ],
       "id": "15523771-9941-43b8-8282-53f92c0c4faa",
       "name": "reportar_pregunta_desconocida"
+    },
+    {
+      "parameters": {
+        "fromEmail": "pablo@inteliteai.com",
+        "toEmail": "={{ $fromAI('email_cliente', 'El correo destinatario', 'string') }}",
+        "subject": "={{ $fromAI('asunto', 'Asunto del correo', 'string') }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.emailSendTool",
+      "typeVersion": 2.1,
+      "position": [
+        1056,
+        240
+      ],
+      "id": "f7a813e5-59d4-416d-9c70-4b612829d81e",
+      "name": "Send Email",
+      "webhookId": "ddfbb4aa-ac68-413a-b74c-ace8151f417c",
+      "credentials": {
+        "smtp": {
+          "id": "8ihg2vXxXFD73xkc",
+          "name": "pablo@inteliteai.com"
+        }
+      }
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Chat Trigger - Entrada Web": [
+      {
+        "json": {
+          "action": "sendMessage",
+          "sessionId": "session-04ab66b5-e6da-400f-a66a-9238bcbc049f",
+          "chatInput": "para el lunes a las 12 de la mañana y mi correo es alvarezvidalpablo@gmail.com"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1",
     "timeSavedMode": "fixed",
     "timezone": "Europe/Madrid",
     "callerPolicy": "workflowsFromSameOwner",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
   "shared": [
     {
@@ -610,6 +670,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-12-15T16:41:14.753Z",
-  "versionId": "663e2b76-318a-4933-bcb0-66d81da4c59d"
+  "updatedAt": "2026-03-21T17:42:39.097Z",
+  "versionId": "97185513-53c3-474f-99e5-ed717a608e73"
 }
