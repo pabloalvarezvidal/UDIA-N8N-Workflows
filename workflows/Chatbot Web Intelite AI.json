@@ -622,7 +622,7 @@
       "type": "n8n-nodes-base.emailSendTool",
       "typeVersion": 2.1,
       "position": [
-        1056,
+        1104,
         240
       ],
       "id": "f7a813e5-59d4-416d-9c70-4b612829d81e",
@@ -670,6 +670,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-03-21T17:42:39.097Z",
-  "versionId": "97185513-53c3-474f-99e5-ed717a608e73"
+  "updatedAt": "2026-03-23T17:57:35.829Z",
+  "versionId": "09ffe9ce-5e3e-4ebc-840b-672d0632749f"
 }
