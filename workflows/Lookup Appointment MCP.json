@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-24T11:39:44.000Z",
-    "createdAt": "2026-01-24T11:39:27.072Z",
-    "versionId": "050501c2-3a53-470f-90a6-701547f32338",
+    "updatedAt": "2026-03-24T12:06:54.000Z",
+    "createdAt": "2026-03-24T12:05:11.080Z",
+    "versionId": "ce1ef62d-a583-4414-ba7b-40fc828abcf6",
     "workflowId": "QkCgvroGiqPI8pLC",
     "nodes": [
       {
@@ -17,109 +17,29 @@
           }
         },
         "id": "c055762a-8fe7-4141-a639-df2372f30060",
-        "typeVersion": 1.1,
         "name": "When Executed by Another Workflow",
-        "type": "n8n-nodes-base.executeWorkflowTrigger",
         "position": [
           272,
-          288
-        ]
-      },
-      {
-        "parameters": {
-          "conditions": {
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 3
-            },
-            "conditions": [
-              {
-                "id": "ceeafeac-6ae8-460b-9007-d7d711c4c87b",
-                "leftValue": "={{ $json.Telefono }}",
-                "rightValue": "",
-                "operator": {
-                  "type": "string",
-                  "operation": "exists",
-                  "singleValue": true
-                }
-              }
-            ],
-            "combinator": "and"
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.if",
-        "typeVersion": 2.3,
-        "position": [
-          720,
-          288
+          272
         ],
-        "id": "992fffab-69c6-4fd8-a14c-2fb73521ca0a",
-        "name": "If"
-      },
-      {
-        "parameters": {
-          "assignments": {
-            "assignments": [
-              {
-                "id": "1f4f8a3a-d090-4eb0-9b58-6eb80eeda2b3",
-                "name": "Mensaje",
-                "value": "No hay ninguna cita confirmada con ese número de telefono.",
-                "type": "string"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.set",
-        "typeVersion": 3.4,
-        "position": [
-          944,
-          384
-        ],
-        "id": "7506a4f4-67be-499b-8d91-0719c061fe63",
-        "name": "Respuesta_No_Hay"
-      },
-      {
-        "parameters": {
-          "assignments": {
-            "assignments": [
-              {
-                "id": "370f9f20-1df1-431b-b863-52c195baaf7c",
-                "name": "Mensaje",
-                "value": "=Tiene cita confirmada para {{ $json.Servicio }} a las {{ $json.Hora }} el día {{ $json.Fecha }}\n\nID de la cita:{{ $json['ID Cita'] }}",
-                "type": "string"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.set",
-        "typeVersion": 3.4,
-        "position": [
-          944,
-          192
-        ],
-        "id": "1c9ae7d0-f7a9-4c82-9787-5302e34fc234",
-        "name": "Respuesta_Si_Hay"
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1
       },
       {
         "parameters": {
           "documentId": {
             "__rl": true,
-            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
-            "mode": "list",
             "cachedResultName": "Agente de voz Zenit Clinic V2",
-            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk",
+            "mode": "list",
+            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao"
           },
           "sheetName": {
             "__rl": true,
-            "value": 21844311,
-            "mode": "list",
             "cachedResultName": "Citas",
-            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311",
+            "mode": "list",
+            "value": 21844311
           },
           "filtersUI": {
             "values": [
@@ -135,31 +55,140 @@
           },
           "options": {}
         },
-        "type": "n8n-nodes-base.googleSheets",
-        "typeVersion": 4.7,
-        "position": [
-          496,
-          288
-        ],
+        "alwaysOutputData": true,
         "id": "b5612d32-1afd-4889-8cc0-5c94c4360b0f",
         "name": "Buscar Cita",
-        "alwaysOutputData": true,
+        "position": [
+          496,
+          272
+        ],
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
         "credentials": {
           "googleSheetsOAuth2Api": {
             "id": "7QvCi5UUFUsiQIlm",
             "name": "Google Sheets account"
           }
         }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "combinator": "and",
+            "conditions": [
+              {
+                "id": "ceeafeac-6ae8-460b-9007-d7d711c4c87b",
+                "leftValue": "={{ $json.Telefono }}",
+                "operator": {
+                  "operation": "notEquals",
+                  "type": "string"
+                },
+                "rightValue": ""
+              }
+            ],
+            "options": {
+              "version": 2,
+              "leftValue": "",
+              "caseSensitive": false,
+              "typeValidation": "loose"
+            }
+          },
+          "options": {}
+        },
+        "id": "992fffab-69c6-4fd8-a14c-2fb73521ca0a",
+        "name": "If",
+        "position": [
+          720,
+          272
+        ],
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "msg-field",
+                "name": "Mensaje",
+                "type": "string",
+                "value": "={{ `Tiene cita confirmada para ${$json.Servicio} a las ${$json['Hora Inicio']} el día ${$json.Fecha}. Categoría: ${$json.Categoria}. ID de la cita: ${$json['ID Cita']}` }}"
+              },
+              {
+                "id": "eventid-field",
+                "name": "eventID",
+                "type": "string",
+                "value": "={{ $json['ID Cita'] }}"
+              },
+              {
+                "id": "categoria-field",
+                "name": "categoria",
+                "type": "string",
+                "value": "={{ $json.Categoria }}"
+              },
+              {
+                "id": "servicio-field",
+                "name": "servicio",
+                "type": "string",
+                "value": "={{ $json.Servicio }}"
+              },
+              {
+                "id": "fecha-field",
+                "name": "fecha",
+                "type": "string",
+                "value": "={{ $json.Fecha }}"
+              },
+              {
+                "id": "hora-field",
+                "name": "hora",
+                "type": "string",
+                "value": "={{ $json['Hora Inicio'] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "1c9ae7d0-f7a9-4c82-9787-5302e34fc234",
+        "name": "Respuesta_Si_Hay",
+        "position": [
+          944,
+          176
+        ],
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "1f4f8a3a-d090-4eb0-9b58-6eb80eeda2b3",
+                "name": "Mensaje",
+                "type": "string",
+                "value": "No hay ninguna cita confirmada con ese número de teléfono."
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "7506a4f4-67be-499b-8d91-0719c061fe63",
+        "name": "Respuesta_No_Hay",
+        "position": [
+          944,
+          368
+        ],
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4
       }
     ],
     "connections": {
-      "When Executed by Another Workflow": {
+      "Buscar Cita": {
         "main": [
           [
             {
-              "node": "Buscar Cita",
-              "type": "main",
-              "index": 0
+              "index": 0,
+              "node": "If",
+              "type": "main"
             }
           ]
         ]
@@ -168,46 +197,46 @@
         "main": [
           [
             {
+              "index": 0,
               "node": "Respuesta_Si_Hay",
-              "type": "main",
-              "index": 0
+              "type": "main"
             }
           ],
           [
             {
+              "index": 0,
               "node": "Respuesta_No_Hay",
-              "type": "main",
-              "index": 0
+              "type": "main"
             }
           ]
         ]
       },
-      "Buscar Cita": {
+      "When Executed by Another Workflow": {
         "main": [
           [
             {
-              "node": "If",
-              "type": "main",
-              "index": 0
+              "index": 0,
+              "node": "Buscar Cita",
+              "type": "main"
             }
           ]
         ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 050501c2",
+    "name": "Version ce1ef62d",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "050501c2-3a53-470f-90a6-701547f32338",
+  "activeVersionId": "ce1ef62d-a583-4414-ba7b-40fc828abcf6",
   "connections": {
-    "When Executed by Another Workflow": {
+    "Buscar Cita": {
       "main": [
         [
           {
-            "node": "Buscar Cita",
-            "type": "main",
-            "index": 0
+            "index": 0,
+            "node": "If",
+            "type": "main"
           }
         ]
       ]
@@ -216,27 +245,27 @@
       "main": [
         [
           {
+            "index": 0,
             "node": "Respuesta_Si_Hay",
-            "type": "main",
-            "index": 0
+            "type": "main"
           }
         ],
         [
           {
+            "index": 0,
             "node": "Respuesta_No_Hay",
-            "type": "main",
-            "index": 0
+            "type": "main"
           }
         ]
       ]
     },
-    "Buscar Cita": {
+    "When Executed by Another Workflow": {
       "main": [
         [
           {
-            "node": "If",
-            "type": "main",
-            "index": 0
+            "index": 0,
+            "node": "Buscar Cita",
+            "type": "main"
           }
         ]
       ]
@@ -261,109 +290,29 @@
         }
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
-      "typeVersion": 1.1,
       "name": "When Executed by Another Workflow",
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
         272,
-        288
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "ceeafeac-6ae8-460b-9007-d7d711c4c87b",
-              "leftValue": "={{ $json.Telefono }}",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "exists",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        720,
-        288
+        272
       ],
-      "id": "992fffab-69c6-4fd8-a14c-2fb73521ca0a",
-      "name": "If"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "1f4f8a3a-d090-4eb0-9b58-6eb80eeda2b3",
-              "name": "Mensaje",
-              "value": "No hay ninguna cita confirmada con ese número de telefono.",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        944,
-        384
-      ],
-      "id": "7506a4f4-67be-499b-8d91-0719c061fe63",
-      "name": "Respuesta_No_Hay"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "370f9f20-1df1-431b-b863-52c195baaf7c",
-              "name": "Mensaje",
-              "value": "=Tiene cita confirmada para {{ $json.Servicio }} a las {{ $json.Hora }} el día {{ $json.Fecha }}\n\nID de la cita:{{ $json['ID Cita'] }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        944,
-        192
-      ],
-      "id": "1c9ae7d0-f7a9-4c82-9787-5302e34fc234",
-      "name": "Respuesta_Si_Hay"
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1
     },
     {
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
-          "mode": "list",
           "cachedResultName": "Agente de voz Zenit Clinic V2",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk",
+          "mode": "list",
+          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao"
         },
         "sheetName": {
           "__rl": true,
-          "value": 21844311,
-          "mode": "list",
           "cachedResultName": "Citas",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311",
+          "mode": "list",
+          "value": 21844311
         },
         "filtersUI": {
           "values": [
@@ -379,21 +328,130 @@
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        496,
-        288
-      ],
+      "alwaysOutputData": true,
       "id": "b5612d32-1afd-4889-8cc0-5c94c4360b0f",
       "name": "Buscar Cita",
-      "alwaysOutputData": true,
+      "position": [
+        496,
+        272
+      ],
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "7QvCi5UUFUsiQIlm",
           "name": "Google Sheets account"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "ceeafeac-6ae8-460b-9007-d7d711c4c87b",
+              "leftValue": "={{ $json.Telefono }}",
+              "operator": {
+                "operation": "notEquals",
+                "type": "string"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": false,
+            "typeValidation": "loose"
+          }
+        },
+        "options": {}
+      },
+      "id": "992fffab-69c6-4fd8-a14c-2fb73521ca0a",
+      "name": "If",
+      "position": [
+        720,
+        272
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "msg-field",
+              "name": "Mensaje",
+              "type": "string",
+              "value": "={{ `Tiene cita confirmada para ${$json.Servicio} a las ${$json['Hora Inicio']} el día ${$json.Fecha}. Categoría: ${$json.Categoria}. ID de la cita: ${$json['ID Cita']}` }}"
+            },
+            {
+              "id": "eventid-field",
+              "name": "eventID",
+              "type": "string",
+              "value": "={{ $json['ID Cita'] }}"
+            },
+            {
+              "id": "categoria-field",
+              "name": "categoria",
+              "type": "string",
+              "value": "={{ $json.Categoria }}"
+            },
+            {
+              "id": "servicio-field",
+              "name": "servicio",
+              "type": "string",
+              "value": "={{ $json.Servicio }}"
+            },
+            {
+              "id": "fecha-field",
+              "name": "fecha",
+              "type": "string",
+              "value": "={{ $json.Fecha }}"
+            },
+            {
+              "id": "hora-field",
+              "name": "hora",
+              "type": "string",
+              "value": "={{ $json['Hora Inicio'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1c9ae7d0-f7a9-4c82-9787-5302e34fc234",
+      "name": "Respuesta_Si_Hay",
+      "position": [
+        944,
+        176
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1f4f8a3a-d090-4eb0-9b58-6eb80eeda2b3",
+              "name": "Mensaje",
+              "type": "string",
+              "value": "No hay ninguna cita confirmada con ese número de teléfono."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7506a4f4-67be-499b-8d91-0719c061fe63",
+      "name": "Respuesta_No_Hay",
+      "position": [
+        944,
+        368
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
     }
   ],
   "pinData": {},
@@ -418,6 +476,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-02-24T19:40:07.689Z",
-  "versionId": "050501c2-3a53-470f-90a6-701547f32338"
+  "updatedAt": "2026-03-24T12:06:51.726Z",
+  "versionId": "ce1ef62d-a583-4414-ba7b-40fc828abcf6"
 }
