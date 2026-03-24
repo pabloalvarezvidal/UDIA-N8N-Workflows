@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-21T12:44:32.000Z",
-    "createdAt": "2026-03-21T12:44:27.147Z",
-    "versionId": "804b3c3d-0332-415e-9e9d-a42039f96af6",
+    "updatedAt": "2026-03-24T11:27:33.000Z",
+    "createdAt": "2026-03-24T11:27:30.744Z",
+    "versionId": "bcc17d66-c3b9-446f-bf4a-83441d6cc270",
     "workflowId": "U3T3hBNLvK1rayDt",
     "nodes": [
       {
@@ -64,7 +64,7 @@
               "Nombre Completo": "={{ $('When Executed by Another Workflow').item.json.nombre_completo }}",
               "Profesional": "={{ $('When Executed by Another Workflow').item.json.profesional }}",
               "Servicio": "={{ $('When Executed by Another Workflow').item.json.servicio }}",
-              "Telefono": "='{{ $('When Executed by Another Workflow').item.json.telefono }}",
+              "Telefono": "={{ $('When Executed by Another Workflow').item.json.telefono }}",
               "Categoria": "={{ $('When Executed by Another Workflow').item.json.categoria }}"
             },
             "matchingColumns": [],
@@ -395,6 +395,29 @@
         ],
         "id": "ac2555b3-6a67-488b-9a8c-34407fe939f7",
         "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "b5137e8c-187c-46be-9f38-a27f772c9cf1",
+                "name": "Mensaje",
+                "value": "Perfecto, la cita ha sido confirmada.",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1408,
+          784
+        ],
+        "id": "98258d03-56c0-436a-87f0-86b326a56a77",
+        "name": "Respuesta1"
       }
     ],
     "connections": {
@@ -451,6 +474,13 @@
               "node": "Bloquear Dra. Rosa",
               "type": "main"
             }
+          ],
+          [
+            {
+              "node": "Respuesta1",
+              "type": "main",
+              "index": 0
+            }
           ]
         ]
       },
@@ -478,11 +508,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 804b3c3d",
+    "name": "Version bcc17d66",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "804b3c3d-0332-415e-9e9d-a42039f96af6",
+  "activeVersionId": "bcc17d66-c3b9-446f-bf4a-83441d6cc270",
   "connections": {
     "Cita Confirmada": {
       "main": [
@@ -536,6 +566,13 @@
             "index": 0,
             "node": "Bloquear Dra. Rosa",
             "type": "main"
+          }
+        ],
+        [
+          {
+            "node": "Respuesta1",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -629,7 +666,7 @@
             "Nombre Completo": "={{ $('When Executed by Another Workflow').item.json.nombre_completo }}",
             "Profesional": "={{ $('When Executed by Another Workflow').item.json.profesional }}",
             "Servicio": "={{ $('When Executed by Another Workflow').item.json.servicio }}",
-            "Telefono": "='{{ $('When Executed by Another Workflow').item.json.telefono }}",
+            "Telefono": "={{ $('When Executed by Another Workflow').item.json.telefono }}",
             "Categoria": "={{ $('When Executed by Another Workflow').item.json.categoria }}"
           },
           "matchingColumns": [],
@@ -960,6 +997,29 @@
       ],
       "id": "ac2555b3-6a67-488b-9a8c-34407fe939f7",
       "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5137e8c-187c-46be-9f38-a27f772c9cf1",
+              "name": "Mensaje",
+              "value": "Perfecto, la cita ha sido confirmada.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1408,
+        784
+      ],
+      "id": "98258d03-56c0-436a-87f0-86b326a56a77",
+      "name": "Respuesta1"
     }
   ],
   "pinData": {},
@@ -984,6 +1044,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-21T12:49:22.798Z",
-  "versionId": "804b3c3d-0332-415e-9e9d-a42039f96af6"
+  "updatedAt": "2026-03-24T11:27:30.742Z",
+  "versionId": "bcc17d66-c3b9-446f-bf4a-83441d6cc270"
 }
