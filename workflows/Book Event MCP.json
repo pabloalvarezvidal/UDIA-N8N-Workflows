@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-24T11:27:33.000Z",
-    "createdAt": "2026-03-24T11:27:30.744Z",
-    "versionId": "bcc17d66-c3b9-446f-bf4a-83441d6cc270",
+    "updatedAt": "2026-03-26T16:47:34.000Z",
+    "createdAt": "2026-03-26T16:47:32.809Z",
+    "versionId": "47ba3d94-2b47-4a1b-a161-d05c36190b57",
     "workflowId": "U3T3hBNLvK1rayDt",
     "nodes": [
       {
@@ -25,7 +25,7 @@
         "name": "Crear Cita",
         "position": [
           256,
-          464
+          344
         ],
         "type": "n8n-nodes-base.googleCalendar",
         "typeVersion": 1,
@@ -173,7 +173,7 @@
         "name": "Cita Confirmada",
         "position": [
           480,
-          464
+          344
         ],
         "type": "n8n-nodes-base.googleSheets",
         "typeVersion": 4,
@@ -183,19 +183,6 @@
             "name": "Google Sheets account"
           }
         }
-      },
-      {
-        "parameters": {
-          "options": {}
-        },
-        "id": "057084b0-f4ed-43f0-838f-4d1633653f46",
-        "name": "Respuesta",
-        "position": [
-          704,
-          464
-        ],
-        "type": "n8n-nodes-base.set",
-        "typeVersion": 3
       },
       {
         "parameters": {
@@ -224,50 +211,8 @@
         "id": "if-bloqueos",
         "name": "IF Dra Rosa Asistida",
         "position": [
-          928,
-          464
-        ],
-        "type": "n8n-nodes-base.if",
-        "typeVersion": 2
-      },
-      {
-        "parameters": {
-          "conditions": {
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 1
-            },
-            "conditions": [
-              {
-                "id": "c2a",
-                "leftValue": "={{ $('When Executed by Another Workflow').item.json.categoria }}",
-                "operator": {
-                  "operation": "equals",
-                  "type": "string"
-                },
-                "rightValue": "plexr"
-              },
-              {
-                "id": "c2b",
-                "leftValue": "={{ $('When Executed by Another Workflow').item.json.servicio.toLowerCase() }}",
-                "operator": {
-                  "operation": "contains",
-                  "type": "string"
-                },
-                "rightValue": "plexr"
-              }
-            ],
-            "combinator": "or"
-          },
-          "options": {}
-        },
-        "id": "if-plexr",
-        "name": "IF Plexr",
-        "position": [
-          1152,
-          656
+          704,
+          344
         ],
         "type": "n8n-nodes-base.if",
         "typeVersion": 2
@@ -282,73 +227,15 @@
           "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
           "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
           "additionalFields": {
-            "description": "=PROFESIONAL: Noa\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-            "summary": "=={{ `PROFESIONAL: Noa\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
+            "description": "PROFESIONAL: {{ $('When Executed by Another Workflow').item.json.asistente_asignada }}\nBLOQUEO: true\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
+            "summary": "=={{ `PROFESIONAL: ${$('When Executed by Another Workflow').item.json.asistente_asignada}\nBLOQUEO: true\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}"
           }
         },
         "id": "block-Noa",
-        "name": "Bloquear Noa",
+        "name": "Bloquear Asistente",
         "position": [
-          1152,
+          928,
           272
-        ],
-        "type": "n8n-nodes-base.googleCalendar",
-        "typeVersion": 1,
-        "credentials": {
-          "googleCalendarOAuth2Api": {
-            "id": "RSjmCgtcmSyhYKoN",
-            "name": "Google Calendar account"
-          }
-        }
-      },
-      {
-        "parameters": {
-          "calendar": {
-            "__rl": true,
-            "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com",
-            "mode": "id"
-          },
-          "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
-          "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
-          "additionalFields": {
-            "description": "=PROFESIONAL: Rosi\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-            "summary": "=={{ `PROFESIONAL: Rosi\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
-          }
-        },
-        "id": "block-Rosi",
-        "name": "Bloquear Rosi",
-        "position": [
-          1152,
-          464
-        ],
-        "type": "n8n-nodes-base.googleCalendar",
-        "typeVersion": 1,
-        "credentials": {
-          "googleCalendarOAuth2Api": {
-            "id": "RSjmCgtcmSyhYKoN",
-            "name": "Google Calendar account"
-          }
-        }
-      },
-      {
-        "parameters": {
-          "calendar": {
-            "__rl": true,
-            "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com",
-            "mode": "id"
-          },
-          "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
-          "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 60 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
-          "additionalFields": {
-            "description": "=PROFESIONAL: Dra. Rosa\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-            "summary": "=={{ `PROFESIONAL: Dra. Rosa\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
-          }
-        },
-        "id": "block-Dra-Rosa",
-        "name": "Bloquear Dra. Rosa",
-        "position": [
-          1376,
-          576
         ],
         "type": "n8n-nodes-base.googleCalendar",
         "typeVersion": 1,
@@ -383,6 +270,9 @@
               },
               {
                 "name": "categoria"
+              },
+              {
+                "name": "asistente_asignada"
               }
             ]
           }
@@ -391,7 +281,7 @@
         "typeVersion": 1.1,
         "position": [
           32,
-          464
+          344
         ],
         "id": "ac2555b3-6a67-488b-9a8c-34407fe939f7",
         "name": "When Executed by Another Workflow"
@@ -413,8 +303,8 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          1408,
-          784
+          1104,
+          480
         ],
         "id": "98258d03-56c0-436a-87f0-86b326a56a77",
         "name": "Respuesta1"
@@ -426,7 +316,7 @@
           [
             {
               "index": 0,
-              "node": "Respuesta",
+              "node": "IF Dra Rosa Asistida",
               "type": "main"
             }
           ]
@@ -448,30 +338,7 @@
           [
             {
               "index": 0,
-              "node": "Bloquear Noa",
-              "type": "main"
-            },
-            {
-              "index": 0,
-              "node": "Bloquear Rosi",
-              "type": "main"
-            }
-          ],
-          [
-            {
-              "index": 0,
-              "node": "IF Plexr",
-              "type": "main"
-            }
-          ]
-        ]
-      },
-      "IF Plexr": {
-        "main": [
-          [
-            {
-              "index": 0,
-              "node": "Bloquear Dra. Rosa",
+              "node": "Bloquear Asistente",
               "type": "main"
             }
           ],
@@ -480,17 +347,6 @@
               "node": "Respuesta1",
               "type": "main",
               "index": 0
-            }
-          ]
-        ]
-      },
-      "Respuesta": {
-        "main": [
-          [
-            {
-              "index": 0,
-              "node": "IF Dra Rosa Asistida",
-              "type": "main"
             }
           ]
         ]
@@ -505,21 +361,32 @@
             }
           ]
         ]
+      },
+      "Bloquear Asistente": {
+        "main": [
+          [
+            {
+              "node": "Respuesta1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version bcc17d66",
+    "name": "Version 47ba3d94",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "bcc17d66-c3b9-446f-bf4a-83441d6cc270",
+  "activeVersionId": "47ba3d94-2b47-4a1b-a161-d05c36190b57",
   "connections": {
     "Cita Confirmada": {
       "main": [
         [
           {
             "index": 0,
-            "node": "Respuesta",
+            "node": "IF Dra Rosa Asistida",
             "type": "main"
           }
         ]
@@ -541,30 +408,7 @@
         [
           {
             "index": 0,
-            "node": "Bloquear Noa",
-            "type": "main"
-          },
-          {
-            "index": 0,
-            "node": "Bloquear Rosi",
-            "type": "main"
-          }
-        ],
-        [
-          {
-            "index": 0,
-            "node": "IF Plexr",
-            "type": "main"
-          }
-        ]
-      ]
-    },
-    "IF Plexr": {
-      "main": [
-        [
-          {
-            "index": 0,
-            "node": "Bloquear Dra. Rosa",
+            "node": "Bloquear Asistente",
             "type": "main"
           }
         ],
@@ -577,22 +421,22 @@
         ]
       ]
     },
-    "Respuesta": {
-      "main": [
-        [
-          {
-            "index": 0,
-            "node": "IF Dra Rosa Asistida",
-            "type": "main"
-          }
-        ]
-      ]
-    },
     "When Executed by Another Workflow": {
       "main": [
         [
           {
             "node": "Crear Cita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bloquear Asistente": {
+      "main": [
+        [
+          {
+            "node": "Respuesta1",
             "type": "main",
             "index": 0
           }
@@ -627,7 +471,7 @@
       "name": "Crear Cita",
       "position": [
         256,
-        464
+        344
       ],
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1,
@@ -775,7 +619,7 @@
       "name": "Cita Confirmada",
       "position": [
         480,
-        464
+        344
       ],
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4,
@@ -785,19 +629,6 @@
           "name": "Google Sheets account"
         }
       }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "057084b0-f4ed-43f0-838f-4d1633653f46",
-      "name": "Respuesta",
-      "position": [
-        704,
-        464
-      ],
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3
     },
     {
       "parameters": {
@@ -826,50 +657,8 @@
       "id": "if-bloqueos",
       "name": "IF Dra Rosa Asistida",
       "position": [
-        928,
-        464
-      ],
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 1
-          },
-          "conditions": [
-            {
-              "id": "c2a",
-              "leftValue": "={{ $('When Executed by Another Workflow').item.json.categoria }}",
-              "operator": {
-                "operation": "equals",
-                "type": "string"
-              },
-              "rightValue": "plexr"
-            },
-            {
-              "id": "c2b",
-              "leftValue": "={{ $('When Executed by Another Workflow').item.json.servicio.toLowerCase() }}",
-              "operator": {
-                "operation": "contains",
-                "type": "string"
-              },
-              "rightValue": "plexr"
-            }
-          ],
-          "combinator": "or"
-        },
-        "options": {}
-      },
-      "id": "if-plexr",
-      "name": "IF Plexr",
-      "position": [
-        1152,
-        656
+        704,
+        344
       ],
       "type": "n8n-nodes-base.if",
       "typeVersion": 2
@@ -884,73 +673,15 @@
         "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
         "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
         "additionalFields": {
-          "description": "=PROFESIONAL: Noa\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-          "summary": "=={{ `PROFESIONAL: Noa\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
+          "description": "PROFESIONAL: {{ $('When Executed by Another Workflow').item.json.asistente_asignada }}\nBLOQUEO: true\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
+          "summary": "=={{ `PROFESIONAL: ${$('When Executed by Another Workflow').item.json.asistente_asignada}\nBLOQUEO: true\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}"
         }
       },
       "id": "block-Noa",
-      "name": "Bloquear Noa",
+      "name": "Bloquear Asistente",
       "position": [
-        1152,
+        928,
         272
-      ],
-      "type": "n8n-nodes-base.googleCalendar",
-      "typeVersion": 1,
-      "credentials": {
-        "googleCalendarOAuth2Api": {
-          "id": "RSjmCgtcmSyhYKoN",
-          "name": "Google Calendar account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "calendar": {
-          "__rl": true,
-          "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com",
-          "mode": "id"
-        },
-        "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
-        "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
-        "additionalFields": {
-          "description": "=PROFESIONAL: Rosi\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-          "summary": "=={{ `PROFESIONAL: Rosi\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
-        }
-      },
-      "id": "block-Rosi",
-      "name": "Bloquear Rosi",
-      "position": [
-        1152,
-        464
-      ],
-      "type": "n8n-nodes-base.googleCalendar",
-      "typeVersion": 1,
-      "credentials": {
-        "googleCalendarOAuth2Api": {
-          "id": "RSjmCgtcmSyhYKoN",
-          "name": "Google Calendar account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "calendar": {
-          "__rl": true,
-          "value": "125b6292f6b07bb411ec77dedafeddb8f4977ec7f5bb9fbea357784179aa83a0@group.calendar.google.com",
-          "mode": "id"
-        },
-        "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
-        "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 60 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
-        "additionalFields": {
-          "description": "=PROFESIONAL: Dra. Rosa\\nBLOQUEO: true\\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-          "summary": "=={{ `PROFESIONAL: Dra. Rosa\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}\n"
-        }
-      },
-      "id": "block-Dra-Rosa",
-      "name": "Bloquear Dra. Rosa",
-      "position": [
-        1376,
-        576
       ],
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1,
@@ -985,6 +716,9 @@
             },
             {
               "name": "categoria"
+            },
+            {
+              "name": "asistente_asignada"
             }
           ]
         }
@@ -993,7 +727,7 @@
       "typeVersion": 1.1,
       "position": [
         32,
-        464
+        344
       ],
       "id": "ac2555b3-6a67-488b-9a8c-34407fe939f7",
       "name": "When Executed by Another Workflow"
@@ -1015,8 +749,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1408,
-        784
+        1104,
+        480
       ],
       "id": "98258d03-56c0-436a-87f0-86b326a56a77",
       "name": "Respuesta1"
@@ -1044,6 +778,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-24T11:27:30.742Z",
-  "versionId": "bcc17d66-c3b9-446f-bf4a-83441d6cc270"
+  "updatedAt": "2026-03-26T16:47:32.807Z",
+  "versionId": "47ba3d94-2b47-4a1b-a161-d05c36190b57"
 }
