@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-24T12:06:54.000Z",
-    "createdAt": "2026-03-24T12:05:11.080Z",
-    "versionId": "ce1ef62d-a583-4414-ba7b-40fc828abcf6",
+    "updatedAt": "2026-03-26T17:24:02.000Z",
+    "createdAt": "2026-03-26T17:23:49.799Z",
+    "versionId": "c89d75ee-b994-4770-9a9a-6f477a3dab6e",
     "workflowId": "QkCgvroGiqPI8pLC",
     "nodes": [
       {
@@ -19,7 +19,7 @@
         "id": "c055762a-8fe7-4141-a639-df2372f30060",
         "name": "When Executed by Another Workflow",
         "position": [
-          272,
+          112,
           272
         ],
         "type": "n8n-nodes-base.executeWorkflowTrigger",
@@ -29,10 +29,10 @@
         "parameters": {
           "documentId": {
             "__rl": true,
-            "cachedResultName": "Agente de voz Zenit Clinic V2",
-            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk",
+            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
             "mode": "list",
-            "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao"
+            "cachedResultName": "Clínica Estética Agente de Voz",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
           },
           "sheetName": {
             "__rl": true,
@@ -59,7 +59,7 @@
         "id": "b5612d32-1afd-4889-8cc0-5c94c4360b0f",
         "name": "Buscar Cita",
         "position": [
-          496,
+          336,
           272
         ],
         "type": "n8n-nodes-base.googleSheets",
@@ -74,31 +74,32 @@
       {
         "parameters": {
           "conditions": {
-            "combinator": "and",
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
             "conditions": [
               {
                 "id": "ceeafeac-6ae8-460b-9007-d7d711c4c87b",
-                "leftValue": "={{ $json.Telefono }}",
+                "leftValue": "={{ $('Buscar Cita').item.json.Telefono }}",
                 "operator": {
-                  "operation": "notEquals",
-                  "type": "string"
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
                 },
                 "rightValue": ""
               }
             ],
-            "options": {
-              "version": 2,
-              "leftValue": "",
-              "caseSensitive": false,
-              "typeValidation": "loose"
-            }
+            "combinator": "and"
           },
           "options": {}
         },
         "id": "992fffab-69c6-4fd8-a14c-2fb73521ca0a",
         "name": "If",
         "position": [
-          720,
+          832,
           272
         ],
         "type": "n8n-nodes-base.if",
@@ -112,7 +113,7 @@
                 "id": "msg-field",
                 "name": "Mensaje",
                 "type": "string",
-                "value": "={{ `Tiene cita confirmada para ${$json.Servicio} a las ${$json['Hora Inicio']} el día ${$json.Fecha}. Categoría: ${$json.Categoria}. ID de la cita: ${$json['ID Cita']}` }}"
+                "value": "={{ `Tiene cita confirmada para ${$json.Servicio} a las ${$json['Hora Inicio'].substring(0,5)} el dia ${$json.Fecha}. ID de la cita: ${$json['ID Cita']}` }}"
               },
               {
                 "id": "eventid-field",
@@ -142,7 +143,7 @@
                 "id": "hora-field",
                 "name": "hora",
                 "type": "string",
-                "value": "={{ $json['Hora Inicio'] }}"
+                "value": "={{ $json['Hora Inicio'].substring(0,5) }}"
               }
             ]
           },
@@ -151,7 +152,7 @@
         "id": "1c9ae7d0-f7a9-4c82-9787-5302e34fc234",
         "name": "Respuesta_Si_Hay",
         "position": [
-          944,
+          1056,
           176
         ],
         "type": "n8n-nodes-base.set",
@@ -174,11 +175,24 @@
         "id": "7506a4f4-67be-499b-8d91-0719c061fe63",
         "name": "Respuesta_No_Hay",
         "position": [
-          944,
+          1056,
           368
         ],
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4
+      },
+      {
+        "parameters": {
+          "jsCode": "const items = $input.all();\nconst now = DateTime.now().setZone('Europe/Madrid');\n\nconst futuras = items.filter(item => {\n  const fecha = item.json.Fecha;\n  const hora = item.json['Hora Inicio'];\n\n  if (!fecha || !hora) return false;\n\n  const dt = DateTime.fromFormat(`${fecha} ${hora}`, 'yyyy-MM-dd HH:mm:ss', { zone: 'Europe/Madrid' });\n  return dt.isValid && dt >= now;\n});\n\nif (futuras.length === 0) {\n  return [{ json: {} }];\n}\n\nreturn futuras;"
+        },
+        "id": "filter-futuras-code",
+        "name": "Filtrar Citas Futuras",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          608,
+          272
+        ]
       }
     ],
     "connections": {
@@ -187,7 +201,7 @@
           [
             {
               "index": 0,
-              "node": "If",
+              "node": "Filtrar Citas Futuras",
               "type": "main"
             }
           ]
@@ -221,21 +235,32 @@
             }
           ]
         ]
+      },
+      "Filtrar Citas Futuras": {
+        "main": [
+          [
+            {
+              "index": 0,
+              "node": "If",
+              "type": "main"
+            }
+          ]
+        ]
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version ce1ef62d",
+    "name": "Version c89d75ee",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "ce1ef62d-a583-4414-ba7b-40fc828abcf6",
+  "activeVersionId": "c89d75ee-b994-4770-9a9a-6f477a3dab6e",
   "connections": {
     "Buscar Cita": {
       "main": [
         [
           {
             "index": 0,
-            "node": "If",
+            "node": "Filtrar Citas Futuras",
             "type": "main"
           }
         ]
@@ -269,6 +294,17 @@
           }
         ]
       ]
+    },
+    "Filtrar Citas Futuras": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "If",
+            "type": "main"
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2026-01-21T09:46:03.551Z",
@@ -292,7 +328,7 @@
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "name": "When Executed by Another Workflow",
       "position": [
-        272,
+        112,
         272
       ],
       "type": "n8n-nodes-base.executeWorkflowTrigger",
@@ -302,10 +338,10 @@
       "parameters": {
         "documentId": {
           "__rl": true,
-          "cachedResultName": "Agente de voz Zenit Clinic V2",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk",
+          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
           "mode": "list",
-          "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao"
+          "cachedResultName": "Clínica Estética Agente de Voz",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
@@ -332,7 +368,7 @@
       "id": "b5612d32-1afd-4889-8cc0-5c94c4360b0f",
       "name": "Buscar Cita",
       "position": [
-        496,
+        336,
         272
       ],
       "type": "n8n-nodes-base.googleSheets",
@@ -347,31 +383,32 @@
     {
       "parameters": {
         "conditions": {
-          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
           "conditions": [
             {
               "id": "ceeafeac-6ae8-460b-9007-d7d711c4c87b",
-              "leftValue": "={{ $json.Telefono }}",
+              "leftValue": "={{ $('Buscar Cita').item.json.Telefono }}",
               "operator": {
-                "operation": "notEquals",
-                "type": "string"
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
               },
               "rightValue": ""
             }
           ],
-          "options": {
-            "version": 2,
-            "leftValue": "",
-            "caseSensitive": false,
-            "typeValidation": "loose"
-          }
+          "combinator": "and"
         },
         "options": {}
       },
       "id": "992fffab-69c6-4fd8-a14c-2fb73521ca0a",
       "name": "If",
       "position": [
-        720,
+        832,
         272
       ],
       "type": "n8n-nodes-base.if",
@@ -385,7 +422,7 @@
               "id": "msg-field",
               "name": "Mensaje",
               "type": "string",
-              "value": "={{ `Tiene cita confirmada para ${$json.Servicio} a las ${$json['Hora Inicio']} el día ${$json.Fecha}. Categoría: ${$json.Categoria}. ID de la cita: ${$json['ID Cita']}` }}"
+              "value": "={{ `Tiene cita confirmada para ${$json.Servicio} a las ${$json['Hora Inicio'].substring(0,5)} el dia ${$json.Fecha}. ID de la cita: ${$json['ID Cita']}` }}"
             },
             {
               "id": "eventid-field",
@@ -415,7 +452,7 @@
               "id": "hora-field",
               "name": "hora",
               "type": "string",
-              "value": "={{ $json['Hora Inicio'] }}"
+              "value": "={{ $json['Hora Inicio'].substring(0,5) }}"
             }
           ]
         },
@@ -424,7 +461,7 @@
       "id": "1c9ae7d0-f7a9-4c82-9787-5302e34fc234",
       "name": "Respuesta_Si_Hay",
       "position": [
-        944,
+        1056,
         176
       ],
       "type": "n8n-nodes-base.set",
@@ -447,11 +484,24 @@
       "id": "7506a4f4-67be-499b-8d91-0719c061fe63",
       "name": "Respuesta_No_Hay",
       "position": [
-        944,
+        1056,
         368
       ],
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst now = DateTime.now().setZone('Europe/Madrid');\n\nconst futuras = items.filter(item => {\n  const fecha = item.json.Fecha;\n  const hora = item.json['Hora Inicio'];\n\n  if (!fecha || !hora) return false;\n\n  const dt = DateTime.fromFormat(`${fecha} ${hora}`, 'yyyy-MM-dd HH:mm:ss', { zone: 'Europe/Madrid' });\n  return dt.isValid && dt >= now;\n});\n\nif (futuras.length === 0) {\n  return [{ json: {} }];\n}\n\nreturn futuras;"
+      },
+      "id": "filter-futuras-code",
+      "name": "Filtrar Citas Futuras",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        272
+      ]
     }
   ],
   "pinData": {},
@@ -476,6 +526,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-24T12:06:51.726Z",
-  "versionId": "ce1ef62d-a583-4414-ba7b-40fc828abcf6"
+  "updatedAt": "2026-03-26T17:24:11.194Z",
+  "versionId": "c89d75ee-b994-4770-9a9a-6f477a3dab6e"
 }
