@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-21T17:31:40.000Z",
-    "createdAt": "2026-03-21T17:31:01.427Z",
-    "versionId": "a27ed03e-49c2-4433-a762-6a0b3e0dfa9a",
+    "updatedAt": "2026-03-28T08:59:05.000Z",
+    "createdAt": "2026-03-23T17:57:35.833Z",
+    "versionId": "09ffe9ce-5e3e-4ebc-840b-672d0632749f",
     "workflowId": "52ZuJSGWDP9d8Qw3",
     "nodes": [
       {
@@ -210,7 +210,7 @@
         "type": "n8n-nodes-base.emailSendTool",
         "typeVersion": 2.1,
         "position": [
-          1056,
+          1104,
           240
         ],
         "id": "f7a813e5-59d4-416d-9c70-4b612829d81e",
@@ -315,11 +315,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version a27ed03e",
+    "name": "Version 09ffe9ce",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "a27ed03e-49c2-4433-a762-6a0b3e0dfa9a",
+  "activeVersionId": "09ffe9ce-5e3e-4ebc-840b-672d0632749f",
   "connections": {
     "Chat Trigger - Entrada Web": {
       "main": [
@@ -636,20 +636,7 @@
       }
     }
   ],
-  "pinData": {
-    "Chat Trigger - Entrada Web": [
-      {
-        "json": {
-          "action": "sendMessage",
-          "sessionId": "session-04ab66b5-e6da-400f-a66a-9238bcbc049f",
-          "chatInput": "para el lunes a las 12 de la mañana y mi correo es alvarezvidalpablo@gmail.com"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "settings": {
     "executionOrder": "v1",
     "timeSavedMode": "fixed",
@@ -670,6 +657,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-03-23T17:57:35.829Z",
+  "updatedAt": "2026-03-28T08:59:02.058Z",
   "versionId": "09ffe9ce-5e3e-4ebc-840b-672d0632749f"
 }
