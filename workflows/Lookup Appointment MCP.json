@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-26T17:24:02.000Z",
-    "createdAt": "2026-03-26T17:23:49.799Z",
-    "versionId": "c89d75ee-b994-4770-9a9a-6f477a3dab6e",
+    "updatedAt": "2026-03-30T08:37:28.000Z",
+    "createdAt": "2026-03-30T08:37:05.241Z",
+    "versionId": "714c6b58-815f-44c5-b94d-39750493e00a",
     "workflowId": "QkCgvroGiqPI8pLC",
     "nodes": [
       {
@@ -46,10 +46,6 @@
               {
                 "lookupColumn": "Telefono",
                 "lookupValue": "={{ $json.telefono }}"
-              },
-              {
-                "lookupColumn": "Estado",
-                "lookupValue": "Confirmada"
               }
             ]
           },
@@ -183,7 +179,7 @@
       },
       {
         "parameters": {
-          "jsCode": "const items = $input.all();\nconst now = DateTime.now().setZone('Europe/Madrid');\n\nconst futuras = items.filter(item => {\n  const fecha = item.json.Fecha;\n  const hora = item.json['Hora Inicio'];\n\n  if (!fecha || !hora) return false;\n\n  const dt = DateTime.fromFormat(`${fecha} ${hora}`, 'yyyy-MM-dd HH:mm:ss', { zone: 'Europe/Madrid' });\n  return dt.isValid && dt >= now;\n});\n\nif (futuras.length === 0) {\n  return [{ json: {} }];\n}\n\nreturn futuras;"
+          "jsCode": "const items = $input.all();\nconst now = DateTime.now().setZone('Europe/Madrid');\n\nconst futurasYValidas = items.filter(item => {\n  const fecha = item.json.Fecha;\n  const hora = item.json['Hora Inicio'];\n  const estado = item.json.Estado; // Asegúrate de que el nombre coincida exactamente con tu JSON\n\n  // Si falta la fecha, la hora, o no tiene estado, lo descartamos directamente\n  if (!fecha || !hora || !estado) return false;\n\n  // Comprobamos que el estado sea únicamente \"Confirmada\" o \"Modificada\"\n  const esEstadoValido = estado === 'Confirmada' || estado === 'Modificada';\n\n  // Parseamos la fecha y hora\n  const dt = DateTime.fromFormat(`${fecha} ${hora}`, 'yyyy-MM-dd HH:mm:ss', { zone: 'Europe/Madrid' });\n  \n  // Retorna true SOLO si la fecha es válida, es futura, Y el estado es correcto\n  return dt.isValid && dt >= now && esEstadoValido;\n});\n\n// Si no hay ninguna que cumpla todas las condiciones, devolvemos un JSON vacío\nif (futurasYValidas.length === 0) {\n  return [{ json: {} }];\n}\n\nreturn futurasYValidas;"
         },
         "id": "filter-futuras-code",
         "name": "Filtrar Citas Futuras",
@@ -249,11 +245,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version c89d75ee",
+    "name": "Version 714c6b58",
     "description": "",
-    "autosaved": true
+    "autosaved": false
   },
-  "activeVersionId": "c89d75ee-b994-4770-9a9a-6f477a3dab6e",
+  "activeVersionId": "714c6b58-815f-44c5-b94d-39750493e00a",
   "connections": {
     "Buscar Cita": {
       "main": [
@@ -355,10 +351,6 @@
             {
               "lookupColumn": "Telefono",
               "lookupValue": "={{ $json.telefono }}"
-            },
-            {
-              "lookupColumn": "Estado",
-              "lookupValue": "Confirmada"
             }
           ]
         },
@@ -492,7 +484,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\nconst now = DateTime.now().setZone('Europe/Madrid');\n\nconst futuras = items.filter(item => {\n  const fecha = item.json.Fecha;\n  const hora = item.json['Hora Inicio'];\n\n  if (!fecha || !hora) return false;\n\n  const dt = DateTime.fromFormat(`${fecha} ${hora}`, 'yyyy-MM-dd HH:mm:ss', { zone: 'Europe/Madrid' });\n  return dt.isValid && dt >= now;\n});\n\nif (futuras.length === 0) {\n  return [{ json: {} }];\n}\n\nreturn futuras;"
+        "jsCode": "const items = $input.all();\nconst now = DateTime.now().setZone('Europe/Madrid');\n\nconst futurasYValidas = items.filter(item => {\n  const fecha = item.json.Fecha;\n  const hora = item.json['Hora Inicio'];\n  const estado = item.json.Estado; // Asegúrate de que el nombre coincida exactamente con tu JSON\n\n  // Si falta la fecha, la hora, o no tiene estado, lo descartamos directamente\n  if (!fecha || !hora || !estado) return false;\n\n  // Comprobamos que el estado sea únicamente \"Confirmada\" o \"Modificada\"\n  const esEstadoValido = estado === 'Confirmada' || estado === 'Modificada';\n\n  // Parseamos la fecha y hora\n  const dt = DateTime.fromFormat(`${fecha} ${hora}`, 'yyyy-MM-dd HH:mm:ss', { zone: 'Europe/Madrid' });\n  \n  // Retorna true SOLO si la fecha es válida, es futura, Y el estado es correcto\n  return dt.isValid && dt >= now && esEstadoValido;\n});\n\n// Si no hay ninguna que cumpla todas las condiciones, devolvemos un JSON vacío\nif (futurasYValidas.length === 0) {\n  return [{ json: {} }];\n}\n\nreturn futurasYValidas;"
       },
       "id": "filter-futuras-code",
       "name": "Filtrar Citas Futuras",
@@ -526,6 +518,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-26T17:24:11.194Z",
-  "versionId": "c89d75ee-b994-4770-9a9a-6f477a3dab6e"
+  "updatedAt": "2026-03-30T08:37:24.689Z",
+  "versionId": "714c6b58-815f-44c5-b94d-39750493e00a"
 }
