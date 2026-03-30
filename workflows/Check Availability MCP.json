@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-27T11:25:22.019Z",
-    "createdAt": "2026-03-27T11:25:22.019Z",
-    "versionId": "7dd7dcd7-977d-4f2a-9f87-b209c1a23934",
+    "updatedAt": "2026-03-30T09:18:41.699Z",
+    "createdAt": "2026-03-30T09:18:41.699Z",
+    "versionId": "6f6afb2a-00c7-4c49-80fe-25ea11f9f849",
     "workflowId": "2e9xvr2d0ANtxVMD",
     "nodes": [
       {
@@ -28,7 +28,7 @@
         "type": "n8n-nodes-base.executeWorkflowTrigger",
         "position": [
           272,
-          320
+          -160
         ]
       },
       {
@@ -39,7 +39,7 @@
         "typeVersion": 2,
         "position": [
           496,
-          320
+          -160
         ],
         "id": "17833584-a1a9-4ff9-9279-df349ed4381d",
         "name": "Clasificar y Validar"
@@ -72,7 +72,7 @@
         "typeVersion": 2.2,
         "position": [
           720,
-          320
+          -160
         ],
         "id": "98462fda-8dd5-4bea-bb7d-d8547a84cfeb",
         "name": "¿Horario Válido?"
@@ -94,7 +94,7 @@
         "typeVersion": 1.3,
         "position": [
           944,
-          224
+          -352
         ],
         "id": "a4186a7e-889f-4dbe-8607-352b298dc98c",
         "name": "Consultar Calendario",
@@ -108,13 +108,13 @@
       },
       {
         "parameters": {
-          "jsCode": "const allItems = $input.all();\nconst categoria = $(\"Clasificar y Validar\").item.json.categoria;\n\nlet bloqueoItems = [];\ntry { bloqueoItems = $(\"Consultar Bloqueos\").all(); } catch(e) { bloqueoItems = []; }\n\nconst todosLosEventos = [...allItems, ...bloqueoItems].filter(item => item.json.start);\n\nconst profesionalesOcupados = todosLosEventos.map(item => {\n  const desc = item.json.description || item.json.summary || '';\n  const match = desc.match(/PROFESIONAL:\\s*(.+)/i);\n  return match ? match[1].trim() : 'desconocido';\n});\n\nconst rosiOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('rosi'));\nconst noaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('noa'));\nconst draRosaOcupada = profesionalesOcupados.some(p =>\n  p.toLowerCase().includes('dra. rosa') || p.toLowerCase().includes('dra rosa')\n);\n\nif (categoria === 'dra_rosa_solo') {\n  if (draRosaOcupada) return [{ json: { status: 'busy', message: 'La Dra. Rosa ya tiene una cita en ese horario. ¿Te viene bien otro día o una hora diferente?' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'dra_rosa_solo', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'dra_rosa_asistida') {\n  if (draRosaOcupada) {\n    return [{ json: { status: 'busy', message: 'La Dra. Rosa ya tiene una cita en ese horario. ¿Te viene bien otro día o una hora diferente?' } }];\n  }\n  if (!rosiOcupada) {\n    return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Rosi', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n  }\n  if (!noaOcupada) {\n    return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Noa', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n  }\n  return [{ json: { status: 'busy', message: 'La Dra. Rosa está disponible pero las asistentes tienen citas en ese horario. ¿Prefieres otra hora?' } }];\n}\n\nif (categoria === 'rosi_only') {\n  if (rosiOcupada) return [{ json: { status: 'busy', message: 'Rosi ya tiene una cita en ese horario. ¿Te viene bien otra hora?' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_only', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'rosi_noa') {\n  if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  return [{ json: { status: 'busy', message: 'Tanto Rosi como Noa tienen citas en ese horario. ¿Prefieres otra hora?' } }];\n}\n\nif (categoria === 'plexr') {\n  if (!rosiOcupada) {\n    return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  }\n  if (!noaOcupada) {\n    return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  }\n  if (!draRosaOcupada) {\n    return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  }\n  return [{ json: { status: 'busy', message: 'No hay disponibilidad para Plexr en ese horario. ¿Prefieres otro momento?' } }];\n}\n\nreturn [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: categoria || 'rosi_noa', message: 'Horario disponible.' } }];"
+          "jsCode": "const todosLosEventos = $input.all().filter(item => item.json.start);\nconst categoria = $(\"Clasificar y Validar\").item.json.categoria;\n\n// Extraer profesional de description o summary, ignorando expresiones n8n sin evaluar\nconst profesionalesOcupados = todosLosEventos.map(item => {\n  const fields = [item.json.description || '', item.json.summary || ''];\n  for (const field of fields) {\n    const match = field.match(/PROFESIONAL:\\s*([A-Za-z\\u00C0-\\u017F. ]+)/i);\n    if (match) return match[1].trim();\n  }\n  return 'desconocido';\n});\n\nconst rosiOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('rosi'));\nconst noaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('noa'));\nconst draRosaOcupada = profesionalesOcupados.some(p =>\n  p.toLowerCase().includes('dra. rosa') || p.toLowerCase().includes('dra rosa')\n);\n\nconst prioRosi = Math.random() < 0.5;\n\nif (categoria === 'dra_rosa_solo') {\n  if (draRosaOcupada) return [{ json: { status: 'busy', message: 'La Dra. Rosa ya tiene una cita en ese horario. \\u00bfTe viene bien otro d\\u00eda o una hora diferente?' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'dra_rosa_solo', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'dra_rosa_asistida') {\n  if (draRosaOcupada) {\n    return [{ json: { status: 'busy', message: 'La Dra. Rosa ya tiene una cita en ese horario. \\u00bfTe viene bien otro d\\u00eda o una hora diferente?' } }];\n  }\n  if (prioRosi) {\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Rosi', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Noa', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n  } else {\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Noa', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Rosi', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n  }\n  return [{ json: { status: 'busy', message: 'La Dra. Rosa est\\u00e1 disponible pero las asistentes tienen citas en ese horario. \\u00bfPrefieres otra hora?' } }];\n}\n\nif (categoria === 'rosi_only') {\n  if (rosiOcupada) return [{ json: { status: 'busy', message: 'Rosi ya tiene una cita en ese horario. \\u00bfTe viene bien otra hora?' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_only', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'rosi_noa') {\n  if (prioRosi) {\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  } else {\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  }\n  return [{ json: { status: 'busy', message: 'Tanto Rosi como Noa tienen citas en ese horario. \\u00bfPrefieres otra hora?' } }];\n}\n\nif (categoria === 'plexr') {\n  if (prioRosi) {\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  } else {\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  }\n  if (!draRosaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  return [{ json: { status: 'busy', message: 'No hay disponibilidad para Plexr en ese horario. \\u00bfPrefieres otro momento?' } }];\n}\n\nreturn [{ json: { status: 'free', profesional_asignada: prioRosi ? 'Rosi' : 'Noa', categoria: categoria || 'rosi_noa', message: 'Horario disponible.' } }];"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          1168,
-          224
+          1392,
+          -256
         ],
         "id": "833960b5-819d-4e18-b7f5-a18b518a6c5e",
         "name": "Evaluar Disponibilidad"
@@ -137,7 +137,7 @@
         "typeVersion": 3.4,
         "position": [
           944,
-          416
+          32
         ],
         "id": "101cdfdd-ee33-41e6-9504-7e5e8c02f691",
         "name": "Mensaje Cerrado"
@@ -161,7 +161,7 @@
         "typeVersion": 1.3,
         "position": [
           944,
-          48
+          -160
         ],
         "alwaysOutputData": true,
         "credentials": {
@@ -170,6 +170,19 @@
             "name": "Google Calendar account"
           }
         }
+      },
+      {
+        "parameters": {
+          "mode": "append"
+        },
+        "id": "merge-calendars",
+        "name": "Merge Calendarios",
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.1,
+        "position": [
+          1168,
+          -256
+        ]
       }
     ],
     "connections": {
@@ -222,7 +235,7 @@
         "main": [
           [
             {
-              "node": "Evaluar Disponibilidad",
+              "node": "Merge Calendarios",
               "type": "main",
               "index": 0
             }
@@ -230,6 +243,17 @@
         ]
       },
       "Consultar Bloqueos": {
+        "main": [
+          [
+            {
+              "node": "Merge Calendarios",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Merge Calendarios": {
         "main": [
           [
             {
@@ -246,7 +270,7 @@
     "description": null,
     "autosaved": false
   },
-  "activeVersionId": "7dd7dcd7-977d-4f2a-9f87-b209c1a23934",
+  "activeVersionId": "6f6afb2a-00c7-4c49-80fe-25ea11f9f849",
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
@@ -297,7 +321,7 @@
       "main": [
         [
           {
-            "node": "Evaluar Disponibilidad",
+            "node": "Merge Calendarios",
             "type": "main",
             "index": 0
           }
@@ -305,6 +329,17 @@
       ]
     },
     "Consultar Bloqueos": {
+      "main": [
+        [
+          {
+            "node": "Merge Calendarios",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Calendarios": {
       "main": [
         [
           {
@@ -346,7 +381,7 @@
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
         272,
-        320
+        -160
       ]
     },
     {
@@ -357,7 +392,7 @@
       "typeVersion": 2,
       "position": [
         496,
-        320
+        -160
       ],
       "id": "17833584-a1a9-4ff9-9279-df349ed4381d",
       "name": "Clasificar y Validar"
@@ -390,7 +425,7 @@
       "typeVersion": 2.2,
       "position": [
         720,
-        320
+        -160
       ],
       "id": "98462fda-8dd5-4bea-bb7d-d8547a84cfeb",
       "name": "¿Horario Válido?"
@@ -412,7 +447,7 @@
       "typeVersion": 1.3,
       "position": [
         944,
-        224
+        -352
       ],
       "id": "a4186a7e-889f-4dbe-8607-352b298dc98c",
       "name": "Consultar Calendario",
@@ -426,13 +461,13 @@
     },
     {
       "parameters": {
-        "jsCode": "const allItems = $input.all();\nconst categoria = $(\"Clasificar y Validar\").item.json.categoria;\n\nlet bloqueoItems = [];\ntry { bloqueoItems = $(\"Consultar Bloqueos\").all(); } catch(e) { bloqueoItems = []; }\n\nconst todosLosEventos = [...allItems, ...bloqueoItems].filter(item => item.json.start);\n\nconst profesionalesOcupados = todosLosEventos.map(item => {\n  const desc = item.json.description || item.json.summary || '';\n  const match = desc.match(/PROFESIONAL:\\s*(.+)/i);\n  return match ? match[1].trim() : 'desconocido';\n});\n\nconst rosiOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('rosi'));\nconst noaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('noa'));\nconst draRosaOcupada = profesionalesOcupados.some(p =>\n  p.toLowerCase().includes('dra. rosa') || p.toLowerCase().includes('dra rosa')\n);\n\nif (categoria === 'dra_rosa_solo') {\n  if (draRosaOcupada) return [{ json: { status: 'busy', message: 'La Dra. Rosa ya tiene una cita en ese horario. ¿Te viene bien otro día o una hora diferente?' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'dra_rosa_solo', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'dra_rosa_asistida') {\n  if (draRosaOcupada) {\n    return [{ json: { status: 'busy', message: 'La Dra. Rosa ya tiene una cita en ese horario. ¿Te viene bien otro día o una hora diferente?' } }];\n  }\n  if (!rosiOcupada) {\n    return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Rosi', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n  }\n  if (!noaOcupada) {\n    return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Noa', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n  }\n  return [{ json: { status: 'busy', message: 'La Dra. Rosa está disponible pero las asistentes tienen citas en ese horario. ¿Prefieres otra hora?' } }];\n}\n\nif (categoria === 'rosi_only') {\n  if (rosiOcupada) return [{ json: { status: 'busy', message: 'Rosi ya tiene una cita en ese horario. ¿Te viene bien otra hora?' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_only', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'rosi_noa') {\n  if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  return [{ json: { status: 'busy', message: 'Tanto Rosi como Noa tienen citas en ese horario. ¿Prefieres otra hora?' } }];\n}\n\nif (categoria === 'plexr') {\n  if (!rosiOcupada) {\n    return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  }\n  if (!noaOcupada) {\n    return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  }\n  if (!draRosaOcupada) {\n    return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  }\n  return [{ json: { status: 'busy', message: 'No hay disponibilidad para Plexr en ese horario. ¿Prefieres otro momento?' } }];\n}\n\nreturn [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: categoria || 'rosi_noa', message: 'Horario disponible.' } }];"
+        "jsCode": "const todosLosEventos = $input.all().filter(item => item.json.start);\nconst categoria = $(\"Clasificar y Validar\").item.json.categoria;\n\n// Extraer profesional de description o summary, ignorando expresiones n8n sin evaluar\nconst profesionalesOcupados = todosLosEventos.map(item => {\n  const fields = [item.json.description || '', item.json.summary || ''];\n  for (const field of fields) {\n    const match = field.match(/PROFESIONAL:\\s*([A-Za-z\\u00C0-\\u017F. ]+)/i);\n    if (match) return match[1].trim();\n  }\n  return 'desconocido';\n});\n\nconst rosiOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('rosi'));\nconst noaOcupada = profesionalesOcupados.some(p => p.toLowerCase().includes('noa'));\nconst draRosaOcupada = profesionalesOcupados.some(p =>\n  p.toLowerCase().includes('dra. rosa') || p.toLowerCase().includes('dra rosa')\n);\n\nconst prioRosi = Math.random() < 0.5;\n\nif (categoria === 'dra_rosa_solo') {\n  if (draRosaOcupada) return [{ json: { status: 'busy', message: 'La Dra. Rosa ya tiene una cita en ese horario. \\u00bfTe viene bien otro d\\u00eda o una hora diferente?' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'dra_rosa_solo', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'dra_rosa_asistida') {\n  if (draRosaOcupada) {\n    return [{ json: { status: 'busy', message: 'La Dra. Rosa ya tiene una cita en ese horario. \\u00bfTe viene bien otro d\\u00eda o una hora diferente?' } }];\n  }\n  if (prioRosi) {\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Rosi', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Noa', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n  } else {\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Noa', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', asistente_asignada: 'Rosi', categoria: 'dra_rosa_asistida', message: 'Horario disponible.' } }];\n  }\n  return [{ json: { status: 'busy', message: 'La Dra. Rosa est\\u00e1 disponible pero las asistentes tienen citas en ese horario. \\u00bfPrefieres otra hora?' } }];\n}\n\nif (categoria === 'rosi_only') {\n  if (rosiOcupada) return [{ json: { status: 'busy', message: 'Rosi ya tiene una cita en ese horario. \\u00bfTe viene bien otra hora?' } }];\n  return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_only', message: 'Horario disponible.' } }];\n}\n\nif (categoria === 'rosi_noa') {\n  if (prioRosi) {\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  } else {\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'rosi_noa', message: 'Horario disponible.' } }];\n  }\n  return [{ json: { status: 'busy', message: 'Tanto Rosi como Noa tienen citas en ese horario. \\u00bfPrefieres otra hora?' } }];\n}\n\nif (categoria === 'plexr') {\n  if (prioRosi) {\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  } else {\n    if (!noaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Noa', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n    if (!rosiOcupada) return [{ json: { status: 'free', profesional_asignada: 'Rosi', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  }\n  if (!draRosaOcupada) return [{ json: { status: 'free', profesional_asignada: 'Dra. Rosa', categoria: 'plexr', message: 'Horario disponible para Plexr.' } }];\n  return [{ json: { status: 'busy', message: 'No hay disponibilidad para Plexr en ese horario. \\u00bfPrefieres otro momento?' } }];\n}\n\nreturn [{ json: { status: 'free', profesional_asignada: prioRosi ? 'Rosi' : 'Noa', categoria: categoria || 'rosi_noa', message: 'Horario disponible.' } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1168,
-        224
+        1392,
+        -256
       ],
       "id": "833960b5-819d-4e18-b7f5-a18b518a6c5e",
       "name": "Evaluar Disponibilidad"
@@ -455,7 +490,7 @@
       "typeVersion": 3.4,
       "position": [
         944,
-        416
+        32
       ],
       "id": "101cdfdd-ee33-41e6-9504-7e5e8c02f691",
       "name": "Mensaje Cerrado"
@@ -479,7 +514,7 @@
       "typeVersion": 1.3,
       "position": [
         944,
-        48
+        -160
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -488,6 +523,19 @@
           "name": "Google Calendar account"
         }
       }
+    },
+    {
+      "parameters": {
+        "mode": "append"
+      },
+      "id": "merge-calendars",
+      "name": "Merge Calendarios",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1168,
+        -256
+      ]
     }
   ],
   "pinData": {},
@@ -512,6 +560,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-27T11:25:22.017Z",
-  "versionId": "7dd7dcd7-977d-4f2a-9f87-b209c1a23934"
+  "updatedAt": "2026-03-30T09:18:41.696Z",
+  "versionId": "6f6afb2a-00c7-4c49-80fe-25ea11f9f849"
 }
