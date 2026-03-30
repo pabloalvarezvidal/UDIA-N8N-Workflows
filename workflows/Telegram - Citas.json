@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-02-24T19:29:58.000Z",
-    "createdAt": "2026-02-24T19:29:44.583Z",
-    "versionId": "746bba1a-e8c2-456d-9693-bc3150689cb7",
+    "updatedAt": "2026-03-30T08:11:05.000Z",
+    "createdAt": "2026-03-30T08:10:54.527Z",
+    "versionId": "bf35a437-f355-45ea-be98-630f3125cbfb",
     "workflowId": "OvvEoj7IvGUF6T38",
     "nodes": [
       {
@@ -46,7 +46,7 @@
       {
         "parameters": {
           "chatId": "-1003802173135",
-          "text": "=📅 *Nueva Cita Confirmada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+          "text": "=📅 *Nueva Cita Confirmada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora Inicio'] }}\nTeléfono: {{ $json['Telefono'] }}",
           "additionalFields": {
             "appendAttribution": false,
             "parse_mode": "Markdown",
@@ -174,7 +174,7 @@
       {
         "parameters": {
           "chatId": "-1003802173135",
-          "text": "=❌ *Cita Cancelada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+          "text": "=❌ *Cita Cancelada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora Inicio'] }}\nTeléfono: {{ $json['Telefono'] }}",
           "additionalFields": {
             "appendAttribution": false,
             "parse_mode": "Markdown",
@@ -200,7 +200,7 @@
       {
         "parameters": {
           "chatId": "-1003802173135",
-          "text": "=✏️ *Cita Modificada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nNueva Fecha: {{ $json['Fecha'] }}\nNueva Hora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+          "text": "=✏️ *Cita Modificada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nNueva Fecha: {{ $json['Fecha'] }}\nNueva Hora: {{ $json['Hora Inicio'] }}\nTeléfono: {{ $json['Telefono'] }}",
           "additionalFields": {
             "appendAttribution": false,
             "parse_mode": "Markdown",
@@ -267,11 +267,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 746bba1a",
+    "name": "Version bf35a437",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "746bba1a-e8c2-456d-9693-bc3150689cb7",
+  "activeVersionId": "bf35a437-f355-45ea-be98-630f3125cbfb",
   "connections": {
     "Citas - Fila Añadida": {
       "main": [
@@ -362,7 +362,7 @@
     {
       "parameters": {
         "chatId": "-1003802173135",
-        "text": "=📅 *Nueva Cita Confirmada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+        "text": "=📅 *Nueva Cita Confirmada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora Inicio'] }}\nTeléfono: {{ $json['Telefono'] }}",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "Markdown",
@@ -490,7 +490,7 @@
     {
       "parameters": {
         "chatId": "-1003802173135",
-        "text": "=❌ *Cita Cancelada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+        "text": "=❌ *Cita Cancelada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nFecha: {{ $json['Fecha'] }}\nHora: {{ $json['Hora Inicio'] }}\nTeléfono: {{ $json['Telefono'] }}",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "Markdown",
@@ -516,7 +516,7 @@
     {
       "parameters": {
         "chatId": "-1003802173135",
-        "text": "=✏️ *Cita Modificada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nNueva Fecha: {{ $json['Fecha'] }}\nNueva Hora: {{ $json['Hora'] }}\nTeléfono: {{ $json['Telefono'] }}",
+        "text": "=✏️ *Cita Modificada*\n\nPaciente: {{ $json['Nombre Completo'] }}\nServicio: {{ $json['Servicio'] }}\nNueva Fecha: {{ $json['Fecha'] }}\nNueva Hora: {{ $json['Hora Inicio'] }}\nTeléfono: {{ $json['Telefono'] }}",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "Markdown",
@@ -545,7 +545,8 @@
     "executionOrder": "v1",
     "timezone": "Europe/Madrid",
     "callerPolicy": "workflowsFromSameOwner",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
   "shared": [
     {
@@ -560,17 +561,17 @@
     "node:Citas - Fila Añadida": {
       "documentId": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
       "sheetId": 21844311,
-      "lastIndexChecked": 16
+      "lastIndexChecked": 24
     },
     "node:Citas - Fila Actualizada": {
       "documentId": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
       "sheetId": 21844311,
-      "lastRevision": 636,
-      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao&revision=636&exportFormat=xlsx"
+      "lastRevision": 690,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao&revision=690&exportFormat=xlsx"
     }
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2026-02-24T19:30:28.239Z",
-  "versionId": "746bba1a-e8c2-456d-9693-bc3150689cb7"
+  "updatedAt": "2026-03-30T08:10:54.523Z",
+  "versionId": "bf35a437-f355-45ea-be98-630f3125cbfb"
 }
