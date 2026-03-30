@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-26T16:47:34.000Z",
-    "createdAt": "2026-03-26T16:47:32.809Z",
-    "versionId": "47ba3d94-2b47-4a1b-a161-d05c36190b57",
+    "updatedAt": "2026-03-30T09:19:34.377Z",
+    "createdAt": "2026-03-30T09:19:34.377Z",
+    "versionId": "a7a00b40-400c-436e-b6b0-91775747e6e5",
     "workflowId": "U3T3hBNLvK1rayDt",
     "nodes": [
       {
@@ -17,7 +17,7 @@
           "start": "={{ $json.fecha }}T{{ $json.hora }}",
           "end": "={{ DateTime.fromISO($json.fecha + 'T' + $json.hora).plus({ minutes: $json.categoria == 'plexr' ? 60 : 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
           "additionalFields": {
-            "description": "=={{ `PROFESIONAL: ${$json.profesional}\\nSERVICIO: ${$json.servicio}\\nHORA: ${$json.hora}\\nCLIENTE: ${$json.nombre_completo}\\nTELEFONO: ${$json.telefono}` }}\n",
+            "description": "={{ `PROFESIONAL: ${$json.profesional}\\nSERVICIO: ${$json.servicio}\\nHORA: ${$json.hora}\\nCLIENTE: ${$json.nombre_completo}\\nTELEFONO: ${$json.telefono}` }}\n",
             "summary": "={{ '[' + $json.profesional + '] ' + $json.servicio + ' | ' + $json.nombre_completo }}"
           }
         },
@@ -25,7 +25,7 @@
         "name": "Crear Cita",
         "position": [
           256,
-          344
+          352
         ],
         "type": "n8n-nodes-base.googleCalendar",
         "typeVersion": 1,
@@ -173,7 +173,7 @@
         "name": "Cita Confirmada",
         "position": [
           480,
-          344
+          352
         ],
         "type": "n8n-nodes-base.googleSheets",
         "typeVersion": 4,
@@ -212,7 +212,7 @@
         "name": "IF Dra Rosa Asistida",
         "position": [
           704,
-          344
+          352
         ],
         "type": "n8n-nodes-base.if",
         "typeVersion": 2
@@ -227,8 +227,8 @@
           "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
           "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
           "additionalFields": {
-            "description": "PROFESIONAL: {{ $('When Executed by Another Workflow').item.json.asistente_asignada }}\nBLOQUEO: true\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-            "summary": "=={{ `PROFESIONAL: ${$('When Executed by Another Workflow').item.json.asistente_asignada}\nBLOQUEO: true\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}"
+            "description": "={{ `PROFESIONAL: ${$('When Executed by Another Workflow').item.json.asistente_asignada}\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}",
+            "summary": "={{ `PROFESIONAL: ${$('When Executed by Another Workflow').item.json.asistente_asignada}\nBLOQUEO: true\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}"
           }
         },
         "id": "block-Noa",
@@ -281,7 +281,7 @@
         "typeVersion": 1.1,
         "position": [
           32,
-          344
+          352
         ],
         "id": "ac2555b3-6a67-488b-9a8c-34407fe939f7",
         "name": "When Executed by Another Workflow"
@@ -375,11 +375,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 47ba3d94",
-    "description": "",
-    "autosaved": true
+    "name": null,
+    "description": null,
+    "autosaved": false
   },
-  "activeVersionId": "47ba3d94-2b47-4a1b-a161-d05c36190b57",
+  "activeVersionId": "a7a00b40-400c-436e-b6b0-91775747e6e5",
   "connections": {
     "Cita Confirmada": {
       "main": [
@@ -463,7 +463,7 @@
         "start": "={{ $json.fecha }}T{{ $json.hora }}",
         "end": "={{ DateTime.fromISO($json.fecha + 'T' + $json.hora).plus({ minutes: $json.categoria == 'plexr' ? 60 : 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
         "additionalFields": {
-          "description": "=={{ `PROFESIONAL: ${$json.profesional}\\nSERVICIO: ${$json.servicio}\\nHORA: ${$json.hora}\\nCLIENTE: ${$json.nombre_completo}\\nTELEFONO: ${$json.telefono}` }}\n",
+          "description": "={{ `PROFESIONAL: ${$json.profesional}\\nSERVICIO: ${$json.servicio}\\nHORA: ${$json.hora}\\nCLIENTE: ${$json.nombre_completo}\\nTELEFONO: ${$json.telefono}` }}\n",
           "summary": "={{ '[' + $json.profesional + '] ' + $json.servicio + ' | ' + $json.nombre_completo }}"
         }
       },
@@ -471,7 +471,7 @@
       "name": "Crear Cita",
       "position": [
         256,
-        344
+        352
       ],
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1,
@@ -619,7 +619,7 @@
       "name": "Cita Confirmada",
       "position": [
         480,
-        344
+        352
       ],
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4,
@@ -658,7 +658,7 @@
       "name": "IF Dra Rosa Asistida",
       "position": [
         704,
-        344
+        352
       ],
       "type": "n8n-nodes-base.if",
       "typeVersion": 2
@@ -673,8 +673,8 @@
         "start": "={{ $('When Executed by Another Workflow').item.json.fecha }}T{{ $('When Executed by Another Workflow').item.json.hora }}",
         "end": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.fecha + 'T' + $('When Executed by Another Workflow').item.json.hora).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
         "additionalFields": {
-          "description": "PROFESIONAL: {{ $('When Executed by Another Workflow').item.json.asistente_asignada }}\nBLOQUEO: true\nREF_EVENTO: {{ $('Crear Cita').item.json.id }}",
-          "summary": "=={{ `PROFESIONAL: ${$('When Executed by Another Workflow').item.json.asistente_asignada}\nBLOQUEO: true\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}"
+          "description": "={{ `PROFESIONAL: ${$('When Executed by Another Workflow').item.json.asistente_asignada}\\nBLOQUEO: true\\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}",
+          "summary": "={{ `PROFESIONAL: ${$('When Executed by Another Workflow').item.json.asistente_asignada}\nBLOQUEO: true\nREF_EVENTO: ${$('Crear Cita').item.json.id}` }}"
         }
       },
       "id": "block-Noa",
@@ -727,7 +727,7 @@
       "typeVersion": 1.1,
       "position": [
         32,
-        344
+        352
       ],
       "id": "ac2555b3-6a67-488b-9a8c-34407fe939f7",
       "name": "When Executed by Another Workflow"
@@ -778,6 +778,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-26T16:47:32.807Z",
-  "versionId": "47ba3d94-2b47-4a1b-a161-d05c36190b57"
+  "updatedAt": "2026-03-30T09:19:34.375Z",
+  "versionId": "a7a00b40-400c-436e-b6b0-91775747e6e5"
 }
