@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-30T08:11:05.000Z",
-    "createdAt": "2026-03-30T08:10:54.527Z",
-    "versionId": "bf35a437-f355-45ea-be98-630f3125cbfb",
+    "updatedAt": "2026-03-31T09:46:17.000Z",
+    "createdAt": "2026-03-31T09:46:11.615Z",
+    "versionId": "4b9fa6f9-b673-47fa-9d34-f97da98c8568",
     "workflowId": "OvvEoj7IvGUF6T38",
     "nodes": [
       {
@@ -18,12 +18,16 @@
           "documentId": {
             "__rl": true,
             "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
-            "mode": "id"
+            "mode": "list",
+            "cachedResultName": "Clínica Estética Agente de Voz",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
           },
           "sheetName": {
             "__rl": true,
-            "value": "21844311",
-            "mode": "id"
+            "value": 21844311,
+            "mode": "list",
+            "cachedResultName": "Citas",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
           },
           "event": "rowAdded",
           "options": {}
@@ -81,12 +85,16 @@
           "documentId": {
             "__rl": true,
             "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
-            "mode": "id"
+            "mode": "list",
+            "cachedResultName": "Clínica Estética Agente de Voz",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
           },
           "sheetName": {
             "__rl": true,
-            "value": "21844311",
-            "mode": "id"
+            "value": 21844311,
+            "mode": "list",
+            "cachedResultName": "Citas",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
           },
           "event": "rowUpdate",
           "options": {}
@@ -267,11 +275,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version bf35a437",
+    "name": "Version 4b9fa6f9",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "bf35a437-f355-45ea-be98-630f3125cbfb",
+  "activeVersionId": "4b9fa6f9-b673-47fa-9d34-f97da98c8568",
   "connections": {
     "Citas - Fila Añadida": {
       "main": [
@@ -334,12 +342,16 @@
         "documentId": {
           "__rl": true,
           "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
-          "mode": "id"
+          "mode": "list",
+          "cachedResultName": "Clínica Estética Agente de Voz",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "value": "21844311",
-          "mode": "id"
+          "value": 21844311,
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
         },
         "event": "rowAdded",
         "options": {}
@@ -397,12 +409,16 @@
         "documentId": {
           "__rl": true,
           "value": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
-          "mode": "id"
+          "mode": "list",
+          "cachedResultName": "Clínica Estética Agente de Voz",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "value": "21844311",
-          "mode": "id"
+          "value": 21844311,
+          "mode": "list",
+          "cachedResultName": "Citas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao/edit#gid=21844311"
         },
         "event": "rowUpdate",
         "options": {}
@@ -561,17 +577,17 @@
     "node:Citas - Fila Añadida": {
       "documentId": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
       "sheetId": 21844311,
-      "lastIndexChecked": 26
+      "lastIndexChecked": 29
     },
     "node:Citas - Fila Actualizada": {
       "documentId": "1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao",
       "sheetId": 21844311,
-      "lastRevision": 694,
-      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao&revision=694&exportFormat=xlsx"
+      "lastRevision": 710,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1ohZFQqevjyuipUWQ0XQFx2SzTALbAFhPXlzm3PdP_Ao&revision=710&exportFormat=xlsx"
     }
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2026-03-30T08:10:54.523Z",
-  "versionId": "bf35a437-f355-45ea-be98-630f3125cbfb"
+  "updatedAt": "2026-03-31T09:46:11.613Z",
+  "versionId": "4b9fa6f9-b673-47fa-9d34-f97da98c8568"
 }
