@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-04T11:05:53.000Z",
-    "createdAt": "2026-03-04T11:05:51.393Z",
-    "versionId": "53a86e7c-c97d-46ea-9b10-d443de881192",
+    "updatedAt": "2026-04-19T11:00:44.000Z",
+    "createdAt": "2026-04-19T11:00:43.132Z",
+    "versionId": "29fb837b-a3ad-48d1-b685-dd8f53a306e3",
     "workflowId": "3Ic9UtYLF2PyTB3X",
     "nodes": [
       {
@@ -339,8 +339,8 @@
         "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
         "typeVersion": 2,
         "position": [
-          -96,
-          0
+          -48,
+          -128
         ],
         "alwaysOutputData": true,
         "webhookId": "05e6f224-946c-4462-8b1c-584e6ccc64c9"
@@ -426,11 +426,11 @@
       }
     },
     "authors": "Pablo Álvarez Vidal",
-    "name": "Version 53a86e7c",
+    "name": "Version 29fb837b",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "53a86e7c-c97d-46ea-9b10-d443de881192",
+  "activeVersionId": "29fb837b-a3ad-48d1-b685-dd8f53a306e3",
   "connections": {
     "client_lookup": {
       "ai_tool": [
@@ -849,8 +849,8 @@
       "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
       "typeVersion": 2,
       "position": [
-        -96,
-        0
+        -48,
+        -128
       ],
       "alwaysOutputData": true,
       "webhookId": "05e6f224-946c-4462-8b1c-584e6ccc64c9"
@@ -862,7 +862,8 @@
     "timezone": "Europe/Madrid",
     "errorWorkflow": "5PrcmQWgZy-C8ojFfhpz-",
     "callerPolicy": "workflowsFromSameOwner",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
   "shared": [
     {
@@ -876,6 +877,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-03-04T11:05:51.391Z",
-  "versionId": "53a86e7c-c97d-46ea-9b10-d443de881192"
+  "updatedAt": "2026-04-19T11:00:43.128Z",
+  "versionId": "29fb837b-a3ad-48d1-b685-dd8f53a306e3"
 }
